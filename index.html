@@ -821,10 +821,6 @@ function rsRenderHome(app){
     grid.appendChild(card);
   });
   app.appendChild(grid);
-  const ref = document.createElement('div');
-  ref.className='ref-note';
-  ref.textContent = t(UI.respRefFooter);
-  app.appendChild(ref);
 }
 
 function rsRenderQuestion(app, mod, qs, idx){
@@ -979,11 +975,6 @@ function rsRenderResult(app, mod){
   home.textContent = t(UI.home);
   home.onclick = rsGoHome;
   wrap.appendChild(home);
-
-  const ref = document.createElement('div');
-  ref.className='ref-note';
-  ref.textContent = t(UI.respRefFooter);
-  wrap.appendChild(ref);
 
   app.appendChild(wrap);
   document.getElementById('backBtn').onclick = ()=>{ scrollToTop(); rsState.step = rsActiveQuestions(mod,rsState.answers).length - 1; rsRender(); };
@@ -1397,10 +1388,6 @@ function fvResultView(app){
   restart.textContent = t(UI.restart);
   restart.onclick = ()=>{ fvResetAll(); scrollToTop(); render(); };
   wrap.appendChild(restart);
-  const ref = document.createElement('div');
-  ref.className='ref-note';
-  ref.textContent = t(FV.refFooter);
-  wrap.appendChild(ref);
   app.appendChild(wrap);
 }
 
@@ -1755,11 +1742,6 @@ function syResultView(app){
   backLink.textContent = t(UI.back);
   backLink.onclick = ()=>{ scrollToTop(); syState.step=2; render(); };
   wrap.appendChild(backLink);
-
-  const ref = document.createElement('div');
-  ref.className='ref-note';
-  ref.textContent = t(SY.refFooter);
-  wrap.appendChild(ref);
 
   app.appendChild(wrap);
 }
@@ -2460,12 +2442,6 @@ function eoResultView(app){
   restart.onclick = ()=>{ eoResetAll(); scrollToTop(); render(); };
   wrap.appendChild(restart);
 
-  const info = eoGaInfo();
-  const ref = document.createElement('div');
-  ref.className='ref-note';
-  ref.textContent = t(info && info.pathway==='preterm' ? EO.refFooterPreterm : EO.refFooterTerm);
-  wrap.appendChild(ref);
-
   app.appendChild(wrap);
 }
 
@@ -3138,11 +3114,6 @@ function drResultView(app){
   restart.textContent = t(UI.restart);
   restart.onclick = ()=>{ drResetAll(); scrollToTop(); render(); };
   wrap.appendChild(restart);
-
-  const ref = document.createElement('div');
-  ref.className='ref-note';
-  ref.textContent = t(DR.refFooter);
-  wrap.appendChild(ref);
 
   app.appendChild(wrap);
 }
@@ -3842,11 +3813,6 @@ function mgResultView(app){
   restart.onclick = ()=>{ mgResetAll(); scrollToTop(); render(); };
   wrap.appendChild(restart);
 
-  const ref = document.createElement('div');
-  ref.className='ref-note';
-  ref.textContent = t(MG.refFooter);
-  wrap.appendChild(ref);
-
   app.appendChild(wrap);
 }
 
@@ -4541,11 +4507,6 @@ function spResultView(app){
   restart.textContent = t(UI.restart);
   restart.onclick = ()=>{ spResetAll(); scrollToTop(); render(); };
   wrap.appendChild(restart);
-
-  const ref = document.createElement('div');
-  ref.className='ref-note';
-  ref.textContent = t(SP.refFooter);
-  wrap.appendChild(ref);
 
   app.appendChild(wrap);
 }
