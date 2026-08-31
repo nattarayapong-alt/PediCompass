@@ -271,6 +271,49 @@ footer .disclaimer-warning{
   .hero h1{font-size:20px;}
   .q-text{font-size:15px;}
 }
+
+/* ===== Feedback / comment widget ===== */
+.feedback-fab{
+  position:fixed; right:18px; bottom:22px; z-index:40;
+  width:52px; height:52px; border-radius:50%; border:none;
+  background:var(--pink-500); color:white; font-size:22px;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 6px 18px rgba(58,110,165,0.35); cursor:pointer;
+}
+.feedback-fab:active{transform:scale(0.95);}
+
+.feedback-overlay{
+  position:fixed; inset:0; background:rgba(27,58,84,0.45);
+  z-index:50; display:flex; align-items:flex-end; justify-content:center;
+}
+.feedback-overlay.hidden{display:none;}
+.feedback-sheet{
+  width:100%; max-width:520px; background:white;
+  border-radius:20px 20px 0 0; padding:20px 20px 26px;
+  box-shadow:0 -6px 24px rgba(0,0,0,0.18);
+  max-height:85vh; overflow-y:auto;
+}
+.feedback-sheet h3{margin:0 0 4px; font-size:16px; color:var(--ink);}
+.feedback-sheet .fb-sub{font-size:12px; color:var(--ink-soft); margin-bottom:14px;}
+.feedback-sheet textarea, .feedback-sheet input[type=text]{
+  width:100%; border:1.5px solid var(--pink-200); border-radius:13px; padding:11px 13px;
+  font-size:14px; font-family:'Sarabun',sans-serif; color:var(--ink); background:var(--pink-50);
+  resize:vertical; margin-bottom:10px;
+}
+.feedback-sheet textarea{min-height:100px;}
+.feedback-sheet .fb-actions{display:flex; gap:10px; margin-top:4px;}
+.feedback-sheet .fb-btn-cancel{
+  flex:1; padding:12px; border-radius:13px; border:1.5px solid var(--pink-300);
+  background:white; color:var(--pink-600); font-weight:600; font-size:14px; cursor:pointer;
+}
+.feedback-sheet .fb-btn-submit{
+  flex:2; padding:12px; border-radius:13px; border:none;
+  background:var(--pink-500); color:white; font-weight:600; font-size:14px; cursor:pointer;
+}
+.feedback-sheet .fb-btn-submit:disabled{opacity:0.5;}
+.feedback-status{font-size:12.5px; margin-top:10px; text-align:center;}
+.feedback-status.ok{color:var(--mild-tx);}
+.feedback-status.err{color:var(--sev-tx);}
 </style>
 </head>
 <body>
@@ -290,6 +333,22 @@ footer .disclaimer-warning{
 </header>
 
 <main id="app"></main>
+
+<button class="feedback-fab" id="fbFab" onclick="fbOpen()" aria-label="Feedback">💬</button>
+
+<div class="feedback-overlay hidden" id="fbOverlay" onclick="fbBackdropClick(event)">
+  <div class="feedback-sheet" onclick="event.stopPropagation()">
+    <h3 id="fbTitle"></h3>
+    <div class="fb-sub" id="fbSub"></div>
+    <textarea id="fbMessage" maxlength="2000"></textarea>
+    <input type="text" id="fbContact" maxlength="200">
+    <div class="fb-actions">
+      <button class="fb-btn-cancel" id="fbCancelBtn" onclick="fbClose()"></button>
+      <button class="fb-btn-submit" id="fbSubmitBtn" onclick="fbSubmit()"></button>
+    </div>
+    <div class="feedback-status" id="fbStatus"></div>
+  </div>
+</div>
 
 <footer>
   <div class="credit" data-i18n="creditLine">พัฒนาโดย นายแพทย์ณัฐ อารยะพงษ์ กุมารแพทย์โรคติดเชื้อ โรงพยาบาลสุรินทร์</div>
@@ -326,6 +385,96 @@ const UI = {
 
 let LANG = 'th';
 function t(obj){ if(!obj) return ''; return obj[LANG] !== undefined ? obj[LANG] : obj['th']; }
+
+/* ============================= FEEDBACK / COMMENT WIDGET ============================= */
+const SUPABASE_URL = 'https://fpudlkdwqpffrsaxkkyp.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_XHdcRIeYZoSP7PJ14olOQg_yO5cUMgj';
+
+const FB_TEXT = {
+  title:{th:'แจ้งปัญหา / ข้อเสนอแนะ', en:'Report an issue / Suggestion'},
+  sub:{th:'ความคิดเห็นของคุณช่วยให้ PediCompass ดีขึ้น', en:'Your feedback helps improve PediCompass'},
+  messagePlaceholder:{th:'พิมพ์ข้อความของคุณที่นี่...', en:'Type your message here...'},
+  contactPlaceholder:{th:'ช่องทางติดต่อกลับ (ไม่บังคับ)', en:'Contact info (optional)'},
+  cancel:{th:'ยกเลิก', en:'Cancel'},
+  submit:{th:'ส่ง', en:'Send'},
+  sending:{th:'กำลังส่ง...', en:'Sending...'},
+  sentOk:{th:'ส่งข้อความเรียบร้อยแล้ว ขอบคุณครับ', en:'Sent successfully, thank you!'},
+  sentErr:{th:'ส่งไม่สำเร็จ กรุณาลองใหม่', en:'Failed to send, please try again'},
+  empty:{th:'กรุณาพิมพ์ข้อความก่อนส่ง', en:'Please enter a message before sending'}
+};
+
+function fbRenderTexts(){
+  document.getElementById('fbTitle').textContent = t(FB_TEXT.title);
+  document.getElementById('fbSub').textContent = t(FB_TEXT.sub);
+  document.getElementById('fbMessage').placeholder = t(FB_TEXT.messagePlaceholder);
+  document.getElementById('fbContact').placeholder = t(FB_TEXT.contactPlaceholder);
+  document.getElementById('fbCancelBtn').textContent = t(FB_TEXT.cancel);
+  document.getElementById('fbSubmitBtn').textContent = t(FB_TEXT.submit);
+}
+
+function fbOpen(){
+  fbRenderTexts();
+  document.getElementById('fbStatus').textContent = '';
+  document.getElementById('fbStatus').className = 'feedback-status';
+  document.getElementById('fbOverlay').classList.remove('hidden');
+}
+function fbClose(){
+  document.getElementById('fbOverlay').classList.add('hidden');
+}
+function fbBackdropClick(e){
+  if(e.target.id === 'fbOverlay') fbClose();
+}
+
+async function fbSubmit(){
+  const msgEl = document.getElementById('fbMessage');
+  const contactEl = document.getElementById('fbContact');
+  const statusEl = document.getElementById('fbStatus');
+  const submitBtn = document.getElementById('fbSubmitBtn');
+  const message = msgEl.value.trim();
+  const contact = contactEl.value.trim();
+
+  if(!message){
+    statusEl.textContent = t(FB_TEXT.empty);
+    statusEl.className = 'feedback-status err';
+    return;
+  }
+
+  submitBtn.disabled = true;
+  statusEl.textContent = t(FB_TEXT.sending);
+  statusEl.className = 'feedback-status';
+
+  const moduleTag = (typeof topState !== 'undefined' && topState.screen && topState.screen !== 'home') ? topState.screen : null;
+
+  try{
+    const res = await fetch(SUPABASE_URL + '/rest/v1/comments', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_KEY,
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({ module: moduleTag, message: message, contact: contact || null })
+    });
+    if(res.ok){
+      statusEl.textContent = t(FB_TEXT.sentOk);
+      statusEl.className = 'feedback-status ok';
+      msgEl.value = '';
+      contactEl.value = '';
+      setTimeout(fbClose, 1400);
+    } else {
+      let bodyText = '';
+      try{ bodyText = await res.text(); }catch(e){}
+      statusEl.textContent = t(FB_TEXT.sentErr) + ' [' + res.status + '] ' + bodyText.slice(0,200);
+      statusEl.className = 'feedback-status err';
+    }
+  } catch(err){
+    statusEl.textContent = t(FB_TEXT.sentErr) + ' [network] ' + (err && err.message ? err.message : String(err));
+    statusEl.className = 'feedback-status err';
+  } finally {
+    submitBtn.disabled = false;
+  }
+}
 /* Scroll the new page/step to the top. Call this on every page-change (Next/Back/GoTo/Home/Restart),
    but NOT on in-step selections that just re-render the current step. */
 function scrollToTop(){ window.scrollTo(0,0); }
