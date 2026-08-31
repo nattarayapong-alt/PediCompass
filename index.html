@@ -3885,6 +3885,8 @@ const SP = {
     hint:{th:'เลือกเครื่องมือที่จะใช้ประเมินผู้ป่วยรายนี้', en:'Choose which tool to use for this patient'},
     mpews:{th:'mPEWS (Modified Pediatric Early Warning Score)', en:'mPEWS (Modified Pediatric Early Warning Score)'},
     mpewsDesc:{th:'ให้คะแนนสัญญาณชีพตามอายุ ร่วมกับ trigger tool checklist', en:'Age-based vital sign scoring, combined with a trigger tool checklist'},
+    phoenix:{th:'Phoenix Sepsis Score', en:'Phoenix Sepsis Score'},
+    phoenixDesc:{th:'ประเมิน organ dysfunction 4 ระบบ (2024 International Consensus)', en:'4-system organ dysfunction score (2024 International Consensus)'},
     sirs:{th:'SIRS criteria', en:'SIRS criteria'},
     sirsDesc:{th:'เกณฑ์ SIRS แบบดั้งเดิม (Goldstein 2005)', en:'Traditional SIRS criteria (Goldstein 2005)'},
     backLink:{th:'‹ เปลี่ยนวิธีคัดกรอง', en:'‹ Change screening method'}
@@ -3990,6 +3992,97 @@ const SP = {
     triggerNotMetSummary:{th:'จาก trigger tool checklist ยังไม่เข้าเกณฑ์ Sepsis หรือ Septic Shock — บันทึกเป็นข้อมูล mPEWS ปกติ แนะนำเฝ้าระวังอาการซ้ำเป็นระยะ', en:'Based on the trigger tool checklist, criteria for sepsis or septic shock are not met — record as routine mPEWS data. Recommend serial reassessment.'},
 
     source:{th:'อ้างอิง: Artprom W, et al. Development and validation of a two-stage pediatric sepsis screening tool using a modified pediatric early warning score. Turk J Emerg Med 2026;26(3):196-204', en:'Reference: Artprom W, et al. Development and validation of a two-stage pediatric sepsis screening tool using a modified pediatric early warning score. Turk J Emerg Med 2026;26(3):196-204'}
+  },
+
+  /* ---------- Phoenix Sepsis Score pathway (Sanchez-Pinto/Schlapbach, JAMA 2024) ---------- */
+  phoenix:{
+    intro:{th:'ประเมิน organ dysfunction 4 ระบบ (Respiratory, Cardiovascular, Coagulation, Neurologic) ในผู้ป่วยที่สงสัย/ยืนยันการติดเชื้อ คะแนนรวม ≥2 = Sepsis, ร่วมกับ Cardiovascular ≥1 คะแนน = Septic Shock', en:'Scores organ dysfunction across 4 systems (respiratory, cardiovascular, coagulation, neurologic) in a child with suspected/confirmed infection. Total ≥2 = sepsis; with cardiovascular ≥1 point = septic shock.'},
+
+    gateHeading:{th:'สงสัยหรือยืนยันการติดเชื้อ (suspected/confirmed infection) หรือไม่', en:'Suspected or confirmed infection?'},
+    gateHint:{th:'Phoenix Sepsis Score ใช้ตัดสิน organ dysfunction ในผู้ป่วยที่สงสัยติดเชื้อแล้วเท่านั้น ไม่ใช่เครื่องมือคัดกรองการติดเชื้อ', en:'The Phoenix score classifies organ dysfunction only in children where infection is already suspected — it is not an infection-screening tool.'},
+    gateYes:{th:'สงสัย/ยืนยันการติดเชื้อ', en:'Suspected/confirmed infection'},
+    gateNo:{th:'ไม่มีข้อสงสัยการติดเชื้อ', en:'No suspicion of infection'},
+
+    ageHeading:{th:'ช่วงอายุของผู้ป่วย', en:"Patient's age range"},
+    ageHint:{th:'ใช้กำหนดเกณฑ์ mean arterial pressure (MAP) ตามอายุ ในหัวข้อ Cardiovascular', en:'Used to determine age-specific mean arterial pressure (MAP) thresholds in the cardiovascular section'},
+    ageBands:[
+      { key:'1-12',   label:{th:'1 เดือน – <1 ปี', en:'1 month – <1 year'},
+        map:[ {score:0,label:{th:'MAP ≥39 มม.ปรอท',en:'MAP ≥39 mmHg'}}, {score:1,label:{th:'MAP 25–38 มม.ปรอท',en:'MAP 25–38 mmHg'}}, {score:2,label:{th:'MAP <25 มม.ปรอท',en:'MAP <25 mmHg'}} ] },
+      { key:'12-24',  label:{th:'1 – <2 ปี', en:'1 – <2 years'},
+        map:[ {score:0,label:{th:'MAP ≥44 มม.ปรอท',en:'MAP ≥44 mmHg'}}, {score:1,label:{th:'MAP 31–43 มม.ปรอท',en:'MAP 31–43 mmHg'}}, {score:2,label:{th:'MAP <31 มม.ปรอท',en:'MAP <31 mmHg'}} ] },
+      { key:'24-60',  label:{th:'2 – <5 ปี', en:'2 – <5 years'},
+        map:[ {score:0,label:{th:'MAP ≥45 มม.ปรอท',en:'MAP ≥45 mmHg'}}, {score:1,label:{th:'MAP 32–44 มม.ปรอท',en:'MAP 32–44 mmHg'}}, {score:2,label:{th:'MAP <32 มม.ปรอท',en:'MAP <32 mmHg'}} ] },
+      { key:'60-144', label:{th:'5 – <12 ปี', en:'5 – <12 years'},
+        map:[ {score:0,label:{th:'MAP ≥49 มม.ปรอท',en:'MAP ≥49 mmHg'}}, {score:1,label:{th:'MAP 36–48 มม.ปรอท',en:'MAP 36–48 mmHg'}}, {score:2,label:{th:'MAP <36 มม.ปรอท',en:'MAP <36 mmHg'}} ] },
+      { key:'144-216',label:{th:'12 – 18 ปี', en:'12 – 18 years'},
+        map:[ {score:0,label:{th:'MAP ≥52 มม.ปรอท',en:'MAP ≥52 mmHg'}}, {score:1,label:{th:'MAP 38–51 มม.ปรอท',en:'MAP 38–51 mmHg'}}, {score:2,label:{th:'MAP <38 มม.ปรอท',en:'MAP <38 mmHg'}} ] }
+    ],
+    mapHint:{th:'MAP ≈ Diastolic BP + (Systolic BP − Diastolic BP) ÷ 3 หากไม่มีค่า MAP โดยตรง', en:'MAP ≈ DBP + (SBP − DBP) ÷ 3 if MAP is not measured directly'},
+
+    respHeading:{th:'Respiratory (คะแนนสูงสุด 3)', en:'Respiratory (max 3)'},
+    respHint:{th:'พิจารณาการช่วยหายใจร่วมกับ PaO2/FiO2 (P/F) หรือ SpO2/FiO2 (S/F) — คำนวณ S/F เฉพาะเมื่อ SpO2 ≤97% หากไม่มีค่า ให้ถือเป็นค่าปกติ', en:'Consider respiratory support together with PaO2/FiO2 (P/F) or SpO2/FiO2 (S/F) — S/F applies only when SpO2 ≤97%. If unavailable, treat as normal.'},
+    resp:[
+      {score:0, label:{th:'ไม่ต้องการ oxygen เสริม และ P/F ≥400 หรือ S/F ≥292 (หรือไม่ได้ตรวจ)', en:'No supplemental oxygen needed, and P/F ≥400 or S/F ≥292 (or not measured)'}},
+      {score:1, label:{th:'ได้ oxygen เสริม/high-flow/NIPPV หรือใส่ท่อช่วยหายใจ แต่ P/F ≥200 หรือ S/F ≥220 (หรือไม่ได้ตรวจ)', en:'On supplemental O2/high-flow/NIPPV or IMV, but P/F ≥200 or S/F ≥220 (or not measured)'}},
+      {score:2, label:{th:'ใส่ท่อช่วยหายใจ (IMV) ร่วมกับ P/F 100–199 หรือ S/F 148–219', en:'Invasive mechanical ventilation with P/F 100–199 or S/F 148–219'}},
+      {score:3, label:{th:'ใส่ท่อช่วยหายใจ (IMV) ร่วมกับ P/F <100 หรือ S/F <148', en:'Invasive mechanical ventilation with P/F <100 or S/F <148'}}
+    ],
+
+    cvHeading:{th:'Cardiovascular (คะแนนสูงสุด 6)', en:'Cardiovascular (max 6)'},
+    vasoHeading:{th:'ยากระตุ้นความดันเลือดที่ได้รับ (เลือกได้มากกว่า 1 ข้อ)', en:'Vasoactive medications currently running (select all that apply)'},
+    vasoHint:{th:'0 ตัว = 0 คะแนน, 1 ตัว = 1 คะแนน, ≥2 ตัว = 2 คะแนน', en:'0 agents = 0 points, 1 agent = 1 point, ≥2 agents = 2 points'},
+    vasoItems:[
+      {key:'dopamine', label:{th:'Dopamine', en:'Dopamine'}},
+      {key:'dobutamine', label:{th:'Dobutamine', en:'Dobutamine'}},
+      {key:'epinephrine', label:{th:'Epinephrine', en:'Epinephrine'}},
+      {key:'norepinephrine', label:{th:'Norepinephrine', en:'Norepinephrine'}},
+      {key:'milrinone', label:{th:'Milrinone', en:'Milrinone'}},
+      {key:'vasopressin', label:{th:'Vasopressin', en:'Vasopressin'}}
+    ],
+    lactateHeading:{th:'Lactate (mmol/L)', en:'Lactate (mmol/L)'},
+    lactateHint:{th:'หากไม่ได้ตรวจ lactate ให้เลือกข้อแรก (ถือเป็นค่าปกติตามเกณฑ์ Phoenix)', en:'If lactate was not measured, select the first option (treated as normal per Phoenix rules)'},
+    lactate:[
+      {score:0, label:{th:'<5 mmol/L (หรือไม่ได้ตรวจ)', en:'<5 mmol/L (or not measured)'}},
+      {score:1, label:{th:'5–10.9 mmol/L', en:'5–10.9 mmol/L'}},
+      {score:2, label:{th:'≥11 mmol/L', en:'≥11 mmol/L'}}
+    ],
+    mapHeading:{th:'Mean Arterial Pressure (MAP) ตามอายุ', en:'Mean arterial pressure (MAP) for age'},
+
+    coagHeading:{th:'Coagulation (คะแนนรวมสูงสุด 2)', en:'Coagulation (max 2, capped)'},
+    coagHint:{th:'เลือกข้อที่ผิดปกติ — แต่ละข้อ 1 คะแนน รวมแล้วไม่เกิน 2 คะแนน ค่าที่ไม่ได้ตรวจถือเป็นปกติ', en:'Select any that are abnormal — each item is 1 point, capped at 2 total. Untested values are treated as normal.'},
+    coagItems:[
+      {key:'plt', label:{th:'Platelets <100 ×10³/µL', en:'Platelets <100 ×10³/µL'}},
+      {key:'inr', label:{th:'INR >1.3', en:'INR >1.3'}},
+      {key:'ddimer', label:{th:'D-dimer >2 mg/L FEU', en:'D-dimer >2 mg/L FEU'}},
+      {key:'fib', label:{th:'Fibrinogen <100 mg/dL', en:'Fibrinogen <100 mg/dL'}}
+    ],
+
+    neuroHeading:{th:'Neurologic (คะแนนสูงสุด 2)', en:'Neurologic (max 2)'},
+    neuroHint:{th:'ค่าที่ไม่ได้ประเมิน (GCS) ถือเป็นปกติ (GCS 15)', en:'An unassessed GCS is treated as normal (GCS 15)'},
+    neuro:[
+      {score:0, label:{th:'GCS >10 และไม่มี fixed pupils ทั้ง 2 ข้าง (หรือไม่ได้ประเมิน)', en:'GCS >10 and no bilaterally fixed pupils (or not assessed)'}},
+      {score:1, label:{th:'GCS ≤10 (ไม่มี fixed pupils ทั้ง 2 ข้าง)', en:'GCS ≤10 (without bilaterally fixed pupils)'}},
+      {score:2, label:{th:'รูม่านตาคงที่ไม่ตอบสนองแสงทั้ง 2 ข้าง (bilaterally fixed pupils)', en:'Bilaterally fixed and dilated pupils'}}
+    ],
+
+    scoreHint:{th:'แตะช่วงค่าที่ตรงกับผู้ป่วย ระบบจะรวมคะแนนให้อัตโนมัติ', en:'Tap the range that matches the patient — the score is calculated automatically'},
+    totalLabel:{th:'คะแนนรวม Phoenix Sepsis Score', en:'Total Phoenix Sepsis Score'},
+
+    noInfectionTitle:{th:'ยังไม่มีข้อสงสัยการติดเชื้อ', en:'No suspicion of infection'},
+    noInfectionSummary:{th:'Phoenix Sepsis Score ใช้แปลผล organ dysfunction เฉพาะในผู้ป่วยที่สงสัย/ยืนยันการติดเชื้อ หากยังไม่สงสัยการติดเชื้อ ให้พิจารณาสาเหตุ organ dysfunction อื่นแทน', en:'The Phoenix score is only interpretable in children with suspected/confirmed infection. Without infection, consider other causes of organ dysfunction.'},
+    notMetTitle:{th:'Phoenix Sepsis Score <2 — ยังไม่เข้าเกณฑ์ Sepsis', en:'Phoenix Sepsis Score <2 — does not meet sepsis criteria'},
+    notMetSummary:{th:'คะแนนรวมยังไม่ถึงเกณฑ์ Sepsis (ต้องการ ≥2 คะแนน) — บันทึกเป็นข้อมูลปกติ แนะนำเฝ้าระวังอาการซ้ำเป็นระยะ โดยเฉพาะหากยังมีข้อสงสัยติดเชื้อ', en:'Total score has not reached the sepsis threshold (≥2 required) — record as normal, with serial reassessment recommended, especially if infection remains suspected.'},
+
+    subscoreHeading:{th:'คะแนนแยกตามระบบ (Phoenix subscores)', en:'Phoenix subscores by system'},
+    subscoreCols:{ domain:{th:'ระบบ',en:'Domain'}, score:{th:'คะแนน',en:'Score'} },
+    domainLabels:{
+      resp:{th:'Respiratory', en:'Respiratory'},
+      cv:{th:'Cardiovascular', en:'Cardiovascular'},
+      coag:{th:'Coagulation', en:'Coagulation'},
+      neuro:{th:'Neurologic', en:'Neurologic'}
+    },
+
+    source:{th:'อ้างอิง: Sanchez-Pinto LN, et al. JAMA 2024;331(8):675-686. Schlapbach LJ, et al. JAMA 2024;331(8):665-674.', en:'Reference: Sanchez-Pinto LN, et al. JAMA 2024;331(8):675-686. Schlapbach LJ, et al. JAMA 2024;331(8):665-674.'}
   },
 
   /* ---------- Step 2: Organ dysfunction (Table 2, CPG ไทย 2561) ---------- */
@@ -4228,6 +4321,16 @@ function spInitialForm(){
       highRisk:[],
       trigger:[],
       perfusion:[]
+    },
+    phoenix:{
+      infectionSuspected:null,
+      ageBand:null,
+      respScore:null,
+      vasoactives:[],
+      lactateScore:null,
+      mapScore:null,
+      coagItems:[],
+      neuroScore:null
     }
   };
 }
@@ -4251,6 +4354,9 @@ function spSirsPass(sirs){
    spSeverity() keeps the finer distinction (none/severe/cv) only for banner wording —
    spClassify() collapses it to the two treatment pathways: 'sepsis' | 'shock'. */
 function spSeverity(f){
+  if(f.method==='phoenix'){
+    return spPhoenixCvScore(f)>=1 ? 'cv' : 'none';
+  }
   const o = f.organ;
   const organCount = Object.values(o).filter(Boolean).length;
   if(o.cv) return 'cv';
@@ -4290,6 +4396,11 @@ function spRender(){
   else if(spState.screen==='notSepsis') spNotSepsisView(app);
   else if(spState.screen==='triggerNotMet') spTriggerNotMetView(app);
   else if(spState.screen==='organ') spOrganView(app);
+  else if(spState.screen==='phoenixGate') spPhoenixGateView(app);
+  else if(spState.screen==='phoenixResp') spPhoenixRespView(app);
+  else if(spState.screen==='phoenixCV') spPhoenixCvView(app);
+  else if(spState.screen==='phoenixCoag') spPhoenixCoagView(app);
+  else if(spState.screen==='phoenixNeuro') spPhoenixNeuroView(app);
   else if(spState.screen==='icu') spIcuView(app);
   else if(spState.screen==='result') spResultView(app);
 }
@@ -4313,6 +4424,10 @@ function spMethodView(app){
         <span style="display:block; font-weight:700; font-size:14.5px; color:var(--pink-700);">${t(SP.method.mpews)}</span>
         <span style="display:block; font-size:12px; color:var(--ink-soft); font-weight:400; margin-top:3px;">${t(SP.method.mpewsDesc)}</span>
       </button>
+      <button class="opt-btn" data-val="phoenix" style="text-align:left;">
+        <span style="display:block; font-weight:600;">${t(SP.method.phoenix)}</span>
+        <span style="display:block; font-size:11.5px; color:var(--ink-soft); font-weight:400; margin-top:2px;">${t(SP.method.phoenixDesc)}</span>
+      </button>
       <button class="opt-btn" data-val="sirs" style="text-align:left;">
         <span style="display:block; font-weight:600;">${t(SP.method.sirs)}</span>
         <span style="display:block; font-size:11.5px; color:var(--ink-soft); font-weight:400; margin-top:2px;">${t(SP.method.sirsDesc)}</span>
@@ -4324,7 +4439,8 @@ function spMethodView(app){
   card.querySelectorAll('[data-val]').forEach(btn=>{
     btn.onclick = ()=>{
       spState.form.method = btn.getAttribute('data-val');
-      spGoTo(spState.form.method==='mpews' ? 'mpewsForm' : 'screening');
+      const m = spState.form.method;
+      spGoTo(m==='mpews' ? 'mpewsForm' : (m==='phoenix' ? 'phoenixGate' : 'screening'));
     };
   });
 }
@@ -4694,10 +4810,21 @@ function spNotSepsisView(app){
   spHeader(app, t(SP.refBadge));
   const f = spState.form;
   const isMpews = f.method==='mpews';
+  const isPhoenix = f.method==='phoenix';
   const scoreHigh = isMpews && spMpewsTotalScore(f)>=3;
   const noInfection = isMpews && scoreHigh && !(f.mpews.btAbnormal || f.mpews.wbcAbnormal);
-  const title = isMpews ? (noInfection ? SP.mpews.notMetNoInfectionTitle : SP.mpews.notMetTitle) : SP.screening.notMetTitle;
-  const summary = isMpews ? (noInfection ? SP.mpews.notMetNoInfectionSummary : SP.mpews.notMetSummary) : SP.screening.notMetSummary;
+  const phoenixNoInfection = isPhoenix && f.phoenix.infectionSuspected===false;
+  let title, summary;
+  if(isPhoenix){
+    title = phoenixNoInfection ? SP.phoenix.noInfectionTitle : SP.phoenix.notMetTitle;
+    summary = phoenixNoInfection ? SP.phoenix.noInfectionSummary : SP.phoenix.notMetSummary;
+  } else if(isMpews){
+    title = noInfection ? SP.mpews.notMetNoInfectionTitle : SP.mpews.notMetTitle;
+    summary = noInfection ? SP.mpews.notMetNoInfectionSummary : SP.mpews.notMetSummary;
+  } else {
+    title = SP.screening.notMetTitle;
+    summary = SP.screening.notMetSummary;
+  }
   const wrap = document.createElement('div');
   const banner = document.createElement('div');
   banner.className = 'result-banner info';
@@ -4767,6 +4894,231 @@ function spOrganView(app){
   };
 }
 
+/* ---------- Phoenix Sepsis Score pathway ---------- */
+function spPhoenixGetAgeBand(f){
+  if(!f.phoenix.ageBand) return null;
+  return SP.phoenix.ageBands.find(b=>b.key===f.phoenix.ageBand) || null;
+}
+function spPhoenixVasoScore(f){
+  const n = f.phoenix.vasoactives.length;
+  return n===0 ? 0 : (n===1 ? 1 : 2);
+}
+function spPhoenixCvScore(f){
+  return spPhoenixVasoScore(f) + (f.phoenix.lactateScore||0) + (f.phoenix.mapScore||0);
+}
+function spPhoenixCoagScore(f){
+  return Math.min(f.phoenix.coagItems.length, 2);
+}
+function spPhoenixRespScore(f){
+  return f.phoenix.respScore||0;
+}
+function spPhoenixNeuroScore(f){
+  return f.phoenix.neuroScore||0;
+}
+function spPhoenixTotal(f){
+  return spPhoenixRespScore(f) + spPhoenixCvScore(f) + spPhoenixCoagScore(f) + spPhoenixNeuroScore(f);
+}
+/* Map Phoenix domain dysfunction onto the shared f.organ flags so the result screen's
+   organ-tips / one-organ-note sections work the same way as the SIRS/mPEWS pathways. */
+function spPhoenixApplyOrganFlags(f){
+  f.organ.resp = spPhoenixRespScore(f) >= 1;
+  f.organ.cv = spPhoenixCvScore(f) >= 1;
+  f.organ.heme = spPhoenixCoagScore(f) >= 1;
+  f.organ.neuro = spPhoenixNeuroScore(f) >= 1;
+  f.organ.renal = false;
+  f.organ.hepatic = false;
+}
+
+function spPhoenixGateView(app){
+  spHeader(app, t(SP.refBadge));
+  app.appendChild(spMpewsBackLink());
+  const f = spState.form;
+  const card = document.createElement('div');
+  card.className='q-card';
+  card.innerHTML = `
+    <div class="q-hint">${t(SP.phoenix.intro)}</div>
+    <div class="q-text" style="margin-top:14px;">${t(SP.phoenix.gateHeading)}</div>
+    <div class="q-hint">${t(SP.phoenix.gateHint)}</div>
+    <div class="toggle-row" style="margin-top:8px;">
+      <button class="opt-btn ${f.phoenix.infectionSuspected===true?'selected':''}" data-gate="true">${t(SP.phoenix.gateYes)}</button>
+      <button class="opt-btn ${f.phoenix.infectionSuspected===false?'selected':''}" data-gate="false">${t(SP.phoenix.gateNo)}</button>
+    </div>
+  `;
+  app.appendChild(card);
+
+  card.querySelectorAll('[data-gate]').forEach(btn=>{
+    btn.onclick = ()=>{ f.phoenix.infectionSuspected = btn.getAttribute('data-gate')==='true'; render(); };
+  });
+
+  if(f.phoenix.infectionSuspected===true){
+    const ageCard = document.createElement('div');
+    ageCard.className='q-card';
+    ageCard.style.marginTop='12px';
+    ageCard.innerHTML = `
+      <div class="q-text">${t(SP.phoenix.ageHeading)}</div>
+      <div class="q-hint">${t(SP.phoenix.ageHint)}</div>
+      <div class="opt-list">
+        ${SP.phoenix.ageBands.map(b=>{
+          const sel = f.phoenix.ageBand===b.key ? 'selected':'';
+          return `<button class="opt-btn radio ${sel}" data-age="${b.key}"><span class="chk">${sel?'✓':''}</span>${t(b.label)}</button>`;
+        }).join('')}
+      </div>
+      <div class="wizard-nav">
+        <button class="btn btn-primary" id="spPhxGateNext" ${f.phoenix.ageBand?'':'disabled'}>${t(UI.next)}</button>
+      </div>
+    `;
+    app.appendChild(ageCard);
+    ageCard.querySelectorAll('[data-age]').forEach(btn=>{
+      btn.onclick = ()=>{ f.phoenix.ageBand = btn.getAttribute('data-age'); render(); };
+    });
+    const nextBtn = document.getElementById('spPhxGateNext');
+    if(nextBtn) nextBtn.onclick = ()=>{ if(f.phoenix.ageBand) spGoTo('phoenixResp'); };
+  } else if(f.phoenix.infectionSuspected===false){
+    spGoTo('notSepsis');
+  }
+}
+
+function spPhoenixRespView(app){
+  spHeader(app, t(SP.refBadge));
+  const f = spState.form;
+  const card = document.createElement('div');
+  card.className='q-card';
+  card.innerHTML = `<div class="q-text">${t(SP.phoenix.respHeading)}</div><div class="q-hint">${t(SP.phoenix.respHint)}</div>`;
+  card.appendChild(spMpewsScoreGroup('resp', SP.phoenix.scoreHint, SP.phoenix.resp, f.phoenix.respScore, (score)=>{
+    f.phoenix.respScore = score; render();
+  }));
+  const nav = document.createElement('div');
+  nav.className='wizard-nav';
+  nav.innerHTML = `<button class="btn btn-ghost" id="spBack">${t(UI.back)}</button><button class="btn btn-primary" id="spPhxRespNext" ${f.phoenix.respScore===null?'disabled':''}>${t(UI.next)}</button>`;
+  card.appendChild(nav);
+  app.appendChild(card);
+  document.getElementById('spBack').onclick = ()=>spGoTo('phoenixGate');
+  const nextBtn = document.getElementById('spPhxRespNext');
+  if(nextBtn) nextBtn.onclick = ()=>{ if(f.phoenix.respScore!==null) spGoTo('phoenixCV'); };
+}
+
+function spPhoenixCvView(app){
+  spHeader(app, t(SP.refBadge));
+  const f = spState.form;
+  const band = spPhoenixGetAgeBand(f);
+  const card = document.createElement('div');
+  card.className='q-card';
+  card.innerHTML = `
+    <div class="q-text">${t(SP.phoenix.cvHeading)}</div>
+    <div class="q-text" style="font-size:13px; margin-top:12px;">${t(SP.phoenix.vasoHeading)}</div>
+    <div class="q-hint">${t(SP.phoenix.vasoHint)}</div>
+    <div class="opt-list">
+      ${SP.phoenix.vasoItems.map(it=>{
+        const sel = f.phoenix.vasoactives.includes(it.key) ? 'selected':'';
+        return `<button class="opt-btn ${sel}" data-vaso="${it.key}"><span class="chk">${sel?'✓':''}</span>${t(it.label)}</button>`;
+      }).join('')}
+    </div>
+  `;
+  app.appendChild(card);
+  card.querySelectorAll('[data-vaso]').forEach(btn=>{
+    btn.onclick = ()=>{
+      const key = btn.getAttribute('data-vaso');
+      f.phoenix.vasoactives = f.phoenix.vasoactives.includes(key) ? f.phoenix.vasoactives.filter(v=>v!==key) : f.phoenix.vasoactives.concat([key]);
+      render();
+    };
+  });
+
+  const lacCard = document.createElement('div');
+  lacCard.className='q-card';
+  lacCard.style.marginTop='12px';
+  lacCard.innerHTML = `<div class="q-text" style="font-size:13px;">${t(SP.phoenix.lactateHeading)}</div><div class="q-hint">${t(SP.phoenix.lactateHint)}</div>`;
+  lacCard.appendChild(spMpewsScoreGroup('lactate', SP.phoenix.scoreHint, SP.phoenix.lactate, f.phoenix.lactateScore, (score)=>{
+    f.phoenix.lactateScore = score; render();
+  }));
+  app.appendChild(lacCard);
+
+  const mapCard = document.createElement('div');
+  mapCard.className='q-card';
+  mapCard.style.marginTop='12px';
+  mapCard.innerHTML = `<div class="q-text" style="font-size:13px;">${t(SP.phoenix.mapHeading)}</div><div class="q-hint">${t(SP.phoenix.mapHint)}</div>`;
+  if(band){
+    mapCard.appendChild(spMpewsScoreGroup('map', SP.phoenix.scoreHint, band.map, f.phoenix.mapScore, (score)=>{
+      f.phoenix.mapScore = score; render();
+    }));
+  }
+  const nav = document.createElement('div');
+  nav.className='wizard-nav';
+  const ready = f.phoenix.lactateScore!==null && f.phoenix.mapScore!==null;
+  nav.innerHTML = `<button class="btn btn-ghost" id="spBack">${t(UI.back)}</button><button class="btn btn-primary" id="spPhxCvNext" ${ready?'':'disabled'}>${t(UI.next)}</button>`;
+  mapCard.appendChild(nav);
+  app.appendChild(mapCard);
+
+  document.getElementById('spBack').onclick = ()=>spGoTo('phoenixResp');
+  const nextBtn = document.getElementById('spPhxCvNext');
+  if(nextBtn) nextBtn.onclick = ()=>{ if(ready) spGoTo('phoenixCoag'); };
+}
+
+function spPhoenixCoagView(app){
+  spHeader(app, t(SP.refBadge));
+  const f = spState.form;
+  const card = document.createElement('div');
+  card.className='q-card';
+  card.innerHTML = `
+    <div class="q-text">${t(SP.phoenix.coagHeading)}</div>
+    <div class="q-hint">${t(SP.phoenix.coagHint)}</div>
+    <div class="opt-list">
+      ${SP.phoenix.coagItems.map(it=>{
+        const sel = f.phoenix.coagItems.includes(it.key) ? 'selected':'';
+        return `<button class="opt-btn ${sel}" data-coag="${it.key}"><span class="chk">${sel?'✓':''}</span>${t(it.label)}</button>`;
+      }).join('')}
+    </div>
+    <div class="wizard-nav">
+      <button class="btn btn-ghost" id="spBack">${t(UI.back)}</button>
+      <button class="btn btn-primary" id="spPhxCoagNext">${t(UI.next)}</button>
+    </div>
+  `;
+  app.appendChild(card);
+  card.querySelectorAll('[data-coag]').forEach(btn=>{
+    btn.onclick = ()=>{
+      const key = btn.getAttribute('data-coag');
+      f.phoenix.coagItems = f.phoenix.coagItems.includes(key) ? f.phoenix.coagItems.filter(v=>v!==key) : f.phoenix.coagItems.concat([key]);
+      render();
+    };
+  });
+  document.getElementById('spBack').onclick = ()=>spGoTo('phoenixCV');
+  document.getElementById('spPhxCoagNext').onclick = ()=>spGoTo('phoenixNeuro');
+}
+
+function spPhoenixNeuroView(app){
+  spHeader(app, t(SP.refBadge));
+  const f = spState.form;
+  const card = document.createElement('div');
+  card.className='q-card';
+  card.innerHTML = `<div class="q-text">${t(SP.phoenix.neuroHeading)}</div><div class="q-hint">${t(SP.phoenix.neuroHint)}</div>`;
+  card.appendChild(spMpewsScoreGroup('neuro', SP.phoenix.scoreHint, SP.phoenix.neuro, f.phoenix.neuroScore, (score)=>{
+    f.phoenix.neuroScore = score; render();
+  }));
+  const total = spPhoenixTotal(f);
+  const totalDiv = document.createElement('div');
+  totalDiv.style.cssText='margin-top:14px; padding:10px 14px; border-radius:12px; background:var(--pink-100); font-weight:600; text-align:center;';
+  totalDiv.textContent = `${t(SP.phoenix.totalLabel)}: ${total}`;
+  card.appendChild(totalDiv);
+  const nav = document.createElement('div');
+  nav.className='wizard-nav';
+  nav.innerHTML = `<button class="btn btn-ghost" id="spBack">${t(UI.back)}</button><button class="btn btn-primary" id="spPhxNeuroNext" ${f.phoenix.neuroScore===null?'disabled':''}>${t(UI.seeResult)}</button>`;
+  card.appendChild(nav);
+  app.appendChild(card);
+
+  document.getElementById('spBack').onclick = ()=>spGoTo('phoenixCoag');
+  const nextBtn = document.getElementById('spPhxNeuroNext');
+  if(nextBtn){
+    nextBtn.onclick = ()=>{
+      if(f.phoenix.neuroScore===null) return;
+      spPhoenixApplyOrganFlags(f);
+      if(spPhoenixTotal(f) < 2){
+        spGoTo('notSepsis');
+      } else {
+        spGoTo(spClassify(f)==='shock' ? 'icu' : 'result');
+      }
+    };
+  }
+}
+
 /* ---------- ICU availability screen ---------- */
 function spIcuView(app){
   spHeader(app, t(SP.refBadge));
@@ -4792,6 +5144,7 @@ function spIcuView(app){
   });
   document.getElementById('spBack').onclick = ()=>{
     if(f.method==='mpews') spGoTo(f.mpews.criticallyIll ? 'mpewsCritical' : 'mpewsTrigger');
+    else if(f.method==='phoenix') spGoTo('phoenixNeuro');
     else spGoTo('organ');
   };
   document.getElementById('spNext3').onclick = ()=>{ if(f.icuAvailable!==null) spGoTo('result'); };
@@ -4923,10 +5276,24 @@ function spResultView(app){
   banner.innerHTML = `<h2>${t(title)}</h2><p>${t(summary)}</p>`;
   wrap.appendChild(banner);
 
+  /* Phoenix subscore breakdown */
+  if(f.method==='phoenix'){
+    const P = SP.phoenix;
+    const rows = [
+      { domain:P.domainLabels.resp, score:`${spPhoenixRespScore(f)} / 3` },
+      { domain:P.domainLabels.cv, score:`${spPhoenixCvScore(f)} / 6` },
+      { domain:P.domainLabels.coag, score:`${spPhoenixCoagScore(f)} / 2` },
+      { domain:P.domainLabels.neuro, score:`${spPhoenixNeuroScore(f)} / 2` }
+    ];
+    const cols = [{key:'domain',label:P.subscoreCols.domain},{key:'score',label:P.subscoreCols.score}];
+    const totalNote = `<div style="margin-top:8px; font-weight:600;">${t(P.totalLabel)}: ${spPhoenixTotal(f)} / 13</div>`;
+    spSectionCard(wrap, { h:P.subscoreHeading, icon:'🧮', prominent:true, customHtml: spTableHtml(cols, rows) + totalNote });
+  }
+
   /* SSC 2026 quick-guide algorithm — collapsible reference image */
   spSectionCard(wrap, { h:SP.figure.toggle, icon:'🗺️', collapsible:true, customHtml: spFigureHtml() });
 
-  if(cls==='sepsis' && organCount===1){
+  if(cls==='sepsis' && organCount===1 && f.method!=='phoenix'){
     const note = document.createElement('div');
     note.className='section-card';
     note.innerHTML = `<p style="font-size:12.5px; color:var(--ink-soft); margin:0;">${t(SP.res.oneOrganNote)}</p>`;
@@ -5299,8 +5666,8 @@ function utRender(){
    ============================================================================ */
 const CATEGORY_DISCLAIMERS = {
   home:{
-    th:'เครื่องมือนี้จัดทำขึ้นเพื่อสนับสนุนการตัดสินใจทางคลินิกของบุคลากรทางการแพทย์ โดยอ้างอิงแนวทางเวชปฏิบัติ 11 ฉบับ ครอบคลุม 8 กลุ่มภาวะ ได้แก่ (1) แนวทางการดูแลรักษาโรคติดเชื้อเฉียบพลันระบบหายใจในเด็ก พ.ศ. 2562 (สมาคมโรคระบบหายใจและเวชบำบัดวิกฤตในเด็ก ราชวิทยาลัยกุมารแพทย์แห่งประเทศไทย) (2) แนวทางเวชปฏิบัติการวินิจฉัยและรักษาผู้ป่วยเด็กที่มีภาวะไข้เฉียบพลัน พ.ศ. 2562 (สมาคมโรคติดเชื้อในเด็กแห่งประเทศไทย) (3) แนวทางเวชปฏิบัติการดูแลรักษาโรคท้องร่วงเฉียบพลันในเด็ก พ.ศ. 2562 (สมาคมกุมารเวชศาสตร์ทางเดินอาหารและตับ) (4) แนวทางเวชปฏิบัติของโรคเยื่อหุ้มสมองและเนื้อสมองอักเสบเฉียบพลัน พ.ศ. 2557 (สมาคมโรคติดเชื้อในเด็กแห่งประเทศไทย) ร่วมกับ WHO guidelines on meningitis diagnosis, treatment and care 2025 (5) CDC Sexually Transmitted Infections Treatment Guidelines, 2021 (Congenital Syphilis section) (6) Puopolo KM, Benitz WE, Zaoutis TE. Management of Neonates Born at ≤34 6/7 Weeks’ Gestation With Suspected or Proven Early-Onset Bacterial Sepsis. Pediatrics 2018 (American Academy of Pediatrics) (7) แนวทาง Neonatal Early Onset Sepsis (EOS) Guideline หน่วยทารกแรกเกิด ภาควิชากุมารเวชศาสตร์ คณะแพทยศาสตร์โรงพยาบาลรามาธิบดี สำหรับทารก GA ≥35 สัปดาห์ ร่วมกับ Neonatal Early-Onset Sepsis Calculator (Kaiser Permanente) (8) แนวทางเวชปฏิบัติการวินิจฉัยและรักษาผู้ป่วยเด็กติดเชื้อในกระแสเลือดแบบรุนแรงและแบบที่มีภาวะช็อก พ.ศ. 2561 (คณะอนุกรรมการกุมารเวชบำบัดวิกฤตแห่งประเทศไทย) (9) Surviving Sepsis Campaign International Guidelines for the Management of Sepsis and Septic Shock in Children 2026 (10) Artprom W, et al. Development and validation of a two-stage pediatric sepsis screening tool using a modified pediatric early warning score. Turk J Emerg Med 2026;26(3):196-204 และ (11) แนวทางเวชปฏิบัติโรคติดเชื้อทางเดินปัสสาวะในผู้ป่วยเด็กอายุ 2 เดือนถึง 5 ปี พ.ศ. 2565 (ชมรมโรคไตเด็กแห่งประเทศไทย ราชวิทยาลัยกุมารแพทย์แห่งประเทศไทย)',
-    en:'This tool is intended to support the clinical decision-making of healthcare professionals, based on 11 clinical practice guidelines across 8 condition areas: (1) the Clinical Practice Guideline for Acute Respiratory Tract Infections in Children 2019 (Pediatric Respiratory Society of Thailand, Royal College of Pediatricians of Thailand); (2) the Clinical Practice Guideline for Management of Pediatric Acute Febrile Illness 2019 (Pediatric Infectious Disease Society of Thailand); (3) the Clinical Practice Guideline for Acute Diarrhea in Children 2019 (Thai Society of Pediatric Gastroenterology and Hepatology); (4) the Clinical Practice Guideline of Acute Meningoencephalitis 2014 (Pediatric Infectious Disease Society of Thailand), together with the WHO guidelines on meningitis diagnosis, treatment and care 2025; (5) the CDC Sexually Transmitted Infections Treatment Guidelines, 2021 (Congenital Syphilis section); (6) Puopolo KM, Benitz WE, Zaoutis TE. Management of Neonates Born at ≤34 6/7 Weeks’ Gestation With Suspected or Proven Early-Onset Bacterial Sepsis. Pediatrics 2018 (American Academy of Pediatrics); (7) the Neonatal Early Onset Sepsis (EOS) Guideline of the Division of Neonatology, Department of Pediatrics, Ramathibodi Hospital, for infants ≥35 weeks’ gestation, used together with the Neonatal Early-Onset Sepsis Calculator (Kaiser Permanente); (8) the Clinical Practice Guideline for Management of Pediatric Severe Sepsis and Septic Shock 2018 (Pediatric Critical Care Subcommittee of Thailand); (9) the Surviving Sepsis Campaign International Guidelines for the Management of Sepsis and Septic Shock in Children 2026; (10) Artprom W, et al. Development and validation of a two-stage pediatric sepsis screening tool using a modified pediatric early warning score. Turk J Emerg Med 2026;26(3):196-204; and (11) the Clinical Practice Guideline for Urinary Tract Infection in Children Aged 2 Months to 5 Years 2022 (Thai Pediatric Nephrology Society, Royal College of Pediatricians of Thailand).'
+    th:'เครื่องมือนี้จัดทำขึ้นเพื่อสนับสนุนการตัดสินใจทางคลินิกของบุคลากรทางการแพทย์ โดยอ้างอิงแนวทางเวชปฏิบัติ 12 ฉบับ ครอบคลุม 8 กลุ่มภาวะ ได้แก่ (1) แนวทางการดูแลรักษาโรคติดเชื้อเฉียบพลันระบบหายใจในเด็ก พ.ศ. 2562 (สมาคมโรคระบบหายใจและเวชบำบัดวิกฤตในเด็ก ราชวิทยาลัยกุมารแพทย์แห่งประเทศไทย) (2) แนวทางเวชปฏิบัติการวินิจฉัยและรักษาผู้ป่วยเด็กที่มีภาวะไข้เฉียบพลัน พ.ศ. 2562 (สมาคมโรคติดเชื้อในเด็กแห่งประเทศไทย) (3) แนวทางเวชปฏิบัติการดูแลรักษาโรคท้องร่วงเฉียบพลันในเด็ก พ.ศ. 2562 (สมาคมกุมารเวชศาสตร์ทางเดินอาหารและตับ) (4) แนวทางเวชปฏิบัติของโรคเยื่อหุ้มสมองและเนื้อสมองอักเสบเฉียบพลัน พ.ศ. 2557 (สมาคมโรคติดเชื้อในเด็กแห่งประเทศไทย) ร่วมกับ WHO guidelines on meningitis diagnosis, treatment and care 2025 (5) CDC Sexually Transmitted Infections Treatment Guidelines, 2021 (Congenital Syphilis section) (6) Puopolo KM, Benitz WE, Zaoutis TE. Management of Neonates Born at ≤34 6/7 Weeks’ Gestation With Suspected or Proven Early-Onset Bacterial Sepsis. Pediatrics 2018 (American Academy of Pediatrics) (7) แนวทาง Neonatal Early Onset Sepsis (EOS) Guideline หน่วยทารกแรกเกิด ภาควิชากุมารเวชศาสตร์ คณะแพทยศาสตร์โรงพยาบาลรามาธิบดี สำหรับทารก GA ≥35 สัปดาห์ ร่วมกับ Neonatal Early-Onset Sepsis Calculator (Kaiser Permanente) (8) แนวทางเวชปฏิบัติการวินิจฉัยและรักษาผู้ป่วยเด็กติดเชื้อในกระแสเลือดแบบรุนแรงและแบบที่มีภาวะช็อก พ.ศ. 2561 (คณะอนุกรรมการกุมารเวชบำบัดวิกฤตแห่งประเทศไทย) (9) Surviving Sepsis Campaign International Guidelines for the Management of Sepsis and Septic Shock in Children 2026 (10) Artprom W, et al. Development and validation of a two-stage pediatric sepsis screening tool using a modified pediatric early warning score. Turk J Emerg Med 2026;26(3):196-204 (11) Sanchez-Pinto LN, et al. Development and Validation of the Phoenix Criteria for Pediatric Sepsis and Septic Shock. JAMA 2024;331(8):675-686 ร่วมกับ Schlapbach LJ, et al. International Consensus Criteria for Pediatric Sepsis and Septic Shock. JAMA 2024;331(8):665-674 และ (12) แนวทางเวชปฏิบัติโรคติดเชื้อทางเดินปัสสาวะในผู้ป่วยเด็กอายุ 2 เดือนถึง 5 ปี พ.ศ. 2565 (ชมรมโรคไตเด็กแห่งประเทศไทย ราชวิทยาลัยกุมารแพทย์แห่งประเทศไทย)',
+    en:'This tool is intended to support the clinical decision-making of healthcare professionals, based on 12 clinical practice guidelines across 8 condition areas: (1) the Clinical Practice Guideline for Acute Respiratory Tract Infections in Children 2019 (Pediatric Respiratory Society of Thailand, Royal College of Pediatricians of Thailand); (2) the Clinical Practice Guideline for Management of Pediatric Acute Febrile Illness 2019 (Pediatric Infectious Disease Society of Thailand); (3) the Clinical Practice Guideline for Acute Diarrhea in Children 2019 (Thai Society of Pediatric Gastroenterology and Hepatology); (4) the Clinical Practice Guideline of Acute Meningoencephalitis 2014 (Pediatric Infectious Disease Society of Thailand), together with the WHO guidelines on meningitis diagnosis, treatment and care 2025; (5) the CDC Sexually Transmitted Infections Treatment Guidelines, 2021 (Congenital Syphilis section); (6) Puopolo KM, Benitz WE, Zaoutis TE. Management of Neonates Born at ≤34 6/7 Weeks’ Gestation With Suspected or Proven Early-Onset Bacterial Sepsis. Pediatrics 2018 (American Academy of Pediatrics); (7) the Neonatal Early Onset Sepsis (EOS) Guideline of the Division of Neonatology, Department of Pediatrics, Ramathibodi Hospital, for infants ≥35 weeks’ gestation, used together with the Neonatal Early-Onset Sepsis Calculator (Kaiser Permanente); (8) the Clinical Practice Guideline for Management of Pediatric Severe Sepsis and Septic Shock 2018 (Pediatric Critical Care Subcommittee of Thailand); (9) the Surviving Sepsis Campaign International Guidelines for the Management of Sepsis and Septic Shock in Children 2026; (10) Artprom W, et al. Development and validation of a two-stage pediatric sepsis screening tool using a modified pediatric early warning score. Turk J Emerg Med 2026;26(3):196-204; (11) Sanchez-Pinto LN, et al. Development and Validation of the Phoenix Criteria for Pediatric Sepsis and Septic Shock. JAMA 2024;331(8):675-686, together with Schlapbach LJ, et al. International Consensus Criteria for Pediatric Sepsis and Septic Shock. JAMA 2024;331(8):665-674; and (12) the Clinical Practice Guideline for Urinary Tract Infection in Children Aged 2 Months to 5 Years 2022 (Thai Pediatric Nephrology Society, Royal College of Pediatricians of Thailand).'
   },
   respiratory:{
     th:'เครื่องมือนี้จัดทำขึ้นเพื่อสนับสนุนการตัดสินใจทางคลินิกของบุคลากรทางการแพทย์ โดยอ้างอิงแนวทางการดูแลรักษาโรคติดเชื้อเฉียบพลันระบบหายใจในเด็ก พ.ศ. 2562 สมาคมโรคระบบหายใจและเวชบำบัดวิกฤตในเด็ก ราชวิทยาลัยกุมารแพทย์แห่งประเทศไทย',
@@ -5327,8 +5694,8 @@ const CATEGORY_DISCLAIMERS = {
     en:'This tool is intended to support the clinical decision-making of healthcare professionals, based on (1) Puopolo KM, Benitz WE, Zaoutis TE. Management of Neonates Born at ≤34 6/7 Weeks’ Gestation With Suspected or Proven Early-Onset Bacterial Sepsis. Pediatrics 2018 (American Academy of Pediatrics) and (2) the Neonatal Early Onset Sepsis (EOS) Guideline of the Division of Neonatology, Department of Pediatrics, Ramathibodi Hospital, for infants ≥35 weeks’ gestation, used together with the Neonatal Early-Onset Sepsis Calculator (Kaiser Permanente).'
   },
   sepsis:{
-    th:'เครื่องมือนี้จัดทำขึ้นเพื่อสนับสนุนการตัดสินใจทางคลินิกของบุคลากรทางการแพทย์ โดยอ้างอิง (1) แนวทางเวชปฏิบัติการวินิจฉัยและรักษาผู้ป่วยเด็กติดเชื้อในกระแสเลือดแบบรุนแรงและแบบที่มีภาวะช็อก พ.ศ. 2561 คณะอนุกรรมการกุมารเวชบำบัดวิกฤตแห่งประเทศไทย (2) Surviving Sepsis Campaign International Guidelines for the Management of Sepsis and Septic Shock in Children 2026 และ (3) Artprom W, et al. Development and validation of a two-stage pediatric sepsis screening tool using a modified pediatric early warning score. Turk J Emerg Med 2026;26(3):196-204',
-    en:'This tool is intended to support the clinical decision-making of healthcare professionals, based on (1) the Clinical Practice Guideline for Management of Pediatric Severe Sepsis and Septic Shock 2018 (Pediatric Critical Care Subcommittee of Thailand); (2) the Surviving Sepsis Campaign International Guidelines for the Management of Sepsis and Septic Shock in Children 2026; and (3) Artprom W, et al. Development and validation of a two-stage pediatric sepsis screening tool using a modified pediatric early warning score. Turk J Emerg Med 2026;26(3):196-204.'
+    th:'เครื่องมือนี้จัดทำขึ้นเพื่อสนับสนุนการตัดสินใจทางคลินิกของบุคลากรทางการแพทย์ โดยอ้างอิง (1) แนวทางเวชปฏิบัติการวินิจฉัยและรักษาผู้ป่วยเด็กติดเชื้อในกระแสเลือดแบบรุนแรงและแบบที่มีภาวะช็อก พ.ศ. 2561 คณะอนุกรรมการกุมารเวชบำบัดวิกฤตแห่งประเทศไทย (2) Surviving Sepsis Campaign International Guidelines for the Management of Sepsis and Septic Shock in Children 2026 (3) Artprom W, et al. Development and validation of a two-stage pediatric sepsis screening tool using a modified pediatric early warning score. Turk J Emerg Med 2026;26(3):196-204 และ (4) Sanchez-Pinto LN, et al. Development and Validation of the Phoenix Criteria for Pediatric Sepsis and Septic Shock. JAMA 2024;331(8):675-686 ร่วมกับ Schlapbach LJ, et al. International Consensus Criteria for Pediatric Sepsis and Septic Shock. JAMA 2024;331(8):665-674',
+    en:'This tool is intended to support the clinical decision-making of healthcare professionals, based on (1) the Clinical Practice Guideline for Management of Pediatric Severe Sepsis and Septic Shock 2018 (Pediatric Critical Care Subcommittee of Thailand); (2) the Surviving Sepsis Campaign International Guidelines for the Management of Sepsis and Septic Shock in Children 2026; (3) Artprom W, et al. Development and validation of a two-stage pediatric sepsis screening tool using a modified pediatric early warning score. Turk J Emerg Med 2026;26(3):196-204; and (4) Sanchez-Pinto LN, et al. Development and Validation of the Phoenix Criteria for Pediatric Sepsis and Septic Shock. JAMA 2024;331(8):675-686, together with Schlapbach LJ, et al. International Consensus Criteria for Pediatric Sepsis and Septic Shock. JAMA 2024;331(8):665-674.'
   },
   uti:{
     th:'เครื่องมือนี้จัดทำขึ้นเพื่อสนับสนุนการตัดสินใจทางคลินิกของบุคลากรทางการแพทย์ โดยอ้างอิงแนวทางเวชปฏิบัติโรคติดเชื้อทางเดินปัสสาวะในผู้ป่วยเด็กอายุ 2 เดือนถึง 5 ปี พ.ศ. 2565 ชมรมโรคไตเด็กแห่งประเทศไทย ราชวิทยาลัยกุมารแพทย์แห่งประเทศไทย',
