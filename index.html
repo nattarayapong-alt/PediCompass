@@ -2635,7 +2635,13 @@ function eoCompute(){
           {th:'เฝ้าระวังอาการทางคลินิก โดยไม่ต้องตรวจ lab หรือให้ยาปฏิชีวนะ', en:'Clinical monitoring only — no laboratory testing or antibiotics'},
           {th:'ส่งตรวจ CBC และ Blood culture โดยยังไม่เริ่มยาปฏิชีวนะ', en:'Send CBC and blood culture, without starting antibiotics'},
           {th:'ส่งตรวจ CBC, Blood culture พร้อมเริ่มยาปฏิชีวนะแบบครอบคลุม', en:'Send CBC and blood culture, and start empiric antibiotics'}
-        ]}
+        ]},
+        { ...abxBlock, extra:[
+          {th:'ใช้ขนาดยานี้เฉพาะกรณีที่ผลประเมินจาก EOS Calculator แนะนำให้เริ่มยาปฏิชีวนะแบบครอบคลุม', en:'Use these regimens only if the EOS Calculator assessment indicates starting empiric antibiotics'},
+          ...abxBlock.extra
+        ]},
+        eoDoseTableBlock(),
+        durationBlock
       ]
     };
   }
