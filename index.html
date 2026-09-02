@@ -2635,13 +2635,7 @@ function eoCompute(){
           {th:'เฝ้าระวังอาการทางคลินิก โดยไม่ต้องตรวจ lab หรือให้ยาปฏิชีวนะ', en:'Clinical monitoring only — no laboratory testing or antibiotics'},
           {th:'ส่งตรวจ CBC และ Blood culture โดยยังไม่เริ่มยาปฏิชีวนะ', en:'Send CBC and blood culture, without starting antibiotics'},
           {th:'ส่งตรวจ CBC, Blood culture พร้อมเริ่มยาปฏิชีวนะแบบครอบคลุม', en:'Send CBC and blood culture, and start empiric antibiotics'}
-        ]},
-        { ...abxBlock, extra:[
-          {th:'ใช้ขนาดยานี้เฉพาะกรณีที่ผลประเมินจาก EOS Calculator แนะนำให้เริ่มยาปฏิชีวนะแบบครอบคลุม', en:'Use these regimens only if the EOS Calculator assessment indicates starting empiric antibiotics'},
-          ...abxBlock.extra
-        ]},
-        eoDoseTableBlock(),
-        durationBlock
+        ]}
       ]
     };
   }
@@ -4480,9 +4474,11 @@ const SP = {
     fluidIcuNo:{th:'ไม่มี ICU รองรับ — ให้สารน้ำได้สูงสุด 40 มล./กก. ในชั่วโมงแรก (bolus ละ 10-20 มล./กก.) แล้วรีบส่งต่อโรงพยาบาลที่มี ICU (SSC 2026)', en:'No ICU available — give up to a maximum of 40 mL/kg in the first hour (10-20 mL/kg per bolus), then refer promptly to a facility with ICU capability (SSC 2026)'},
     fluidStop:{th:'หยุดให้สารน้ำ bolus เพิ่มเมื่อ: มีสัญญาณ fluid overload (ปอดมีเสียง crepitation, ตับโตขึ้น, หายใจเหนื่อยมากขึ้น) หรือภาวะ hypoperfusion หายไปแล้ว', en:'Stop further fluid boluses when: signs of fluid overload appear (crackles, worsening hepatomegaly, increased work of breathing), or hypoperfusion has resolved'},
 
-    vasoHeading:{th:'ยากระตุ้นความดันเลือด (Vasoactive medications)', en:'Vasoactive medications'},
-    vasoIntro:{th:'พิจารณาเริ่มเมื่อยังมีภาวะช็อกหลังให้สารน้ำ (fluid refractory shock) สามารถเริ่มผ่านทาง peripheral vein หรือ IO ได้เลย ไม่ต้องรอ central line', en:'Consider starting when shock persists despite fluid resuscitation (fluid-refractory shock). May be initiated through peripheral or IO access — no need to wait for central venous access.'},
-    vasoFirstLine:{th:'First-line: เลือกใช้ epinephrine หรือ norepinephrine อย่างใดอย่างหนึ่ง — SSC 2026 ไม่ได้ระบุว่าตัวใดควรเป็น first-line ที่ชัดเจนกว่ากัน (insufficient evidence) ขึ้นกับความพร้อมของยาและดุลยพินิจทางคลินิก ไม่จำเป็นต้องแยกตามชนิด cold/warm shock', en:'First-line: either epinephrine or norepinephrine may be used — SSC 2026 found insufficient evidence to prefer one over the other, so the choice depends on drug availability and clinical judgment; distinguishing cold vs warm shock is not required.'},
+    vasoHeading:{th:'Vasoactives — ยากระตุ้นความดันเลือด', en:'Vasoactives'},
+    vasoIntro:{th:'เริ่มหรือปรับขนาดยา (start/titrate) epinephrine หรือ norepinephrine', en:'Start/titrate epinephrine or norepinephrine'},
+    vasoPeripheral:{th:'เริ่มให้ทาง peripheral venous access ได้เลยหากยังไม่มี central access (ใช้ทาง intraosseous ได้หากเปิดเส้นเลือดดำไม่ได้)', en:'Initiate through peripheral venous access if central access is absent (intraosseous access may be used if a vein cannot be secured)'},
+    vasoAlongsideFluid:{th:'เริ่มพร้อมกับการให้สารน้ำได้เลย หากมีหลักฐานว่ามีภาวะอวัยวะขาดเลือดในระดับที่คุกคามชีวิต (life-threatening end-organ hypoperfusion) — ไม่ต้องรอให้เข้าเกณฑ์ fluid-refractory shock ก่อน', en:'May be initiated alongside fluid therapy if there is evidence of life-threatening end-organ hypoperfusion — do not wait for fluid-refractory shock'},
+    vasoFirstLine:{th:'เลือกใช้ epinephrine หรือ norepinephrine อย่างใดอย่างหนึ่ง — SSC 2026 ไม่ได้ระบุว่าตัวใดควรเป็น first-line ที่ชัดเจนกว่ากัน (insufficient evidence) ขึ้นกับความพร้อมของยาและดุลยพินิจทางคลินิก ไม่จำเป็นต้องแยกตามชนิด cold/warm shock', en:'Either epinephrine or norepinephrine may be used — SSC 2026 found insufficient evidence to prefer one over the other, so the choice depends on drug availability and clinical judgment; distinguishing cold vs warm shock is not required.'},
     vasoDoseHeading:{th:'ตารางที่ 6: ยาที่ใช้ในการรักษาภาวะ Septic Shock', en:'Table 6: Medications for septic shock'},
 
     vasoCalcHeading:{th:'คำนวณขนาดยา Epinephrine/Norepinephrine (Peripheral line)', en:'Epinephrine/Norepinephrine dose calculator (peripheral line)'},
@@ -5624,7 +5620,7 @@ function spResultView(app){
     spSectionCard(wrap, { h:SP.res.fluidHeading, icon:'💧', prominent:true, list:fluidList });
 
     /* Vasoactive — SSC 2026: epinephrine or norepinephrine, no cold/warm distinction required */
-    spSectionCard(wrap, { h:SP.res.vasoHeading, icon:'💊', prominent:true, list:[SP.res.vasoIntro, SP.res.vasoFirstLine] });
+    spSectionCard(wrap, { h:SP.res.vasoHeading, icon:'💊', prominent:true, list:[SP.res.vasoIntro, SP.res.vasoPeripheral, SP.res.vasoAlongsideFluid, SP.res.vasoFirstLine] });
     spSectionCard(wrap, { h:SP.res.vasoDoseHeading, icon:'📋', collapsible:true, customHtml: spVasoTableHtml() });
     spVasoCalcCard(wrap);
 
@@ -8080,6 +8076,10 @@ const CATEGORY_DISCLAIMERS = {
     th:'เครื่องมือนี้จัดทำขึ้นเพื่อสนับสนุนการตัดสินใจทางคลินิกของบุคลากรทางการแพทย์ โดยอ้างอิง (1) CDC Sexually Transmitted Infections Treatment Guidelines, 2021 (Congenital Syphilis section) (2) Puopolo KM, Benitz WE, Zaoutis TE. Management of Neonates Born at ≤34 6/7 Weeks’ Gestation With Suspected or Proven Early-Onset Bacterial Sepsis. Pediatrics 2018 (American Academy of Pediatrics) ร่วมกับแนวทาง Neonatal Early Onset Sepsis (EOS) Guideline หน่วยทารกแรกเกิด ภาควิชากุมารเวชศาสตร์ คณะแพทยศาสตร์โรงพยาบาลรามาธิบดี สำหรับทารก GA ≥35 สัปดาห์ และ Neonatal Early-Onset Sepsis Calculator (Kaiser Permanente) และ (3) แนวทางเวชปฏิบัติการดูแลรักษาภาวะตัวเหลืองในทารกแรกเกิด พ.ศ. 2568 ชมรมเวชศาสตร์ทารกแรกเกิดแห่งประเทศไทย ร่วมกับ Kemper AR, Newman TB, Slaughter JL, et al. Clinical Practice Guideline Revision: Management of Hyperbilirubinemia in the Newborn Infant 35 or More Weeks of Gestation. Pediatrics 2022;150(3):e2022058859 (American Academy of Pediatrics)',
     en:'This tool is intended to support the clinical decision-making of healthcare professionals, based on (1) the CDC Sexually Transmitted Infections Treatment Guidelines, 2021 (Congenital Syphilis section); (2) Puopolo KM, Benitz WE, Zaoutis TE. Management of Neonates Born at ≤34 6/7 Weeks’ Gestation With Suspected or Proven Early-Onset Bacterial Sepsis. Pediatrics 2018 (American Academy of Pediatrics), together with the Neonatal Early Onset Sepsis (EOS) Guideline of the Division of Neonatology, Department of Pediatrics, Ramathibodi Hospital, for infants ≥35 weeks’ gestation, and the Neonatal Early-Onset Sepsis Calculator (Kaiser Permanente); and (3) the Clinical Practice Guideline for the Management of Neonatal Jaundice 2025 (Thai Neonatal Society), together with Kemper AR, Newman TB, Slaughter JL, et al. Clinical Practice Guideline Revision: Management of Hyperbilirubinemia in the Newborn Infant 35 or More Weeks of Gestation. Pediatrics 2022;150(3):e2022058859 (American Academy of Pediatrics).'
   },
+  dka:{
+    th:'เครื่องมือนี้จัดทำขึ้นเพื่อสนับสนุนการตัดสินใจทางคลินิกของบุคลากรทางการแพทย์ โดยอ้างอิงแนวทางการรักษาภาวะ diabetic ketoacidosis และ hyperglycemic hyperosmolar state ในเด็กและวัยรุ่น ฉบับปรับปรุง เมษายน 2566 สมาคมต่อมไร้ท่อเด็กและวัยรุ่นไทย (ดัดแปลงจาก Glaser N, et al. ISPAD Clinical Practice Consensus Guidelines 2022: Diabetic ketoacidosis and hyperglycemic hyperosmolar state. Pediatr Diabetes 2022;23:835-56)',
+    en:'This tool is intended to support the clinical decision-making of healthcare professionals, based on the Management Guideline for Diabetic Ketoacidosis and Hyperglycemic Hyperosmolar State in Children and Adolescents, revised April 2023 (Thai Society for Pediatric Endocrinology), adapted from Glaser N, et al. ISPAD Clinical Practice Consensus Guidelines 2022: Diabetic ketoacidosis and hyperglycemic hyperosmolar state. Pediatr Diabetes 2022;23:835-56.'
+  },
   uti:{
     th:'เครื่องมือนี้จัดทำขึ้นเพื่อสนับสนุนการตัดสินใจทางคลินิกของบุคลากรทางการแพทย์ โดยอ้างอิงแนวทางเวชปฏิบัติโรคติดเชื้อทางเดินปัสสาวะในผู้ป่วยเด็กอายุ 2 เดือนถึง 5 ปี พ.ศ. 2565 ชมรมโรคไตเด็กแห่งประเทศไทย ราชวิทยาลัยกุมารแพทย์แห่งประเทศไทย',
     en:'This tool is intended to support the clinical decision-making of healthcare professionals, based on the Clinical Practice Guideline for Urinary Tract Infection in Children Aged 2 Months to 5 Years 2022, Thai Pediatric Nephrology Society, Royal College of Pediatricians of Thailand.'
@@ -8107,6 +8107,1363 @@ function updateFooterDisclaimer(){
 }
 
 /* ============================================================================
+   MODULE — DIABETIC KETOACIDOSIS (DKA) / HYPERGLYCEMIC HYPEROSMOLAR STATE (HHS)
+   Ref: แนวทางการรักษาภาวะ diabetic ketoacidosis และ hyperglycemic hyperosmolar
+        state ในเด็กและวัยรุ่น ฉบับปรับปรุง เมษายน 2566
+        สมาคมต่อมไร้ท่อเด็กและวัยรุ่นไทย
+   ============================================================================ */
+function dkaT(th, en){ return { th: th, en: en }; }
+function dkaN(n, d){
+  if(n===null || n===undefined || !isFinite(n)) return '–';
+  const dd = (d===undefined) ? 0 : d;
+  return Number(Number(n).toFixed(dd)).toLocaleString('en-US');
+}
+
+const DK = {
+  refBadge: dkaT('DKA / HHS', 'DKA / HHS'),
+  scopeNote: dkaT(
+    '⚠ ใช้สำหรับผู้ป่วยเด็กและวัยรุ่นที่สงสัยภาวะ DKA หรือ HHS — เครื่องมือนี้คำนวณตามน้ำหนักตัวที่กรอก ควรตรวจทานตัวเลขทุกครั้งก่อนสั่งการรักษา',
+    '⚠ For children and adolescents with suspected DKA or HHS — all values are calculated from the entered body weight. Always verify before prescribing.'),
+
+  patient: {
+    heading: dkaT('ข้อมูลผู้ป่วย', 'Patient data'),
+    hint: dkaT('ใช้คำนวณสารน้ำ อินซูลิน และโพแทสเซียม', 'Used to calculate fluids, insulin, and potassium'),
+    ageLabel: dkaT('อายุ (ปี)', 'Age (years)'),
+    agePh: dkaT('เช่น 7', 'e.g. 7'),
+    sexLabel: dkaT('เพศ', 'Sex'),
+    sexMale: dkaT('ชาย', 'Male'),
+    sexFemale: dkaT('หญิง', 'Female'),
+    wtLabel: dkaT('น้ำหนักตัวปัจจุบัน (กก.)', 'Current body weight (kg)'),
+    wtPh: dkaT('เช่น 20', 'e.g. 20'),
+    heightLabel: dkaT('ส่วนสูง (ซม.)', 'Height (cm)'),
+    heightPh: dkaT('เช่น 120', 'e.g. 120'),
+    heightHint: dkaT('กรอกเพื่อให้ระบบคำนวณ IBW จากกราฟน้ำหนักตามเกณฑ์ส่วนสูง และเปลี่ยนไปใช้ ABW อัตโนมัติเมื่อผู้ป่วยอ้วน', 'Enter the height so that IBW is read from the weight-for-height chart and ABW is applied automatically in an obese patient'),
+    ibwLabel: dkaT('IBW (P50 น้ำหนักตามเกณฑ์ส่วนสูง)', 'IBW (P50 weight for height)'),
+    pctIbwLabel: dkaT('น้ำหนักจริงเทียบ IBW', 'Actual weight as a percentage of IBW'),
+    abwLabel: dkaT('ABW = IBW + (น้ำหนักจริง − IBW)/3', 'ABW = IBW + (actual weight − IBW)/3'),
+    calcWeightLabel: dkaT('น้ำหนักที่ใช้คำนวณ', 'Calculation weight'),
+    useActual: dkaT('ใช้น้ำหนักจริง — ยังไม่เข้าเกณฑ์อ้วน (<120% ของ IBW)', 'Using the actual weight — not obese (<120% of IBW)'),
+    useAbw: dkaT('ใช้ ABW — ผู้ป่วยอ้วน (≥120% ของ IBW)', 'Using ABW — obese patient (≥120% of IBW)'),
+    noHeight: dkaT('ยังไม่ได้กรอกส่วนสูง จึงใช้น้ำหนักจริงในการคำนวณ', 'No height entered, so the actual weight is used'),
+    outOfRange: dkaT('ส่วนสูงอยู่นอกช่วงของกราฟ (90–180 ซม.) จึงใช้น้ำหนักจริงในการคำนวณ', 'The height is outside the range of the chart (90–180 cm), so the actual weight is used'),
+    capNote: dkaT('น้ำหนักสูงสุดที่ใช้คำนวณสารน้ำไม่เกิน 90 กก.', 'The maximum weight used for fluid calculation is 90 kg'),
+    err: dkaT('กรอกค่าให้ครบและอยู่ในช่วงที่ถูกต้อง', 'Enter all values within the valid range')
+  },
+
+  labs: {
+    heading: dkaT('ผลตรวจทางห้องปฏิบัติการ', 'Laboratory results'),
+    hint: dkaT('ใช้จำแนกการวินิจฉัยและระดับความรุนแรง', 'Used to classify the diagnosis and severity'),
+    glucose: dkaT('Plasma glucose (มก./ดล.)', 'Plasma glucose (mg/dL)'),
+    ph: dkaT('Venous pH', 'Venous pH'),
+    hco3: dkaT('Serum HCO₃ (มิลลิโมล/ลิตร)', 'Serum HCO₃ (mmol/L)'),
+    na: dkaT('Serum Na ที่วัดได้ (มิลลิโมล/ลิตร)', 'Measured serum Na (mmol/L)'),
+    k: dkaT('Serum K (มิลลิโมล/ลิตร)', 'Serum K (mmol/L)'),
+    cl: dkaT('Serum Cl (มิลลิโมล/ลิตร) — ไม่บังคับ', 'Serum Cl (mmol/L) — optional'),
+    clHint: dkaT('กรอกเพื่อคำนวณ anion gap และ Cl/Na ratio', 'Enter to calculate anion gap and Cl/Na ratio'),
+    bun: dkaT('BUN (มก./ดล.) — ไม่บังคับ', 'BUN (mg/dL) — optional'),
+    bunHint: dkaT('BUN >20 มก./ดล. บ่งชี้ภาวะขาดน้ำรุนแรงได้ดีกว่าการตรวจร่างกาย', 'BUN >20 mg/dL indicates severe dehydration more reliably than physical examination'),
+    ketoneLabel: dkaT('คีโทน', 'Ketones'),
+    ketonePos: dkaT('พบชัดเจน — serum ketone (BOHB) >3 มิลลิโมล/ลิตร และ/หรือ urine ketone ≥2+', 'Clearly present — serum ketone (BOHB) >3 mmol/L and/or urine ketone ≥2+'),
+    ketoneNeg: dkaT('เล็กน้อยหรือไม่พบ', 'Minimal or absent'),
+    err: dkaT('กรอกค่าให้ครบและอยู่ในช่วงที่ถูกต้อง', 'Enter all values within the valid range')
+  },
+
+  classify: {
+    heading: dkaT('สรุปการจำแนก', 'Classification summary'),
+    dkaTitle: dkaT('เข้าเกณฑ์ DKA', 'Meets DKA criteria'),
+    hhsTitle: dkaT('เข้าเกณฑ์ HHS', 'Meets HHS criteria'),
+    mixedTitle: dkaT('Mixed DKA + HHS', 'Mixed DKA + HHS'),
+    noneTitle: dkaT('ยังไม่เข้าเกณฑ์ DKA หรือ HHS', 'Does not meet DKA or HHS criteria'),
+    dkaSummary: dkaT('เข้าเกณฑ์ครบทั้ง 3 ข้อ คือ ระดับน้ำตาลสูง ภาวะเลือดเป็นกรด และตรวจพบคีโทน', 'All three criteria met: hyperglycemia, acidosis, and ketosis.'),
+    hhsSummary: dkaT('ระดับน้ำตาลสูงมากร่วมกับ effective osmolality สูง โดยไม่มีภาวะเลือดเป็นกรดรุนแรง — แนวทางการให้สารน้ำและอินซูลินต่างจาก DKA', 'Marked hyperglycemia with high effective osmolality and without significant acidosis — fluid and insulin management differ from DKA.'),
+    mixedSummary: dkaT('เข้าเกณฑ์ DKA ร่วมกับ glucose >600 มก./ดล. และ effective osmolality >320 mOsm/kg — ต้องเฝ้าระวังภาวะแทรกซ้อนของทั้งสองภาวะ', 'Meets DKA criteria plus glucose >600 mg/dL and effective osmolality >320 mOsm/kg — watch for complications of both conditions.'),
+    noneSummary: dkaT('ค่าที่กรอกยังไม่ครบเกณฑ์วินิจฉัย DKA (น้ำตาล >200 มก./ดล. + HCO₃ <18 หรือ pH <7.3 + คีโทน) หรือ HHS — ทบทวนผลตรวจและพิจารณาสาเหตุอื่นร่วมด้วย', 'The entered values do not meet DKA criteria (glucose >200 mg/dL + HCO₃ <18 or pH <7.3 + ketones) or HHS criteria — review the results and consider other causes.'),
+    sevMild: dkaT('ความรุนแรงน้อย (mild)', 'Mild'),
+    sevMod: dkaT('ความรุนแรงปานกลาง (moderate)', 'Moderate'),
+    sevSevere: dkaT('ความรุนแรงมาก (severe)', 'Severe'),
+    sevBasis: dkaT('จำแนกจาก venous pH และ serum HCO₃ โดยยึดค่าที่รุนแรงกว่า', 'Classified from venous pH and serum HCO₃, taking the more severe of the two.'),
+    calcHeading: dkaT('ค่าที่คำนวณได้', 'Calculated values'),
+    dehydItem: dkaT('ภาวะขาดน้ำที่ใช้คำนวณสารน้ำ', 'Dehydration used for fluid calculation'),
+    dehydNoteMild: dkaT('Mild DKA → 5%', 'Mild DKA → 5%'),
+    dehydNoteMod: dkaT('Moderate DKA → 7%', 'Moderate DKA → 7%'),
+    dehydNoteSevere: dkaT('Severe DKA → 10%', 'Severe DKA → 10%'),
+    dehydNoteSlow: dkaT('ลดลงจากปกติเพราะมีปัจจัยเสี่ยงต่อ volume overload', 'Reduced from the usual value because of the risk of volume overload'),
+    sevBasisPh: dkaT('จำแนกความรุนแรงจาก venous pH และ serum HCO₃ โดยยึดค่าที่รุนแรงกว่า · การประเมินภาวะขาดน้ำจากลักษณะทางคลินิกมัก underestimate ภาวะขาดน้ำจริงของผู้ป่วย DKA จึงกำหนดปริมาตร deficit ตามความรุนแรงของ DKA เสมอ แม้ตรวจร่างกายจะไม่พบภาวะขาดน้ำชัดเจน', 'Severity is classified from the venous pH and serum HCO₃, taking the more severe of the two · clinical assessment tends to underestimate the true deficit in DKA, so the deficit volume is always assigned from the DKA severity, even when the physical examination shows little or no dehydration.'),
+    calcCols: { item: dkaT('รายการ', 'Item'), val: dkaT('ค่า', 'Value'), note: dkaT('หมายเหตุ', 'Comment') },
+    proceed: dkaT('ดูแผนการรักษา →', 'View management plan →'),
+    continueAnyway: dkaT('ดำเนินการต่อตามแนวทาง DKA', 'Continue with the DKA pathway')
+  },
+
+  shock: {
+    heading: dkaT('ผู้ป่วยมีภาวะช็อกหรือไม่', 'Is the patient in shock?'),
+    hint: dkaT('Severe DKA — ใช้เลือกวิธีให้สารน้ำเบื้องต้นเท่านั้น ปริมาตร fluid deficit คิดตามความรุนแรงของ DKA เสมอ', 'Severe DKA — used only to choose the initial fluid strategy; the fluid deficit volume is always assigned from the DKA severity.'),
+    yes: dkaT('มีภาวะช็อก — ชีพจรเบาเร็วหรือคลำไม่ได้ ความดันเลือดต่ำ ปัสสาวะออกน้อย', 'In shock — weak or absent pulses, hypotension, oliguria'),
+    no: dkaT('ไม่มีภาวะช็อก', 'Not in shock')
+  },
+
+  mods: {
+    heading: dkaT('ปัจจัยที่ต้องให้สารน้ำช้าลง', 'Factors requiring slower fluid replacement'),
+    hint: dkaT('เลือกได้มากกว่า 1 ข้อ — ถ้ามีข้อใดข้อหนึ่ง จะคำนวณแก้ภาวะขาดน้ำใน 48 ชม. และลดเปอร์เซ็นต์ deficit ลง (severe DKA ใช้ 7%, moderate DKA ใช้ 5%)', 'Select all that apply — if any is present, the deficit is corrected over 48 h at a reduced percentage (7% for severe DKA, 5% for moderate DKA).'),
+    items: [
+      { key: 'cv', label: dkaT('มีหรือเสี่ยงต่อ cardiovascular compromise', 'Cardiovascular compromise or risk of it') },
+      { key: 'ards', label: dkaT('มีหรือเสี่ยงต่อ ARDS (เช่น ปอดอักเสบรุนแรง)', 'ARDS or risk of ARDS (e.g. severe pneumonia)') },
+      { key: 'sepsis', label: dkaT('Severe sepsis ร่วมด้วย', 'Concomitant severe sepsis') },
+      { key: 'leak', label: dkaT('มี fluid leakage / capillary leak', 'Fluid or capillary leakage') }
+    ],
+    noneLabel: dkaT('ไม่มีข้อใดข้างต้น', 'None of the above'),
+    autoNaNote: dkaT('corrected Na แรกรับ >150 มิลลิโมล/ลิตร — ระบบจะคิดแก้ภาวะขาดน้ำแบบช้าลงให้อัตโนมัติ', 'Initial corrected Na >150 mmol/L — the slower correction schedule is applied automatically.')
+  },
+
+  res: {
+    /* ---------- banners ---------- */
+    dkaBanner: dkaT('แผนการรักษา DKA', 'DKA management plan'),
+    hhsBanner: dkaT('แผนการรักษา HHS', 'HHS management plan'),
+    mixedBanner: dkaT('แผนการรักษา Mixed DKA + HHS', 'Mixed DKA + HHS management plan'),
+
+    /* ---------- computed ---------- */
+    calcHeading: dkaT('ค่าที่คำนวณจากข้อมูลผู้ป่วย', 'Values calculated from patient data'),
+
+    /* ---------- alerts ---------- */
+    alertHeading: dkaT('ข้อควรระวังเฉพาะราย', 'Patient-specific cautions'),
+
+    /* ---------- step 1 ---------- */
+    step1Heading: dkaT('1. Initial fluid resuscitation', '1. Initial fluid resuscitation'),
+    airway: dkaT('Airway ± NG tube · Breathing (ให้ออกซิเจน 100% ในรายที่มี circulatory impairment หรือ O₂ saturation ลดลง)', 'Airway ± NG tube · Breathing (100% oxygen if circulatory impairment or falling O₂ saturation)'),
+    intubationCaution: dkaT('หลีกเลี่ยงการใส่ท่อช่วยหายใจโดยไม่จำเป็น เพราะ pCO₂ ที่สูงขึ้นระหว่างใส่ท่อจะทำให้ pH ในน้ำไขสันหลังต่ำลงและเกิด cerebral injury มากขึ้น', 'Avoid unnecessary intubation — a rise in pCO₂ during the procedure lowers CSF pH and worsens cerebral injury.'),
+    step1MildNote: dkaT('Mild DKA ไม่ต้องให้ initial rehydration สามารถเริ่มที่ subsequent fluid (maintenance + deficit) ได้เลย', 'Mild DKA does not require initial rehydration — start directly with the subsequent fluid (maintenance + deficit).'),
+    step1ShockNote: dkaT('ปริมาตร loading เพื่อแก้ภาวะช็อก ไม่ต้องนำมาหักลบจาก fluid deficit ที่คำนวณได้', 'Volume given as loading for shock is not subtracted from the calculated fluid deficit.'),
+    step1NoShockNote: dkaT('อาจให้เร็วขึ้นและซ้ำได้จนกว่า tissue perfusion จะดีขึ้น · ปริมาตรนี้ต้องนำมาหักลบจาก fluid deficit', 'May be given faster and repeated until tissue perfusion improves · this volume is subtracted from the fluid deficit.'),
+
+    /* ---------- step 2 ---------- */
+    step2Heading: dkaT('2. Subsequent fluid — maintenance + deficit', '2. Subsequent fluid — maintenance + deficit'),
+    initialGivenLabel: dkaT('ปริมาตร initial fluid ที่ให้ไปจริง (มล.)', 'Initial fluid actually given (mL)'),
+    initialGivenHint: dkaT('ปรับตัวเลขได้ อัตราสารน้ำด้านล่างจะคำนวณใหม่ทันที', 'Adjust this value — the rates below recalculate immediately.'),
+    fluidTypeNote: dkaT('เริ่มด้วย 0.9% NaCl · หลังรักษาไป 6–8 ชม. ถ้า corrected serum Na >150 มิลลิโมล/ลิตร พิจารณาเปลี่ยนเป็น 0.45% NaCl', 'Start with 0.9% NaCl · after 6–8 h, if corrected serum Na >150 mmol/L, consider changing to 0.45% NaCl.'),
+    fluidCapWarn: dkaT('สารน้ำรวมใน 24 ชม.แรกเกิน 2.5 เท่าของ maintenance — ให้เพียง 2.5 เท่าของ maintenance', 'Total fluid in the first 24 h exceeds 2.5 × maintenance — give only 2.5 × maintenance.'),
+    noUrineReplaceNote: dkaT('ไม่แนะนำให้สารน้ำทดแทนตามปริมาตรปัสสาวะที่ออก เพราะผู้ป่วย DKA มักปัสสาวะออกมากจาก osmotic diuresis', 'Do not replace urine output volume for volume — DKA patients have high output from osmotic diuresis.'),
+    npoNote: dkaT('งดน้ำและอาหารใน moderate/severe DKA เสมอ อาจให้อมน้ำแข็งถ้าปากแห้งและรู้สึกตัวดี (mild DKA รับประทานได้)', 'Keep NPO in moderate/severe DKA; ice chips are permitted if awake with a dry mouth (oral intake allowed in mild DKA).'),
+    balanceNote: dkaT('ประเมินภาวะขาดน้ำและ fluid balance ซ้ำทุก 2–3 ชม. ถ้ายัง negative balance หรือปัสสาวะออกลดลง สามารถปรับเพิ่มสารน้ำได้ตามความเหมาะสม', 'Reassess hydration and fluid balance every 2–3 h; if the balance remains negative or urine output falls, the rate may be increased as appropriate.'),
+
+    /* ---------- step 3 ---------- */
+    step3Heading: dkaT('3. Insulin', '3. Insulin'),
+    insulinTiming: dkaT('เริ่มหลังให้ initial rehydration ไปแล้ว 1–2 ชม. ใช้ regular insulin (RI) แบบ continuous low-dose IV infusion เท่านั้น', 'Start 1–2 h after initial rehydration; use regular insulin (RI) as a continuous low-dose IV infusion only.'),
+    insulinPrep: dkaT('ผสม RI 50 ยูนิต ใน 0.9% NaCl ให้ได้ปริมาตรรวม 50 มล. (1 มล. = 1 ยูนิต) · ให้ทาง infusion pump เป็น side-line คู่กับสารน้ำ · ไล่สายทิ้งประมาณ 30 มล. ก่อนต่อผู้ป่วยเพื่อ saturate binding site', 'Mix RI 50 units in 0.9% NaCl to a total volume of 50 mL (1 mL = 1 unit) · give by infusion pump as a side-line alongside the maintenance fluid · prime and discard about 30 mL before connecting to saturate binding sites.'),
+    insulinNoBolus: dkaT('ไม่ให้ IV bolus insulin ก่อนเริ่ม infusion เพราะน้ำตาลลดเร็วเกินไป เสี่ยงต่อ osmolality ลดเร็ว ช็อก และ hypokalemia', 'Do not give an IV bolus before the infusion — glucose falls too fast, risking rapid osmolality drop, shock, and hypokalemia.'),
+    insulinRateHeading: dkaT('อัตรา insulin infusion ตามน้ำหนัก', 'Insulin infusion rate by weight'),
+    insulinCols: { dose: dkaT('ขนาด', 'Dose'), rate: dkaT('อัตรา (มล./ชม.)', 'Rate (mL/h)'), note: dkaT('ใช้เมื่อ', 'Use when') },
+    insulinHoldK: dkaT('serum K <3 มิลลิโมล/ลิตร — เลื่อนการให้อินซูลินออกไปก่อน ให้ K ก่อนจนกว่า K >3 มิลลิโมล/ลิตร', 'Serum K <3 mmol/L — delay insulin; give potassium first until K >3 mmol/L.'),
+    insulinAdjust: dkaT('ปรับเพิ่มหรือลดครั้งละ 0.01 ยูนิต/กก./ชม. · ให้ต่อเนื่องจนพ้นภาวะ DKA ห้ามหยุดชั่วคราวเพื่อแก้น้ำตาลต่ำ', 'Adjust in 0.01 unit/kg/h steps · continue until DKA resolves; do not interrupt the infusion to correct hypoglycemia.'),
+    insulinSc: dkaT('ถ้าไม่มี infusion pump หรืออยู่ระหว่างส่งต่อ และเป็น mild–moderate DKA อาจให้ rapid-acting insulin analog หรือ RI ทาง SC เริ่ม 0.3 ยูนิต/กก. แล้วต่อด้วย 0.1 ยูนิต/กก. ทุก 1 ชม. หรือ 0.15–0.20 ยูนิต/กก. ทุก 2–3 ชม. — ห้ามใช้ใน severe DKA และเด็กอายุ <5 ปี', 'Without an infusion pump or during transfer, in mild–moderate DKA, SC rapid-acting analog or RI may be used: 0.3 unit/kg, then 0.1 unit/kg hourly or 0.15–0.20 unit/kg every 2–3 h — not for severe DKA or children <5 years.'),
+
+    /* ---------- step 4 ---------- */
+    step4Heading: dkaT('4. Potassium', '4. Potassium'),
+    kGeneral: dkaT('ผู้ป่วย DKA มี total body K ต่ำเสมอ แม้ระดับซีรัม K จะปกติหรือสูง จึงต้องให้ K ทดแทนไม่ว่าระดับ K จะเท่าใด ยกเว้นไตวาย ยังไม่มีปัสสาวะ หรือ ECG มี tall peak T', 'Total body potassium is always depleted in DKA even when serum K is normal or high, so replacement is required regardless of the level — except in renal failure, anuria, or tall peaked T waves on ECG.'),
+    kConc: dkaT('ผสม K ในสารน้ำให้ได้ความเข้มข้น 40 มิลลิโมล/ลิตร เริ่มหลัง initial fluid resuscitation พร้อมกับที่เริ่มอินซูลิน', 'Add potassium to the fluid at 40 mmol/L, starting after initial resuscitation and together with the insulin infusion.'),
+    kMaxRate: dkaT('อัตราการให้ K ต้องไม่เกิน 0.5 มิลลิโมล/กก./ชม.', 'The potassium infusion rate must not exceed 0.5 mmol/kg/h.'),
+    kTypes: dkaT('ชนิดที่ให้: KCl อย่างเดียว หรือ KCl ร่วมกับ K₂HPO₄/KH₂PO₄ อย่างละครึ่ง หรือ K acetate ร่วมกับ K₂HPO₄/KH₂PO₄ อย่างละครึ่ง', 'Options: KCl alone, or half KCl with half K₂HPO₄/KH₂PO₄, or half K acetate with half K₂HPO₄/KH₂PO₄.'),
+    kPhosCaution: dkaT('ถ้าให้ K₂HPO₄/KH₂PO₄ ต้องติดตามซีรัมแคลเซียมและฟอสเฟตเป็นระยะ เพราะอาจเกิด hypocalcemia', 'If K₂HPO₄/KH₂PO₄ is used, monitor serum calcium and phosphate — hypocalcemia may occur.'),
+    kClCaution: dkaT('ถ้าให้ KCl อย่างเดียว ให้เฝ้าระวัง hyperchloremic metabolic acidosis (Cl/Na >0.79 หรือ anion gap ปกติแต่ยังเป็นกรด)', 'With KCl alone, watch for hyperchloremic metabolic acidosis (Cl/Na >0.79, or a normal anion gap with persisting acidosis).'),
+    kDuration: dkaT('ให้ K ตลอดช่วงที่ยังให้สารน้ำทางหลอดเลือดดำ ถ้ายัง hypokalemia แม้ให้อัตราสูงสุดแล้ว พิจารณาเสริม KCl ชนิดรับประทาน', 'Continue potassium throughout IV fluid therapy; if hypokalemia persists at the maximum rate, add oral KCl.'),
+
+    /* ---------- step 5 ---------- */
+    step5Heading: dkaT('5. Bicarbonate — โดยทั่วไปไม่จำเป็น', '5. Bicarbonate — generally not required'),
+    bicarbGeneral: dkaT('ภาวะ acidosis มักดีขึ้นหลังแก้ภาวะขาดน้ำร่วมกับให้อินซูลิน การให้ bicarbonate ไม่มีประโยชน์และสัมพันธ์กับ paradoxical CNS acidosis, cerebral edema และ hypokalemia', 'Acidosis usually improves with rehydration and insulin. Bicarbonate offers no benefit and is associated with paradoxical CNS acidosis, cerebral edema, and hypokalemia.'),
+    bicarbIndication: dkaT('พิจารณาเฉพาะเมื่อมี life-threatening hyperkalemia หรือ venous pH <6.9 ร่วมกับช็อกหรือ cardiac contractility ไม่ดี', 'Consider only for life-threatening hyperkalemia, or venous pH <6.9 together with shock or poor cardiac contractility.'),
+
+    /* ---------- step 6 ---------- */
+    step6Heading: dkaT('6. การตรวจติดตาม', '6. Monitoring'),
+    monItems: [
+      dkaT('Vital signs และ neurological signs ทุก 1 ชม.', 'Vital signs and neurological signs hourly'),
+      dkaT('Bedside capillary blood glucose ทุก 1 ชม.', 'Bedside capillary blood glucose hourly'),
+      dkaT('Serum electrolytes และ blood gases ทุก 2–4 ชม.', 'Serum electrolytes and blood gases every 2–4 h'),
+      dkaT('Intake และ output ทุก 1–2 ชม.', 'Intake and output every 1–2 h'),
+      dkaT('Serum ketone (BOHB) หรือ urine ketone ทุก 2–4 ชม. จนพ้นภาวะ DKA', 'Serum ketone (BOHB) or urine ketones every 2–4 h until DKA resolves'),
+      dkaT('Monitor ECG ดูการเปลี่ยนแปลงของ T wave', 'Monitor ECG for T-wave changes'),
+      dkaT('ทำ flow chart ติดตามการรักษาชั่วโมงต่อชั่วโมง', 'Keep an hour-by-hour treatment flow chart'),
+      dkaT('กรณีหมดสติ พิจารณาใส่ nasogastric tube และ urinary catheter', 'If unconscious, consider a nasogastric tube and urinary catheter')
+    ],
+    monSevere: dkaT('Severe DKA: ตรวจ BUN, serum Cr, Ca, P และ Mg ร่วมด้วย', 'Severe DKA: also check BUN, serum Cr, Ca, P, and Mg.'),
+    icuNote: dkaT('ควรรักษาใน ICU โดยเฉพาะผู้ป่วยอาการหนัก หรือมีความเสี่ยงต่อ cerebral injury (อายุ <5 ปี, pH <7.1, pCO₂ <21 มม.ปรอท หรือ BUN >20 มก./ดล.)', 'ICU care is preferred, especially for severely ill patients or those at risk of cerebral injury (age <5 years, pH <7.1, pCO₂ <21 mmHg, or BUN >20 mg/dL).'),
+
+    /* ---------- step 7 ---------- */
+    step7Heading: dkaT('7. เป้าหมายระดับน้ำตาลและการปรับ dextrose', '7. Glucose targets and dextrose adjustment'),
+    glucRate: dkaT('อัตราการลดที่คาดหวัง: น้ำตาล 50–100 มก./ดล./ชม. และ serum ketone (BOHB) ลดลง 0.5 มิลลิโมล/ลิตร/ชม.', 'Expected rate of fall: glucose 50–100 mg/dL/h and serum ketone (BOHB) 0.5 mmol/L/h.'),
+    glucAddD: dkaT('เมื่อน้ำตาลลดเหลือ 250–300 มก./ดล. หรือลดเร็วกว่า 100 มก./ดล./ชม. ให้เปลี่ยนเป็นสารน้ำที่มี 5% dextrose', 'When glucose falls to 250–300 mg/dL, or falls faster than 100 mg/dL/h, change to a fluid containing 5% dextrose.'),
+    glucTarget: dkaT('รักษาระดับน้ำตาลไว้ที่ 150–250 มก./ดล. ตลอดช่วงที่ยังให้ insulin infusion', 'Maintain glucose at 150–250 mg/dL throughout the insulin infusion.'),
+    glucLow: dkaT('ถ้าน้ำตาล <150 มก./ดล. แต่ยังมี acidosis และ ketonemia ให้เพิ่มความเข้มข้น dextrose เป็น 7.5–12.5% ไม่ใช้วิธีหยุดหรือลด RI ต่ำกว่า 0.05 ยูนิต/กก./ชม.', 'If glucose <150 mg/dL while acidosis and ketonemia persist, increase dextrose to 7.5–12.5% — do not stop RI or reduce it below 0.05 unit/kg/h.'),
+    glucVeryLow: dkaT('ถ้าน้ำตาล <70 มก./ดล. ให้ 10% glucose ทางหลอดเลือดดำทันที และเพิ่มความเข้มข้น dextrose ในสารน้ำ แต่ไม่หยุดอินซูลิน', 'If glucose <70 mg/dL, give 10% glucose IV immediately and increase the dextrose concentration — but do not stop insulin.'),
+
+    /* ---------- step 8 ---------- */
+    step8Heading: dkaT('8. เกณฑ์พ้นภาวะ DKA และการเปลี่ยนเป็นยาฉีดใต้ผิวหนัง', '8. Resolution of DKA and transition to subcutaneous insulin'),
+    resolution: dkaT('พ้นภาวะ DKA เมื่อ venous pH >7.3, serum HCO₃ >18 มิลลิโมล/ลิตร และ serum ketone (BOHB) <1 มิลลิโมล/ลิตร (หรือ anion gap ปกติ)', 'DKA has resolved when venous pH >7.3, serum HCO₃ >18 mmol/L, and serum ketone (BOHB) <1 mmol/L (or the anion gap is normal).'),
+    resolutionHyperCl: dkaT('กรณี HCO₃ <18 แต่ serum ketone (BOHB) <1 มิลลิโมล/ลิตร และ anion gap ปกติ ถือเป็น hyperchloremic metabolic acidosis สามารถเปลี่ยนเป็นยาฉีดใต้ผิวหนังได้', 'If HCO₃ <18 but serum ketone (BOHB) <1 mmol/L with a normal anion gap, this is hyperchloremic metabolic acidosis — transition to subcutaneous insulin is appropriate.'),
+    transitionRi: dkaT('เริ่ม RI ฉีดใต้ผิวหนัง แล้วหยุด insulin infusion หลังฉีดไป 1–2 ชม. จากนั้นให้ RI ใต้ผิวหนังทุก 6 ชม. ในวันแรก', 'Give SC regular insulin, stop the infusion 1–2 h later, then continue SC RI every 6 h on the first day.'),
+    transitionRapid: dkaT('กรณีใช้ rapid-acting insulin analog (aspart / lispro / glulisine) ให้ฉีดก่อนหยุด insulin infusion 15–30 นาที', 'With a rapid-acting analog (aspart / lispro / glulisine), inject 15–30 min before stopping the infusion.'),
+    tddHeading: dkaT('ขนาดอินซูลินใต้ผิวหนังในวันถัดไป (ผู้ป่วยวินิจฉัยใหม่)', 'Subcutaneous insulin for the following day (newly diagnosed)'),
+    tddBasalBolus: dkaT('Basal-bolus: แบ่งครึ่งหนึ่งของ TDD เป็น basal insulin (glargine / detemir / degludec) อีกครึ่งเป็น rapid-acting analog หรือ RI แบ่งก่อนมื้ออาหารหลัก มื้อละประมาณ 15–20% ของ TDD', 'Basal-bolus: half of the TDD as basal insulin (glargine / detemir / degludec), the other half as a rapid-acting analog or RI split before main meals, about 15–20% of TDD per meal.'),
+    tddConventional: dkaT('Conventional: ให้ 2 ใน 3 ก่อนอาหารเช้า (NPH:RI ≈ 2:1) และ 1 ใน 3 ก่อนอาหารเย็น (NPH:RI ≈ 1:1)', 'Conventional: two-thirds before breakfast (NPH:RI ≈ 2:1) and one-third before dinner (NPH:RI ≈ 1:1).'),
+    tddKnown: dkaT('ผู้ป่วยเบาหวานเก่า อาจเริ่ม regimen และขนาดเดิมก่อนเกิด DKA', 'For known diabetes, the pre-DKA regimen and dose may be resumed.'),
+
+    /* ---------- trigger / precipitant ---------- */
+    triggerHeading: dkaT('ค้นหาและรักษาปัจจัยกระตุ้น', 'Identify and treat the precipitating cause'),
+    triggerItems: [
+      dkaT('ไม่จำเป็นต้องให้ยาปฏิชีวนะทุกราย ให้เมื่อตรวจพบหรือสงสัยการติดเชื้อเท่านั้น', 'Antibiotics are not needed routinely — only when infection is found or strongly suspected.'),
+      dkaT('ส่งตรวจ CBC, hemoculture, urinalysis และ urine culture, ภาพถ่ายรังสีทรวงอก', 'Send CBC, blood culture, urinalysis and urine culture, and a chest X-ray.'),
+      dkaT('ผู้ป่วยรายใหม่: ส่ง HbA1c และ (ก่อนเริ่มอินซูลิน) insulin, C-peptide, anti-GAD, IA2, IAA, ICA, ZnT8A', 'Newly diagnosed: send HbA1c and — before starting insulin — insulin, C-peptide, anti-GAD, IA2, IAA, ICA, ZnT8A.')
+    ],
+
+    /* ---------- complications ---------- */
+    persistHeading: dkaT('Persistent acidosis — สาเหตุที่ต้องประเมินซ้ำ', 'Persistent acidosis — causes to reassess'),
+    persistDef: dkaT('ยังมี HCO₃ <10 มิลลิโมล/ลิตร หลังรักษานานกว่า 8–10 ชม.', 'HCO₃ remains <10 mmol/L after more than 8–10 h of treatment.'),
+    persistItems: [
+      dkaT('ปริมาณอินซูลินไม่เพียงพอ หรือดูดซึมไม่ดีจากการฉีดใต้ผิวหนัง — เปลี่ยนเป็น IV infusion', 'Insufficient insulin, or poor absorption from subcutaneous injection — change to IV infusion'),
+      dkaT('ให้สารน้ำไม่เพียงพอ', 'Inadequate fluid replacement'),
+      dkaT('มีการติดเชื้อที่ยังไม่ได้รักษา', 'Untreated infection'),
+      dkaT('มีภาวะ hyponatremia หรือ hypokalemia', 'Hyponatremia or hypokalemia'),
+      dkaT('ผสมอินซูลินผิดหรืออินซูลินเสื่อมสภาพ — เปลี่ยนขวดหรือผสมใหม่ทันทีเมื่อสงสัย', 'Wrongly mixed or degraded insulin — change the vial or remix immediately if in doubt'),
+      dkaT('Hyperchloremic metabolic acidosis — serum ketone (BOHB) ลดลงแล้วและ anion gap ปกติ แก้โดยลดคลอไรด์ในสารน้ำ เช่น ใช้ RLS หรือ acetar หรือให้ K₂HPO₄/KH₂PO₄ ร่วมกับ KCl หรือ K acetate', 'Hyperchloremic metabolic acidosis — serum ketone (BOHB) has fallen and the anion gap is normal; reduce chloride load, e.g. use lactated Ringer or acetate solutions, or K₂HPO₄/KH₂PO₄ with KCl or K acetate')
+    ],
+    otherCompHeading: dkaT('ภาวะแทรกซ้อนอื่นระหว่างการรักษา', 'Other complications during treatment'),
+    otherCompItems: [
+      dkaT('Hypoglycemia — รักษาระดับน้ำตาลไม่ต่ำกว่า 150 มก./ดล. ตลอดที่ยังให้ insulin infusion', 'Hypoglycemia — keep glucose above 150 mg/dL throughout the insulin infusion'),
+      dkaT('Hypokalemia — K เข้าเซลล์เมื่อ acidosis ดีขึ้น ถ้าระดับลดลงให้เพิ่มปริมาณ K มิฉะนั้นผู้ป่วยจะฟื้นตัวช้าและมี muscle weakness', 'Hypokalemia — potassium shifts intracellularly as acidosis improves; increase replacement if levels fall, otherwise recovery is slow with muscle weakness'),
+      dkaT('Hypophosphatemia — ถ้าซีรัมฟอสเฟต <1 มก./ดล. ให้ K₂HPO₄/KH₂PO₄ 20–40 มิลลิโมล/ลิตร ร่วมกับ KCl หรือ K acetate และติดตาม Ca, P, Mg', 'Hypophosphatemia — if serum phosphate <1 mg/dL, give K₂HPO₄/KH₂PO₄ 20–40 mmol/L with KCl or K acetate and monitor Ca, P, Mg')
+    ],
+
+    /* ---------- cerebral edema entry ---------- */
+    ceButton: dkaT('🚨 ประเมินภาวะสมองบวม (cerebral edema)', '🚨 Assess for cerebral edema'),
+    ceWarnHeading: dkaT('Warning neurological signs — สงสัยสมองบวม', 'Warning neurological signs — suspect cerebral edema'),
+    ceWarnItems: [
+      dkaT('ชีพจรช้าลง ความดันเลือดสูงขึ้น', 'Falling heart rate, rising blood pressure'),
+      dkaT('ปวดศีรษะรุนแรงและเฉียบพลัน อาเจียน', 'Severe sudden headache, vomiting'),
+      dkaT('กระสับกระส่าย สับสน ระดับการรู้สติลดลง', 'Agitation, confusion, decreasing level of consciousness'),
+      dkaT('อุจจาระหรือปัสสาวะราด', 'Faecal or urinary incontinence'),
+      dkaT('Pupillary change, ophthalmoplegia, papilledema, ชัก', 'Pupillary change, ophthalmoplegia, papilledema, seizures')
+    ],
+    ceTiming: dkaT('มักเกิดภายใน 12 ชม.แรกหลังเริ่มรักษา แต่มีรายงานเกิดช้าถึง 24–48 ชม. · พบบ่อยในเด็กเล็ก ผู้ป่วยที่วินิจฉัยครั้งแรก หรือวินิจฉัยล่าช้า', 'Usually occurs within the first 12 h of treatment, but has been reported up to 24–48 h later · more common in young children and in newly or late-diagnosed patients.'),
+    ceHypoFirst: dkaT('ถ้าอาการทางระบบประสาทเลวลงโดยไม่มี hypoglycemia ให้ถือว่าอาจมี cerebral edema', 'If neurological status deteriorates without hypoglycemia, assume cerebral edema is possible.'),
+
+    /* ---------- ABW reference ---------- */
+    abwHeading: dkaT('วิธีคิด adjusted body weight (ABW) ในเด็กอ้วน', 'Calculating adjusted body weight (ABW) in obese children'),
+    abwItems: [
+      dkaT('IBW = น้ำหนักที่ percentile 50 ตามส่วนสูงจริงของผู้ป่วย อ่านจากกราฟน้ำหนักตามเกณฑ์ส่วนสูง (weight for height) แยกตามเพศ ซึ่งแอปคำนวณให้อัตโนมัติจากเพศและส่วนสูงที่กรอก', 'IBW is the 50th-percentile weight for the patient’s actual height, read from the sex-specific weight-for-height chart, which the app derives automatically from the sex and height entered.'),
+      dkaT('ถือว่าอ้วนเมื่อน้ำหนักจริง ≥120% ของ IBW และจะเปลี่ยนไปคำนวณด้วย ABW ให้อัตโนมัติ', 'A patient is treated as obese at ≥120% of IBW, at which point the calculation switches to ABW automatically.'),
+      dkaT('ABW = IBW + (น้ำหนักจริง − IBW)/3', 'ABW = IBW + (actual weight − IBW)/3'),
+      dkaT('เหตุผล: น้ำหนักส่วนเกินเป็นไขมันซึ่งมีน้ำประมาณ 20% เทียบกับร่างกายปกติ 60% จึงคิดเป็น 1/3', 'Rationale: excess weight is mostly fat with about 20% water content versus 60% for the whole body, hence the factor of one third'),
+      dkaT('กราฟครอบคลุมส่วนสูง 90–180 ซม. ถ้าส่วนสูงอยู่นอกช่วงนี้หรือไม่ได้กรอก ระบบจะใช้น้ำหนักจริง', 'The chart covers heights of 90–180 cm; outside that range, or when no height is entered, the actual weight is used.'),
+      dkaT('น้ำหนักสูงสุดที่ใช้คำนวณสารน้ำไม่เกิน 90 กก.', 'The maximum weight used for fluid calculation is 90 kg')
+    ],
+
+    /* ---------- HHS ---------- */
+    hhsIcu: dkaT('HHS พบน้อยมากในเด็ก ควรรับไว้รักษาใน ICU ทุกราย — ผู้ป่วยมักขาดน้ำรุนแรงกว่า DKA แต่มี acidosis น้อยกว่า', 'HHS is rare in children and all cases should be admitted to the ICU — dehydration is more severe than in DKA but acidosis is milder.'),
+    hhsKeyDiff: dkaT('ระหว่างรักษา osmolality จะลดลงทำให้น้ำเข้าสู่เซลล์และน้ำในหลอดเลือดลดลง ร่วมกับยังมี osmotic diuresis จึงต้องให้สารน้ำมากกว่า DKA', 'During treatment, osmolality falls so water shifts into cells and intravascular volume drops, while osmotic diuresis continues — more fluid is required than in DKA.'),
+    hhsFluidHeading: dkaT('1. สารน้ำและเกลือแร่', '1. Fluids and electrolytes'),
+    hhsFluidType: dkaT('คำนวณ fluid deficit 12–15% ให้ในรูป 0.45–0.75% NaCl แก้ภายใน 24–48 ชม. ถ้าระหว่างรักษา osmolality ลดเร็วและ hemodynamic ไม่ดี อาจต้องเปลี่ยนเป็น 0.9% NaCl', 'Calculate a 12–15% fluid deficit and replace it as 0.45–0.75% NaCl over 24–48 h; if osmolality falls rapidly with poor haemodynamics, change back to 0.9% NaCl.'),
+    hhsNaGoal: dkaT('ติดตามโซเดียมบ่อยๆ โดยให้ระดับโซเดียมลดลงไม่เกิน 0.5 มิลลิโมล/ลิตร/ชม. และ osmolality ลดลงอย่างช้าๆ', 'Monitor sodium frequently; sodium should fall by no more than 0.5 mmol/L/h and osmolality should decline slowly.'),
+    hhsGlucGoal: dkaT('หลังให้สารน้ำ ระดับน้ำตาลควรลดลงประมาณ 75–100 มก./ดล./ชม. ก่อนเริ่มอินซูลิน · ถ้าหลังให้สารน้ำ 2–3 ชม. ยังลดเร็วกว่า 100 มก./ดล./ชม. ให้เติม 2.5% หรือ 5% dextrose', 'With fluid alone, glucose should fall about 75–100 mg/dL/h before insulin is started · if it is still falling faster than 100 mg/dL/h after 2–3 h, add 2.5% or 5% dextrose.'),
+    hhsUrineReplace: dkaT('ถ้าปัสสาวะออกมากกว่าปริมาตรสารน้ำที่ให้อยู่ ทั้งที่ยังขาดน้ำ ให้ทดแทนปัสสาวะด้วย 0.45% NaCl โดยปริมาตรที่ให้ต้องไม่น้อยกว่าปริมาตรปัสสาวะ ปรับได้ทุกชั่วโมง', 'If urine output exceeds the fluid being given while dehydration persists, replace urine with 0.45% NaCl at a volume no less than the output, adjusted hourly.'),
+    hhsInsulinHeading: dkaT('2. อินซูลิน', '2. Insulin'),
+    hhsInsulinStart: dkaT('เริ่มเมื่อการให้สารน้ำอย่างเดียวลดน้ำตาลได้น้อยกว่า 50 มก./ดล./ชม. — ไม่จำเป็นต้องเริ่มเร็ว เพราะ osmolality ที่ลดเร็วเกินไปทำให้เกิด circulatory compromise และ thrombosis', 'Start when fluid alone lowers glucose by less than 50 mg/dL/h — early insulin is unnecessary because a rapid osmolality fall causes circulatory compromise and thrombosis.'),
+    hhsInsulinDose: dkaT('RI IV infusion 0.025–0.05 ยูนิต/กก./ชม. เป้าหมายให้น้ำตาลลดลง 50–75 มก./ดล./ชม. · ไม่ต้องให้ insulin bolus', 'RI IV infusion at 0.025–0.05 unit/kg/h, targeting a glucose fall of 50–75 mg/dL/h · no insulin bolus.'),
+    hhsInsulinEarly: dkaT('กรณีมี severe ketosis และ acidosis ร่วมด้วย อาจเริ่มอินซูลินเร็วขึ้น', 'With concurrent severe ketosis and acidosis, insulin may be started earlier.'),
+    hhsKHeading: dkaT('3. โพแทสเซียม', '3. Potassium'),
+    hhsK: dkaT('เริ่มเมื่อ serum K ปกติและมีปัสสาวะ โดยให้ KCl 40 มิลลิโมล/ลิตรของสารน้ำ และอาจต้องเพิ่มอัตราเมื่อเริ่มอินซูลิน · ติดตาม serum K ทุก 2–3 ชม.', 'Start once serum K is normal and urine output is present: KCl 40 mmol/L of fluid, increasing as insulin is started · check serum K every 2–3 h.'),
+    hhsBicarbHeading: dkaT('4. Bicarbonate — ข้อห้าม', '4. Bicarbonate — contraindicated'),
+    hhsBicarb: dkaT('การให้ bicarbonate เป็นข้อห้ามในการรักษา HHS เพราะเพิ่มความเสี่ยง hypokalemia และทำให้ tissue oxygen delivery ลดลง', 'Bicarbonate is contraindicated in HHS — it increases the risk of hypokalemia and reduces tissue oxygen delivery.'),
+    hhsElectrolyteHeading: dkaT('5. ฟอสเฟตและแมกนีเซียม', '5. Phosphate and magnesium'),
+    hhsPhos: dkaT('Severe hypophosphatemia (P <1 มก./ดล.): ให้ K₂HPO₄/KH₂PO₄ ร่วมกับ KCl อย่างละครึ่ง เพราะอาจเกิด rhabdomyolysis, hemolytic anemia, muscle weakness และ paralysis', 'Severe hypophosphatemia (P <1 mg/dL): give half K₂HPO₄/KH₂PO₄ with half KCl — it may cause rhabdomyolysis, haemolytic anaemia, muscle weakness, and paralysis.'),
+    hhsCompHeading: dkaT('6. ภาวะแทรกซ้อนสำคัญ', '6. Key complications'),
+    hhsComp: dkaT('Rhabdomyolysis ทำให้เกิด acute kidney failure, severe hyperkalemia, hypocalcemia และ muscle swelling — ผู้ป่วยปวดเมื่อยกล้ามเนื้อ อ่อนแรง ปัสสาวะสีเข้ม ควรตรวจ creatine kinase ทุก 2–3 ชม.', 'Rhabdomyolysis leads to acute kidney failure, severe hyperkalemia, hypocalcemia, and muscle swelling — with myalgia, weakness, and dark urine; check creatine kinase every 2–3 h.'),
+    mixedHeading: dkaT('ข้อควรระวังเพิ่มเติมสำหรับ Mixed DKA + HHS', 'Additional cautions for mixed DKA + HHS'),
+    mixedItems: [
+      dkaT('เฝ้าระวังภาวะแทรกซ้อนที่อาจเกิดจากทั้ง HHS และ DKA', 'Watch for complications of both HHS and DKA'),
+      dkaT('อัตราสารน้ำและ electrolytes มักต้องมากกว่าที่ให้ในผู้ป่วย DKA ทั่วไป', 'Fluid and electrolyte rates are usually higher than in ordinary DKA'),
+      dkaT('ให้อินซูลินหลังจากให้สารน้ำจนระบบไหลเวียนคงที่ก่อน', 'Give insulin only after the circulation has been stabilised with fluid'),
+      dkaT('ให้ K และฟอสเฟตทดแทนเหมือนการรักษาผู้ป่วย HHS', 'Replace potassium and phosphate as for HHS')
+    ]
+  },
+
+  dehyd: {
+    heading: dkaT('ระดับความรุนแรงของภาวะขาดน้ำ (อ้างอิงทางคลินิก)', 'Clinical severity of dehydration (for reference)'),
+    cols: { level: dkaT('ระดับความรุนแรง', 'Severity'), signs: dkaT('อาการทางคลินิก', 'Clinical findings') },
+    rows: [
+      { level: dkaT('น้อย (3–5%)', 'Mild (3–5%)'), signs: dkaT('ปากแห้ง', 'Dry mouth') },
+      { level: dkaT('ปานกลาง (5–7%)*', 'Moderate (5–7%)*'), signs: dkaT('ปากแห้ง skin turgor ลดลง ชีพจรเร็ว หายใจเร็ว', 'Dry mouth, reduced skin turgor, tachycardia, tachypnoea') },
+      { level: dkaT('รุนแรง (7–10%)', 'Severe (7–10%)'), signs: dkaT('ปากแห้ง skin turgor ลดลง ตาโหลลึก หายใจหอบลึก (hyperpnea) capillary refill มากกว่า 2 วินาที', 'Dry mouth, reduced skin turgor, sunken eyes, hyperpnoea, capillary refill over 2 seconds') },
+      { level: dkaT('ช็อก (>10%)', 'Shock (>10%)'), signs: dkaT('ชีพจรเบาเร็วหรือคลำไม่ได้ ความดันเลือดต่ำ ปัสสาวะออกน้อย', 'Weak or absent pulses, hypotension, oliguria') }
+    ],
+    footnote: dkaT('*เด็กเล็กอายุ 1 เดือน–5 ปี ที่มีภาวะขาดน้ำ 5% มักมี capillary refill มากกว่า 2 วินาที skin turgor ลดลง และหายใจเร็ว', '*In children aged 1 month to 5 years, 5% dehydration usually presents with capillary refill over 2 seconds, reduced skin turgor, and tachypnoea.'),
+    note: dkaT('หมายเหตุจากแนวทาง: ระดับความรุนแรงของภาวะขาดน้ำมักสัมพันธ์กับความรุนแรงของ DKA โดย BUN >20 มก./ดล. และ/หรือ venous pH <7.1 บ่งชี้ถึงการขาดน้ำรุนแรงได้ดีกว่าการตรวจร่างกาย การประเมินจากลักษณะทางคลินิกมัก underestimate ภาวะขาดน้ำจริง จึงให้แก้ไขภาวะขาดน้ำตามความรุนแรงของ DKA คือ severe DKA ถือว่าขาดน้ำรุนแรง (10%) และ moderate DKA ขาดน้ำปานกลาง (7%)', 'Guideline note: the severity of dehydration usually parallels the severity of the DKA. BUN >20 mg/dL and/or venous pH <7.1 indicate severe dehydration more reliably than physical examination, which tends to underestimate the true deficit. The deficit should therefore be replaced according to the DKA severity — severe DKA is treated as severe dehydration (10%) and moderate DKA as moderate dehydration (7%).'),
+    tableUse: dkaT('ตารางนี้ใช้ประกอบการประเมินทางคลินิกเท่านั้น ปริมาตร deficit ที่แอปคำนวณให้ยึดตามความรุนแรงของ DKA', 'This table supports the clinical assessment only — the deficit volume calculated by the app follows the DKA severity.')
+  },
+
+  ce: {
+    heading: dkaT('เกณฑ์วินิจฉัยภาวะสมองบวม', 'Cerebral edema diagnostic criteria'),
+    hint: dkaT('เลือกอาการที่ตรวจพบ — เกณฑ์สำคัญ 1 ข้อ หรือเกณฑ์หลัก 2 ข้อ หรือเกณฑ์หลัก 1 ข้อร่วมกับเกณฑ์รอง 2 ข้อ บ่งชี้ว่ามีโอกาสสมองบวม (ความไว 92%, ผลบวกลวง 4%)', 'Select the findings present — one diagnostic criterion, or two major criteria, or one major plus two minor criteria indicates probable cerebral edema (sensitivity 92%, false-positive rate 4%).'),
+    diagHeading: dkaT('เกณฑ์วินิจฉัยสำคัญ (diagnostic criteria)', 'Diagnostic criteria'),
+    diagItems: [
+      { key: 'd1', label: dkaT('Abnormal motor หรือ verbal response to pain', 'Abnormal motor or verbal response to pain') },
+      { key: 'd2', label: dkaT('Decorticate หรือ decerebrate posture', 'Decorticate or decerebrate posturing') },
+      { key: 'd3', label: dkaT('Cranial nerve palsy โดยเฉพาะเส้นที่ III, IV และ VI', 'Cranial nerve palsy, especially III, IV, and VI') },
+      { key: 'd4', label: dkaT('Abnormal neurogenic respiratory pattern (grunting, tachypnea, Cheyne-Stokes, apneusis)', 'Abnormal neurogenic respiratory pattern (grunting, tachypnoea, Cheyne-Stokes, apneusis)') }
+    ],
+    majorHeading: dkaT('เกณฑ์หลัก (major criteria)', 'Major criteria'),
+    majorItems: [
+      { key: 'm1', label: dkaT('Altered mentation, confusion หรือระดับการรู้สติที่เปลี่ยนแปลงไปมา', 'Altered mentation, confusion, or fluctuating level of consciousness') },
+      { key: 'm2', label: dkaT('ชีพจรช้าลงต่อเนื่องมากกว่า 20 ครั้ง/นาที โดยไม่ได้เกิดจาก intravascular volume ที่ดีขึ้นหรือการนอนหลับลึก', 'Sustained heart rate deceleration of more than 20 beats/min, not attributable to improved intravascular volume or deep sleep') },
+      { key: 'm3', label: dkaT('Age-inappropriate incontinence', 'Age-inappropriate incontinence') }
+    ],
+    minorHeading: dkaT('เกณฑ์รอง (minor criteria)', 'Minor criteria'),
+    minorItems: [
+      { key: 'n1', label: dkaT('อาเจียน', 'Vomiting') },
+      { key: 'n2', label: dkaT('ปวดศีรษะ', 'Headache') },
+      { key: 'n3', label: dkaT('Lethargy หรือปลุกตื่นยาก', 'Lethargy or not easily arousable') },
+      { key: 'n4', label: dkaT('Diastolic blood pressure >90 มม.ปรอท', 'Diastolic blood pressure >90 mmHg') },
+      { key: 'n5', label: dkaT('อายุน้อยกว่า 5 ปี', 'Age under 5 years') }
+    ],
+    positiveTitle: dkaT('เข้าเกณฑ์สงสัยภาวะสมองบวม', 'Meets criteria for suspected cerebral edema'),
+    positiveSummary: dkaT('เริ่มการรักษาทันทีที่สงสัย ไม่ต้องรอผลภาพถ่ายรังสีสมอง', 'Start treatment as soon as cerebral edema is suspected — do not wait for brain imaging.'),
+    negativeTitle: dkaT('ยังไม่เข้าเกณฑ์วินิจฉัยสมองบวม', 'Does not yet meet cerebral edema criteria'),
+    negativeSummary: dkaT('ยังไม่เข้าเกณฑ์ แต่ถ้าอาการทางระบบประสาทเลวลงโดยไม่มี hypoglycemia ให้ประเมินซ้ำและเริ่มการรักษาได้ทันที', 'Criteria are not yet met, but if neurological status worsens without hypoglycemia, reassess and treat immediately.'),
+    countLabel: dkaT('ที่เลือก', 'Selected'),
+    mgmtHeading: dkaT('การรักษาภาวะสมองบวม', 'Management of cerebral edema'),
+    mgmtItems: [
+      dkaT('Admit ICU และ monitor neurological signs อย่างใกล้ชิด', 'Admit to ICU and monitor neurological signs closely'),
+      dkaT('นอนยกหัวสูงประมาณ 30 องศา', 'Elevate the head of the bed to about 30 degrees'),
+      dkaT('ลดอัตราการให้สารน้ำลงเหลือ 2/3 ของอัตราที่คำนวณได้ โดยรักษาความดันเลือดให้ปกติ', 'Reduce the fluid rate to two-thirds of the calculated rate while maintaining normal blood pressure'),
+      dkaT('Intubation และช่วยหายใจกรณีซึมมาก ไม่รู้ตัว โคม่า หรือ hypoventilation โดย keep pCO₂ 30–35 มม.ปรอท และไม่ทำ aggressive hyperventilation', 'Intubate and ventilate if markedly drowsy, unresponsive, comatose, or hypoventilating — keep pCO₂ 30–35 mmHg and avoid aggressive hyperventilation'),
+      dkaT('พิจารณาทำ brain CT เมื่อ stabilize ผู้ป่วยเรียบร้อยแล้วเท่านั้น', 'Consider brain CT only after the patient has been stabilised')
+    ],
+    drugHeading: dkaT('ยาลดความดันในกะโหลกศีรษะ (ตามน้ำหนักผู้ป่วย)', 'Osmotherapy (calculated for this patient)'),
+    drugNote: dkaT('อาการควรดีขึ้นภายใน 15 นาทีหลังได้รับ mannitol และให้ซ้ำได้หากไม่ดีขึ้นใน 30 นาที · ใช้ 3% NaCl เมื่อไม่มี mannitol หรือไม่ตอบสนองต่อ mannitol ภายใน 15–30 นาที', 'Improvement is expected within 15 min of mannitol and the dose may be repeated if there is no response by 30 min · use 3% NaCl if mannitol is unavailable or ineffective within 15–30 min.'),
+    backToPlan: dkaT('← กลับไปที่แผนการรักษา', '← Back to the management plan')
+  },
+
+  refFooter: dkaT(
+    'อ้างอิง: แนวทางการรักษาภาวะ diabetic ketoacidosis และ hyperglycemic hyperosmolar state ในเด็กและวัยรุ่น ฉบับปรับปรุง เมษายน 2566 สมาคมต่อมไร้ท่อเด็กและวัยรุ่นไทย (ดัดแปลงจาก Glaser N, et al. ISPAD Clinical Practice Consensus Guidelines 2022)',
+    'Reference: Management Guideline for Diabetic Ketoacidosis and Hyperglycemic Hyperosmolar State in Children and Adolescents, revised April 2023, Thai Society for Pediatric Endocrinology (adapted from Glaser N, et al. ISPAD Clinical Practice Consensus Guidelines 2022)')
+};
+
+/* ---------------------------- state ---------------------------- */
+function dkaInitialForm(){
+  return {
+    ageY: null, sex: null, wt: null, height: null,
+    glucose: null, ph: null, hco3: null, na: null, k: null, cl: null, bun: null, ketone: null,
+    shock: null, mods: [], initialGiven: null,
+    ce: []
+  };
+}
+let dkaState = { screen: 'patient', form: dkaInitialForm() };
+function dkaResetAll(){ dkaState = { screen: 'patient', form: dkaInitialForm() }; }
+function dkaGoTo(s){ dkaState.screen = s; scrollToTop(); render(); }
+
+/* ---------------------------- calculations ---------------------------- */
+/* Median (P50) weight for height, 90-180 cm in 1 cm steps.
+   Digitised from the Thai national growth reference charts
+   "Weight for Height, boys / girls aged 2-19 years". */
+const DKA_WFH_P50 = {
+  male: [12.9,13.1,13.4,13.6,13.8,14.1,14.3,14.6,14.8,15.1,15.4,15.7,15.9,16.2,16.5,16.9,17.2,17.5,17.8,18.2,18.5,18.9,19.3,19.6,20.0,20.4,20.8,21.2,21.6,22.0,22.4,22.9,23.3,23.8,24.3,24.8,25.3,25.8,26.3,26.8,27.3,27.7,28.2,28.7,29.1,29.6,30.2,30.8,31.5,32.1,32.7,33.4,34.0,34.7,35.3,36.0,36.7,37.4,38.1,38.8,39.6,40.4,41.3,42.1,43.0,43.9,44.7,45.6,46.5,47.4,48.4,49.3,50.3,51.3,52.3,53.2,54.2,55.1,56.0,57.0,57.9,58.8,59.6,60.5,61.3,62.2,63.0,63.8,64.6,65.4,66.1],
+  female: [12.6,12.9,13.1,13.3,13.5,13.7,14.0,14.2,14.4,14.7,14.9,15.2,15.4,15.7,15.9,16.2,16.5,16.8,17.1,17.4,17.8,18.1,18.4,18.8,19.1,19.5,19.9,20.2,20.6,21.0,21.4,21.8,22.1,22.5,22.9,23.3,23.6,24.0,24.4,24.7,25.1,25.5,25.8,26.2,26.6,26.9,27.4,27.8,28.2,28.6,29.0,29.5,30.0,30.6,31.2,31.8,32.5,33.1,33.9,34.6,35.4,36.3,37.3,38.2,39.3,40.3,41.3,42.2,43.1,44.0,44.8,45.6,46.4,47.1,47.8,48.5,49.1,49.8,50.4,51.0,51.7,52.3,53.0,53.7,54.3,55.0,55.6,56.3,56.9,57.5,58.1]
+};
+const DKA_WFH_MIN_CM = 90, DKA_WFH_MAX_CM = 180;
+/* a child is treated as obese, and therefore calculated on ABW, at >=120% of IBW */
+const DKA_OBESE_PCT = 120;
+
+/* Ideal body weight = P50 weight for the measured height */
+function dkaIbwForHeight(sex, cm){
+  if(!sex || cm === null || !isFinite(cm)) return null;
+  if(cm < DKA_WFH_MIN_CM || cm > DKA_WFH_MAX_CM) return null;
+  const arr = DKA_WFH_P50[sex];
+  if(!arr) return null;
+  const i = Math.min(Math.floor(cm) - DKA_WFH_MIN_CM, arr.length - 2);
+  const frac = cm - (i + DKA_WFH_MIN_CM);
+  return arr[i] + (arr[i + 1] - arr[i]) * frac;
+}
+
+/* Decides which weight the whole module calculates from */
+function dkaWeightBasis(f){
+  if(f.wt === null) return null;
+  const ibw = dkaIbwForHeight(f.sex, f.height);
+  if(ibw === null || ibw <= 0){
+    return { ibw: null, pctIbw: null, abw: null, useAbw: false, outOfRange: (f.height !== null), weight: Math.min(f.wt, 90) };
+  }
+  const pct = f.wt / ibw * 100;
+  const abw = ibw + (f.wt - ibw) / 3;
+  const useAbw = pct >= DKA_OBESE_PCT;
+  return { ibw: ibw, pctIbw: pct, abw: abw, useAbw: useAbw, outOfRange: false, weight: Math.min(useAbw ? abw : f.wt, 90) };
+}
+
+function dkaCalcWeight(f){
+  const b = dkaWeightBasis(f);
+  return b ? b.weight : null;
+}
+
+function dkaCorrectedNa(f){
+  if(f.na === null || f.glucose === null) return null;
+  return f.na + 2 * ((f.glucose - 100) / 100);
+}
+
+function dkaEffOsm(f){
+  if(f.na === null || f.glucose === null) return null;
+  return 2 * f.na + f.glucose / 18;
+}
+
+function dkaAnionGap(f){
+  if(f.na === null || f.cl === null || f.hco3 === null) return null;
+  return f.na - (f.cl + f.hco3);
+}
+
+/* Severity — classified from venous pH and serum HCO3, taking the more severe of the two */
+function dkaSeverityLevel(f){
+  if(f.ph === null || f.hco3 === null) return 0;
+  const sp = f.ph < 7.10 ? 3 : (f.ph < 7.20 ? 2 : (f.ph < 7.30 ? 1 : 0));
+  const sb = f.hco3 < 5 ? 3 : (f.hco3 < 10 ? 2 : (f.hco3 < 18 ? 1 : 0));
+  return Math.max(sp, sb);
+}
+
+/* Laboratory markers that indicate severe dehydration better than physical examination */
+function dkaSevereDehydrationMarkers(f){
+  const out = [];
+  if(f.ph !== null && f.ph < 7.1) out.push('ph');
+  if(f.bun !== null && f.bun > 20) out.push('bun');
+  return out;
+}
+
+function dkaMeetsDka(f){
+  if(f.glucose === null || f.ph === null || f.hco3 === null || f.ketone === null) return false;
+  return f.glucose > 200 && (f.hco3 < 18 || f.ph < 7.3) && f.ketone === true;
+}
+
+function dkaMeetsHhs(f){
+  const osm = dkaEffOsm(f);
+  if(f.glucose === null || f.ph === null || f.hco3 === null || osm === null) return false;
+  return f.glucose > 600 && f.ph > 7.25 && f.hco3 > 15 && osm > 320;
+}
+
+function dkaClassify(f){
+  const osm = dkaEffOsm(f);
+  const isDka = dkaMeetsDka(f);
+  if(isDka && f.glucose > 600 && osm !== null && osm > 320) return 'mixed';
+  if(isDka) return 'dka';
+  if(dkaMeetsHhs(f)) return 'hhs';
+  return 'none';
+}
+
+/* maintenance fluid, simplified Holliday-Segar, mL/h */
+function dkaMaintenanceRate(w){
+  if(w === null) return null;
+  if(w <= 10) return 4 * w;
+  if(w <= 20) return 40 + 2 * (w - 10);
+  return 60 + 1 * (w - 20);
+}
+
+/* true when the deficit must be corrected more slowly (48 h, reduced %) */
+function dkaSlowMode(f){
+  const realMods = f.mods.filter(m => m !== 'none');
+  const cNa = dkaCorrectedNa(f);
+  return realMods.length > 0 || (cNa !== null && cNa > 150);
+}
+
+function dkaDeficitPct(f){
+  const sev = dkaSeverityLevel(f);
+  if(dkaSlowMode(f)){
+    if(sev >= 3) return 7;
+    return 5;
+  }
+  if(sev >= 3) return 10;
+  if(sev === 2) return 7;
+  return 5;
+}
+
+/* Initial fluid resuscitation is chosen from the DKA severity, not from the physical
+   examination: mild DKA needs none, moderate DKA gets 10-20 mL/kg over 30 min, and
+   severe DKA is triaged by the presence of shock. */
+function dkaInitialStrategy(f){
+  if(dkaClassify(f) === 'hhs') return 'hhs';
+  const sev = dkaSeverityLevel(f);
+  if(sev >= 3) return f.shock === true ? 'shock' : 'severeNoShock';
+  if(sev === 2) return 'moderate';
+  return 'skip';
+}
+
+/* the shock question is only relevant to severe DKA */
+function dkaNeedsShockScreen(f){
+  if(dkaClassify(f) === 'hhs') return false;
+  return dkaSeverityLevel(f) >= 3;
+}
+
+/* default initial resuscitation volume, mL */
+function dkaDefaultInitial(f){
+  const w = dkaCalcWeight(f);
+  if(w === null) return 0;
+  const st = dkaInitialStrategy(f);
+  if(st === 'shock') return Math.round(20 * w);
+  if(st === 'moderate' || st === 'severeNoShock') return Math.round(Math.min(10 * w, 1000));
+  if(st === 'hhs') return Math.round(Math.min(20 * w, 1000));
+  return 0;
+}
+
+/* full fluid plan */
+function dkaFluidPlan(f, initialGivenMl){
+  const w = dkaCalcWeight(f);
+  const maint = dkaMaintenanceRate(w);
+  const pct = dkaDeficitPct(f);
+  const slow = dkaSlowMode(f);
+  const deficitTotal = pct * 10 * w;
+  /* shock loading is not deducted from the deficit */
+  const deduct = (dkaInitialStrategy(f) === 'shock') ? 0 : (initialGivenMl || 0);
+  const net = Math.max(deficitTotal - deduct, 0);
+
+  let rateFirst, rateLater, scheduleHours;
+  if(slow){
+    scheduleHours = 48;
+    rateFirst = net / 48;
+    rateLater = net / 48;
+  } else {
+    scheduleHours = 36;
+    rateFirst = (net / 2) / 12;
+    rateLater = (net / 2) / 24;
+  }
+  const totalFirst = maint + rateFirst;
+  const totalLater = maint + rateLater;
+
+  /* 24 h cap: total fluid must not exceed 2.5 x maintenance */
+  const first24 = slow ? (maint * 24 + net / 2) : (maint * 24 + net * 0.75);
+  const cap24 = 2.5 * maint * 24;
+  const capped = first24 > cap24;
+
+  return {
+    w: w, maint: maint, pct: pct, slow: slow, scheduleHours: scheduleHours,
+    deficitTotal: deficitTotal, deduct: deduct, net: net,
+    rateFirst: rateFirst, rateLater: rateLater,
+    totalFirst: totalFirst, totalLater: totalLater,
+    first24: first24, cap24: cap24, capped: capped,
+    cappedRate: cap24 / 24
+  };
+}
+
+/* recommended insulin dose, unit/kg/h */
+function dkaInsulinDose(f){
+  const sev = dkaSeverityLevel(f);
+  if(f.ageY !== null && f.ageY < 5 && sev <= 1) return 0.03;
+  if(sev >= 2 && !(f.ph !== null && f.ph > 7.15)) return 0.1;
+  return 0.05;
+}
+
+function dkaCeVerdict(f){
+  const d = f.ce.filter(k => k.charAt(0) === 'd').length;
+  const m = f.ce.filter(k => k.charAt(0) === 'm').length;
+  const n = f.ce.filter(k => k.charAt(0) === 'n').length;
+  return { d: d, m: m, n: n, positive: (d >= 1 || m >= 2 || (m >= 1 && n >= 2)) };
+}
+
+/* ---------------------------- shared bits ---------------------------- */
+function dkaRestartBtn(wrap){
+  const restart = document.createElement('button');
+  restart.className = 'restart-btn';
+  restart.textContent = t(UI.restart);
+  restart.onclick = () => { dkaResetAll(); scrollToTop(); render(); };
+  wrap.appendChild(restart);
+}
+
+function dkaRefFooter(wrap){
+  const ref = document.createElement('div');
+  ref.className = 'ref-note';
+  ref.textContent = t(DK.refFooter);
+  wrap.appendChild(ref);
+}
+
+/* ---------------------------- screen 1: patient ---------------------------- */
+function dkaPatientView(app){
+  spHeader(app, t(DK.refBadge));
+  const scope = document.createElement('div');
+  scope.className = 'scope-note';
+  scope.textContent = t(DK.scopeNote);
+  app.appendChild(scope);
+
+  const f = dkaState.form;
+  const card = document.createElement('div');
+  card.className = 'q-card';
+  card.innerHTML = `
+    <div class="q-text">${t(DK.patient.heading)}</div>
+    <div class="q-hint">${t(DK.patient.hint)}</div>
+
+    <label class="field-label">${t(DK.patient.ageLabel)}</label>
+    <input class="num-input" id="dkaAge" type="number" inputmode="decimal" min="0" max="25" step="0.1" value="${f.ageY !== null ? f.ageY : ''}" placeholder="${t(DK.patient.agePh)}">
+
+    <label class="field-label" style="margin-top:16px;">${t(DK.patient.sexLabel)}</label>
+    <div class="toggle-row">
+      <button class="opt-btn radio ${f.sex === 'male' ? 'selected' : ''}" data-sex="male"><span class="chk">${f.sex === 'male' ? '✓' : ''}</span>${t(DK.patient.sexMale)}</button>
+      <button class="opt-btn radio ${f.sex === 'female' ? 'selected' : ''}" data-sex="female"><span class="chk">${f.sex === 'female' ? '✓' : ''}</span>${t(DK.patient.sexFemale)}</button>
+    </div>
+
+    <label class="field-label" style="margin-top:14px;">${t(DK.patient.wtLabel)}</label>
+    <input class="num-input" id="dkaWt" type="number" inputmode="decimal" min="1" max="200" step="0.1" value="${f.wt !== null ? f.wt : ''}" placeholder="${t(DK.patient.wtPh)}">
+
+    <label class="field-label" style="margin-top:14px;">${t(DK.patient.heightLabel)}</label>
+    <input class="num-input" id="dkaHt" type="number" inputmode="decimal" min="40" max="220" step="0.1" value="${f.height !== null ? f.height : ''}" placeholder="${t(DK.patient.heightPh)}">
+    <div class="field-unit">${t(DK.patient.heightHint)}</div>
+
+    <div class="mini-note" id="dkaWtPreview" style="display:none;"></div>
+    <div class="field-unit" id="dkaPatientErr" style="color:var(--sev-tx); display:none;">${t(DK.patient.err)}</div>
+    <div class="wizard-nav">
+      <button class="btn btn-primary" id="dkaPatientNext" disabled>${t(UI.next)}</button>
+    </div>
+  `;
+  app.appendChild(card);
+
+  const ageEl = card.querySelector('#dkaAge');
+  const wtEl = card.querySelector('#dkaWt');
+  const htEl = card.querySelector('#dkaHt');
+  const preview = card.querySelector('#dkaWtPreview');
+  const errEl = card.querySelector('#dkaPatientErr');
+  const nextBtn = card.querySelector('#dkaPatientNext');
+
+  function readNum(el, min, max){
+    if(!el) return null;
+    const raw = el.value.trim();
+    if(raw === '') return null;
+    const v = Number(raw);
+    if(!isFinite(v) || v < min || v > max) return NaN;
+    return v;
+  }
+
+  function validate(){
+    const age = readNum(ageEl, 0, 25);
+    const wt = readNum(wtEl, 1, 200);
+    const ht = readNum(htEl, 40, 220);
+
+    const bad = Number.isNaN(age) || Number.isNaN(wt) || Number.isNaN(ht);
+    const missing = age === null || wt === null || f.sex === null;
+
+    f.ageY = (age === null || Number.isNaN(age)) ? null : age;
+    f.wt = (wt === null || Number.isNaN(wt)) ? null : wt;
+    f.height = (ht === null || Number.isNaN(ht)) ? null : ht;
+
+    const b = dkaWeightBasis(f);
+    if(b && !bad){
+      const kg = LANG === 'th' ? 'กก.' : 'kg';
+      let html = '';
+      if(b.ibw !== null){
+        html += `${t(DK.patient.ibwLabel)}: <strong>${dkaN(b.ibw, 1)} ${kg}</strong><br>`;
+        html += `${t(DK.patient.pctIbwLabel)}: <strong>${dkaN(b.pctIbw, 0)}%</strong><br>`;
+        if(b.useAbw) html += `${t(DK.patient.abwLabel)}: <strong>${dkaN(b.abw, 1)} ${kg}</strong><br>`;
+      }
+      html += `<strong>${t(DK.patient.calcWeightLabel)}: ${dkaN(b.weight, 1)} ${kg}</strong>`;
+      if(b.ibw === null){
+        html += `<br>${t(b.outOfRange ? DK.patient.outOfRange : DK.patient.noHeight)}`;
+      } else {
+        html += `<br>${t(b.useAbw ? DK.patient.useAbw : DK.patient.useActual)}`;
+      }
+      if(b.weight >= 90) html += `<br>${t(DK.patient.capNote)}`;
+      preview.style.display = '';
+      preview.innerHTML = html;
+    } else {
+      preview.style.display = 'none';
+    }
+
+    errEl.style.display = bad ? '' : 'none';
+    nextBtn.disabled = bad || missing;
+  }
+
+  if(ageEl) ageEl.addEventListener('input', validate);
+  if(wtEl) wtEl.addEventListener('input', validate);
+  if(htEl) htEl.addEventListener('input', validate);
+  card.querySelectorAll('[data-sex]').forEach(btn => {
+    btn.onclick = () => { validate(); f.sex = btn.getAttribute('data-sex'); render(); };
+  });
+  validate();
+  nextBtn.onclick = () => { validate(); if(!nextBtn.disabled) dkaGoTo('labs'); };
+}
+
+/* ---------------------------- screen 2: labs ---------------------------- */
+function dkaLabsView(app){
+  spHeader(app, t(DK.refBadge));
+  const f = dkaState.form;
+  const card = document.createElement('div');
+  card.className = 'q-card';
+  card.innerHTML = `
+    <div class="q-text">${t(DK.labs.heading)}</div>
+    <div class="q-hint">${t(DK.labs.hint)}</div>
+
+    <label class="field-label">${t(DK.labs.glucose)}</label>
+    <input class="num-input" id="dkaGlu" type="number" inputmode="decimal" min="0" max="2000" step="1" value="${f.glucose !== null ? f.glucose : ''}" placeholder="mg/dL">
+
+    <label class="field-label" style="margin-top:14px;">${t(DK.labs.ph)}</label>
+    <input class="num-input" id="dkaPh" type="number" inputmode="decimal" min="6.5" max="7.8" step="0.01" value="${f.ph !== null ? f.ph : ''}" placeholder="6.50 – 7.80">
+
+    <label class="field-label" style="margin-top:14px;">${t(DK.labs.hco3)}</label>
+    <input class="num-input" id="dkaHco3" type="number" inputmode="decimal" min="0" max="45" step="0.1" value="${f.hco3 !== null ? f.hco3 : ''}" placeholder="mmol/L">
+
+    <label class="field-label" style="margin-top:14px;">${t(DK.labs.na)}</label>
+    <input class="num-input" id="dkaNa" type="number" inputmode="decimal" min="100" max="200" step="0.1" value="${f.na !== null ? f.na : ''}" placeholder="mmol/L">
+
+    <label class="field-label" style="margin-top:14px;">${t(DK.labs.k)}</label>
+    <input class="num-input" id="dkaK" type="number" inputmode="decimal" min="1" max="10" step="0.1" value="${f.k !== null ? f.k : ''}" placeholder="mmol/L">
+
+    <label class="field-label" style="margin-top:14px;">${t(DK.labs.cl)}</label>
+    <input class="num-input" id="dkaCl" type="number" inputmode="decimal" min="50" max="160" step="0.1" value="${f.cl !== null ? f.cl : ''}" placeholder="mmol/L">
+    <div class="field-unit">${t(DK.labs.clHint)}</div>
+
+    <label class="field-label" style="margin-top:14px;">${t(DK.labs.bun)}</label>
+    <input class="num-input" id="dkaBun" type="number" inputmode="decimal" min="0" max="300" step="0.1" value="${f.bun !== null ? f.bun : ''}" placeholder="mg/dL">
+    <div class="field-unit">${t(DK.labs.bunHint)}</div>
+
+    <label class="field-label" style="margin-top:16px;">${t(DK.labs.ketoneLabel)}</label>
+    <div class="opt-list">
+      <button class="opt-btn radio ${f.ketone === true ? 'selected' : ''}" data-ket="true"><span class="chk">${f.ketone === true ? '✓' : ''}</span>${t(DK.labs.ketonePos)}</button>
+      <button class="opt-btn radio ${f.ketone === false ? 'selected' : ''}" data-ket="false"><span class="chk">${f.ketone === false ? '✓' : ''}</span>${t(DK.labs.ketoneNeg)}</button>
+    </div>
+
+    <div class="field-unit" id="dkaLabsErr" style="color:var(--sev-tx); display:none;">${t(DK.labs.err)}</div>
+    <div class="wizard-nav">
+      <button class="btn btn-ghost" id="dkaLabsBack">${t(UI.back)}</button>
+      <button class="btn btn-primary" id="dkaLabsNext" disabled>${t(UI.next)}</button>
+    </div>
+  `;
+  app.appendChild(card);
+
+  const fields = [
+    { el: card.querySelector('#dkaGlu'), key: 'glucose', min: 0, max: 2000, req: true },
+    { el: card.querySelector('#dkaPh'), key: 'ph', min: 6.5, max: 7.8, req: true },
+    { el: card.querySelector('#dkaHco3'), key: 'hco3', min: 0, max: 45, req: true },
+    { el: card.querySelector('#dkaNa'), key: 'na', min: 100, max: 200, req: true },
+    { el: card.querySelector('#dkaK'), key: 'k', min: 1, max: 10, req: true },
+    { el: card.querySelector('#dkaCl'), key: 'cl', min: 50, max: 160, req: false },
+    { el: card.querySelector('#dkaBun'), key: 'bun', min: 0, max: 300, req: false }
+  ];
+  const errEl = card.querySelector('#dkaLabsErr');
+  const nextBtn = card.querySelector('#dkaLabsNext');
+
+  function validate(){
+    let bad = false, missing = false;
+    fields.forEach(fd => {
+      const raw = fd.el.value.trim();
+      if(raw === ''){ f[fd.key] = null; if(fd.req) missing = true; return; }
+      const v = Number(raw);
+      if(!isFinite(v) || v < fd.min || v > fd.max){ f[fd.key] = null; bad = true; return; }
+      f[fd.key] = v;
+    });
+    if(f.ketone === null) missing = true;
+    errEl.style.display = bad ? '' : 'none';
+    nextBtn.disabled = bad || missing;
+  }
+
+  fields.forEach(fd => fd.el.addEventListener('input', validate));
+  card.querySelectorAll('[data-ket]').forEach(btn => {
+    btn.onclick = () => { validate(); f.ketone = btn.getAttribute('data-ket') === 'true'; render(); };
+  });
+  validate();
+  card.querySelector('#dkaLabsBack').onclick = () => dkaGoTo('patient');
+  nextBtn.onclick = () => { validate(); if(!nextBtn.disabled) dkaGoTo('classify'); };
+}
+
+/* ---------------------------- calculated values table ---------------------------- */
+function dkaCalcTableHtml(f){
+  const cNa = dkaCorrectedNa(f);
+  const osm = dkaEffOsm(f);
+  const ag = dkaAnionGap(f);
+  const w = dkaCalcWeight(f);
+  const clNa = (f.cl !== null && f.na !== null) ? f.cl / f.na : null;
+  const unitKg = LANG === 'th' ? 'กก.' : 'kg';
+  const mmol = LANG === 'th' ? 'มิลลิโมล/ลิตร' : 'mmol/L';
+
+  const rows = [
+    { item: dkaT('น้ำหนักที่ใช้คำนวณ', 'Calculation weight'), val: `${dkaN(w, 1)} ${unitKg}`,
+      note: (function(){
+        const b = dkaWeightBasis(f);
+        if(!b) return dkaT('น้ำหนักตัวปัจจุบัน', 'Current body weight');
+        if(b.ibw === null) return b.outOfRange ? DK.patient.outOfRange : DK.patient.noHeight;
+        return b.useAbw
+          ? dkaT(`ABW · IBW ${dkaN(b.ibw, 1)} ${unitKg} · ${dkaN(b.pctIbw, 0)}% ของ IBW`, `ABW · IBW ${dkaN(b.ibw, 1)} kg · ${dkaN(b.pctIbw, 0)}% of IBW`)
+          : dkaT(`น้ำหนักจริง · IBW ${dkaN(b.ibw, 1)} ${unitKg} · ${dkaN(b.pctIbw, 0)}% ของ IBW`, `Actual weight · IBW ${dkaN(b.ibw, 1)} kg · ${dkaN(b.pctIbw, 0)}% of IBW`);
+      })() },
+    { item: dkaT('Corrected serum Na', 'Corrected serum Na'), val: `${dkaN(cNa, 1)} ${mmol}`,
+      note: (cNa !== null && cNa > 150) ? dkaT('>150 — ระวัง cerebral injury ให้สารน้ำช้าลง', '>150 — risk of cerebral injury, slow the fluid rate') : dkaT('Na + 2 × [(glucose − 100)/100]', 'Na + 2 × [(glucose − 100)/100]') },
+    { item: dkaT('Effective plasma osmolality', 'Effective plasma osmolality'), val: `${dkaN(osm, 1)} mOsm/kg`,
+      note: (osm !== null && osm > 320) ? dkaT('>320 — ติดตามผู้ป่วยอย่างใกล้ชิด', '>320 — monitor the patient closely') : dkaT('2 × Na + glucose/18', '2 × Na + glucose/18') }
+  ];
+  if(ag !== null){
+    rows.push({ item: dkaT('Anion gap', 'Anion gap'), val: `${dkaN(ag, 1)} ${mmol}`,
+      note: ag > 35 ? dkaT('>35 — อาจมี lactic acidosis ร่วมด้วย', '>35 — lactic acidosis may coexist') : dkaT('ค่าปกติ 12 ± 2 · DKA มัก 20–30', 'Normal 12 ± 2 · usually 20–30 in DKA') });
+  }
+  if(clNa !== null){
+    rows.push({ item: dkaT('Cl/Na ratio', 'Cl/Na ratio'), val: dkaN(clNa, 2),
+      note: clNa > 0.79 ? dkaT('>0.79 — บ่งชี้ hyperchloremic metabolic acidosis', '>0.79 — suggests hyperchloremic metabolic acidosis') : dkaT('≤0.79', '≤0.79') });
+  }
+  if(f.bun !== null){
+    rows.push({ item: 'BUN', val: `${dkaN(f.bun, 1)} ${LANG === 'th' ? 'มก./ดล.' : 'mg/dL'}`,
+      note: f.bun > 20 ? dkaT('>20 — บ่งชี้ภาวะขาดน้ำรุนแรง', '>20 — indicates severe dehydration') : dkaT('≤20', '≤20') });
+  }
+  const sevLv = dkaSeverityLevel(f);
+  if(sevLv > 0){
+    const pct = dkaDeficitPct(f);
+    const baseNote = sevLv >= 3 ? DK.classify.dehydNoteSevere : (sevLv === 2 ? DK.classify.dehydNoteMod : DK.classify.dehydNoteMild);
+    rows.push({ item: DK.classify.dehydItem, val: `${pct}%`,
+      note: dkaSlowMode(f) ? DK.classify.dehydNoteSlow : baseNote });
+  }
+  const cols = [
+    { key: 'item', label: DK.classify.calcCols.item },
+    { key: 'val', label: DK.classify.calcCols.val },
+    { key: 'note', label: DK.classify.calcCols.note }
+  ];
+  return spTableHtml(cols, rows, null);
+}
+
+/* ---------------------------- screen 3: classification ---------------------------- */
+function dkaClassifyView(app){
+  spHeader(app, t(DK.refBadge));
+  const f = dkaState.form;
+  const cls = dkaClassify(f);
+  const sev = dkaSeverityLevel(f);
+  const wrap = document.createElement('div');
+
+  const bannerCls = cls === 'none' ? 'info' : (cls === 'dka' ? (sev >= 3 ? 'severe' : (sev === 2 ? 'moderate' : 'mild')) : 'severe');
+  const title = cls === 'dka' ? DK.classify.dkaTitle : (cls === 'hhs' ? DK.classify.hhsTitle : (cls === 'mixed' ? DK.classify.mixedTitle : DK.classify.noneTitle));
+  const summary = cls === 'dka' ? DK.classify.dkaSummary : (cls === 'hhs' ? DK.classify.hhsSummary : (cls === 'mixed' ? DK.classify.mixedSummary : DK.classify.noneSummary));
+
+  const banner = document.createElement('div');
+  banner.className = `result-banner ${bannerCls}`;
+  let sevLine = '';
+  if(cls === 'dka' || cls === 'mixed'){
+    const sevLabel = sev >= 3 ? DK.classify.sevSevere : (sev === 2 ? DK.classify.sevMod : DK.classify.sevMild);
+    sevLine = `<div class="tag">${t(sevLabel)}</div>`;
+  }
+  banner.innerHTML = `${sevLine}<h2>${t(title)}</h2><p>${t(summary)}</p>`;
+  wrap.appendChild(banner);
+
+  if(cls === 'dka' || cls === 'mixed'){
+    const note = document.createElement('div');
+    note.className = 'mini-note';
+    note.textContent = t(DK.classify.sevBasisPh);
+    wrap.appendChild(note);
+  }
+
+  spSectionCard(wrap, { h: DK.classify.calcHeading, icon: '🧮', prominent: true, customHtml: dkaCalcTableHtml(f) });
+
+  const nav = document.createElement('div');
+  nav.className = 'wizard-nav';
+  nav.innerHTML = `
+    <button class="btn btn-ghost" id="dkaClsBack">${t(UI.back)}</button>
+    <button class="btn btn-primary" id="dkaClsNext">${cls === 'none' ? t(DK.classify.continueAnyway) : t(DK.classify.proceed)}</button>
+  `;
+  wrap.appendChild(nav);
+  app.appendChild(wrap);
+
+  document.getElementById('dkaClsBack').onclick = () => dkaGoTo('labs');
+  document.getElementById('dkaClsNext').onclick = () => dkaGoTo(dkaNeedsShockScreen(f) ? 'shock' : 'mods');
+}
+
+/* ---------------------------- screen 4: shock (severe DKA only) ---------------------------- */
+function dkaShockView(app){
+  spHeader(app, t(DK.refBadge));
+  const f = dkaState.form;
+  const card = document.createElement('div');
+  card.className = 'q-card';
+  card.innerHTML = `
+    <div class="q-text">${t(DK.shock.heading)}</div>
+    <div class="q-hint">${t(DK.shock.hint)}</div>
+    <div class="opt-list">
+      <button class="opt-btn radio ${f.shock === true ? 'selected' : ''}" data-sh="true"><span class="chk">${f.shock === true ? '✓' : ''}</span>${t(DK.shock.yes)}</button>
+      <button class="opt-btn radio ${f.shock === false ? 'selected' : ''}" data-sh="false"><span class="chk">${f.shock === false ? '✓' : ''}</span>${t(DK.shock.no)}</button>
+    </div>
+    <div class="wizard-nav">
+      <button class="btn btn-ghost" id="dkaShBack">${t(UI.back)}</button>
+      <button class="btn btn-primary" id="dkaShNext" ${f.shock === null ? 'disabled' : ''}>${t(UI.next)}</button>
+    </div>
+  `;
+  app.appendChild(card);
+  card.querySelectorAll('[data-sh]').forEach(btn => {
+    btn.onclick = () => { f.shock = btn.getAttribute('data-sh') === 'true'; f.initialGiven = null; render(); };
+  });
+  document.getElementById('dkaShBack').onclick = () => dkaGoTo('classify');
+  const nb = document.getElementById('dkaShNext');
+  if(nb) nb.onclick = () => { if(f.shock !== null) dkaGoTo('mods'); };
+}
+
+/* ---------------------------- screen 5: modifiers ---------------------------- */
+function dkaModsView(app){
+  spHeader(app, t(DK.refBadge));
+  const f = dkaState.form;
+  const cNa = dkaCorrectedNa(f);
+  const card = document.createElement('div');
+  card.className = 'q-card';
+  card.innerHTML = `
+    <div class="q-text">${t(DK.mods.heading)}</div>
+    <div class="q-hint">${t(DK.mods.hint)}</div>
+    ${(cNa !== null && cNa > 150) ? `<div class="mini-note">${t(DK.mods.autoNaNote)}</div>` : ''}
+    <div class="opt-list">
+      ${DK.mods.items.map(it => {
+        const sel = f.mods.includes(it.key) ? 'selected' : '';
+        return `<button class="opt-btn ${sel}" data-mod="${it.key}"><span class="chk">${sel ? '✓' : ''}</span>${t(it.label)}</button>`;
+      }).join('')}
+      <button class="opt-btn ${f.mods.includes('none') ? 'selected' : ''}" data-mod="none"><span class="chk">${f.mods.includes('none') ? '✓' : ''}</span>${t(DK.mods.noneLabel)}</button>
+    </div>
+    <div class="wizard-nav">
+      <button class="btn btn-ghost" id="dkaModBack">${t(UI.back)}</button>
+      <button class="btn btn-primary" id="dkaModNext" ${f.mods.length > 0 ? '' : 'disabled'}>${t(UI.seeResult)}</button>
+    </div>
+  `;
+  app.appendChild(card);
+  card.querySelectorAll('[data-mod]').forEach(btn => {
+    btn.onclick = () => {
+      const key = btn.getAttribute('data-mod');
+      if(key === 'none'){ f.mods = f.mods.includes('none') ? [] : ['none']; }
+      else {
+        f.mods = f.mods.filter(v => v !== 'none');
+        f.mods = f.mods.includes(key) ? f.mods.filter(v => v !== key) : f.mods.concat([key]);
+      }
+      f.initialGiven = null;
+      render();
+    };
+  });
+  document.getElementById('dkaModBack').onclick = () => dkaGoTo(dkaNeedsShockScreen(f) ? 'shock' : 'classify');
+  const nb = document.getElementById('dkaModNext');
+  if(nb) nb.onclick = () => { if(f.mods.length > 0) dkaGoTo('result'); };
+}
+
+/* ---------------------------- dehydration reference ---------------------------- */
+function dkaDehydRefHtml(){
+  const cols = [
+    { key: 'level', label: DK.dehyd.cols.level },
+    { key: 'signs', label: DK.dehyd.cols.signs }
+  ];
+  return spTableHtml(cols, DK.dehyd.rows, DK.dehyd.footnote) +
+    `<div class="mini-note" style="background:var(--mod-bg); border-color:var(--mod-bd); color:var(--mod-tx);">${t(DK.dehyd.note)}</div>` +
+    `<div style="font-size:11px; color:var(--ink-soft); line-height:1.6;">${t(DK.dehyd.tableUse)}</div>`;
+}
+
+/* ---------------------------- result: alerts ---------------------------- */
+function dkaAlerts(f){
+  const out = [];
+  const cNa = dkaCorrectedNa(f);
+  const osm = dkaEffOsm(f);
+  const ag = dkaAnionGap(f);
+  if(f.k !== null && f.k < 3) out.push(dkaT('Serum K <3 มิลลิโมล/ลิตร — เลื่อนการให้อินซูลินออกไปก่อน ให้ K ทาง IV คนละเส้น ไม่เกิน 0.5 มิลลิโมล/กก./ชม. พร้อม cardiac monitoring จนกว่า K >3', 'Serum K <3 mmol/L — delay insulin, give potassium through a separate IV line at no more than 0.5 mmol/kg/h with cardiac monitoring until K >3.'));
+  if(f.k !== null && f.k > 5.5) out.push(dkaT('Serum K >5.5 มิลลิโมล/ลิตร — ชะลอการให้ K ทดแทนจนกว่าผู้ป่วยจะมีปัสสาวะ และ monitor ECG ดู tall peak T', 'Serum K >5.5 mmol/L — withhold potassium until urine output is established and monitor the ECG for tall peaked T waves.'));
+  if(cNa !== null && cNa > 150) out.push(dkaT('Corrected Na >150 มิลลิโมล/ลิตร — hyperosmolality ระวังการให้สารน้ำที่ osmolality ต่ำเกินไปหรือเร็วเกินไป คิดแก้ภาวะขาดน้ำใน 48–72 ชม. ใน 24 ชม.แรกให้น้ำตาลอยู่ที่ 200–300 มก./ดล. และปรึกษากุมารแพทย์ต่อมไร้ท่อ', 'Corrected Na >150 mmol/L — hyperosmolality; avoid hypotonic or rapid fluid, correct the deficit over 48–72 h, keep glucose at 200–300 mg/dL in the first 24 h, and consult paediatric endocrinology.'));
+  if(osm !== null && osm > 320) out.push(dkaT('Effective osmolality >320 mOsm/kg — ติดตาม osmolality, serum Na, vital signs, ระดับการรู้สติ และ coma score อย่างใกล้ชิด', 'Effective osmolality >320 mOsm/kg — closely monitor osmolality, serum Na, vital signs, consciousness, and coma score.'));
+  if(ag !== null && ag > 35) out.push(dkaT('Anion gap >35 มิลลิโมล/ลิตร — บ่งชี้ว่าอาจมี lactic acidosis ร่วมด้วย', 'Anion gap >35 mmol/L — lactic acidosis may coexist.'));
+  if(f.ageY !== null && f.ageY < 5) out.push(dkaT('อายุน้อยกว่า 5 ปี — เป็นปัจจัยเสี่ยงต่อ cerebral injury ควรดูแลใน ICU', 'Age under 5 years — a risk factor for cerebral injury; ICU care is recommended.'));
+  if(f.ph !== null && f.ph < 7.1) out.push(dkaT('Venous pH <7.1 — เป็นปัจจัยเสี่ยงต่อ cerebral injury และบ่งชี้ภาวะขาดน้ำรุนแรง ควรดูแลใน ICU', 'Venous pH <7.1 — a risk factor for cerebral injury and an indicator of severe dehydration; ICU care is recommended.'));
+  if(f.bun !== null && f.bun > 20) out.push(dkaT('BUN >20 มก./ดล. — บ่งชี้ภาวะขาดน้ำรุนแรงได้ดีกว่าการตรวจร่างกาย และเป็นปัจจัยเสี่ยงต่อ cerebral injury', 'BUN >20 mg/dL — indicates severe dehydration more reliably than physical examination and is a risk factor for cerebral injury.'));
+  return out;
+}
+
+/* ---------------------------- result: fluid card ---------------------------- */
+function dkaFluidBoxHtml(f, initialGiven){
+  const p = dkaFluidPlan(f, initialGiven);
+  const mlH = LANG === 'th' ? 'มล./ชม.' : 'mL/h';
+  const ml = LANG === 'th' ? 'มล.' : 'mL';
+  const hr = LANG === 'th' ? 'ชม.' : 'h';
+
+  const rows = [
+    { item: dkaT('Maintenance fluid', 'Maintenance fluid'), val: `${dkaN(p.maint, 0)} ${mlH}`,
+      note: dkaT('Holliday-Segar แบบย่อ ให้ด้วยอัตราคงที่', 'Simplified Holliday-Segar, given at a constant rate') },
+    { item: dkaT('Fluid deficit ทั้งหมด', 'Total fluid deficit'), val: `${dkaN(p.deficitTotal, 0)} ${ml}`,
+      note: `${p.pct}% ${LANG === 'th' ? 'ของน้ำหนักตัวที่ใช้คำนวณ · กำหนดตามความรุนแรงของ DKA' : 'of the calculation weight · assigned from the DKA severity'}` },
+    { item: dkaT('หักลบ initial fluid', 'Less initial fluid'), val: `− ${dkaN(p.deduct, 0)} ${ml}`,
+      note: (dkaInitialStrategy(f) === 'shock') ? dkaT('Loading เพื่อแก้ช็อก ไม่ต้องหักลบ', 'Loading for shock is not deducted') : dkaT('หักลบจาก deficit ที่คำนวณได้', 'Deducted from the calculated deficit') },
+    { item: dkaT('Deficit คงเหลือ', 'Remaining deficit'), val: `${dkaN(p.net, 0)} ${ml}`,
+      note: p.slow ? dkaT('แบ่งให้เท่าๆ กันใน 48 ชม.', 'Divided evenly over 48 h') : dkaT('ครึ่งแรกใน 12 ชม. อีกครึ่งใน 24 ชม.ถัดมา', 'Half over 12 h, half over the next 24 h') }
+  ];
+  const cols = [
+    { key: 'item', label: DK.classify.calcCols.item },
+    { key: 'val', label: DK.classify.calcCols.val },
+    { key: 'note', label: DK.classify.calcCols.note }
+  ];
+
+  const rateRows = p.slow ? [
+    { item: dkaT('ชั่วโมงที่ 0–48 หลัง initial fluid', 'Hours 0–48 after the initial fluid'), val: `${dkaN(p.totalFirst, 0)} ${mlH}`,
+      note: `${dkaN(p.maint, 0)} + ${dkaN(p.rateFirst, 0)} ${mlH}` }
+  ] : [
+    { item: dkaT('12 ชม.แรก หลัง initial fluid', 'First 12 h after the initial fluid'), val: `${dkaN(p.totalFirst, 0)} ${mlH}`,
+      note: `${dkaN(p.maint, 0)} + ${dkaN(p.rateFirst, 0)} ${mlH}` },
+    { item: dkaT('24 ชม.ถัดมา', 'The following 24 h'), val: `${dkaN(p.totalLater, 0)} ${mlH}`,
+      note: `${dkaN(p.maint, 0)} + ${dkaN(p.rateLater, 0)} ${mlH}` }
+  ];
+
+  let html = spTableHtml(cols, rows, null);
+  html += `<div style="margin-top:14px; font-size:12.5px; font-weight:600; color:var(--pink-600);">${LANG === 'th' ? 'อัตราสารน้ำที่ให้' : 'Fluid rates'}</div>`;
+  html += spTableHtml(cols, rateRows, null);
+
+  if(p.slow){
+    html += `<div class="mini-note">${LANG === 'th'
+      ? `คิดแก้ fluid deficit ${p.pct}% ภายใน 48 ${hr} แบ่งให้เท่าๆ กัน เนื่องจากมีปัจจัยเสี่ยงต่อ volume overload หรือ leakage — ติดตาม tissue perfusion, cardiac function และ pulmonary function ร่วมด้วย และพิจารณาปรึกษากุมารแพทย์เฉพาะทางที่เกี่ยวข้อง`
+      : `The ${p.pct}% deficit is corrected evenly over 48 h because of the risk of volume overload or leakage — monitor tissue perfusion, cardiac function, and pulmonary function, and consider consulting the relevant paediatric subspecialist.`}</div>`;
+  }
+  if(p.capped){
+    html += `<div class="mini-note" style="background:var(--mod-bg); border-color:var(--mod-bd); color:var(--mod-tx);"><strong>${t(DK.res.fluidCapWarn)}</strong><br>${LANG === 'th' ? 'สูงสุด' : 'Maximum'} ${dkaN(p.cap24, 0)} ${ml}/24 ${hr} ≈ ${dkaN(p.cappedRate, 0)} ${mlH}</div>`;
+  }
+  return html;
+}
+
+/* ---------------------------- result: DKA plan ---------------------------- */
+function dkaResultView(app){
+  spHeader(app, t(DK.refBadge));
+  const f = dkaState.form;
+  const cls = dkaClassify(f);
+  if(cls === 'hhs'){ dkaHhsResultView(app); return; }
+
+  const w = dkaCalcWeight(f);
+  const sev = dkaSeverityLevel(f);
+  const wrap = document.createElement('div');
+  const ml = LANG === 'th' ? 'มล.' : 'mL';
+  const mlH = LANG === 'th' ? 'มล./ชม.' : 'mL/h';
+  const unit = LANG === 'th' ? 'ยูนิต' : 'units';
+
+  /* banner */
+  const banner = document.createElement('div');
+  banner.className = `result-banner ${sev >= 3 || cls === 'mixed' ? 'severe' : (sev === 2 ? 'moderate' : 'mild')}`;
+  const sevLabel = sev >= 3 ? DK.classify.sevSevere : (sev === 2 ? DK.classify.sevMod : DK.classify.sevMild);
+  banner.innerHTML = `<div class="tag">${t(sevLabel)} · ${dkaN(w, 1)} ${LANG === 'th' ? 'กก.' : 'kg'}</div>
+    <h2>${t(cls === 'mixed' ? DK.res.mixedBanner : DK.res.dkaBanner)}</h2>
+    <p>${t(cls === 'mixed' ? DK.classify.mixedSummary : DK.classify.dkaSummary)}</p>`;
+  wrap.appendChild(banner);
+
+  /* cerebral edema quick access */
+  const ceBtn = document.createElement('button');
+  ceBtn.className = 'restart-btn';
+  ceBtn.style.cssText = 'border-color:var(--sev-bd); background:var(--sev-bg); color:var(--sev-tx); margin-top:0; margin-bottom:14px;';
+  ceBtn.textContent = t(DK.res.ceButton);
+  ceBtn.onclick = () => dkaGoTo('cerebral');
+  wrap.appendChild(ceBtn);
+
+  /* calculated values */
+  spSectionCard(wrap, { h: DK.res.calcHeading, icon: '🧮', collapsible: true, openByDefault: true, customHtml: dkaCalcTableHtml(f) });
+
+  /* alerts */
+  const alerts = dkaAlerts(f);
+  if(alerts.length){
+    spSectionCard(wrap, { h: DK.res.alertHeading, icon: '⚠️', prominent: true, list: alerts });
+  }
+
+  /* step 1 — initial resuscitation */
+  const strategy = dkaInitialStrategy(f);
+  const step1 = [];
+  if(strategy === 'skip'){
+    step1.push(DK.res.step1MildNote);
+  } else {
+    step1.push(DK.res.airway);
+    if(strategy === 'shock'){
+      step1.push(dkaT(`Circulation: 0.9% NaCl 20 มล./กก. = ${dkaN(20 * w, 0)} ${ml} ทางหลอดเลือดดำใน 15 นาที ถ้ายังช็อกอยู่ให้ซ้ำได้`,
+        `Circulation: 0.9% NaCl 20 mL/kg = ${dkaN(20 * w, 0)} mL IV over 15 min; repeat if shock persists`));
+      step1.push(DK.res.step1ShockNote);
+    } else {
+      step1.push(dkaT(`Circulation: 0.9% NaCl 10–20 มล./กก. = ${dkaN(10 * w, 0)}–${dkaN(Math.min(20 * w, 1000), 0)} ${ml} ใน 30 นาที (ไม่เกิน 1,000 ${ml})`,
+        `Circulation: 0.9% NaCl 10–20 mL/kg = ${dkaN(10 * w, 0)}–${dkaN(Math.min(20 * w, 1000), 0)} mL over 30 min (maximum 1,000 mL)`));
+      step1.push(DK.res.step1NoShockNote);
+    }
+    step1.push(DK.res.intubationCaution);
+  }
+  spSectionCard(wrap, { h: DK.res.step1Heading, icon: '💧', prominent: true, list: step1 });
+
+  /* step 2 — subsequent fluid (interactive) */
+  const initialDefault = (f.initialGiven !== null) ? f.initialGiven : dkaDefaultInitial(f);
+  const fluidCard = document.createElement('div');
+  fluidCard.className = 'section-card prominent';
+  fluidCard.innerHTML = `
+    <h3 style="font-size:15px;">🧪 ${t(DK.res.step2Heading)}</h3>
+    <label class="field-label">${t(DK.res.initialGivenLabel)}</label>
+    <input class="num-input" id="dkaInitGiven" type="number" inputmode="decimal" min="0" max="5000" step="10" value="${initialDefault}">
+    <div class="field-unit">${t(DK.res.initialGivenHint)}</div>
+    <div id="dkaFluidBox" style="margin-top:12px;">${dkaFluidBoxHtml(f, initialDefault)}</div>
+    <ul style="margin-top:12px;">
+      <li>${t(DK.res.fluidTypeNote)}</li>
+      <li>${t(DK.res.balanceNote)}</li>
+      <li>${t(DK.res.noUrineReplaceNote)}</li>
+      <li>${t(DK.res.npoNote)}</li>
+    </ul>
+  `;
+  wrap.appendChild(fluidCard);
+
+  spSectionCard(wrap, { h: DK.dehyd.heading, icon: '📊', collapsible: true, customHtml: dkaDehydRefHtml() });
+
+  /* step 3 — insulin */
+  const rec = dkaInsulinDose(f);
+  const insulinRows = [0.03, 0.05, 0.1].map(d => ({
+    dose: `${d} ${LANG === 'th' ? 'ยูนิต/กก./ชม.' : 'unit/kg/h'}${d === rec ? (LANG === 'th' ? ' ← แนะนำ' : ' ← recommended') : ''}`,
+    rate: `${dkaN(d * w, 2)} ${mlH}`,
+    note: d === 0.03 ? t(dkaT('เด็กอายุ <5 ปี ที่เป็น mild DKA หรือผู้ที่ตอบสนองต่ออินซูลินดีมาก', 'Children under 5 years with mild DKA, or patients very sensitive to insulin'))
+      : (d === 0.05 ? t(dkaT('รายที่ไม่รุนแรง เช่น pH >7.15', 'Less severe cases, e.g. pH >7.15'))
+      : t(dkaT('Moderate ถึง severe DKA', 'Moderate to severe DKA')))
+  }));
+  const insulinCols = [
+    { key: 'dose', label: DK.res.insulinCols.dose },
+    { key: 'rate', label: DK.res.insulinCols.rate },
+    { key: 'note', label: DK.res.insulinCols.note }
+  ];
+  let insulinHtml = `<div style="font-size:12.5px; font-weight:600; margin-bottom:6px;">${t(DK.res.insulinRateHeading)}</div>` +
+    spTableHtml(insulinCols, insulinRows, dkaT('ความเข้มข้น 1 ยูนิต/มล. (RI 50 ยูนิต ใน 0.9% NaCl 50 มล.)', 'Concentration 1 unit/mL (RI 50 units in 50 mL of 0.9% NaCl)'));
+  if(f.k !== null && f.k < 3){
+    insulinHtml += `<div class="mini-note" style="background:var(--sev-bg); border-color:var(--sev-bd); color:var(--sev-tx);"><strong>${t(DK.res.insulinHoldK)}</strong></div>`;
+  }
+  spSectionCard(wrap, { h: DK.res.step3Heading, icon: '💉', prominent: true, customHtml: insulinHtml,
+    list: [DK.res.insulinTiming, DK.res.insulinPrep, DK.res.insulinNoBolus, DK.res.insulinAdjust] });
+  spSectionCard(wrap, { h: dkaT('ทางเลือกเมื่อไม่มี infusion pump', 'Option when no infusion pump is available'), icon: '🧷', collapsible: true, list: [DK.res.insulinSc] });
+
+  /* step 4 — potassium */
+  const kMaxMmolH = 0.5 * w;
+  const kMaxFluidRate = 12.5 * w;
+  const kRows = [
+    { item: dkaT('ความเข้มข้นใน IV fluid', 'Concentration in the IV fluid'), val: `40 ${LANG === 'th' ? 'มิลลิโมล/ลิตร' : 'mmol/L'}`,
+      note: dkaT('เริ่มพร้อมอินซูลิน หลัง initial fluid resuscitation', 'Start with insulin, after initial fluid resuscitation') },
+    { item: dkaT('อัตราสูงสุดของ K', 'Maximum potassium rate'), val: `${dkaN(kMaxMmolH, 2)} ${LANG === 'th' ? 'มิลลิโมล/ชม.' : 'mmol/h'}`,
+      note: dkaT('0.5 มิลลิโมล/กก./ชม.', '0.5 mmol/kg/h') },
+    { item: dkaT('อัตราสารน้ำสูงสุดที่ K 40 มิลลิโมล/ลิตร', 'Maximum fluid rate at K 40 mmol/L'), val: `${dkaN(kMaxFluidRate, 0)} ${mlH}`,
+      note: dkaT('ถ้าอัตราสารน้ำสูงกว่านี้ ต้องลดความเข้มข้นของ K ลง', 'If the fluid rate exceeds this, reduce the potassium concentration') }
+  ];
+  let kHtml = spTableHtml([
+    { key: 'item', label: DK.classify.calcCols.item },
+    { key: 'val', label: DK.classify.calcCols.val },
+    { key: 'note', label: DK.classify.calcCols.note }
+  ], kRows, null);
+
+  const planForCheck = dkaFluidPlan(f, initialDefault);
+  if(planForCheck.totalFirst > kMaxFluidRate){
+    kHtml += `<div class="mini-note" style="background:var(--mod-bg); border-color:var(--mod-bd); color:var(--mod-tx);">${LANG === 'th'
+      ? `อัตราสารน้ำที่วางแผนไว้ (${dkaN(planForCheck.totalFirst, 0)} ${mlH}) สูงกว่าอัตราสูงสุดที่ K 40 มิลลิโมล/ลิตร จะยังอยู่ในเกณฑ์ — ให้ลดความเข้มข้นของ K ลงเพื่อไม่ให้เกิน 0.5 มิลลิโมล/กก./ชม.`
+      : `The planned fluid rate (${dkaN(planForCheck.totalFirst, 0)} mL/h) exceeds the maximum compatible with 40 mmol/L — reduce the potassium concentration so the rate stays below 0.5 mmol/kg/h.`}</div>`;
+  }
+  spSectionCard(wrap, { h: DK.res.step4Heading, icon: '🧂', prominent: true, customHtml: kHtml,
+    list: [DK.res.kGeneral, DK.res.kConc, DK.res.kMaxRate, DK.res.kTypes, DK.res.kPhosCaution, DK.res.kClCaution, DK.res.kDuration] });
+
+  /* step 5 — bicarbonate */
+  const bicarbList = [DK.res.bicarbGeneral, DK.res.bicarbIndication];
+  if(f.ph !== null && f.ph < 6.9){
+    bicarbList.push(dkaT(`ผู้ป่วยรายนี้มี venous pH <6.9 — ถ้ามีช็อกหรือ cardiac contractility ไม่ดีร่วมด้วย ให้ NaHCO₃ 1–2 มิลลิโมล/กก. = ${dkaN(w, 1)}–${dkaN(2 * w, 1)} มิลลิโมล IV drip ช้าๆ ใน 1 ชม. เพียงครั้งเดียว และติดตาม ECG`,
+      `This patient has a venous pH below 6.9 — if shock or poor cardiac contractility is also present, give NaHCO₃ 1–2 mmol/kg = ${dkaN(w, 1)}–${dkaN(2 * w, 1)} mmol as a slow IV drip over 1 h, once only, with ECG monitoring.`));
+  }
+  spSectionCard(wrap, { h: DK.res.step5Heading, icon: '⚗️', collapsible: true, openByDefault: (f.ph !== null && f.ph < 6.9), list: bicarbList });
+
+  /* step 6 — monitoring */
+  const monList = DK.res.monItems.slice();
+  if(sev >= 3) monList.push(DK.res.monSevere);
+  monList.push(DK.res.icuNote);
+  spSectionCard(wrap, { h: DK.res.step6Heading, icon: '📈', list: monList });
+
+  /* step 7 — glucose targets */
+  const rescue = dkaT(
+    `ถ้าน้ำตาล <70 มก./ดล. ให้ 10% glucose 2 มล./กก. = ${dkaN(2 * w, 0)} ${ml} ฉีดเข้าหลอดเลือดดำทันที และเพิ่มความเข้มข้นของ dextrose ในสารน้ำ แต่ไม่หยุดอินซูลิน`,
+    `If glucose falls below 70 mg/dL, give 10% glucose 2 mL/kg = ${dkaN(2 * w, 0)} mL IV immediately and increase the dextrose concentration — but do not stop insulin.`);
+  spSectionCard(wrap, { h: DK.res.step7Heading, icon: '🍬', prominent: true,
+    list: [DK.res.glucRate, DK.res.glucAddD, DK.res.glucTarget, DK.res.glucLow, rescue] });
+
+  /* step 8 — resolution and transition */
+  const tddLow = w, tddHigh = 1.5 * w;
+  const transitionList = [
+    DK.res.resolution,
+    DK.res.resolutionHyperCl,
+    dkaT(`เริ่ม RI ฉีดใต้ผิวหนัง 0.25–0.5 ยูนิต/กก. = ${dkaN(0.25 * w, 1)}–${dkaN(0.5 * w, 1)} ${unit} แล้วหยุด insulin infusion หลังฉีดไป 1–2 ชม. จากนั้นให้ RI ใต้ผิวหนังทุก 6 ชม. ในวันแรก`,
+      `Give SC regular insulin 0.25–0.5 unit/kg = ${dkaN(0.25 * w, 1)}–${dkaN(0.5 * w, 1)} units, stop the infusion 1–2 h later, then continue SC RI every 6 h on the first day.`),
+    DK.res.transitionRapid,
+    dkaT(`TDD สำหรับผู้ป่วยวินิจฉัยใหม่ ประมาณ 1.0–1.5 ยูนิต/กก./วัน = ${dkaN(tddLow, 1)}–${dkaN(tddHigh, 1)} ${unit}/วัน (วัยรุ่นที่เข้าสู่วัยหนุ่มสาวแล้วอาจต้องการ 1.0–2.0 ยูนิต/กก./วัน = ${dkaN(w, 1)}–${dkaN(2 * w, 1)} ${unit}/วัน)`,
+      `TDD for a newly diagnosed patient is about 1.0–1.5 units/kg/day = ${dkaN(tddLow, 1)}–${dkaN(tddHigh, 1)} units/day (pubertal adolescents may need 1.0–2.0 units/kg/day = ${dkaN(w, 1)}–${dkaN(2 * w, 1)} units/day).`),
+    DK.res.tddBasalBolus,
+    DK.res.tddConventional,
+    DK.res.tddKnown
+  ];
+  spSectionCard(wrap, { h: DK.res.step8Heading, icon: '🔄', collapsible: true, list: transitionList });
+
+  /* mixed caution */
+  if(cls === 'mixed'){
+    spSectionCard(wrap, { h: DK.res.mixedHeading, icon: '🔀', prominent: true, list: DK.res.mixedItems });
+  }
+
+  /* trigger, complications, references */
+  spSectionCard(wrap, { h: DK.res.triggerHeading, icon: '🔎', collapsible: true, list: DK.res.triggerItems });
+  spSectionCard(wrap, { h: DK.res.ceWarnHeading, icon: '🧠', collapsible: true, list: DK.res.ceWarnItems.concat([DK.res.ceTiming, DK.res.ceHypoFirst]) });
+  spSectionCard(wrap, { h: DK.res.persistHeading, icon: '📉', collapsible: true, list: [DK.res.persistDef].concat(DK.res.persistItems) });
+  spSectionCard(wrap, { h: DK.res.otherCompHeading, icon: '🩺', collapsible: true, list: DK.res.otherCompItems });
+  spSectionCard(wrap, { h: DK.res.abwHeading, icon: '⚖️', collapsible: true, list: DK.res.abwItems });
+
+  dkaRestartBtn(wrap);
+  dkaRefFooter(wrap);
+  app.appendChild(wrap);
+
+  /* live recalculation of the fluid plan */
+  const initInput = document.getElementById('dkaInitGiven');
+  const fluidBox = document.getElementById('dkaFluidBox');
+  if(initInput && fluidBox){
+    initInput.addEventListener('input', () => {
+      const raw = initInput.value.trim();
+      const v = raw === '' ? 0 : Number(raw);
+      const safe = (!isFinite(v) || v < 0) ? 0 : Math.min(v, 5000);
+      f.initialGiven = safe;
+      fluidBox.innerHTML = dkaFluidBoxHtml(f, safe);
+    });
+  }
+}
+
+/* ---------------------------- result: HHS plan ---------------------------- */
+function dkaHhsResultView(app){
+  const f = dkaState.form;
+  const w = dkaCalcWeight(f);
+  const wrap = document.createElement('div');
+  const ml = LANG === 'th' ? 'มล.' : 'mL';
+  const mlH = LANG === 'th' ? 'มล./ชม.' : 'mL/h';
+
+  const banner = document.createElement('div');
+  banner.className = 'result-banner severe';
+  banner.innerHTML = `<div class="tag">HHS · ${dkaN(w, 1)} ${LANG === 'th' ? 'กก.' : 'kg'}</div>
+    <h2>${t(DK.res.hhsBanner)}</h2><p>${t(DK.classify.hhsSummary)}</p>`;
+  wrap.appendChild(banner);
+
+  const ceBtn = document.createElement('button');
+  ceBtn.className = 'restart-btn';
+  ceBtn.style.cssText = 'border-color:var(--sev-bd); background:var(--sev-bg); color:var(--sev-tx); margin-top:0; margin-bottom:14px;';
+  ceBtn.textContent = t(DK.res.ceButton);
+  ceBtn.onclick = () => dkaGoTo('cerebral');
+  wrap.appendChild(ceBtn);
+
+  spSectionCard(wrap, { h: DK.res.calcHeading, icon: '🧮', collapsible: true, openByDefault: true, customHtml: dkaCalcTableHtml(f) });
+
+  const alerts = dkaAlerts(f);
+  if(alerts.length) spSectionCard(wrap, { h: DK.res.alertHeading, icon: '⚠️', prominent: true, list: alerts });
+
+  spSectionCard(wrap, { h: dkaT('หลักการสำคัญ', 'Key principles'), icon: '📌', prominent: true, list: [DK.res.hhsIcu, DK.res.hhsKeyDiff] });
+
+  const bolus = Math.min(20 * w, 1000);
+  const defLow = 120 * w, defHigh = 150 * w;
+  spSectionCard(wrap, { h: DK.res.hhsFluidHeading, icon: '💧', prominent: true, list: [
+    dkaT(`Initial bolus: 0.9% NaCl 20 มล./กก. = ${dkaN(bolus, 0)} ${ml} ใน 30 นาที (ไม่เกิน 1,000 ${ml}) ให้ซ้ำได้ถ้า perfusion ยังไม่ดี`,
+      `Initial bolus: 0.9% NaCl 20 mL/kg = ${dkaN(bolus, 0)} mL over 30 min (maximum 1,000 mL), repeated if perfusion remains poor.`),
+    dkaT(`Fluid deficit 12–15% = ${dkaN(defLow, 0)}–${dkaN(defHigh, 0)} ${ml}`,
+      `Fluid deficit of 12–15% = ${dkaN(defLow, 0)}–${dkaN(defHigh, 0)} mL.`),
+    DK.res.hhsFluidType,
+    DK.res.hhsNaGoal,
+    DK.res.hhsGlucGoal,
+    DK.res.hhsUrineReplace
+  ] });
+
+  const insulinRows = [0.025, 0.05].map(d => ({
+    dose: `${d} ${LANG === 'th' ? 'ยูนิต/กก./ชม.' : 'unit/kg/h'}`,
+    rate: `${dkaN(d * w, 2)} ${mlH}`,
+    note: LANG === 'th' ? 'เป้าหมายน้ำตาลลดลง 50–75 มก./ดล./ชม.' : 'Target glucose fall of 50–75 mg/dL/h'
+  }));
+  const insulinHtml = spTableHtml([
+    { key: 'dose', label: DK.res.insulinCols.dose },
+    { key: 'rate', label: DK.res.insulinCols.rate },
+    { key: 'note', label: DK.res.insulinCols.note }
+  ], insulinRows, dkaT('ความเข้มข้น 1 ยูนิต/มล. (RI 50 ยูนิต ใน 0.9% NaCl 50 มล.)', 'Concentration 1 unit/mL (RI 50 units in 50 mL of 0.9% NaCl)'));
+  spSectionCard(wrap, { h: DK.res.hhsInsulinHeading, icon: '💉', prominent: true, customHtml: insulinHtml,
+    list: [DK.res.hhsInsulinStart, DK.res.hhsInsulinDose, DK.res.hhsInsulinEarly] });
+
+  spSectionCard(wrap, { h: DK.dehyd.heading, icon: '📊', collapsible: true, customHtml: dkaDehydRefHtml() });
+  spSectionCard(wrap, { h: DK.res.hhsKHeading, icon: '🧂', list: [DK.res.hhsK] });
+  spSectionCard(wrap, { h: DK.res.hhsBicarbHeading, icon: '🚫', list: [DK.res.hhsBicarb] });
+  spSectionCard(wrap, { h: DK.res.hhsElectrolyteHeading, icon: '⚗️', list: [
+    DK.res.hhsPhos,
+    dkaT(`Severe hypomagnesemia (<1 มก./ดล.) ร่วมกับ hypocalcemia: ให้ magnesium 25–50 มก./กก./ครั้ง = ${dkaN(25 * w, 0)}–${dkaN(50 * w, 0)} มก./ครั้ง ทุก 4–6 ชม. จำนวน 3–4 ครั้ง อัตราสูงสุดไม่เกิน 2 กรัม/ชม.`,
+      `Severe hypomagnesaemia (<1 mg/dL) with hypocalcaemia: magnesium 25–50 mg/kg/dose = ${dkaN(25 * w, 0)}–${dkaN(50 * w, 0)} mg/dose every 4–6 h for 3–4 doses, at a maximum rate of 2 g/h.`)
+  ] });
+  spSectionCard(wrap, { h: DK.res.hhsCompHeading, icon: '🩺', list: [DK.res.hhsComp] });
+  spSectionCard(wrap, { h: DK.res.step6Heading, icon: '📈', collapsible: true, list: DK.res.monItems });
+  spSectionCard(wrap, { h: DK.res.triggerHeading, icon: '🔎', collapsible: true, list: DK.res.triggerItems });
+  spSectionCard(wrap, { h: DK.res.ceWarnHeading, icon: '🧠', collapsible: true, list: DK.res.ceWarnItems.concat([DK.res.ceTiming, DK.res.ceHypoFirst]) });
+  spSectionCard(wrap, { h: DK.res.abwHeading, icon: '⚖️', collapsible: true, list: DK.res.abwItems });
+
+  dkaRestartBtn(wrap);
+  dkaRefFooter(wrap);
+  app.appendChild(wrap);
+}
+
+/* ---------------------------- screen: cerebral edema ---------------------------- */
+function dkaCerebralView(app){
+  spHeader(app, t(DK.refBadge));
+  const f = dkaState.form;
+  const w = dkaCalcWeight(f);
+  const v = dkaCeVerdict(f);
+  const wrap = document.createElement('div');
+  const ml = LANG === 'th' ? 'มล.' : 'mL';
+  const g = LANG === 'th' ? 'กรัม' : 'g';
+
+  const back = document.createElement('button');
+  back.className = 'top-back-link';
+  back.textContent = t(DK.ce.backToPlan);
+  back.onclick = () => dkaGoTo('result');
+  wrap.appendChild(back);
+
+  const card = document.createElement('div');
+  card.className = 'q-card';
+  function group(heading, items){
+    return `<div style="font-size:12.5px; font-weight:600; color:var(--pink-600); margin:14px 0 8px;">${t(heading)}</div>
+      <div class="opt-list">${items.map(it => {
+        const sel = f.ce.includes(it.key) ? 'selected' : '';
+        return `<button class="opt-btn ${sel}" data-ce="${it.key}"><span class="chk">${sel ? '✓' : ''}</span>${t(it.label)}</button>`;
+      }).join('')}</div>`;
+  }
+  card.innerHTML = `
+    <div class="q-text">${t(DK.ce.heading)}</div>
+    <div class="q-hint">${t(DK.ce.hint)}</div>
+    ${group(DK.ce.diagHeading, DK.ce.diagItems)}
+    ${group(DK.ce.majorHeading, DK.ce.majorItems)}
+    ${group(DK.ce.minorHeading, DK.ce.minorItems)}
+    <div class="field-unit" style="margin-top:12px;">${t(DK.ce.countLabel)}: ${LANG === 'th' ? 'เกณฑ์สำคัญ' : 'diagnostic'} ${v.d} · ${LANG === 'th' ? 'เกณฑ์หลัก' : 'major'} ${v.m} · ${LANG === 'th' ? 'เกณฑ์รอง' : 'minor'} ${v.n}</div>
+  `;
+  wrap.appendChild(card);
+
+  const banner = document.createElement('div');
+  banner.className = `result-banner ${v.positive ? 'severe' : 'info'}`;
+  banner.style.marginTop = '16px';
+  banner.innerHTML = `<h2>${t(v.positive ? DK.ce.positiveTitle : DK.ce.negativeTitle)}</h2><p>${t(v.positive ? DK.ce.positiveSummary : DK.ce.negativeSummary)}</p>`;
+  wrap.appendChild(banner);
+
+  spSectionCard(wrap, { h: DK.ce.mgmtHeading, icon: '🧠', prominent: true, list: DK.ce.mgmtItems });
+
+  const drugRows = [
+    { item: '20% mannitol', val: `${dkaN(0.5 * w, 1)}–${dkaN(w, 1)} ${g} (${dkaN(2.5 * w, 0)}–${dkaN(5 * w, 0)} ${ml})`,
+      note: LANG === 'th' ? '0.5–1 กรัม/กก. ฉีดเข้าหลอดเลือดดำใน 10–15 นาที' : '0.5–1 g/kg IV over 10–15 min' },
+    { item: '3% NaCl', val: `${dkaN(2.5 * w, 0)}–${dkaN(5 * w, 0)} ${ml}`,
+      note: LANG === 'th' ? '2.5–5 มล./กก. ฉีดเข้าหลอดเลือดดำใน 10–15 นาที' : '2.5–5 mL/kg IV over 10–15 min' }
+  ];
+  const drugHtml = spTableHtml([
+    { key: 'item', label: dkaT('ยา', 'Drug') },
+    { key: 'val', label: dkaT('ขนาดสำหรับผู้ป่วยรายนี้', 'Dose for this patient') },
+    { key: 'note', label: dkaT('วิธีให้', 'Administration') }
+  ], drugRows, null);
+  spSectionCard(wrap, { h: DK.ce.drugHeading, icon: '💊', prominent: true, customHtml: drugHtml, list: [DK.ce.drugNote] });
+
+  spSectionCard(wrap, { h: DK.res.ceWarnHeading, icon: '⚠️', collapsible: true, list: DK.res.ceWarnItems.concat([DK.res.ceTiming, DK.res.ceHypoFirst]) });
+
+  const backBtn2 = document.createElement('button');
+  backBtn2.className = 'restart-btn';
+  backBtn2.textContent = t(DK.ce.backToPlan);
+  backBtn2.onclick = () => dkaGoTo('result');
+  wrap.appendChild(backBtn2);
+  dkaRefFooter(wrap);
+  app.appendChild(wrap);
+
+  card.querySelectorAll('[data-ce]').forEach(btn => {
+    btn.onclick = () => {
+      const key = btn.getAttribute('data-ce');
+      f.ce = f.ce.includes(key) ? f.ce.filter(x => x !== key) : f.ce.concat([key]);
+      render();
+    };
+  });
+}
+
+/* ---------------------------- render ---------------------------- */
+function dkaRender(){
+  const app = document.getElementById('app');
+  app.innerHTML = '';
+  const backBtn = document.createElement('button');
+  backBtn.className = 'top-back-link';
+  backBtn.textContent = t(UI.backToMainHome);
+  backBtn.onclick = goMainHome;
+  app.appendChild(backBtn);
+
+  if(dkaState.screen === 'patient') dkaPatientView(app);
+  else if(dkaState.screen === 'labs') dkaLabsView(app);
+  else if(dkaState.screen === 'classify') dkaClassifyView(app);
+  else if(dkaState.screen === 'shock') dkaShockView(app);
+  else if(dkaState.screen === 'mods') dkaModsView(app);
+  else if(dkaState.screen === 'result') dkaResultView(app);
+  else if(dkaState.screen === 'cerebral') dkaCerebralView(app);
+}
+
+
+/* ============================================================================
    TOP-LEVEL APP ROUTER (main home + 4 categories: respiratory / fever / syphilis / diarrhea)
    ============================================================================ */
 let topState = { screen:'home' };
@@ -8127,6 +9484,7 @@ function selectCategory(cat){
   else if(cat==='uti'){ utResetAll(); }
   else if(cat==='anaphylaxis'){ anResetAll(); }
   else if(cat==='statusepilepticus'){ seResetAll(); }
+  else if(cat==='dka'){ dkaResetAll(); }
   else if(cat==='newborn'){ /* handled by nbRenderHome, no wizard state to reset */ }
   if(cat!=='newborn'){ logModuleView(cat); }
   scrollToTop();
@@ -8137,6 +9495,7 @@ const CATEGORIES = [
   { id:'anaphylaxis', icon:'🐝', group:'urgent', name:{th:'Anaphylaxis', en:'Anaphylaxis'}, short:{th:'การแพ้ชนิดรุนแรง · วินิจฉัย · ขนาดยาตามน้ำหนัก', en:'Severe allergic reaction · diagnosis · weight-based dosing'}, keywords:'anaphylaxis แพ้ชนิดรุนแรง แพ้รุนแรง ผื่นแพ้ epinephrine อีพิเนฟริน ภูมิแพ้' },
   { id:'sepsis', icon:'🚨', group:'urgent', name:{th:'Sepsis / Septic Shock', en:'Sepsis / Septic Shock'}, short:{th:'คัดกรอง · แยกระดับความรุนแรง · แผนการรักษา', en:'Screen · classify severity · management plan'}, keywords:'sepsis septic shock ติดเชื้อในกระแสเลือด ภาวะพิษเหตุติดเชื้อ ช็อก ช้อค' },
   { id:'statusepilepticus', icon:'🧠', group:'urgent', name:{th:'Status Epilepticus', en:'Status Epilepticus'}, short:{th:'Status epilepticus ในเด็ก · ระยะ initial ถึง established', en:'Status epilepticus in children · initial to established stage'}, keywords:'status epilepticus se ชัก ชักต่อเนื่อง ลมชัก seizure convulsion อาการชัก' },
+  { id:'dka', icon:'🍬', group:'urgent', name:{th:'DKA / HHS', en:'DKA / HHS'}, short:{th:'จำแนกความรุนแรง · คำนวณสารน้ำ อินซูลิน โพแทสเซียม', en:'Classify severity · calculate fluids, insulin, potassium'}, keywords:'dka hhs diabetic ketoacidosis คีโตซิส คีโทน ketone เบาหวาน diabetes น้ำตาลสูง hyperglycemia hyperglycemic hyperosmolar อินซูลิน insulin ภาวะเลือดเป็นกรด' },
   { id:'diarrhea', icon:'💧', group:'common', name:{th:'Acute Diarrhea', en:'Acute Diarrhea'}, short:{th:'ประเมินภาวะขาดน้ำและการรักษา', en:'Dehydration assessment & management'}, keywords:'diarrhea ท้องเสีย ท้องร่วง ถ่ายเหลว ขาดน้ำ dehydration' },
   { id:'fever', icon:'🌡️', group:'common', name:{th:'Fever Without Source', en:'Fever Without Source'}, short:{th:'อายุ 0–3 ปี · ประเมินความเสี่ยง SBI', en:'Age 0–3y · SBI risk assessment'}, keywords:'fever ไข้ ไข้สูง ตัวร้อน sbi fws' },
   { id:'meningoencephalitis', icon:'🧠', group:'common', name:{th:'Meningoencephalitis', en:'Meningoencephalitis'}, short:{th:'ประเมิน LP · ผล CSF · ยาปฏิชีวนะ', en:'LP work-up · CSF result · antibiotics'}, keywords:'meningoencephalitis meningitis encephalitis เยื่อหุ้มสมองอักเสบ สมองอักเสบ เยื่อหุ้มสมองอักเสบ csf lp เจาะหลัง' },
@@ -8312,6 +9671,7 @@ function render(){
   if(topState.screen==='anaphylaxis'){ anRender(); return; }
   if(topState.screen==='statusepilepticus'){ seRender(); return; }
   if(topState.screen==='jaundice'){ jaRender(); return; }
+  if(topState.screen==='dka'){ dkaRender(); return; }
 }
 
 render();
