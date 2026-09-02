@@ -4165,6 +4165,8 @@ const SP = {
 
   /* ---------- Step 0: Method choice ---------- */
   method:{
+    goTreat:{th:'🚨 ดูแนวทางการรักษา Septic Shock', en:'🚨 View septic shock treatment pathway'},
+    goScreen:{th:'🔍 ช่วยคัดกรอง Sepsis / Septic Shock', en:'🔍 Help me screen for sepsis / septic shock'},
     heading:{th:'เลือกวิธีคัดกรอง Sepsis', en:'Choose a sepsis screening method'},
     hint:{th:'เลือกเครื่องมือที่จะใช้ประเมินผู้ป่วยรายนี้', en:'Choose which tool to use for this patient'},
     mpews:{th:'mPEWS (Modified Pediatric Early Warning Score)', en:'mPEWS (Modified Pediatric Early Warning Score)'},
@@ -4621,6 +4623,13 @@ function spInitialForm(){
 let spState = { screen:'method', form: spInitialForm() };
 function spResetAll(){ spState = { screen:'method', form: spInitialForm() }; }
 function spGoTo(s){ spState.screen = s; scrollToTop(); render(); }
+function spGoDirectShock(){
+  spState = { screen:'result', form: spInitialForm() };
+  spState.form.method = 'mpews';
+  spState.form.organ.cv = true;
+  scrollToTop();
+  render();
+}
 
 function spGetAgeBand(f){
   if(!f.ageBand) return null;
@@ -4697,10 +4706,18 @@ function spMethodView(app){
   scope.textContent = t(SP.scopeNote);
   app.appendChild(scope);
 
+  const directBtn = document.createElement('button');
+  directBtn.className = 'btn btn-primary';
+  directBtn.style.width = '100%';
+  directBtn.style.marginBottom = '14px';
+  directBtn.textContent = t(SP.method.goTreat);
+  directBtn.onclick = spGoDirectShock;
+  app.appendChild(directBtn);
+
   const card = document.createElement('div');
   card.className='q-card';
   card.innerHTML = `
-    <div class="q-text">${t(SP.method.heading)}</div>
+    <div class="q-text">${t(SP.method.goScreen)}</div>
     <div class="q-hint">${t(SP.method.hint)}</div>
     <div class="opt-list" style="margin-top:10px;">
       <button data-val="mpews" style="text-align:left; width:100%; cursor:pointer; font-family:'Sarabun',sans-serif; border:2px solid var(--pink-500); background:var(--pink-100); border-radius:13px; padding:14px 16px; position:relative;">
@@ -7085,8 +7102,6 @@ function anSbpLow(f){
   if(th===null || f.sbp===null) return false;
   return f.sbp < th;
 }
-function anIsAdultSize(f){ return f.wt !== null && f.wt >= 35; }
-
 /* Diagnostic criteria — Table 3 */
 function anCriteria(f){
   const s = f.systems;
@@ -7100,24 +7115,31 @@ function anCriteria(f){
 }
 
 /* Weight-based dose strings */
+function anAdultSuffix(f, th, en){
+  if(f.wt === null || f.wt < 35) return {th:'', en:''};
+  return {th: ' (ทางเลือกขนาดผู้ใหญ่: ' + th + ')', en: ' (adult dose option: ' + en + ')'};
+}
+function anRangeOrSingle(lo, hi, unitTh, unitEn){
+  if(lo === hi) return {th: lo + ' ' + unitTh, en: hi + ' ' + unitEn};
+  return {th: lo + '–' + hi + ' ' + unitTh, en: lo + '–' + hi + ' ' + unitEn};
+}
 function anEpiImDose(f){
   const wt = f.wt;
-  if(anIsAdultSize(f)) return {th:'0.3–0.5 มล. (0.3–0.5 มก.) IM', en:'0.3–0.5 mL (0.3–0.5 mg) IM'};
   const raw = wt * 0.01;
   const v = Math.min(raw, 0.3);
   const capped = raw > 0.3;
   const num = anNum(v, 2);
+  const adult = anAdultSuffix(f, '0.2–0.5 มล. (0.3 มล. หากน้ำหนักตัวปกติหรือตั้งครรภ์)', '0.2–0.5 mL (0.3 mL if normal weight or pregnant)');
   return {
-    th: num + ' มล. (' + num + ' มก.) IM' + (capped ? ' — ขนาดสูงสุดในเด็ก' : ''),
-    en: num + ' mL (' + num + ' mg) IM' + (capped ? ' — maximum pediatric dose' : '')
+    th: num + ' มล. (' + num + ' มก.) IM' + (capped ? ' — ขนาดสูงสุดในเด็ก' : '') + adult.th,
+    en: num + ' mL (' + num + ' mg) IM' + (capped ? ' — maximum pediatric dose' : '') + adult.en
   };
 }
 function anFluidDose(f){
   const lo = anNum(f.wt * 10, 0), hi = anNum(f.wt * 20, 0);
   return {th: lo + '–' + hi + ' มล. IV ภายใน 5–10 นาที', en: lo + '–' + hi + ' mL IV over 5–10 min'};
 }
-function anCapped(f, perKg, childMax, adultDose, unit){
-  if(anIsAdultSize(f)) return adultDose;
+function anCapped(f, perKg, childMax, unit){
   const raw = f.wt * perKg;
   const v = childMax !== null ? Math.min(raw, childMax) : raw;
   const num = anNum(v, 2);
@@ -7126,39 +7148,45 @@ function anCapped(f, perKg, childMax, adultDose, unit){
 const AN_MG = {th:'มก.', en:'mg'};
 
 function anCpmDose(f){
-  const d = anCapped(f, 0.25, 5, {th:'10 มก.', en:'10 mg'}, AN_MG);
-  return {th: d.th + ' IV/IM ทุก 6 ชม. (ในเด็กสูงสุด 2.5–5 มก.)', en: d.en + ' IV/IM every 6 h (child max 2.5–5 mg)'};
+  const d = anCapped(f, 0.25, 5, AN_MG);
+  const adult = anAdultSuffix(f, '10 มก.', '10 mg');
+  return {th: d.th + ' IV/IM ทุก 6 ชม. (ในเด็กสูงสุด 2.5–5 มก.)' + adult.th, en: d.en + ' IV/IM every 6 h (child max 2.5–5 mg)' + adult.en};
 }
 function anDiphenDose(f){
-  const d = anCapped(f, 1, 50, {th:'25–50 มก.', en:'25–50 mg'}, AN_MG);
-  return {th: d.th + ' IV ทุก 6 ชม.', en: d.en + ' IV every 6 h'};
+  const d = anCapped(f, 1, 50, AN_MG);
+  const adult = anAdultSuffix(f, '25–50 มก.', '25–50 mg');
+  return {th: d.th + ' IV ทุก 6 ชม.' + adult.th, en: d.en + ' IV every 6 h' + adult.en};
 }
 function anRanitidineDose(f){
-  const d = anCapped(f, 1, 50, {th:'50 มก.', en:'50 mg'}, AN_MG);
-  return {th: d.th + ' IV ทุก 8 ชม. (ผสม 5% dextrose ให้ได้ 20 มล. ฉีดช้า ๆ ใน 5 นาที)', en: d.en + ' IV every 8 h (dilute in 5% dextrose to 20 mL, give slowly over 5 min)'};
+  const d = anCapped(f, 1, 50, AN_MG);
+  const adult = anAdultSuffix(f, '50 มก.', '50 mg');
+  return {th: d.th + ' IV ทุก 8 ชม. (ผสม 5% dextrose ให้ได้ 20 มล. ฉีดช้า ๆ ใน 5 นาที)' + adult.th, en: d.en + ' IV every 8 h (dilute in 5% dextrose to 20 mL, give slowly over 5 min)' + adult.en};
 }
 function anCimetidineDose(f){
-  const d = anCapped(f, 4, null, {th:'—', en:'—'}, AN_MG);
+  const d = anCapped(f, 4, null, AN_MG);
   return {th: d.th + ' IV ทุก 6 ชม. — ฉีดช้า ๆ', en: d.en + ' IV every 6 h — give slowly'};
 }
 function anMethylpredDose(f){
-  if(anIsAdultSize(f)) return {th:'50–100 มก. IV/IM ทุก 6 ชม.', en:'50–100 mg IV/IM every 6 h'};
   const lo = anNum(Math.min(f.wt * 1, 50), 1), hi = anNum(Math.min(f.wt * 2, 50), 1);
-  return {th: lo + '–' + hi + ' มก. IV/IM ทุก 6 ชม. (สูงสุด 50 มก.)', en: lo + '–' + hi + ' mg IV/IM every 6 h (max 50 mg)'};
+  const base = anRangeOrSingle(lo, hi, 'มก.', 'mg');
+  const adult = anAdultSuffix(f, '50–100 มก.', '50–100 mg');
+  return {th: base.th + ' IV/IM ทุก 6 ชม. (สูงสุด 50 มก.)' + adult.th, en: base.en + ' IV/IM every 6 h (max 50 mg)' + adult.en};
 }
 function anHydrocortisoneDose(f){
-  if(anIsAdultSize(f)) return {th:'200 มก. IV/IM ทุก 6 ชม.', en:'200 mg IV/IM every 6 h'};
   const lo = anNum(Math.min(f.wt * 4, 100), 1), hi = anNum(Math.min(f.wt * 8, 100), 1);
-  return {th: lo + '–' + hi + ' มก. IV/IM ทุก 6 ชม. (สูงสุด 100 มก.)', en: lo + '–' + hi + ' mg IV/IM every 6 h (max 100 mg)'};
+  const base = anRangeOrSingle(lo, hi, 'มก.', 'mg');
+  const adult = anAdultSuffix(f, '200 มก.', '200 mg');
+  return {th: base.th + ' IV/IM ทุก 6 ชม. (สูงสุด 100 มก.)' + adult.th, en: base.en + ' IV/IM every 6 h (max 100 mg)' + adult.en};
 }
 function anDexaDose(f){
-  const d = anCapped(f, 0.6, 16, {th:'16 มก.', en:'16 mg'}, AN_MG);
+  const d = anCapped(f, 0.6, 16, AN_MG);
   return {th: d.th + ' IV/IM วันละครั้ง', en: d.en + ' IV/IM once daily'};
 }
 function anPrednisoloneDose(f){
-  if(anIsAdultSize(f)) return {th:'30–50 มก./วัน PO แบ่งให้ 2–3 ครั้ง', en:'30–50 mg/day PO in 2–3 divided doses'};
   const lo = anNum(Math.min(f.wt * 1, 40), 1), hi = anNum(Math.min(f.wt * 2, 40), 1);
-  return {th: lo + '–' + hi + ' มก./วัน PO แบ่งให้ 2–3 ครั้ง (สูงสุด 40 มก./วัน)', en: lo + '–' + hi + ' mg/day PO in 2–3 divided doses (max 40 mg/day)'};
+  const base = anRangeOrSingle(lo, hi, 'มก./วัน', 'mg/day');
+  const adult = anAdultSuffix(f, '30–50 มก./วัน', '30–50 mg/day');
+  return {th: base.th + ' PO แบ่งให้ 2–3 ครั้ง (สูงสุด 40 มก./วัน)' + adult.th, en: base.en + ' PO in 2–3 divided doses (max 40 mg/day)' + adult.en};
 }
 function anSalbutamolDose(f){
   const raw = f.wt * 0.03;
@@ -7169,10 +7197,10 @@ function anSalbutamolDose(f){
   };
 }
 function anEpiBolusDose(f){
-  if(anIsAdultSize(f)) return {th:'1 มก. IV bolus', en:'1 mg IV bolus'};
   const mg = anNum(f.wt * 0.01, 2);
   const ml = anNum(f.wt * 0.1, 1);
-  return {th: mg + ' มก. IV bolus — เจือจางเป็น 1:10,000 เท่ากับ ' + ml + ' มล.', en: mg + ' mg IV bolus — diluted to 1:10,000 equals ' + ml + ' mL'};
+  const adult = anAdultSuffix(f, '1 มก.', '1 mg');
+  return {th: mg + ' มก. IV bolus — เจือจางเป็น 1:10,000 เท่ากับ ' + ml + ' มล.' + adult.th, en: mg + ' mg IV bolus — diluted to 1:10,000 equals ' + ml + ' mL' + adult.en};
 }
 function anDripPrepText(f){
   const mg = anNum(f.wt * 0.6, 2);
@@ -7186,15 +7214,16 @@ function anDopamineDose(f){
   return {th: '2–20 มคก./กก./นาที (= ' + lo + '–' + hi + ' มคก./นาที) ปรับตามความดันโลหิต', en: '2–20 mcg/kg/min (= ' + lo + '–' + hi + ' mcg/min), titrated to blood pressure'};
 }
 function anAtropineDose(f){
-  if(anIsAdultSize(f)) return {th:'0.5 มก./ครั้ง IV ซ้ำได้ทุก 3–5 นาที (รวมไม่เกิน 3 มก.)', en:'0.5 mg/dose IV, repeat every 3–5 min (max total 3 mg)'};
   const raw = f.wt * 0.02;
   const v = Math.min(Math.max(raw, 0.1), 0.5);
-  return {th: anNum(v, 2) + ' มก. IV — ให้ซ้ำได้ 1 ครั้ง (ต่ำสุด 0.1 มก. สูงสุด 0.5 มก.)', en: anNum(v, 2) + ' mg IV — may repeat once (min 0.1 mg, max 0.5 mg)'};
+  const adult = anAdultSuffix(f, '0.5 มก./ครั้ง ซ้ำได้ทุก 3–5 นาที รวมไม่เกิน 3 มก.', '0.5 mg/dose, repeat every 3–5 min, max total 3 mg');
+  return {th: anNum(v, 2) + ' มก. IV — ให้ซ้ำได้ 1 ครั้ง (ต่ำสุด 0.1 มก. สูงสุด 0.5 มก.)' + adult.th, en: anNum(v, 2) + ' mg IV — may repeat once (min 0.1 mg, max 0.5 mg)' + adult.en};
 }
 function anGlucagonDose(f){
-  if(anIsAdultSize(f)) return {th:'1–5 มก./ครั้ง IV ฉีดช้า ๆ ใน 5 นาที แล้วต่อด้วย 5–15 มคก./นาที IV drip', en:'1–5 mg/dose IV slowly over 5 min, then 5–15 mcg/min IV infusion'};
   const lo = anNum(Math.min(f.wt * 20, 1000), 0), hi = anNum(Math.min(f.wt * 30, 1000), 0);
-  return {th: lo + '–' + hi + ' มคก. IV ฉีดช้า ๆ ใน 5 นาที (สูงสุด 1 มก.) แล้วต่อด้วย 5–15 มคก./นาที IV drip', en: lo + '–' + hi + ' mcg IV slowly over 5 min (max 1 mg), then 5–15 mcg/min IV infusion'};
+  const base = anRangeOrSingle(lo, hi, 'มคก.', 'mcg');
+  const adult = anAdultSuffix(f, '1–5 มก.', '1–5 mg');
+  return {th: base.th + ' IV ฉีดช้า ๆ ใน 5 นาที (สูงสุด 1 มก.) แล้วต่อด้วย 5–15 มคก./นาที IV drip' + adult.th, en: base.en + ' IV slowly over 5 min (max 1 mg), then 5–15 mcg/min IV infusion' + adult.en};
 }
 
 /* ---------- Views ---------- */
@@ -8041,6 +8070,10 @@ const CATEGORY_DISCLAIMERS = {
     th:'เครื่องมือนี้จัดทำขึ้นเพื่อสนับสนุนการตัดสินใจทางคลินิกของบุคลากรทางการแพทย์ โดยอ้างอิง (1) แนวทางเวชปฏิบัติการดูแลรักษาภาวะตัวเหลืองในทารกแรกเกิด พ.ศ. 2568 ชมรมเวชศาสตร์ทารกแรกเกิดแห่งประเทศไทย (ตารางที่ 5.1–5.5 และรูปที่ 1–4) และ (2) Kemper AR, Newman TB, Slaughter JL, et al. Clinical Practice Guideline Revision: Management of Hyperbilirubinemia in the Newborn Infant 35 or More Weeks of Gestation. Pediatrics 2022;150(3):e2022058859 (American Academy of Pediatrics)',
     en:'This tool is intended to support the clinical decision-making of healthcare professionals, based on (1) the Clinical Practice Guideline for the Management of Neonatal Jaundice 2025 (Thai Neonatal Society), Tables 5.1–5.5 and Figures 1–4, and (2) Kemper AR, Newman TB, Slaughter JL, et al. Clinical Practice Guideline Revision: Management of Hyperbilirubinemia in the Newborn Infant 35 or More Weeks of Gestation. Pediatrics 2022;150(3):e2022058859 (American Academy of Pediatrics).'
   },
+  newborn:{
+    th:'เครื่องมือนี้จัดทำขึ้นเพื่อสนับสนุนการตัดสินใจทางคลินิกของบุคลากรทางการแพทย์ โดยอ้างอิง (1) CDC Sexually Transmitted Infections Treatment Guidelines, 2021 (Congenital Syphilis section) (2) Puopolo KM, Benitz WE, Zaoutis TE. Management of Neonates Born at ≤34 6/7 Weeks’ Gestation With Suspected or Proven Early-Onset Bacterial Sepsis. Pediatrics 2018 (American Academy of Pediatrics) ร่วมกับแนวทาง Neonatal Early Onset Sepsis (EOS) Guideline หน่วยทารกแรกเกิด ภาควิชากุมารเวชศาสตร์ คณะแพทยศาสตร์โรงพยาบาลรามาธิบดี สำหรับทารก GA ≥35 สัปดาห์ และ Neonatal Early-Onset Sepsis Calculator (Kaiser Permanente) และ (3) แนวทางเวชปฏิบัติการดูแลรักษาภาวะตัวเหลืองในทารกแรกเกิด พ.ศ. 2568 ชมรมเวชศาสตร์ทารกแรกเกิดแห่งประเทศไทย ร่วมกับ Kemper AR, Newman TB, Slaughter JL, et al. Clinical Practice Guideline Revision: Management of Hyperbilirubinemia in the Newborn Infant 35 or More Weeks of Gestation. Pediatrics 2022;150(3):e2022058859 (American Academy of Pediatrics)',
+    en:'This tool is intended to support the clinical decision-making of healthcare professionals, based on (1) the CDC Sexually Transmitted Infections Treatment Guidelines, 2021 (Congenital Syphilis section); (2) Puopolo KM, Benitz WE, Zaoutis TE. Management of Neonates Born at ≤34 6/7 Weeks’ Gestation With Suspected or Proven Early-Onset Bacterial Sepsis. Pediatrics 2018 (American Academy of Pediatrics), together with the Neonatal Early Onset Sepsis (EOS) Guideline of the Division of Neonatology, Department of Pediatrics, Ramathibodi Hospital, for infants ≥35 weeks’ gestation, and the Neonatal Early-Onset Sepsis Calculator (Kaiser Permanente); and (3) the Clinical Practice Guideline for the Management of Neonatal Jaundice 2025 (Thai Neonatal Society), together with Kemper AR, Newman TB, Slaughter JL, et al. Clinical Practice Guideline Revision: Management of Hyperbilirubinemia in the Newborn Infant 35 or More Weeks of Gestation. Pediatrics 2022;150(3):e2022058859 (American Academy of Pediatrics).'
+  },
   uti:{
     th:'เครื่องมือนี้จัดทำขึ้นเพื่อสนับสนุนการตัดสินใจทางคลินิกของบุคลากรทางการแพทย์ โดยอ้างอิงแนวทางเวชปฏิบัติโรคติดเชื้อทางเดินปัสสาวะในผู้ป่วยเด็กอายุ 2 เดือนถึง 5 ปี พ.ศ. 2565 ชมรมโรคไตเด็กแห่งประเทศไทย ราชวิทยาลัยกุมารแพทย์แห่งประเทศไทย',
     en:'This tool is intended to support the clinical decision-making of healthcare professionals, based on the Clinical Practice Guideline for Urinary Tract Infection in Children Aged 2 Months to 5 Years 2022, Thai Pediatric Nephrology Society, Royal College of Pediatricians of Thailand.'
@@ -8095,17 +8128,17 @@ function selectCategory(cat){
 }
 
 const CATEGORIES = [
-  { id:'anaphylaxis', icon:'🐝', group:'urgent', name:{th:'Anaphylaxis', en:'Anaphylaxis'}, short:{th:'การแพ้ชนิดรุนแรง · วินิจฉัย · ขนาดยาตามน้ำหนัก', en:'Severe allergic reaction · diagnosis · weight-based dosing'} },
-  { id:'sepsis', icon:'🚨', group:'urgent', name:{th:'Sepsis / Septic Shock', en:'Sepsis / Septic Shock'}, short:{th:'คัดกรอง · แยกระดับความรุนแรง · แผนการรักษา', en:'Screen · classify severity · management plan'} },
-  { id:'statusepilepticus', icon:'🧠', group:'urgent', name:{th:'Status Epilepticus', en:'Status Epilepticus'}, short:{th:'Status epilepticus ในเด็ก · ระยะ initial ถึง established', en:'Status epilepticus in children · initial to established stage'} },
-  { id:'diarrhea', icon:'💧', group:'common', name:{th:'Acute Diarrhea', en:'Acute Diarrhea'}, short:{th:'ประเมินภาวะขาดน้ำและการรักษา', en:'Dehydration assessment & management'} },
-  { id:'fever', icon:'🌡️', group:'common', name:{th:'Fever Without Source', en:'Fever Without Source'}, short:{th:'อายุ 0–3 ปี · ประเมินความเสี่ยง SBI', en:'Age 0–3y · SBI risk assessment'} },
-  { id:'meningoencephalitis', icon:'🧠', group:'common', name:{th:'Meningoencephalitis', en:'Meningoencephalitis'}, short:{th:'ประเมิน LP · ผล CSF · ยาปฏิชีวนะ', en:'LP work-up · CSF result · antibiotics'} },
-  { id:'respiratory', icon:'🫁', group:'common', name:{th:'Respiratory Tract Infections', en:'Respiratory Tract Infections'}, short:{th:'หูชั้นกลาง · ไซนัส · Croup · ปอดบวม', en:'AOM · Sinusitis · Croup · Pneumonia'} },
-  { id:'uti', icon:'🚽', group:'common', name:{th:'Urinary Tract Infection', en:'Urinary Tract Infection'}, short:{th:'อายุ 2 เดือน–5 ปี · วินิจฉัย · แยก upper/lower · การรักษา', en:'Age 2mo–5y · diagnosis · upper/lower · treatment'} }
+  { id:'anaphylaxis', icon:'🐝', group:'urgent', name:{th:'Anaphylaxis', en:'Anaphylaxis'}, short:{th:'การแพ้ชนิดรุนแรง · วินิจฉัย · ขนาดยาตามน้ำหนัก', en:'Severe allergic reaction · diagnosis · weight-based dosing'}, keywords:'anaphylaxis แพ้ชนิดรุนแรง แพ้รุนแรง ผื่นแพ้ epinephrine อีพิเนฟริน ภูมิแพ้' },
+  { id:'sepsis', icon:'🚨', group:'urgent', name:{th:'Sepsis / Septic Shock', en:'Sepsis / Septic Shock'}, short:{th:'คัดกรอง · แยกระดับความรุนแรง · แผนการรักษา', en:'Screen · classify severity · management plan'}, keywords:'sepsis septic shock ติดเชื้อในกระแสเลือด ภาวะพิษเหตุติดเชื้อ ช็อก ช้อค' },
+  { id:'statusepilepticus', icon:'🧠', group:'urgent', name:{th:'Status Epilepticus', en:'Status Epilepticus'}, short:{th:'Status epilepticus ในเด็ก · ระยะ initial ถึง established', en:'Status epilepticus in children · initial to established stage'}, keywords:'status epilepticus se ชัก ชักต่อเนื่อง ลมชัก seizure convulsion อาการชัก' },
+  { id:'diarrhea', icon:'💧', group:'common', name:{th:'Acute Diarrhea', en:'Acute Diarrhea'}, short:{th:'ประเมินภาวะขาดน้ำและการรักษา', en:'Dehydration assessment & management'}, keywords:'diarrhea ท้องเสีย ท้องร่วง ถ่ายเหลว ขาดน้ำ dehydration' },
+  { id:'fever', icon:'🌡️', group:'common', name:{th:'Fever Without Source', en:'Fever Without Source'}, short:{th:'อายุ 0–3 ปี · ประเมินความเสี่ยง SBI', en:'Age 0–3y · SBI risk assessment'}, keywords:'fever ไข้ ไข้สูง ตัวร้อน sbi fws' },
+  { id:'meningoencephalitis', icon:'🧠', group:'common', name:{th:'Meningoencephalitis', en:'Meningoencephalitis'}, short:{th:'ประเมิน LP · ผล CSF · ยาปฏิชีวนะ', en:'LP work-up · CSF result · antibiotics'}, keywords:'meningoencephalitis meningitis encephalitis เยื่อหุ้มสมองอักเสบ สมองอักเสบ เยื่อหุ้มสมองอักเสบ csf lp เจาะหลัง' },
+  { id:'respiratory', icon:'🫁', group:'common', name:{th:'Respiratory Tract Infections', en:'Respiratory Tract Infections'}, short:{th:'หูชั้นกลาง · ไซนัส · Croup · ปอดบวม', en:'AOM · Sinusitis · Croup · Pneumonia'}, keywords:'respiratory หายใจ ระบบหายใจ ไอ หอบ หวัด ปอดบวม ปอดอักเสบ pneumonia ไซนัส ไซนัสอักเสบ sinusitis หูชั้นกลางอักเสบ หูอักเสบ aom otitis croup กล่องเสียงอักเสบ หลอดลม' },
+  { id:'uti', icon:'🚽', group:'common', name:{th:'Urinary Tract Infection', en:'Urinary Tract Infection'}, short:{th:'อายุ 2 เดือน–5 ปี · วินิจฉัย · แยก upper/lower · การรักษา', en:'Age 2mo–5y · diagnosis · upper/lower · treatment'}, keywords:'uti urinary tract infection ปัสสาวะ ทางเดินปัสสาวะ กระเพาะปัสสาวะอักเสบ กรวยไตอักเสบ ติดเชื้อทางเดินปัสสาวะ pyelonephritis cystitis' }
 ];
 
-const NEWBORN_HUB = { id:'newborn', icon:'👶', name:{th:'Newborn', en:'Newborn'}, short:{th:'Congenital syphilis · Early-onset sepsis · ตัวเหลืองในทารกแรกเกิด', en:'Congenital syphilis · Early-onset sepsis · Neonatal jaundice'} };
+const NEWBORN_HUB = { id:'newborn', icon:'👶', name:{th:'Newborn', en:'Newborn'}, short:{th:'Congenital syphilis · Early-onset sepsis · ตัวเหลืองในทารกแรกเกิด', en:'Congenital syphilis · Early-onset sepsis · Neonatal jaundice'}, keywords:'newborn ทารกแรกเกิด neonate neonatal syphilis ซิฟิลิส ซิฟิลิสแต่กำเนิด eos early onset sepsis ติดเชื้อในกระแสเลือดทารกแรกเกิด jaundice ตัวเหลือง ดีซ่าน bilirubin บิลิรูบิน' };
 
 const NEWBORN_CATEGORIES = [
   { id:'syphilis', icon:'🩸', name:{th:'Congenital Syphilis', en:'Congenital Syphilis'}, short:{th:'ประเมินและรักษาทารกแรกเกิด', en:'Newborn evaluation & treatment'} },
@@ -8149,7 +8182,12 @@ let homeSearchQuery = '';
 
 function homeMatches(item, q){
   if(!q) return true;
-  const hay = (t(item.name) + ' ' + t(item.short)).toLowerCase();
+  const hay = (
+    t(item.name) + ' ' + t(item.short) + ' ' +
+    (item.name.th||'') + ' ' + (item.name.en||'') + ' ' +
+    (item.short.th||'') + ' ' + (item.short.en||'') + ' ' +
+    (item.keywords||'')
+  ).toLowerCase();
   return hay.includes(q);
 }
 
