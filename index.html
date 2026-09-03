@@ -341,6 +341,42 @@ footer .disclaimer-warning{
 .feedback-status{font-size:12.5px; margin-top:10px; text-align:center;}
 .feedback-status.ok{color:var(--mild-tx);}
 .feedback-status.err{color:var(--sev-tx);}
+
+/* ===== What's New ===== */
+.wn-bell-btn{
+  position:relative; border:none; background:var(--pink-100); width:34px; height:34px;
+  border-radius:10px; display:flex; align-items:center; justify-content:center;
+  cursor:pointer; font-size:16px; line-height:1;
+}
+.wn-bell-btn .wn-badge{
+  position:absolute; top:5px; right:6px; width:8px; height:8px; border-radius:50%;
+  background:var(--sev-bd); border:1.5px solid var(--pink-50); display:none;
+}
+.wn-bell-btn .wn-badge.show{display:block;}
+
+.wn-overlay{
+  position:fixed; inset:0; background:rgba(27,58,84,0.45);
+  z-index:55; display:flex; align-items:flex-end; justify-content:center;
+}
+.wn-overlay.hidden{display:none;}
+.wn-sheet{
+  width:100%; max-width:480px; background:white;
+  border-radius:20px 20px 0 0; padding:20px 20px 26px;
+  box-shadow:0 -6px 24px rgba(0,0,0,0.18);
+  max-height:80vh; overflow-y:auto;
+}
+.wn-sheet h3{margin:0 0 2px; font-size:16px; color:var(--ink);}
+.wn-meta{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-soft); margin-bottom:14px;}
+.wn-list{margin:0 0 16px; padding-left:18px; font-size:13.5px; line-height:1.7; color:var(--ink);}
+.wn-list li{margin-bottom:3px;}
+.wn-actions{display:flex; gap:10px;}
+.wn-btn-ghost{flex:1; padding:11px; border-radius:13px; border:1.5px solid var(--pink-300); background:white; color:var(--pink-600); font-weight:600; font-size:13.5px; cursor:pointer; font-family:'Sarabun',sans-serif;}
+.wn-btn-primary{flex:1; padding:11px; border-radius:13px; border:none; background:var(--pink-500); color:white; font-weight:600; font-size:13.5px; cursor:pointer; font-family:'Sarabun',sans-serif;}
+.wn-history-entry{border-left:2px solid var(--pink-200); padding-left:12px; margin-bottom:14px;}
+.wn-history-entry:first-child{border-left-color:var(--pink-400);}
+.wn-history-entry .wn-h-version{font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; color:var(--ink-soft);}
+.wn-history-entry:first-child .wn-h-version{color:var(--pink-600);}
+.wn-history-entry .wn-h-items{font-size:12.5px; color:var(--ink-soft); line-height:1.6; margin:2px 0 0; padding-left:16px;}
 </style>
 <script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
@@ -357,9 +393,12 @@ footer .disclaimer-warning{
       <div class="subtitle" data-i18n="appSubtitle">เข็มทิศดูแลเด็ก · เครื่องมือช่วยตัดสินใจทางคลินิก</div>
     </div>
   </div>
-  <div class="lang-toggle">
-    <button id="btn-th" class="active" onclick="setLang('th')">TH</button>
-    <button id="btn-en" onclick="setLang('en')">EN</button>
+  <div style="display:flex; align-items:center; gap:8px;">
+    <button class="wn-bell-btn" id="wnBell" onclick="wnOpen()" aria-label="What's new / มีอัปเดตอะไรใหม่บ้าง">🔔<span class="wn-badge" id="wnBadge"></span></button>
+    <div class="lang-toggle">
+      <button id="btn-th" class="active" onclick="setLang('th')">TH</button>
+      <button id="btn-en" onclick="setLang('en')">EN</button>
+    </div>
   </div>
 </header>
 
@@ -378,6 +417,25 @@ footer .disclaimer-warning{
       <button class="fb-btn-submit" id="fbSubmitBtn" onclick="fbSubmit()"></button>
     </div>
     <div class="feedback-status" id="fbStatus"></div>
+  </div>
+</div>
+
+<div class="wn-overlay hidden" id="wnOverlay" onclick="wnBackdropClick(event)">
+  <div class="wn-sheet" onclick="event.stopPropagation()">
+    <div id="wnLatestView">
+      <h3 id="wnLatestTitle"></h3>
+      <div class="wn-meta" id="wnLatestMeta"></div>
+      <ul class="wn-list" id="wnLatestList"></ul>
+      <div class="wn-actions">
+        <button class="wn-btn-ghost" id="wnSeeAllBtn" onclick="wnShowHistory()"></button>
+        <button class="wn-btn-primary" id="wnCloseBtn1" onclick="wnClose()"></button>
+      </div>
+    </div>
+    <div id="wnHistoryView" style="display:none;">
+      <h3 id="wnHistoryTitle"></h3>
+      <div id="wnHistoryList"></div>
+      <button class="wn-btn-primary" style="width:100%;" id="wnCloseBtn2" onclick="wnClose()"></button>
+    </div>
   </div>
 </div>
 
@@ -463,6 +521,116 @@ function fbClose(){
 }
 function fbBackdropClick(e){
   if(e.target.id === 'fbOverlay') fbClose();
+}
+
+/* ============================= WHAT'S NEW ============================= */
+/* เพิ่ม entry ใหม่ไว้บนสุดของ CHANGELOG ทุกครั้งที่ deploy การเปลี่ยนแปลงที่อยากแจ้งผู้ใช้
+   (ไม่จำเป็นต้องลงทุก commit — เฉพาะที่คนใช้งานควรรู้ เช่น โมดูลใหม่ / แก้ logic สำคัญ)
+   entry แรกของ array ต้องเป็น version ล่าสุดเสมอ — ระบบเทียบกับ entry แรกนี้เพื่อรู้ว่ามีอัปเดตใหม่ */
+const CHANGELOG = [
+  { version:'1.0.0', date:'3 ก.ย. 2569', items:[
+    'เพิ่มระบบแจ้งอัปเดต (กระดิ่งมุมขวาบน) ให้ผู้ใช้ทราบเมื่อมีการเปลี่ยนแปลงในแอป'
+  ]}
+];
+
+const WN_TEXT = {
+  latestTitle:{th:'🔔 มีอัปเดตใหม่', en:'🔔 What\u2019s new'},
+  seeAll:{th:'ดูประวัติทั้งหมด', en:'View all history'},
+  close:{th:'ปิด', en:'Close'},
+  historyTitle:{th:'ประวัติการอัปเดต', en:'Update history'}
+};
+
+const WN_SEEN_KEY = 'pedicompass_wn_seen_version';
+
+function wnLatest(){ return CHANGELOG[0]; }
+
+function wnRenderLatest(){
+  const latest = wnLatest();
+  document.getElementById('wnLatestTitle').textContent = t(WN_TEXT.latestTitle);
+  document.getElementById('wnLatestMeta').textContent = 'v' + latest.version + ' · ' + latest.date;
+  const list = document.getElementById('wnLatestList');
+  list.innerHTML = '';
+  latest.items.forEach(function(item){
+    const li = document.createElement('li');
+    li.textContent = item;
+    list.appendChild(li);
+  });
+  document.getElementById('wnSeeAllBtn').textContent = t(WN_TEXT.seeAll);
+  document.getElementById('wnCloseBtn1').textContent = t(WN_TEXT.close);
+}
+
+function wnRenderHistory(){
+  document.getElementById('wnHistoryTitle').textContent = t(WN_TEXT.historyTitle);
+  const wrap = document.getElementById('wnHistoryList');
+  wrap.innerHTML = '';
+  CHANGELOG.forEach(function(entry){
+    const row = document.createElement('div');
+    row.className = 'wn-history-entry';
+    const v = document.createElement('div');
+    v.className = 'wn-h-version';
+    v.textContent = 'v' + entry.version + ' · ' + entry.date;
+    row.appendChild(v);
+    const ul = document.createElement('ul');
+    ul.className = 'wn-h-items';
+    entry.items.forEach(function(item){
+      const li = document.createElement('li');
+      li.textContent = item;
+      ul.appendChild(li);
+    });
+    row.appendChild(ul);
+    wrap.appendChild(row);
+  });
+  document.getElementById('wnCloseBtn2').textContent = t(WN_TEXT.close);
+}
+
+function wnUpdateBadge(){
+  const badge = document.getElementById('wnBadge');
+  if(!badge) return;
+  let seen = null;
+  try{ seen = localStorage.getItem(WN_SEEN_KEY); }catch(e){}
+  badge.classList.toggle('show', seen !== wnLatest().version);
+}
+
+/* เปิดโดยผู้ใช้กดกระดิ่งเอง — ถือว่า "รับทราบแล้ว" จึงเคลียร์ badge */
+function wnOpen(){
+  wnRenderLatest();
+  document.getElementById('wnLatestView').style.display = 'block';
+  document.getElementById('wnHistoryView').style.display = 'none';
+  document.getElementById('wnOverlay').classList.remove('hidden');
+  try{ localStorage.setItem(WN_SEEN_KEY, wnLatest().version); }catch(e){}
+  wnUpdateBadge();
+}
+
+/* เปิดอัตโนมัติตอนโหลดหน้าเมื่อมี version ใหม่ — ไม่เคลียร์ badge
+   ผู้ใช้ต้องกดกระดิ่งเองอีกครั้งถึงจะถือว่ารับทราบและ badge หายไป */
+function wnOpenAuto(){
+  wnRenderLatest();
+  document.getElementById('wnLatestView').style.display = 'block';
+  document.getElementById('wnHistoryView').style.display = 'none';
+  document.getElementById('wnOverlay').classList.remove('hidden');
+}
+
+function wnShowHistory(){
+  wnRenderHistory();
+  document.getElementById('wnLatestView').style.display = 'none';
+  document.getElementById('wnHistoryView').style.display = 'block';
+}
+
+function wnClose(){
+  document.getElementById('wnOverlay').classList.add('hidden');
+}
+
+function wnBackdropClick(e){
+  if(e.target.id === 'wnOverlay') wnClose();
+}
+
+function wnCheckAutoPopup(){
+  wnUpdateBadge();
+  let seen = null;
+  try{ seen = localStorage.getItem(WN_SEEN_KEY); }catch(e){}
+  if(seen !== wnLatest().version){
+    wnOpenAuto();
+  }
 }
 
 /* Draggable FAB — lets the user move the button aside if it covers text.
@@ -622,6 +790,11 @@ function setLang(l){
     if(UI[key]) el.textContent = t(UI[key]);
   });
   render();
+  const wnOverlay = document.getElementById('wnOverlay');
+  if(wnOverlay && !wnOverlay.classList.contains('hidden')){
+    if(document.getElementById('wnHistoryView').style.display === 'block'){ wnRenderHistory(); }
+    else { wnRenderLatest(); }
+  }
 }
 
 /* ============================= APP STATE ============================= */
@@ -1360,6 +1533,17 @@ const FV = {
         { icon:'💉', h:{th:'ยาต้านจุลชีพ',en:'Antibiotics'}, drugs:[
             {name:'Cefotaxime + Aminoglycoside', dose:{th:'Empirical IV (หรือใช้ ampicillin แทนตัวใดตัวหนึ่ง — พิจารณาจากความชุกของ Listeriosis ในพื้นที่)', en:'Empirical IV (ampicillin may substitute for either, depending on local Listeria prevalence)'}},
             {name:'+ Acyclovir (พิจารณา)', dose:{th:'หากสงสัยภาวะ meningoencephalitis', en:'If meningoencephalitis is suspected'}} ] },
+        { icon:'📏', h:{th:'ขนาดยาที่แนะนำ (ตามช่วงอายุ)', en:'Recommended dosing (by age)'}, drugs:[
+            {name:'Cefotaxime', dose:{th:'100–150 มก./กก./วัน แบ่งให้ทุก 8–12 ชม. (อายุ 0–7 วัน) หรือ 150–200 มก./กก./วัน แบ่งให้ทุก 6–8 ชม. (อายุ 8–28 วัน)', en:'100–150 mg/kg/day q8–12h (age 0–7 days), or 150–200 mg/kg/day q6–8h (age 8–28 days)'}},
+            {name:'Ampicillin', dose:{th:'GA ≤34 สัปดาห์: 50 มก./กก./ครั้ง IV q12h (PNA ≤7 วัน) หรือ 75 มก./กก./ครั้ง IV q12h (PNA 8–27 วัน) · GA &gt;34 สัปดาห์ (รวมครบกำหนด): 50 มก./กก./ครั้ง IV q8h (PNA ≤28 วัน)', en:'GA ≤34 wk: 50 mg/kg/dose IV q12h (PNA ≤7d), or 75 mg/kg/dose IV q12h (PNA 8–27d) · GA &gt;34 wk (incl. term): 50 mg/kg/dose IV q8h (PNA ≤28d)'}},
+            {name:'Acyclovir', dose:{th:'60 มก./กก./วัน IV แบ่งให้ทุก 8 ชม. นาน 21 วัน (หากสงสัย meningoencephalitis)', en:'60 mg/kg/day IV q8h for 21 days (if meningoencephalitis is suspected)'}},
+            {name:'Amikacin', dose:{th:'ดูตารางขนาดยาโดยละเอียดด้านล่าง (ตาม PMA/PNA)', en:'See detailed dosing table below (by PMA/PNA)'}} ], list:[
+            {th:'ขนาดยา Cefotaxime และ Acyclovir อ้างอิงตามโมดูล Meningoencephalitis · ขนาดยา Ampicillin อ้างอิงตามโมดูล EOS (NeoFax) — ปรับตาม GA และอายุหลังคลอดของผู้ป่วยแต่ละราย', en:'Cefotaxime and acyclovir dosing follow the Meningoencephalitis module; ampicillin dosing follows the EOS module (NeoFax) — adjust for each patient\u2019s GA and postnatal age'} ] },
+        { icon:'📋', h:{th:'ตารางขนาดยา Amikacin โดยละเอียด', en:'Detailed Amikacin dosing table'}, collapsible:true, openByDefault:false, customHtml: fvAmikacinTableHtml },
+        { icon:'📅', h:{th:'การติดตามระหว่างรักษาตัว',en:'Monitoring during admission'}, list:[
+            {th:'ติดตามอาการทางคลินิกอย่างใกล้ชิด (สัญญาณชีพ การดูดนม ระดับความรู้สึกตัว) เนื่องจากอาการอาจเปลี่ยนแปลงรวดเร็วในวัยนี้', en:'Monitor closely (vital signs, feeding, level of consciousness) — the clinical course can change rapidly at this age'},
+            {th:'ติดตามผลเพาะเชื้อเลือด ปัสสาวะ และน้ำไขสันหลัง (ถ้าทำ) ปรับยาปฏิชีวนะตามผลเพาะเชื้อและความไวเมื่อทราบผล', en:'Follow up blood, urine, and CSF (if performed) cultures; adjust antibiotics per culture and susceptibility results'},
+            {th:'หากอาการไม่ดีขึ้นภายใน 24–48 ชั่วโมง หรือพบเชื้อดื้อยา ให้พิจารณาปรึกษาแพทย์ผู้เชี่ยวชาญโรคติดเชื้อและทบทวนการรักษา', en:'If not improving within 24–48 hours, or a resistant organism is identified, consider infectious disease consultation and reassess therapy'} ] },
         { icon:'📋', h:{th:'หมายเหตุ',en:'Note'}, list:[
             {th:'หากทารกดูอาการดีมาก มีลักษณะชัดเจนของการติดเชื้อไวรัสระบบทางเดินหายใจโดยไม่หอบ และไม่มีข้อบ่งชี้อื่น อาจพิจารณารักษาตามอาการและติดตามใกล้ชิดได้เป็นกรณีไป แต่โดยหลักการทั่วไปแนะนำให้รับไว้ในโรงพยาบาลเพื่อความปลอดภัย', en:'If the infant looks very well, has clear signs of an uncomplicated viral URI without respiratory distress, and has no other red flags, outpatient management with close follow-up may be considered case-by-case — but admission is generally the safer default.'} ] }
       ]
@@ -1375,7 +1559,13 @@ const FV = {
             {th:'Complete septic work up: CBC, UA, blood culture', en:'Complete septic work-up: CBC, UA, blood culture'},
             {th:'Lumbar puncture (CSF analysis) — โดยเฉพาะหากมีอาการชวนสงสัย sepsis ที่ต้องรับไว้รักษา', en:'Lumbar puncture (CSF analysis) — especially if features suggest sepsis requiring admission'} ] },
         { icon:'💉', h:{th:'ยาต้านจุลชีพ',en:'Antibiotics'}, drugs:[
-            {name:'Cefotaxime หรือ Ceftriaxone', dose:{th:'Empirical IV — ไม่แนะนำยากินเพราะไม่ป้องกัน meningitis', en:'Empirical IV — oral antibiotics not recommended, as they do not reliably prevent meningitis'}} ] }
+            {name:'Cefotaxime', dose:{th:'150–200 มก./กก./วัน IV แบ่งให้ทุก 6–8 ชม. (ตามตารางยาของโมดูล Sepsis)', en:'150–200 mg/kg/day IV q6–8h (per the Sepsis module dosing table)'}},
+            {name:'หรือ Ceftriaxone', dose:{th:'75–100 มก./กก./วัน IV ให้ทุก 24 ชม. (ตาม CPG AFI)', en:'75–100 mg/kg/day IV q24h (per AFI CPG)'}} ], list:[
+            {th:'Empirical IV — ไม่แนะนำยากินเพราะไม่ป้องกัน meningitis', en:'Empirical IV — oral antibiotics not recommended, as they do not reliably prevent meningitis'} ] },
+        { icon:'📅', h:{th:'การติดตามระหว่างรักษาตัว',en:'Monitoring during admission'}, list:[
+            {th:'ติดตามอาการทางคลินิกและปรับยาปฏิชีวนะตามผลเพาะเชื้อและความไวเมื่อทราบผล', en:'Monitor clinical status and adjust antibiotics per culture and susceptibility results once available'},
+            {th:'หากเพาะเชื้อขึ้น S. pneumoniae ที่ไวต่อยา และอาการดีขึ้น สามารถปรับเป็นยากิน (amoxicillin) ให้ครบ 7–10 วันได้', en:'If culture grows susceptible S. pneumoniae and the patient is improving, may switch to oral therapy (amoxicillin) to complete 7–10 days'},
+            {th:'พิจารณาปรับเป็นยากิน หรือจำหน่ายผู้ป่วยเมื่ออาการดีขึ้น ไม่มีไข้ต่อเนื่อง และผลเพาะเชื้อไม่พบเชื้อก่อโรค', en:'Consider switching to oral therapy or discharge once clinically improved, afebrile, and cultures show no growth'} ] }
       ]
     },
     infantLow:{
@@ -1390,6 +1580,12 @@ const FV = {
              en:'Symptomatic treatment plus <strong>ceftriaxone 75–100 mg/kg IV or IM, single dose</strong> — appropriate when culture turnaround is slow or risk stratification is less certain, but inpatient admission is not feasible.<br><span style="color:var(--ink-soft); font-size:12px;">If the facility has limited capacity to give injectable antibiotics or provide daily follow-up, consider admission instead.</span>'} ] },
         { icon:'📅', h:{th:'การติดตาม',en:'Follow-up'}, list:[
             {th:'นัดติดตามอาการครั้งแรกที่ 24 ชั่วโมง และติดตามทุกวันจนกว่าไข้จะลง / ทราบผลเพาะเชื้อ หากอาการไม่ดีขึ้น หรือผลเพาะเชื้อเลือดเป็นบวก → รับไว้ในโรงพยาบาลและให้ยาปฏิชีวนะทางหลอดเลือดดำ', en:'Reassess at 24 hours and daily thereafter until afebrile / culture results are available. If not improving, or blood culture becomes positive → admit and switch to IV antibiotics.'} ] },
+        { icon:'🧫', h:{th:'แนวทางเมื่อทราบผลเพาะเชื้อ',en:'Guidance once culture results are available'}, collapsible:true, openByDefault:false, list:[
+            {th:'ผลเพาะเชื้อเลือดและปัสสาวะเป็นลบ และเด็กยังจัดอยู่ในกลุ่ม low risk → หยุดยาปฏิชีวนะได้', en:'Blood and urine cultures negative and the child remains classified as low risk → antibiotics may be stopped'},
+            {th:'ผลเพาะเชื้อเป็นลบ แต่เด็กกลายเป็น high risk และยังคงสงสัยภาวะ sepsis → รับไว้ในโรงพยาบาล ตรวจเพิ่มเติม รวมถึง CSF analysis และให้ยาปฏิชีวนะทางหลอดเลือดดำ', en:'Cultures negative but the child becomes high risk with sepsis still suspected → admit, further work-up including CSF analysis, and IV antibiotics'},
+            {th:'เพาะเชื้อเลือดขึ้น <em>S. pneumoniae</em>: หากไม่มีไข้แล้ว → เพาะเชื้อเลือดซ้ำ ให้ ceftriaxone ต่ออีก 1 dose แล้วสามารถเปลี่ยนเป็นยากินได้ (amoxicillin หากเชื้อไวต่อ penicillin) ให้ครบ 7–10 วัน · หากเพาะเชื้อซ้ำยังขึ้นเชื้อ หรือเด็กยังมีไข้อยู่ → รับไว้รักษาในโรงพยาบาลเพื่อหาตำแหน่งติดเชื้อที่ชัดเจน รวมถึงทำ CSF analysis (ถ้ายังไม่ได้ทำ)', en:'Blood culture grows <em>S. pneumoniae</em>: if afebrile → repeat blood culture, give one more dose of ceftriaxone, then may switch to oral therapy (amoxicillin if penicillin-susceptible) to complete 7–10 days · if the repeat culture remains positive, or still febrile → admit to identify the infection source, including CSF analysis (if not already done)'},
+            {th:'เพาะเชื้อเลือดขึ้นเชื้ออื่น → รับไว้รักษาในโรงพยาบาล ให้ยาปฏิชีวนะทางหลอดเลือดดำ และควรทำ CSF analysis (ถ้ายังไม่ได้ทำ) <span class="evidence">D1</span>', en:'Blood culture grows another organism → admit, IV antibiotics, and CSF analysis (if not already done) <span class="evidence">D1</span>'},
+            {th:'เพาะเชื้อปัสสาวะเป็นบวก: หากไม่มีไข้แล้ว → ให้ยาปฏิชีวนะชนิดรับประทานตามผลความไวของเชื้อ · หากยังมีไข้อยู่ → รับไว้รักษาในโรงพยาบาลและให้ยาทางหลอดเลือดดำ · หากกลายเป็น high risk หรือมี toxic appearance → พิจารณาทำ CSF analysis ด้วย', en:'Urine culture positive: if afebrile → oral antibiotics per susceptibility · if still febrile → admit and give IV antibiotics · if the child becomes high risk or toxic-appearing → also consider CSF analysis'} ] },
         { icon:'📋', h:{th:'หมายเหตุ',en:'Note'}, list:[{th:'ก่อนจัดเป็น low risk ควรส่งตรวจ CBC, UA และ blood culture เพื่อยืนยันผลตามเกณฑ์ข้อ 4 ก่อนเสมอ', en:'Before classifying an infant as low risk, CBC, UA, and blood culture should always be sent to confirm criterion 4.'}] }
       ]
     },
@@ -1402,7 +1598,15 @@ const FV = {
         { icon:'🔬', h:{th:'การส่งตรวจ',en:'Work-up'}, list:[
             {th:'Septic work up: CBC, UA, blood culture', en:'Septic work-up: CBC, UA, blood culture'},
             {th:'พิจารณา Lumbar puncture ตามข้อบ่งชี้', en:'Consider lumbar puncture per indications'} ] },
-        { icon:'💉', h:{th:'ยาต้านจุลชีพ',en:'Antibiotics'}, drugs:[{name:'Cefotaxime หรือ Ceftriaxone', dose:{th:'Empirical IV', en:'Empirical IV'}}] }
+        { icon:'💉', h:{th:'ยาต้านจุลชีพ',en:'Antibiotics'}, drugs:[
+            {name:'Cefotaxime', dose:{th:'150–200 มก./กก./วัน IV แบ่งให้ทุก 6–8 ชม. (ตามตารางยาของโมดูล Sepsis)', en:'150–200 mg/kg/day IV q6–8h (per the Sepsis module dosing table)'}},
+            {name:'หรือ Ceftriaxone', dose:{th:'75–100 มก./กก./วัน IV ให้ทุก 24 ชม. (ตาม CPG AFI)', en:'75–100 mg/kg/day IV q24h (per AFI CPG)'}} ] },
+        { icon:'📅', h:{th:'การติดตามระหว่างรักษาตัว',en:'Monitoring during admission'}, list:[
+            {th:'ติดตามอาการทางคลินิกและปรับยาปฏิชีวนะตามผลเพาะเชื้อและความไวเมื่อทราบผล', en:'Monitor clinical status and adjust antibiotics per culture and susceptibility results once available'},
+            {th:'เพาะเชื้อเลือดขึ้น H. influenzae หรือ S. agalactiae (GBS) → ควรพิจารณาทำ CSF analysis', en:'Blood culture grows H. influenzae or S. agalactiae (GBS) → consider CSF analysis'},
+            {th:'เพาะเชื้อขึ้น Salmonella spp. ในเด็กอายุน้อยกว่า 1 ปี โดยเฉพาะน้อยกว่า 6 เดือน → ควรพิจารณาทำ CSF analysis', en:'Culture grows Salmonella spp. in a child younger than 1 year, especially younger than 6 months → consider CSF analysis'},
+            {th:'หากเพาะเชื้อขึ้น S. pneumoniae ที่ไวต่อยา และอาการดีขึ้น สามารถปรับเป็นยากิน (amoxicillin) ให้ครบ 7–10 วันได้', en:'If culture grows susceptible S. pneumoniae and the patient is improving, may switch to oral therapy (amoxicillin) to complete 7–10 days'},
+            {th:'พิจารณาปรับเป็นยากิน หรือจำหน่ายผู้ป่วยเมื่ออาการดีขึ้น ไม่มีไข้ต่อเนื่อง และผลเพาะเชื้อไม่พบเชื้อก่อโรค', en:'Consider switching to oral therapy or discharge once clinically improved, afebrile, and cultures show no growth'} ] }
       ]
     },
     childSafe:{
@@ -1426,11 +1630,44 @@ const FV = {
         { icon:'💊', h:{th:'ยาต้านจุลชีพ',en:'Antibiotics'}, list:[
             {th:'รักษาตามอาการแบบผู้ป่วยนอก และพิจารณาให้ <strong>ceftriaxone 75–100 มก./กก. IV หรือ IM 1 โดส</strong> โดยเฉพาะถ้า WBC &gt; 15,000/mm³ หรือเด็กที่ไม่แน่ใจว่า toxic appearance หรือไม่<br><span style="color:var(--ink-soft); font-size:12px;">หากสถานพยาบาลมีข้อจำกัดในการให้ยาฉีดหรือการติดตามอาการรายวัน อาจพิจารณารับไว้ในโรงพยาบาลแทน</span>',
              en:'Outpatient symptomatic treatment; consider <strong>ceftriaxone 75–100 mg/kg IV or IM, single dose</strong>, particularly if WBC &gt; 15,000/mm³ or toxic appearance cannot be confidently excluded.<br><span style="color:var(--ink-soft); font-size:12px;">If the facility has limited capacity to give injectable antibiotics or provide daily follow-up, consider admission instead.</span>'} ] },
-        { icon:'📅', h:{th:'การติดตาม',en:'Follow-up'}, list:[{th:'นัดติดตามอาการครั้งแรกที่ 24 ชั่วโมง และติดตามจนกว่าไข้จะลง ปรับการรักษาตามผลการเพาะเชื้อ', en:'Reassess at 24 hours and continue until afebrile, adjusting treatment based on culture results.'}] }
+        { icon:'📅', h:{th:'การติดตาม',en:'Follow-up'}, list:[{th:'นัดติดตามอาการครั้งแรกที่ 24 ชั่วโมง และติดตามจนกว่าไข้จะลง ปรับการรักษาตามผลการเพาะเชื้อ', en:'Reassess at 24 hours and continue until afebrile, adjusting treatment based on culture results.'}] },
+        { icon:'🧫', h:{th:'แนวทางเมื่อทราบผลเพาะเชื้อ',en:'Guidance once culture results are available'}, collapsible:true, openByDefault:false, list:[
+            {th:'เพาะเชื้อเลือดบวก → ควรกลับมาประเมินผลโดยเร็วทุกราย และส่งเพาะเชื้อเลือดซ้ำ (โดยทั่วไปผลเชื้อและความไวต่อยาใช้เวลามากกว่า 24–48 ชม.) การตัดสินใจรักษาแบบผู้ป่วยนอกหรือรับไว้ในโรงพยาบาลขึ้นกับอาการของผู้ป่วยและผลย้อมสีกรัม', en:'Blood culture positive → return for prompt reassessment, and send a repeat blood culture (organism ID and susceptibility typically take more than 24–48h). The decision between outpatient management and admission depends on clinical status and the Gram stain result'},
+            {th:'หากยังไม่เคยได้รับ ceftriaxone มาก่อน แต่อาการดีขึ้นและผลย้อมสีกรัมพบ gram-positive diplococci (น่าจะเป็น S. pneumoniae) → ปฏิบัติเช่นเดียวกับกลุ่มอายุ 1–3 เดือน (เพาะเชื้อซ้ำ + ceftriaxone อีก 1 dose แล้วเปลี่ยนยากินได้หากเชื้อไวต่อ penicillin ครบ 7–10 วัน) และตรวจร่างกายอย่างละเอียดหาตำแหน่งติดเชื้ออื่น เช่น ปอด หรือเยื่อหุ้มสมอง', en:'If not yet given ceftriaxone but improving with a Gram stain showing gram-positive diplococci (likely S. pneumoniae) → manage as in the 1–3 month group (repeat culture, one more ceftriaxone dose, then oral if penicillin-susceptible to complete 7–10 days), and examine thoroughly for infection at other sites, e.g. lung or meninges'},
+            {th:'เพาะเชื้อขึ้นเชื้ออื่นที่คิดว่าเป็นสาเหตุจริงของไข้ (ไม่ใช่ contamination) หรือขึ้น S. pneumoniae แต่อาการไม่ดีขึ้น → รับไว้รักษาในโรงพยาบาลทุกราย และตรวจร่างกายอย่างละเอียดหาตำแหน่งติดเชื้ออื่นร่วมด้วย <span class="evidence">31, 32</span>', en:'Culture grows another organism believed to be a true pathogen (not contamination), or grows S. pneumoniae but not improving → admit all such patients, and examine thoroughly for infection at other sites <span class="evidence">31, 32</span>'},
+            {th:'เพาะเชื้อเลือดขึ้น H. influenzae หรือ S. agalactiae (GBS) → ควรพิจารณาทำ CSF analysis', en:'Blood culture grows H. influenzae or S. agalactiae (GBS) → consider CSF analysis'},
+            {th:'เพาะเชื้อขึ้น Salmonella spp. ในเด็กอายุน้อยกว่า 1 ปี โดยเฉพาะน้อยกว่า 6 เดือน → ควรพิจารณาทำ CSF analysis', en:'Culture grows Salmonella spp. in a child younger than 1 year, especially younger than 6 months → consider CSF analysis'},
+            {th:'ผลเพาะเชื้อเฉพาะในปัสสาวะให้ผลบวก: หากไข้ไม่ลดหรืออาการไม่ดีขึ้น → รับไว้ประเมินและรักษาในโรงพยาบาลทุกราย · หากไข้ลดลงและอาการดีขึ้น → รักษาแบบผู้ป่วยนอกได้ และเปลี่ยนเป็นยากินตามผลความไวของเชื้อ (เช่น cotrimoxazole, amoxicillin-clavulanate, cefixime, cefdinir, ceftibuten หรือ ciprofloxacin หากไม่มียาอื่นที่เหมาะสมกว่า)', en:'Urine culture positive only: if fever persists or not improving → admit all for reassessment and treatment · if fever has resolved and improving → outpatient management is possible, switching to oral therapy per susceptibility (e.g. cotrimoxazole, amoxicillin-clavulanate, cefixime, cefdinir, ceftibuten, or ciprofloxacin if no more suitable option)'} ] }
       ]
     }
   }
 };
+
+/* Amikacin dosing — Postmenstrual age (PMA) / Postnatal age (PNA), per Micromedex NeoFax Neonatal Drug Monograph (Hughes, 2017) */
+const FV_AMIKACIN_DOSING = [
+  { pma:{th:'PMA ≤29 สัปดาห์', en:'PMA ≤29 weeks'}, pna:{th:'0–7 วัน', en:'0–7 days'}, dose:'14 mg/kg/dose', interval:'q48h', rowspan:3 },
+  { pma:null, pna:{th:'8–28 วัน', en:'8–28 days'}, dose:'12 mg/kg/dose', interval:'q36h' },
+  { pma:null, pna:{th:'29 วันขึ้นไป', en:'29 days or older'}, dose:'12 mg/kg/dose', interval:'q24h' },
+  { pma:{th:'PMA 30–34 สัปดาห์', en:'PMA 30–34 weeks'}, pna:{th:'0–7 วัน', en:'0–7 days'}, dose:'12 mg/kg/dose', interval:'q36h', rowspan:2 },
+  { pma:null, pna:{th:'8 วันขึ้นไป', en:'8 days or older'}, dose:'12 mg/kg/dose', interval:'q24h' },
+  { pma:{th:'PMA 35 สัปดาห์ขึ้นไป', en:'PMA 35 weeks or more'}, pna:{th:'ทุกช่วงอายุ', en:'All'}, dose:'12 mg/kg/dose', interval:'q24h', rowspan:1 }
+];
+
+function fvAmikacinTableHtml(){
+  const pmaTxt = LANG==='th'?'PMA (สัปดาห์)':'PMA (weeks)';
+  const pnaTxt = LANG==='th'?'อายุหลังคลอด (PNA)':'Postnatal age (PNA)';
+  const doseTxt = LANG==='th'?'ขนาดยา':'Dose';
+  const intervalTxt = LANG==='th'?'ช่วงเวลาให้ยา':'Interval';
+  const pmaNote = LANG==='th' ? 'PMA (Postmenstrual age) = อายุครรภ์แรกเกิด + อายุหลังคลอด (สัปดาห์)' : 'PMA (postmenstrual age) = gestational age at birth + postnatal age (weeks)';
+  const rows = FV_AMIKACIN_DOSING.map(r=>{
+    const pmaCell = r.pma ? `<td ${r.rowspan?`rowspan="${r.rowspan}"`:''} style="font-weight:600;">${t(r.pma)}</td>` : '';
+    return `<tr>${pmaCell}<td>${t(r.pna)}</td><td style="font-family:'IBM Plex Mono',monospace;">${r.dose}</td><td style="font-family:'IBM Plex Mono',monospace;">${r.interval}</td></tr>`;
+  }).join('');
+  return `<div style="font-size:11px; color:var(--ink-soft); margin-bottom:6px;">${pmaNote}</div>
+    <div class="dose-table-scroll"><table class="dose-table"><thead><tr><th>${pmaTxt}</th><th>${pnaTxt}</th><th>${doseTxt}</th><th>${intervalTxt}</th></tr></thead><tbody>${rows}</tbody></table></div>
+    <div style="font-size:10px; color:var(--ink-soft); margin-top:2px;">${LANG==='th'?'◀︎ เลื่อนตารางซ้าย-ขวาเพื่อดูข้อมูลเพิ่มเติม ▶︎':'◀︎ Scroll table left-right for more ▶︎'}</div>
+    <div style="font-size:10.5px; color:var(--ink-soft); margin-top:8px; text-align:right;">${LANG==='th'?'ที่มา':'Source'}: Micromedex NeoFax Neonatal Drug Monograph — Amikacin (Hughes, 2017)</div>`;
+}
 
 let fvState = { screen:'intro', ageGroup:null, yale:{cry:null,reaction:null,arousal:null,color:null,hydration:null,social:null}, temp39:null, roch:{well:null,healthy:null,exam:null,labs:null} };
 
@@ -1642,16 +1879,25 @@ function fvRenderResultBlock(app, r){
   r.sections.forEach(sec=>{
     const sc = document.createElement('div');
     sc.className='section-card';
-    let inner = `<h3>${sec.icon||''} ${t(sec.h)}</h3>`;
+    let body = '';
+    if(sec.customHtml){ body += (typeof sec.customHtml === 'function') ? sec.customHtml() : sec.customHtml; }
     if(sec.drugs && sec.drugs.length){
-      inner += sec.drugs.map(d=>`<div class="drugline"><span class="dname">${d.name}</span><span class="ddose">${t(d.dose)}</span></div>`).join('');
+      body += sec.drugs.map(d=>`<div class="drugline"><span class="dname">${d.name}</span><span class="ddose">${t(d.dose)}</span></div>`).join('');
     }
-    if(sec.extra && sec.extra.length){ inner += `<ul>${sec.extra.map(e=>`<li>${t(e)}</li>`).join('')}</ul>`; }
-    if(sec.list && sec.list.length){ inner += `<ul>${sec.list.map(e=>`<li>${t(e)}</li>`).join('')}</ul>`; }
-    sc.innerHTML = inner;
+    if(sec.extra && sec.extra.length){ body += `<ul>${sec.extra.map(e=>`<li>${t(e)}</li>`).join('')}</ul>`; }
+    if(sec.list && sec.list.length){ body += `<ul>${sec.list.map(e=>`<li>${t(e)}</li>`).join('')}</ul>`; }
+    if(sec.collapsible){
+      sc.innerHTML = `<details ${sec.openByDefault?'open':''}>
+        <summary style="cursor:pointer; font-size:13.5px; font-weight:600; color:var(--pink-600); list-style:none; display:flex; align-items:center; gap:7px;">${sec.icon||''} ${t(sec.h)} <span style="margin-left:auto; font-size:11px; color:var(--ink-soft); font-weight:400;">${LANG==='th'?'แตะเพื่อดูรายละเอียด':'tap for details'}</span></summary>
+        <div style="margin-top:10px;">${body}</div>
+      </details>`;
+    } else {
+      sc.innerHTML = `<h3>${sec.icon||''} ${t(sec.h)}</h3>${body}`;
+    }
     app.appendChild(sc);
   });
 }
+
 
 function fvResultView(app){
   fvHeader(app, t(FV.refBadge));
@@ -9676,6 +9922,7 @@ function render(){
 
 render();
 fbInitDrag();
+wnCheckAutoPopup();
 </script>
 </body>
 </html>
