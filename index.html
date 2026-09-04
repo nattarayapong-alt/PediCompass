@@ -4165,8 +4165,8 @@ function mgAcyclovirDoseTableHtml(){
     ${mgScrollHint()}`;
 }
 
-let mgState = { screen:'intro', age:null, under2mo:null, lpct:[], csf:null, riskFactors:[] };
-function mgResetAll(){ mgState = { screen:'intro', age:null, under2mo:null, lpct:[], csf:null, riskFactors:[] }; }
+let mgState = { screen:'intro', age:null, under2mo:null, lpct:[], csf:null, riskFactors:[], ctInfoSkipped:false };
+function mgResetAll(){ mgState = { screen:'intro', age:null, under2mo:null, lpct:[], csf:null, riskFactors:[], ctInfoSkipped:false }; }
 function mgGoTo(s){ mgState.screen=s; scrollToTop(); render(); }
 
 function mgHeader(app, title){
@@ -4305,6 +4305,9 @@ function mgLpctView(app){
   document.getElementById('mgBack').onclick = ()=>mgGoTo(mgState.age==='m1_3' ? 'age2mo' : 'age');
   document.getElementById('mgNext').onclick = ()=>{
     const { ctNeeded, lpContra } = mgLpCtFlags();
+    // Answers changed since any earlier CT-skip choice — clear the stale flag; it will be
+    // re-set on the ctInfo screen if the user chooses to skip again.
+    mgState.ctInfoSkipped = false;
     // If LP is contraindicated, there will be no CSF result to interpret — clear any previously
     // selected CSF answer and skip straight to the result (empiric treatment) screen.
     if(lpContra){ mgState.csf = null; mgGoTo('result'); }
@@ -4327,14 +4330,16 @@ function mgCtInfoView(app){
       <li>${t({th:'ไม่ควรให้การรอ CT ทำให้การเริ่มยาปฏิชีวนะล่าช้าเกินความจำเป็น หากคาดว่าจะล่าช้านาน ให้เริ่มยาปฏิชีวนะแบบครอบคลุมไปก่อน', en:'Do not let waiting for CT delay antibiotics unnecessarily — start empiric antibiotics first if a long delay is expected'})}</li>
       <li>${t({th:'หากผล CT ไม่พบข้อห้ามของ LP จึงทำ LP ต่อ เพื่อนำผล CSF มาพิจารณาในขั้นตอนถัดไป', en:'If CT shows no contraindication to LP, proceed with LP — the CSF result will then be used in the next step'})}</li>
     </ul>
-    <div class="wizard-nav">
+    <div class="wizard-nav" style="flex-wrap:wrap;">
       <button class="btn btn-ghost" id="mgBack">${t(UI.back)}</button>
+      <button class="btn btn-ghost" id="mgSkip">${t({th:'ยังทำ CT/LP ไม่ได้ → ข้ามไปที่การรักษา', en:'CT/LP not yet available → skip to management'})}</button>
       <button class="btn btn-primary" id="mgNext">${t({th:'ทำ CT แล้ว ไม่พบข้อห้ามของ LP →', en:'CT done, no contraindication to LP →'})}</button>
     </div>
   `;
   app.appendChild(card);
   document.getElementById('mgBack').onclick = ()=>mgGoTo('lpct');
-  document.getElementById('mgNext').onclick = ()=>mgGoTo('csf');
+  document.getElementById('mgNext').onclick = ()=>{ mgState.ctInfoSkipped = false; mgGoTo('csf'); };
+  document.getElementById('mgSkip').onclick = ()=>{ mgState.ctInfoSkipped = true; mgState.csf = null; mgGoTo('result'); };
 }
 
 function mgCsfView(app){
@@ -4426,9 +4431,11 @@ function mgCompute(){
   const sections = [];
 
   // ---------- 1. LP / CT guidance ----------
-  // Only shown when LP is contraindicated (no CSF result — essential context for the summary).
-  // The "CT needed" and "no restrictions, LP fine" cases were already communicated on their own
-  // screens earlier in the wizard, so nothing is repeated here for those.
+  // Shown whenever there is no CSF result to interpret: either LP is contraindicated, or (new)
+  // the user indicated CT/LP simply hasn't been possible yet (e.g. CT unavailable, patient not
+  // yet stable enough to transport). The "CT needed" and "no restrictions, LP fine" cases where
+  // a CSF result IS obtained were already communicated on their own screens earlier in the
+  // wizard, so nothing is repeated here for those.
   if(lpContra){
     sections.push({ icon:'⛔', h:{th:'มีข้อห้ามของการเจาะน้ำไขสันหลัง — ไม่ทราบผล CSF', en:'LP contraindicated — no CSF result available'}, prominent:true, list:[
       {th:'พบข้อห้ามของการเจาะน้ำไขสันหลัง จึงไม่สามารถทำ LP และไม่ทราบผล CSF ได้ในขณะนี้', en:'A contraindication to LP is present, so LP cannot be performed and no CSF result is available now'},
@@ -4436,6 +4443,12 @@ function mgCompute(){
       ctNeeded ? {th:'ควรพิจารณาทำ CT scan สมองเมื่อสภาพผู้ป่วยเอื้ออำนวย เพื่อประเมินโครงสร้างสมองเพิ่มเติม', en:'Consider brain CT when feasible to further assess intracranial structure'} : {th:'', en:''},
       {th:'พิจารณาเจาะน้ำไขสันหลังภายหลังเมื่อสภาพผู้ป่วยดีขึ้นหรือข้อห้ามหมดไป', en:'Consider LP later once the patient stabilizes or the contraindication resolves'}
     ].filter(x=>t(x)) });
+  } else if(mgState.ctInfoSkipped){
+    sections.push({ icon:'⏳', h:{th:'ยังทำ CT สมอง/เจาะน้ำไขสันหลังไม่ได้ — ไม่ทราบผล CSF', en:'CT brain/LP not yet performed — no CSF result available'}, prominent:true, list:[
+      {th:'มีข้อบ่งชี้ให้ทำ CT scan สมองก่อนเจาะ LP แต่ในขณะนี้ยังไม่สามารถทำ CT และ/หรือ LP ได้ จึงไม่ทราบผล CSF', en:'An indication for CT before LP is present, but CT and/or LP is not yet available, so no CSF result is available now'},
+      {th:'ให้เริ่มยาปฏิชีวนะแบบครอบคลุม (empiric) ทันทีตามอาการทางคลินิก โดยไม่ต้องรอผล CT/LP (ดูคำแนะนำด้านล่าง)', en:'Start empiric antibiotics immediately based on clinical findings, without waiting for CT/LP (see recommendation below)'},
+      {th:'พิจารณาทำ CT scan สมองและเจาะน้ำไขสันหลังทันทีที่ทำได้ เพื่อนำผล CSF มาพิจารณาเพิ่มเติม', en:'Perform brain CT and LP as soon as feasible, and use the CSF result to further guide management'}
+    ] });
   }
 
   let severity, title, summary;
@@ -4527,6 +4540,13 @@ function mgCompute(){
     severity = 'severe';
     title = {th:'มีข้อห้ามของการเจาะน้ำไขสันหลัง — เริ่มยาปฏิชีวนะแบบครอบคลุม', en:'LP contraindicated — start empiric antibiotics'};
     summary = {th:`${ageLabel} — ไม่สามารถเจาะน้ำไขสันหลังได้ในขณะนี้ ให้เริ่มการรักษาตามอาการทางคลินิกทันที`, en:`${ageLabel} — LP cannot be performed now; start treatment based on clinical findings immediately`};
+    pushBacterialTreatment(true);
+  } else if(mgState.ctInfoSkipped){
+    // CT/LP is indicated and not contraindicated, but simply hasn't been possible yet — no CSF
+    // result to interpret, so treat empirically now, same as the LP-contraindicated pathway.
+    severity = 'severe';
+    title = {th:'ยังทำ CT/LP ไม่ได้ — เริ่มยาปฏิชีวนะแบบครอบคลุม', en:'CT/LP not yet available — start empiric antibiotics'};
+    summary = {th:`${ageLabel} — ยังไม่สามารถทำ CT/LP ได้ในขณะนี้ ให้เริ่มการรักษาตามอาการทางคลินิกทันที`, en:`${ageLabel} — CT/LP is not yet possible now; start treatment based on clinical findings immediately`};
     pushBacterialTreatment(true);
   } else if(mgState.csf==='normal'){
     if(additionalAbxIndicated){
