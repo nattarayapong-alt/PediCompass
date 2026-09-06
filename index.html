@@ -2590,7 +2590,7 @@ function syExamView(app){
   card.querySelectorAll('[data-exam]').forEach(btn=>{
     btn.onclick = ()=>{ const id = btn.getAttribute('data-exam'); f.exam.normal = false; f.exam[id] = !f.exam[id]; render(); };
   });
-  syNav(app, { onNext: ()=>{ syState.step=2; render(); } });
+  syNav(app, { nextDisabled: !anyAbnormal && !isNormal, onNext: ()=>{ syState.step=2; render(); } });
 }
 
 function syLabsView(app){
