@@ -2296,6 +2296,11 @@ const SY = {
   stepLabs:{th:'ผล RPR/VDRL', en:'RPR/VDRL Results'},
   stepResult:{th:'คำแนะนำ', en:'Recommendation'},
   maternalHeader:{th:'การรักษาซิฟิลิสในมารดา', en:'Maternal Syphilis Treatment'},
+  maternalTxTableTitle:{th:'ตารางคำแนะนำการรักษาซิฟิลิสในมารดา (อ้างอิง)', en:'Reference table: recommended maternal syphilis treatment'},
+  maternalTxTableHint:{th:'แตะเพื่อดูรายละเอียด', en:'tap for details'},
+  maternalTxTableStage:{th:'ระยะของโรค', en:'Stage'},
+  maternalTxTableRegimen:{th:'สูตรยาที่แนะนำ', en:'Recommended regimen'},
+  maternalTxTableNote:{th:'การรักษาที่ถือว่า "ครบถ้วน/เหมาะสม" (adequate) หมายถึงได้รับ penicillin G ตามสูตรที่เหมาะกับระยะของโรคข้างต้น และให้ครั้งแรก ≥30 วันก่อนคลอด การรักษาด้วยยาอื่นที่ไม่ใช่ penicillin ไม่ถือว่าเพียงพอสำหรับป้องกัน congenital syphilis', en:'Treatment is considered "adequate" when the mother received penicillin G in the regimen appropriate for her stage of disease, with the first dose given ≥30 days before delivery. Treatment with a non-penicillin agent is not considered adequate for preventing congenital syphilis.'},
   reinfectionQ:{th:'มีหลักฐานว่ามารดาติดเชื้อซ้ำ (reinfection) หรือกลับเป็นซ้ำ (relapse) หรือไม่?', en:'Is there evidence of maternal reinfection or relapse?'},
   reinfectionCriteriaLabel:{th:'พิจารณาจากข้อใดข้อหนึ่งต่อไปนี้:', en:'Consider any one of the following:'},
   yes:{th:'มี', en:'Yes'}, no:{th:'ไม่มี', en:'No'},
@@ -2303,6 +2308,10 @@ const SY = {
   serofastQ:{th:'Titer ของมารดาคงที่ในระดับต่ำ (serofast) ตลอดก่อนตั้งครรภ์ ระหว่างตั้งครรภ์ และตอนคลอด (VDRL ≤1:2 หรือ RPR ≤1:4) หรือไม่?', en:"Has the mother's titer remained low and stable (serofast) before, during pregnancy, and at delivery (VDRL ≤1:2 or RPR ≤1:4)?"},
   examHeader:{th:'ตรวจร่างกายทารกแรกเกิด', en:'Newborn Physical Examination'},
   examSub:{th:'เลือกอาการ/สิ่งตรวจพบที่เข้าได้กับ congenital syphilis (ถ้ามี)', en:'Select any findings consistent with congenital syphilis (if present)'},
+  examRefTableTitle:{th:'ตารางอาการ/อาการแสดงที่เข้าได้กับ Congenital Syphilis (อ้างอิง)', en:'Reference table: signs and symptoms consistent with congenital syphilis'},
+  examRefTableHint:{th:'แตะเพื่อดูรายละเอียด', en:'tap for details'},
+  examRefTableCategory:{th:'ระบบ/กลุ่มอาการ', en:'System / category'},
+  examRefTableFindings:{th:'อาการ/อาการแสดง', en:'Findings'},
   examAbnormalFlag:{th:'ตรวจพบความผิดปกติ — เข้าได้กับ Scenario 1 โดยไม่ต้องพิจารณาผล titer เพิ่มเติม', en:'Abnormal findings present — meets Scenario 1 regardless of titer results'},
   examNormalFlag:{th:'ตรวจร่างกายปกติ', en:'Physical examination normal'},
   labsHeader:{th:'ผล Nontreponemal titer (RPR/VDRL)', en:'Nontreponemal Titer (RPR/VDRL) Results'},
@@ -2320,6 +2329,15 @@ const SY = {
   motherNonreactiveNote:{th:'หมายเหตุ: titer มารดา nonreactive ขณะที่ทารก reactive — ไม่สามารถใช้เกณฑ์ fourfold มาตรฐานได้ตรง ๆ ควรปรึกษาผู้เชี่ยวชาญ และพิจารณาความเป็นไปได้ของ incubating infection', en:"Note: maternal titer is nonreactive while the infant's is reactive — the standard fourfold comparison does not directly apply. Consult a specialist and consider possible incubating infection."},
   refFooter:{th:'อ้างอิง: CDC Sexually Transmitted Infections Treatment Guidelines, 2021 (Congenital Syphilis section)', en:'Reference: CDC Sexually Transmitted Infections Treatment Guidelines, 2021 (Congenital Syphilis section)'}
 };
+
+const SY_MATERNAL_TX_TABLE = [
+  { stage:{th:'Primary, secondary หรือ early latent syphilis (<1 ปี)', en:'Primary, secondary, or early latent syphilis (<1 year duration)'},
+    regimen:{th:'Benzathine penicillin G 2.4 million units IM ครั้งเดียว', en:'Benzathine penicillin G 2.4 million units IM, single dose'} },
+  { stage:{th:'Late latent syphilis, latent syphilis of unknown duration หรือ tertiary syphilis', en:'Late latent syphilis, latent syphilis of unknown duration, or tertiary syphilis'},
+    regimen:{th:'Benzathine penicillin G 2.4 million units IM สัปดาห์ละครั้ง นาน 3 สัปดาห์ (รวม 7.2 million units)', en:'Benzathine penicillin G 2.4 million units IM once weekly for 3 weeks (total 7.2 million units)'} },
+  { stage:{th:'Neurosyphilis, ocular syphilis หรือ otic syphilis', en:'Neurosyphilis, ocular syphilis, or otic syphilis'},
+    regimen:{th:'Aqueous crystalline penicillin G 18–24 million units/day IV (3–4 million units ทุก 4 ชม. หรือ continuous infusion) นาน 10–14 วัน', en:'Aqueous crystalline penicillin G 18–24 million units/day IV (3–4 million units every 4 hours, or as a continuous infusion) for 10–14 days'} }
+];
 
 const SY_REINFECTION_CRITERIA = [
   {th:'มารดามีอาการหรืออาการแสดงที่เข้าได้กับการติดเชื้อซ้ำ', en:'The mother has symptoms or signs consistent with reinfection'},
@@ -2344,6 +2362,13 @@ const SY_EXAM_FINDINGS = [
   {id:'rash', th:'Skin rash / bullous lesion', en:'Skin rash / bullous lesion'},
   {id:'pseudoparalysis', th:'Pseudoparalysis ของแขนขา', en:'Pseudoparalysis of an extremity'},
   {id:'other', th:'อื่น ๆ ที่เข้าได้กับ congenital syphilis', en:'Other findings consistent with congenital syphilis'}
+];
+
+const SY_EXAM_REFERENCE_TABLE = [
+  { category:{th:'Early congenital syphilis (แสดงอาการใน 2 ปีแรก)', en:'Early congenital syphilis (onset within first 2 years)'},
+    findings:{th:'Hepatosplenomegaly, jaundice/cholestasis, rhinitis ("snuffles"), maculopapular/desquamative/bullous rash (โดยเฉพาะฝ่ามือ-ฝ่าเท้า), condylomata lata, lymphadenopathy, pseudoparalysis of Parrot (จาก osteochondritis/periostitis), pneumonia alba, nonimmune hydrops fetalis, anemia, thrombocytopenia, meningitis/CNS involvement', en:'Hepatosplenomegaly, jaundice/cholestasis, rhinitis ("snuffles"), maculopapular/desquamative/bullous rash (especially palms and soles), condylomata lata, lymphadenopathy, pseudoparalysis of Parrot (from osteochondritis/periostitis), pneumonia alba, nonimmune hydrops fetalis, anemia, thrombocytopenia, meningitis/CNS involvement'} },
+  { category:{th:'Late congenital syphilis (แสดงอาการหลังอายุ 2 ปี ในรายที่ไม่ได้รับการรักษาตั้งแต่แรก)', en:'Late congenital syphilis (onset after age 2 years, in untreated early disease)'},
+    findings:{th:'Hutchinson teeth, mulberry molars, saddle nose, saber shins, frontal bossing, short maxilla/high-arched palate, rhagades (แผลเป็นรอบปาก), interstitial keratitis, eighth cranial nerve deafness, Clutton joints (ข้อเข่าบวมสองข้างแบบไม่เจ็บ)', en:'Hutchinson teeth, mulberry molars, saddle nose, saber shins, frontal bossing, short maxilla/high-arched palate, rhagades (perioral scarring), interstitial keratitis, eighth cranial nerve deafness, Clutton joints (painless symmetric knee effusions)'} }
 ];
 
 const SY_SCENARIO_META = {
@@ -2390,7 +2415,7 @@ const SY_SCENARIO_META = {
 function syComputeScenario(f){
   const mVal = syTiterValue(f.maternalTiter);
   const iVal = syTiterValue(f.infantTiter);
-  const examAbnormal = Object.values(f.exam).some(Boolean);
+  const examAbnormal = Object.keys(f.exam).some(k=>k!=='normal' && f.exam[k]);
   const darkfieldPositive = f.darkfield === true;
   let fold=null, titerFlag=null;
   if(mVal===0 && iVal>0){ titerFlag='mother-nonreactive'; fold=Infinity; }
@@ -2472,6 +2497,18 @@ function syMaternalView(app){
   const f = syState.form;
   let html = `
     <div class="q-text">${t(SY.maternalHeader)}</div>
+    <details class="mini-note" style="cursor:pointer;">
+      <summary style="cursor:pointer; font-weight:600; color:var(--pink-600); list-style:none; display:flex; align-items:center; gap:7px;">${t(SY.maternalTxTableTitle)} <span style="margin-left:auto; font-size:11px; color:var(--ink-soft); font-weight:400;">${t(SY.maternalTxTableHint)}</span></summary>
+      <div class="dose-table-scroll" style="margin-top:8px;">
+        <table class="dose-table">
+          <thead><tr><th>${t(SY.maternalTxTableStage)}</th><th>${t(SY.maternalTxTableRegimen)}</th></tr></thead>
+          <tbody>
+            ${SY_MATERNAL_TX_TABLE.map(r=>`<tr><td>${t(r.stage)}</td><td>${t(r.regimen)}</td></tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:11.5px; color:var(--ink-soft); margin-top:8px; line-height:1.5;">${t(SY.maternalTxTableNote)}</p>
+    </details>
     <div class="opt-list">
       ${SY_MATERNAL_OPTIONS.map(o=>{
         const sel = f.maternalTreatment===o.id ? 'selected':'';
@@ -2520,21 +2557,38 @@ function syExamView(app){
   const card = document.createElement('div');
   card.className='q-card';
   const f = syState.form;
-  const anyAbnormal = Object.values(f.exam).some(Boolean);
+  const anyAbnormal = Object.keys(f.exam).some(k=>k!=='normal' && f.exam[k]);
+  const isNormal = !!f.exam.normal;
   card.innerHTML = `
     <div class="q-text">${t(SY.examHeader)}</div>
     <div class="q-hint">${t(SY.examSub)}</div>
+    <details class="mini-note" style="cursor:pointer;">
+      <summary style="cursor:pointer; font-weight:600; color:var(--pink-600); list-style:none; display:flex; align-items:center; gap:7px;">${t(SY.examRefTableTitle)} <span style="margin-left:auto; font-size:11px; color:var(--ink-soft); font-weight:400;">${t(SY.examRefTableHint)}</span></summary>
+      <div class="dose-table-scroll" style="margin-top:8px;">
+        <table class="dose-table">
+          <thead><tr><th>${t(SY.examRefTableCategory)}</th><th>${t(SY.examRefTableFindings)}</th></tr></thead>
+          <tbody>
+            ${SY_EXAM_REFERENCE_TABLE.map(r=>`<tr><td>${t(r.category)}</td><td>${t(r.findings)}</td></tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+    </details>
     <div class="opt-list">
       ${SY_EXAM_FINDINGS.map(ef=>{
         const sel = f.exam[ef.id] ? 'selected':'';
         return `<button class="opt-btn ${sel}" data-exam="${ef.id}"><span class="chk">${sel?'✓':''}</span>${t(ef)}</button>`;
       }).join('')}
+      <button class="opt-btn ${isNormal?'selected':''}" data-exam-normal="1"><span class="chk">${isNormal?'✓':''}</span>${t(SY.examNormalFlag)}</button>
     </div>
-    ${anyAbnormal ? `<div class="mini-note" style="background:var(--mod-bg); border-color:var(--mod-bd); color:var(--mod-tx);">${t(SY.examAbnormalFlag)}</div>` : `<p style="font-size:12.5px; color:var(--ink-soft); margin-top:8px;">${t(SY.examNormalFlag)}</p>`}
+    ${anyAbnormal ? `<div class="mini-note" style="background:var(--mod-bg); border-color:var(--mod-bd); color:var(--mod-tx);">${t(SY.examAbnormalFlag)}</div>` : ''}
   `;
   app.appendChild(card);
+  card.querySelector('[data-exam-normal]').onclick = ()=>{
+    f.exam = isNormal ? {} : { normal:true };
+    render();
+  };
   card.querySelectorAll('[data-exam]').forEach(btn=>{
-    btn.onclick = ()=>{ const id = btn.getAttribute('data-exam'); f.exam[id] = !f.exam[id]; render(); };
+    btn.onclick = ()=>{ const id = btn.getAttribute('data-exam'); f.exam.normal = false; f.exam[id] = !f.exam[id]; render(); };
   });
   syNav(app, { onNext: ()=>{ syState.step=2; render(); } });
 }
