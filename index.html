@@ -66,6 +66,25 @@ header.top{
 .brand-text .title .compass{color:#4E9EF7;}
 .brand-text .subtitle{font-size:11.5px; color:var(--ink-soft);}
 
+.splash-screen{
+  position:fixed; top:0; left:0; right:0; bottom:0; z-index:9999;
+  display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(160deg, var(--pink-100) 0%, #FBFDFF 55%, var(--pink-50) 100%);
+  overflow:hidden; transition:opacity .45s ease;
+}
+.splash-screen.hide{opacity:0; pointer-events:none;}
+.splash-blob-top{position:absolute; top:-60px; left:-60px; width:260px; height:220px; background:var(--pink-200); opacity:.55; border-radius:0 0 60% 40%/0 0 55% 45%;}
+.splash-blob-bottom{position:absolute; bottom:-40px; left:0; right:0; height:140px; background:var(--pink-200); opacity:.55; border-radius:55% 45% 0 0/70% 70% 0 0;}
+.splash-blob-bottom2{position:absolute; bottom:-70px; left:0; right:0; height:170px; background:var(--pink-300); opacity:.35; border-radius:45% 55% 0 0/60% 60% 0 0;}
+.splash-icon{position:absolute; color:var(--pink-300); opacity:.5; font-size:26px;}
+.splash-content{position:relative; display:flex; flex-direction:column; align-items:center; text-align:center;}
+.splash-logo{width:132px; height:132px; margin-bottom:18px; filter:drop-shadow(0 8px 18px rgba(58,110,165,0.22));}
+.splash-title{font-size:32px; font-weight:700; font-family:'Taviraj',serif;}
+.splash-title .pedi{color:#014FAE;}
+.splash-title .compass{color:#4E9EF7;}
+.splash-subtitle{font-size:13px; color:var(--ink-soft); margin-top:6px;}
+
+
 .lang-toggle{
   display:flex; background:var(--pink-100); border-radius:999px; padding:3px;
   border:1px solid var(--pink-200);
@@ -115,6 +134,27 @@ main{flex:1; width:100%; max-width:640px; margin:0 auto; padding:22px 18px 40px;
 .module-card.urgent{border-color:var(--sev-bd); background:linear-gradient(180deg,#FFFDFD,#FFF7F8);}
 .module-card.urgent .icon{background:var(--sev-bg);}
 .module-card.hub{border-style:dashed; border-color:var(--pink-300);}
+
+.quickcalc-card{
+  display:flex; align-items:center; gap:12px; width:100%;
+  background:linear-gradient(180deg,#FFFDF7,#FFF6E8);
+  border:1px solid #E8C97A; border-radius:var(--radius);
+  padding:16px; margin:0 0 18px; text-align:left; cursor:pointer;
+  box-shadow:var(--shadow); transition:.15s;
+}
+.quickcalc-card:hover{transform:translateY(-2px);}
+.quickcalc-card .qc-icon{
+  width:46px; height:46px; border-radius:14px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center; font-size:22px;
+  background:#FBE8B8;
+}
+.quickcalc-card .qc-txt{flex:1; min-width:0;}
+.quickcalc-card .qc-name{display:block; font-weight:600; font-size:15px; color:var(--ink);}
+.quickcalc-card .qc-desc{display:block; font-size:12px; color:var(--ink-soft); margin-top:2px;}
+.quickcalc-card .qc-arrow{color:#C9962E; font-size:18px; flex-shrink:0;}
+.crx-tabs{display:flex; gap:8px; margin-bottom:14px;}
+.crx-tab{flex:1; padding:9px 0; border-radius:10px; border:1px solid var(--pink-200); background:#fff; color:var(--ink-soft); font-size:13px; font-weight:600; cursor:pointer;}
+.crx-tab.active{background:var(--pink-500); border-color:var(--pink-500); color:#fff;}
 
 .search-wrap{position:relative; margin:0 0 6px;}
 .search-wrap input{
@@ -388,6 +428,23 @@ footer .disclaimer-warning{
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
+
+<div id="splashScreen" class="splash-screen">
+  <div class="splash-blob-bottom2"></div>
+  <div class="splash-blob-bottom"></div>
+  <div class="splash-blob-top"></div>
+  <span class="splash-icon" style="top:8%; left:8%;">🌡️</span>
+  <span class="splash-icon" style="top:14%; right:10%;">💧</span>
+  <span class="splash-icon" style="top:40%; left:6%;">🫁</span>
+  <span class="splash-icon" style="top:38%; right:8%;">➕</span>
+  <span class="splash-icon" style="bottom:22%; left:10%;">👶</span>
+  <span class="splash-icon" style="bottom:20%; right:10%;">📋</span>
+  <div class="splash-content">
+    <img class="splash-logo" src="data:image/webp;base64,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" alt="PediCompass">
+    <div class="splash-title"><span class="pedi">Pedi</span><span class="compass">Compass</span></div>
+    <div class="splash-subtitle" data-i18n="appSubtitle">เข็มทิศดูแลเด็ก</div>
+  </div>
+</div>
 
 <header class="top">
   <div class="brand" onclick="goMainHome()" style="cursor:pointer;">
@@ -8624,6 +8681,10 @@ const CATEGORY_DISCLAIMERS = {
   asthma:{
     th:'เครื่องมือนี้จัดทำขึ้นเพื่อสนับสนุนการตัดสินใจทางคลินิกของบุคลากรทางการแพทย์ โดยอ้างอิงบท Acute Life-threatening Asthma หนังสือ Ramathibodi Handbook of Pediatric Emergency พ.ศ. 2565 ภาควิชากุมารเวชศาสตร์ คณะแพทยศาสตร์โรงพยาบาลรามาธิบดี มหาวิทยาลัยมหิดล',
     en:'This tool is intended to support the clinical decision-making of healthcare professionals, based on the Acute Life-threatening Asthma chapter of the Ramathibodi Handbook of Pediatric Emergency 2022, Department of Pediatrics, Faculty of Medicine Ramathibodi Hospital, Mahidol University.'
+  },
+  coderx:{
+    th:'เครื่องมือนี้จัดทำขึ้นเพื่อสนับสนุนการตัดสินใจทางคลินิกของบุคลากรทางการแพทย์ โดยอ้างอิง (1) AAP "Drugs Used to Treat Pediatric Emergencies" Pediatrics 2020;145(1):e20193450 (ยาส่วนใหญ่และอุปกรณ์) และ (2) แนวทางเวชปฏิบัติในการรักษาโรคลมชักสำหรับแพทย์ พ.ศ. 2564 สถาบันประสาทวิทยา กรมการแพทย์ (เฉพาะ Diazepam และ Midazolam ตรงกับโมดูล Status Epilepticus)',
+    en:'This tool is intended to support the clinical decision-making of healthcare professionals, based on (1) the AAP report "Drugs Used to Treat Pediatric Emergencies," Pediatrics 2020;145(1):e20193450 (most drugs and equipment) and (2) the Clinical Practice Guidelines for Epilepsy 2021, Neurological Institute of Thailand (Diazepam and Midazolam only, matching the Status Epilepticus module).'
   }
 };
 
@@ -8638,8 +8699,13 @@ function updateFooterDisclaimer(){
   if(el){
     // On the main home screen, skip the long combined reference list — it's clutter here
     // since each module already shows its own specific reference once opened.
-    const showRef = topState.screen!=='home';
-    el.textContent = showRef ? t(CATEGORY_DISCLAIMERS[topState.screen] || CATEGORY_DISCLAIMERS.home) : '';
+    // IMPORTANT: no fallback to CATEGORY_DISCLAIMERS.home for other screens — if a module's
+    // screen key is missing from CATEGORY_DISCLAIMERS (e.g. a new module was added without
+    // registering its reference), the bar is hidden rather than silently showing the
+    // combined 14-guideline list, which would misattribute references to the wrong module.
+    const entry = CATEGORY_DISCLAIMERS[topState.screen];
+    const showRef = topState.screen!=='home' && !!entry;
+    el.textContent = showRef ? t(entry) : '';
     el.style.display = showRef ? '' : 'none';
   }
   if(warnEl){
@@ -10391,6 +10457,285 @@ function asRender(){
 /* ============================================================================
    TOP-LEVEL APP ROUTER (main home + 4 categories: respiratory / fever / syphilis / diarrhea)
    ============================================================================ */
+
+/* ======================= Emergency Drugs (Code Drugs) Calculator ======================= */
+const CRX = {
+  icon: '⚡',
+  title: {th:'Emergency Drugs and Equipment', en:'Emergency Drugs and Equipment'},
+  short: {th:'คำนวณขนาดยาและอุปกรณ์ฉุกเฉินตามน้ำหนัก/อายุ', en:'Weight/age-based emergency drug and equipment calculator'},
+  keywords: 'code drug drugs equipment emergency ett laryngoscope suction defibrillation cardioversion io needle epinephrine atropine adenosine amiodarone naloxone ยาฉุกเฉิน อุปกรณ์ฉุกเฉิน คำนวณยาฉุกเฉิน ใส่ท่อช่วยหายใจ ท่อช่วยหายใจ ช็อกไฟฟ้า โค้ด รถฉุกเฉิน crash cart code cart resuscitation',
+  wtLabel: {th:'น้ำหนักตัว (กก.)', en:'Body weight (kg)'},
+  wtPlaceholder: {th:'เช่น 12', en:'e.g. 12'},
+  ageLabel: {th:'อายุ (ปี) — สำหรับขนาด ETT/ใบ Laryngoscope/สาย Suction', en:'Age (years) — for ETT/laryngoscope/suction sizing'},
+  agePlaceholder: {th:'เช่น 4', en:'e.g. 4'},
+  placeholder: {th:'กรอกน้ำหนักเพื่อคำนวณขนาดยา', en:'Enter weight to calculate doses'},
+  placeholderAge: {th:'กรอกอายุเพื่อคำนวณขนาด', en:'Enter age to calculate size'},
+  equipmentHeading: {th:'อุปกรณ์ฉุกเฉิน', en:'Emergency equipment'}
+};
+
+const CRX_GROUPS = [
+  {th:'ยาช่วยฟื้นคืนชีพ (Resuscitation / Arrest)', en:'Resuscitation / Arrest'},
+  {th:'ยาควบคุมจังหวะหัวใจ (Antiarrhythmic)', en:'Antiarrhythmic'},
+  {th:'ยาระงับชัก (Seizure)', en:'Seizure'},
+  {th:'ยาแก้ฤทธิ์ (Reversal)', en:'Reversal'},
+  {th:'Anaphylaxis', en:'Anaphylaxis'},
+  {th:'ยาระงับความรู้สึก / Intubation (Sedation / RSI)', en:'Sedation / RSI'}
+];
+
+function crxClamp(v, lo, hi){
+  if(lo!==null && v<lo) return lo;
+  if(hi!==null && v>hi) return hi;
+  return v;
+}
+
+const CRX_DRUGS = [
+  { g:0, name:{th:'Epinephrine (1:10,000) IV/IO', en:'Epinephrine (1:10,000) IV/IO'},
+    calc:(w)=>{ const mg=crxClamp(w*0.01,null,1); const ml=mg*10;
+      return {th:`${seNum(mg,3)} มก. (${seNum(ml,2)} มล.) IV/IO ทุก 3–5 นาที${w*0.01>1?' — ถึงขนาดสูงสุด 1 มก.':''}`,
+              en:`${seNum(mg,3)} mg (${seNum(ml,2)} mL) IV/IO q3–5min${w*0.01>1?' — capped at 1 mg':''}`}; } },
+  { g:0, name:{th:'Epinephrine (1:1,000) ทาง ET', en:'Epinephrine (1:1,000) via ETT'},
+    calc:(w)=>{ const mg=w*0.1;
+      return {th:`${seNum(mg,2)} มก. (${seNum(mg,2)} มล.) ทาง ET — ใช้เมื่อยังไม่มี IV/IO`,
+              en:`${seNum(mg,2)} mg (${seNum(mg,2)} mL) via ETT — if IV/IO not yet available`}; } },
+  { g:0, name:{th:'Atropine', en:'Atropine'},
+    calc:(w)=>{ const mg=crxClamp(w*0.02,0.1,0.5);
+      return {th:`${seNum(mg,2)} มก. IV/IO (ต่ำสุด 0.1 มก., สูงสุด 0.5 มก.)`,
+              en:`${seNum(mg,2)} mg IV/IO (min 0.1 mg, max 0.5 mg)`}; } },
+  { g:0, name:{th:'Sodium bicarbonate 7.5%', en:'Sodium bicarbonate 7.5%'},
+    calc:(w)=>{ const meq=w*1;
+      return {th:`${seNum(meq,1)} mEq (${seNum(meq,1)} มล.) IV ช้าๆ — เจือจาง 1:1 ในเด็กเล็ก`,
+              en:`${seNum(meq,1)} mEq (${seNum(meq,1)} mL) IV slowly — dilute 1:1 in young infants`}; } },
+  { g:0, name:{th:'Calcium gluconate 10%', en:'Calcium gluconate 10%'},
+    calc:(w)=>{ const mg=crxClamp(w*60,null,2000); const ml=mg/100;
+      return {th:`${seNum(mg,0)} มก. (${seNum(ml,1)} มล.) IV ช้าๆ (สูงสุด 2 ก.)`,
+              en:`${seNum(mg,0)} mg (${seNum(ml,1)} mL) IV slowly (max 2 g)`}; } },
+  { g:0, name:{th:'Dextrose (ภาวะน้ำตาลต่ำ)', en:'Dextrose (hypoglycemia)'},
+    calc:(w)=>{ let conc, perKg;
+      if(w<5){ conc='D10%'; perKg=7.5; } else if(w<45){ conc='D25%'; perKg=3; } else { conc='D50%'; perKg=1.5; }
+      const ml=w*perKg;
+      return {th:`${conc} ${seNum(ml,1)} มล. IV (${perKg} มล./กก.) — ตรวจน้ำตาลซ้ำ`,
+              en:`${conc} ${seNum(ml,1)} mL IV (${perKg} mL/kg) — recheck glucose`}; } },
+
+  { g:1, name:{th:'Adenosine (ครั้งที่ 1)', en:'Adenosine (1st dose)'},
+    calc:(w)=>{ const mg=crxClamp(w*0.1,null,6);
+      return {th:`${seNum(mg,2)} มก. IV/IO rapid push (สูงสุด 6 มก.) ตามด้วย NS flush`,
+              en:`${seNum(mg,2)} mg IV/IO rapid push (max 6 mg), follow with NS flush`}; } },
+  { g:1, name:{th:'Adenosine (ครั้งที่ 2)', en:'Adenosine (2nd dose)'},
+    calc:(w)=>{ const mg=crxClamp(w*0.2,null,12);
+      return {th:`${seNum(mg,2)} มก. IV/IO rapid push (สูงสุด 12 มก.) หากครั้งแรกไม่ตอบสนอง`,
+              en:`${seNum(mg,2)} mg IV/IO rapid push (max 12 mg) if 1st dose ineffective`}; } },
+  { g:1, name:{th:'Amiodarone', en:'Amiodarone'},
+    calc:(w)=>{ const mg=crxClamp(w*5,null,300);
+      return {th:`${seNum(mg,0)} มก. IV/IO (สูงสุด 300 มก./ครั้ง) — bolus เมื่อ pulseless VT/VF, infuse 20–60 นาทีเมื่อมี pulse`,
+              en:`${seNum(mg,0)} mg IV/IO (max 300 mg/dose) — bolus for pulseless VT/VF, infuse over 20–60 min if perfusing`}; } },
+  { g:1, name:{th:'Magnesium sulfate', en:'Magnesium sulfate'},
+    calc:(w)=>{ const mg=crxClamp(w*25,null,2000); const ml=mg/500;
+      return {th:`${seNum(mg,0)} มก. (${seNum(ml,2)} มล.) IV (สูงสุด 2 ก.) — อาจเพิ่มถึง 50 มก./กก.`,
+              en:`${seNum(mg,0)} mg (${seNum(ml,2)} mL) IV (max 2 g) — may increase up to 50 mg/kg`}; } },
+
+  { g:2, name:{th:'Diazepam IV', en:'Diazepam IV'},
+    calc:(w)=>{ const mg=crxClamp(w*0.3,null,10);
+      return {th:`${seNum(mg,1)} มก. IV อัตราเร็ว &lt; 2 มก./นาที (สูงสุด 10 มก.)`,
+              en:`${seNum(mg,1)} mg IV at &lt; 2 mg/min (max 10 mg)`}; } },
+  { g:2, name:{th:'Diazepam ทางทวารหนัก', en:'Diazepam rectal'},
+    calc:(w)=>{ const mg=crxClamp(w*0.5,null,10);
+      return {th:`${seNum(mg,1)} มก. ทางทวารหนัก (สูงสุด 10 มก.)`,
+              en:`${seNum(mg,1)} mg rectally (max 10 mg)`}; } },
+  { g:2, name:{th:'Midazolam IV', en:'Midazolam IV'},
+    calc:(w)=>{ const mg=crxClamp(w*0.1,null,5);
+      return {th:`${seNum(mg,2)} มก. IV ช้าๆ (สูงสุด 5 มก.) — อาจเพิ่มถึง 0.2 มก./กก. (สูงสุด 10 มก.)`,
+              en:`${seNum(mg,2)} mg IV slowly (max 5 mg) — may increase up to 0.2 mg/kg (max 10 mg)`}; } },
+  { g:2, name:{th:'Midazolam IM', en:'Midazolam IM'},
+    calc:(w)=>{ if(w>40) return {th:'10 มก. IM', en:'10 mg IM'};
+      if(w>=13) return {th:'5 มก. IM', en:'5 mg IM'};
+      return {th:'แนวทางไม่ได้ระบุขนาด IM สำหรับน้ำหนัก &lt; 13 กก. — พิจารณาทางจมูกหรือกระพุ้งแก้มแทน',
+              en:'No IM dose specified below 13 kg — consider intranasal or buccal route instead'}; } },
+  { g:2, name:{th:'Midazolam ทางจมูก', en:'Midazolam intranasal'},
+    calc:(w)=>{ const mg=crxClamp(w*0.2,null,10);
+      return {th:`${seNum(mg,2)} มก. หยอดทางจมูก (สูงสุด 10 มก.)`,
+              en:`${seNum(mg,2)} mg intranasally (max 10 mg)`}; } },
+  { g:2, name:{th:'Midazolam ทางกระพุ้งแก้ม', en:'Midazolam buccal'},
+    calc:(w)=>{ const mg=crxClamp(w*0.5,null,10);
+      return {th:`${seNum(mg,2)} มก. ทางกระพุ้งแก้ม (สูงสุด 10 มก.)`,
+              en:`${seNum(mg,2)} mg buccally (max 10 mg)`}; } },
+
+  { g:3, name:{th:'Naloxone', en:'Naloxone'},
+    calc:(w)=>{ const mg=crxClamp(w*0.1,null,2);
+      return {th:`${seNum(mg,2)} มก. IV/IM/IN (สูงสุด 2 มก.) — ให้ซ้ำได้ตามการตอบสนอง`,
+              en:`${seNum(mg,2)} mg IV/IM/IN (max 2 mg) — repeat titrated to response`}; } },
+
+  { g:4, name:{th:'Epinephrine IM (1:1,000)', en:'Epinephrine IM (1:1,000)'},
+    calc:(w)=>{ const mg=crxClamp(w*0.01,null,0.5);
+      return {th:`${seNum(mg,2)} มก. (${seNum(mg,2)} มล.) IM ทุก 5–15 นาที (สูงสุด 0.5 มก.)`,
+              en:`${seNum(mg,2)} mg (${seNum(mg,2)} mL) IM q5–15min (max 0.5 mg)`}; } },
+  { g:4, name:{th:'Diphenhydramine', en:'Diphenhydramine'},
+    calc:(w)=>{ const mg=crxClamp(w*1,null,50);
+      return {th:`${seNum(mg,0)} มก. IV/IM/PO (สูงสุด 50 มก.) — อาจเพิ่มถึง 2 มก./กก.`,
+              en:`${seNum(mg,0)} mg IV/IM/PO (max 50 mg) — may increase up to 2 mg/kg`}; } },
+  { g:4, name:{th:'Methylprednisolone / Hydrocortisone', en:'Methylprednisolone / Hydrocortisone'},
+    calc:(w)=>{ const mp=crxClamp(w*1,null,60); const hc=crxClamp(w*5,null,250);
+      return {th:`Methylprednisolone ${seNum(mp,0)} มก. (สูงสุด 60 มก.) หรือ Hydrocortisone ${seNum(hc,0)} มก. (สูงสุด 250 มก.)`,
+              en:`Methylprednisolone ${seNum(mp,0)} mg (max 60 mg) or Hydrocortisone ${seNum(hc,0)} mg (max 250 mg)`}; } },
+
+  { g:5, name:{th:'Fentanyl', en:'Fentanyl'},
+    calc:(w)=>{ const mcg=crxClamp(w*1,null,100);
+      return {th:`${seNum(mcg,0)} มคก. IV (สูงสุด 100 มคก.) — อาจเพิ่มถึง 2 มคก./กก.`,
+              en:`${seNum(mcg,0)} mcg IV (max 100 mcg) — may increase up to 2 mcg/kg`}; } },
+  { g:5, name:{th:'Ketamine', en:'Ketamine'},
+    calc:(w)=>{ const ivmg=w*1; const immg=w*4;
+      return {th:`IV ${seNum(ivmg,1)} มก. (1 มก./กก.) หรือ IM ${seNum(immg,1)} มก. (3–5 มก./กก.)`,
+              en:`IV ${seNum(ivmg,1)} mg (1 mg/kg) or IM ${seNum(immg,1)} mg (3–5 mg/kg)`}; } },
+  { g:5, name:{th:'Rocuronium', en:'Rocuronium'},
+    calc:(w)=>{ const mg=w*1;
+      return {th:`${seNum(mg,1)} มก. IV (1 มก./กก.)`,
+              en:`${seNum(mg,1)} mg IV (1 mg/kg)`}; } }
+];
+
+const CRX_TABS = {
+  drugs: {th:'ยา', en:'Drugs'},
+  equipment: {th:'อุปกรณ์', en:'Equipment'}
+};
+
+function crxBladeFor(age){
+  if(age===null) return {th:'—', en:'—'};
+  if(age<1) return {th:'Miller 1 (straight)', en:'Miller 1 (straight)'};
+  if(age<2) return {th:'Miller 1–2 (straight)', en:'Miller 1–2 (straight)'};
+  if(age<8) return {th:'Macintosh 2 (curved)', en:'Macintosh 2 (curved)'};
+  return {th:'Macintosh 2–3 (curved)', en:'Macintosh 2–3 (curved)'};
+}
+function crxIoFor(w){
+  if(w<3) return {th:'EZ-IO 15 มม. (สีชมพู)', en:'EZ-IO 15 mm (pink)'};
+  if(w<40) return {th:'EZ-IO 25 มม. (สีฟ้า)', en:'EZ-IO 25 mm (blue)'};
+  return {th:'EZ-IO 45 มม. (สีเหลือง)', en:'EZ-IO 45 mm (yellow)'};
+}
+
+function crxRoundHalf(v){ return Math.round(v*2)/2; }
+
+const CRX_EQUIPMENT = [
+  { needsAge:true, name:{th:'ETT ชนิดไม่มี cuff', en:'Uncuffed ETT'},
+    calc:(w,age)=>{ const id=crxRoundHalf(age/4+4);
+      return {th:`ID ${seNum(id,1)} มม.`, en:`ID ${seNum(id,1)} mm`}; } },
+  { needsAge:true, name:{th:'ETT ชนิดมี cuff', en:'Cuffed ETT'},
+    calc:(w,age)=>{ const id=crxRoundHalf(age/4+3.5);
+      return {th:`ID ${seNum(id,1)} มม.`, en:`ID ${seNum(id,1)} mm`}; } },
+  { needsAge:true, name:{th:'ความลึกท่อ (ที่ริมฝีปาก)', en:'Tube depth (at the lip)'},
+    calc:(w,age)=>{ const id=crxRoundHalf(age/4+4); const depth=id*3;
+      return {th:`${seNum(depth,1)} ซม.`, en:`${seNum(depth,1)} cm`}; } },
+  { needsAge:true, name:{th:'ใบ Laryngoscope', en:'Laryngoscope blade'},
+    calc:(w,age)=>crxBladeFor(age) },
+  { needsAge:true, name:{th:'สาย Suction', en:'Suction catheter'},
+    calc:(w,age)=>{ const id=crxRoundHalf(age/4+4); const fr=Math.round(id*2);
+      return {th:`${fr} Fr`, en:`${fr} Fr`}; } },
+  { needsAge:false, name:{th:'เข็ม IO', en:'IO needle'},
+    calc:(w,age)=>crxIoFor(w) },
+  { needsAge:false, name:{th:'Defibrillation', en:'Defibrillation'},
+    calc:(w,age)=>{ const d1=Math.round(w*2), d2=Math.round(w*4);
+      return {th:`${d1} J → ${d2} J (ครั้งถัดไป)`, en:`${d1} J → ${d2} J (subsequent shocks)`}; } },
+  { needsAge:false, name:{th:'Cardioversion', en:'Cardioversion'},
+    calc:(w,age)=>{ const c1=seNum(w*0.5,1), c2=Math.round(w*2);
+      return {th:`${c1} J → ${c2} J (ครั้งถัดไป)`, en:`${c1} J → ${c2} J (subsequent shocks)`}; } }
+];
+
+let crxState = { wt: null, age: null, tab: 'drugs' };
+function crxResetAll(){ crxState = { wt: null, age: null, tab: 'drugs' }; }
+function crxOpen(){ topState = { screen:'coderx' }; crxResetAll(); logModuleView('coderx'); scrollToTop(); render(); }
+
+function crxUpdateRows(){
+  const w = parseFloat(crxState.wt);
+  CRX_DRUGS.forEach((d, i)=>{
+    const el = document.getElementById('crxRow'+i);
+    if(!el) return;
+    if(w>0){ el.innerHTML = t(d.calc(w)); }
+    else { el.textContent = t(CRX.placeholder); }
+  });
+}
+
+function crxUpdateEquipment(){
+  const w = parseFloat(crxState.wt);
+  const age = parseFloat(crxState.age);
+  CRX_EQUIPMENT.forEach((eq, i)=>{
+    const el = document.getElementById('crxEq'+i);
+    if(!el) return;
+    if(eq.needsAge){
+      if(age>=0){ el.innerHTML = t(eq.calc(w, age)); }
+      else { el.textContent = t(CRX.placeholderAge); }
+    } else {
+      if(w>0){ el.innerHTML = t(eq.calc(w, age)); }
+      else { el.textContent = t(CRX.placeholder); }
+    }
+  });
+}
+
+function crxSetTab(tab){ crxState.tab = tab; scrollToTop(); crxRender(); }
+
+function crxRender(){
+  const app = document.getElementById('app');
+  app.innerHTML = '';
+  const backBtn = document.createElement('button');
+  backBtn.className='top-back-link';
+  backBtn.textContent = t(UI.backToMainHome);
+  backBtn.onclick = goMainHome;
+  app.appendChild(backBtn);
+
+  spHeader(app, `${CRX.icon} ${t(CRX.title)}`);
+
+  const tabWrap = document.createElement('div');
+  tabWrap.className = 'crx-tabs';
+  Object.keys(CRX_TABS).forEach(key=>{
+    const b = document.createElement('button');
+    b.className = 'crx-tab' + (crxState.tab===key ? ' active' : '');
+    b.textContent = t(CRX_TABS[key]);
+    b.onclick = ()=>crxSetTab(key);
+    tabWrap.appendChild(b);
+  });
+  app.appendChild(tabWrap);
+
+  const wtCard = document.createElement('div');
+  wtCard.className = 'section-card prominent';
+  let wtBody = `
+    <label style="font-size:12.5px; font-weight:600; display:block; margin-bottom:5px;">${t(CRX.wtLabel)}</label>
+    <input class="num-input" id="crxWt" type="number" inputmode="decimal" min="0" step="0.1" placeholder="${t(CRX.wtPlaceholder)}" value="${crxState.wt||''}">`;
+  if(crxState.tab==='equipment'){
+    wtBody += `
+    <label style="font-size:12.5px; font-weight:600; display:block; margin:12px 0 5px;">${t(CRX.ageLabel)}</label>
+    <input class="num-input" id="crxAge" type="number" inputmode="decimal" min="0" step="0.5" placeholder="${t(CRX.agePlaceholder)}" value="${crxState.age||''}">`;
+  }
+  wtCard.innerHTML = wtBody;
+  app.appendChild(wtCard);
+  const wtInput = wtCard.querySelector('#crxWt');
+  wtInput.oninput = ()=>{ crxState.wt = wtInput.value; crxState.tab==='equipment' ? crxUpdateEquipment() : crxUpdateRows(); };
+  if(crxState.tab==='equipment'){
+    const ageInput = wtCard.querySelector('#crxAge');
+    ageInput.oninput = ()=>{ crxState.age = ageInput.value; crxUpdateEquipment(); };
+  }
+
+  if(crxState.tab==='drugs'){
+    CRX_GROUPS.forEach((g, gi)=>{
+      const card = document.createElement('div');
+      card.className = 'section-card';
+      let body = `<h3 style="font-size:13.5px;">${t(g)}</h3>`;
+      CRX_DRUGS.forEach((d, i)=>{
+        if(d.g!==gi) return;
+        body += `<div class="drugline"><span class="dname">${t(d.name)}</span><span class="ddose" id="crxRow${i}">${t(CRX.placeholder)}</span></div>`;
+      });
+      card.innerHTML = body;
+      app.appendChild(card);
+    });
+    crxUpdateRows();
+  } else {
+    const card = document.createElement('div');
+    card.className = 'section-card';
+    let body = `<h3 style="font-size:13.5px;">${t(CRX.equipmentHeading)}</h3>`;
+    CRX_EQUIPMENT.forEach((eq, i)=>{
+      body += `<div class="drugline"><span class="dname">${t(eq.name)}</span><span class="ddose" id="crxEq${i}">${eq.needsAge ? t(CRX.placeholderAge) : t(CRX.placeholder)}</span></div>`;
+    });
+    card.innerHTML = body;
+    app.appendChild(card);
+    crxUpdateEquipment();
+  }
+}
+/* ======================= End Emergency Drugs Calculator ======================= */
+
 let topState = { screen:'home' };
 
 function goMainHome(){
@@ -10518,6 +10863,20 @@ function renderHomeResults(area){
   const urgent = CATEGORIES.filter(c => c.group==='urgent' && homeMatches(c, q));
   const common = CATEGORIES.filter(c => c.group==='common' && homeMatches(c, q));
   const newbornShown = homeMatches(NEWBORN_HUB, q);
+  const crxShown = homeMatches({name:CRX.title, short:CRX.short, keywords:CRX.keywords}, q);
+
+  if(crxShown){
+    const crxCard = document.createElement('button');
+    crxCard.className = 'quickcalc-card';
+    crxCard.onclick = crxOpen;
+    crxCard.innerHTML = `<span class="qc-icon">${CRX.icon}</span>
+      <span class="qc-txt">
+        <span class="qc-name">${t(CRX.title)}</span>
+        <span class="qc-desc">${t(CRX.short)}</span>
+      </span>
+      <span class="qc-arrow">\u203a</span>`;
+    area.appendChild(crxCard);
+  }
 
   if(urgent.length){
     const head = document.createElement('div');
@@ -10549,7 +10908,7 @@ function renderHomeResults(area){
     grid.appendChild(buildModuleCard(NEWBORN_HUB, ()=>goNewbornHome(), {hub:true}));
     area.appendChild(grid);
   }
-  if(!urgent.length && !common.length && !newbornShown){
+  if(!urgent.length && !common.length && !newbornShown && !crxShown){
     const empty = document.createElement('div');
     empty.className = 'search-empty';
     empty.textContent = t(UI.searchEmpty);
@@ -10600,11 +10959,20 @@ function render(){
   if(topState.screen==='jaundice'){ jaRender(); return; }
   if(topState.screen==='dka'){ dkaRender(); return; }
   if(topState.screen==='asthma'){ asRender(); return; }
+  if(topState.screen==='coderx'){ crxRender(); return; }
 }
 
 render();
 fbInitDrag();
 wnCheckAutoPopup();
+
+function hideSplashScreen(){
+  const s = document.getElementById('splashScreen');
+  if(!s) return;
+  s.classList.add('hide');
+  setTimeout(()=>{ s.remove(); }, 500);
+}
+setTimeout(hideSplashScreen, 900);
 </script>
 </body>
 </html>
