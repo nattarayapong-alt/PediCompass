@@ -10515,7 +10515,8 @@ const CRX = {
   agePlaceholder: {th:'เช่น 4', en:'e.g. 4'},
   placeholder: {th:'กรอกน้ำหนักเพื่อคำนวณขนาดยา', en:'Enter weight to calculate doses'},
   placeholderAge: {th:'กรอกอายุเพื่อคำนวณขนาด', en:'Enter age to calculate size'},
-  equipmentHeading: {th:'อุปกรณ์ฉุกเฉิน', en:'Emergency equipment'}
+  equipmentHeading: {th:'อุปกรณ์ฉุกเฉิน', en:'Emergency equipment'},
+  ettCuffNote: {th:'แนะนำให้เลือกใช้ ETT ชนิดมี cuff เป็นอันดับแรกในการใส่ท่อช่วยหายใจส่วนใหญ่ (PALS 2025 — AHA/AAP) ชนิดไม่มี cuff แสดงไว้เป็นทางเลือกสำรอง', en:'A cuffed ETT is recommended as the first choice for most intubations (PALS 2025 — AHA/AAP). Uncuffed sizing is shown as an alternative.'}
 };
 
 const CRX_GROUPS = [
@@ -10649,22 +10650,22 @@ function crxBladeFor(age){
   return {th:'Macintosh 2–3 (curved)', en:'Macintosh 2–3 (curved)'};
 }
 function crxIoFor(w){
-  if(w<3) return {th:'EZ-IO 15 มม. (สีชมพู)', en:'EZ-IO 15 mm (pink)'};
-  if(w<40) return {th:'EZ-IO 25 มม. (สีฟ้า)', en:'EZ-IO 25 mm (blue)'};
-  return {th:'EZ-IO 45 มม. (สีเหลือง)', en:'EZ-IO 45 mm (yellow)'};
+  if(w<40) return {th:'EZ-IO 15 มม. (สีชมพู)', en:'EZ-IO 15 mm (pink)'};
+  return {th:'EZ-IO 25 มม. (สีฟ้า) — หากเนื้อเยื่อบริเวณที่แทงหนามาก พิจารณา 45 มม. (สีเหลือง)',
+          en:'EZ-IO 25 mm (blue) — consider 45 mm (yellow) if excessive tissue overlies the insertion site'};
 }
 
 function crxRoundHalf(v){ return Math.round(v*2)/2; }
 
 const CRX_EQUIPMENT = [
-  { needsAge:true, name:{th:'ETT ชนิดไม่มี cuff', en:'Uncuffed ETT'},
-    calc:(w,age)=>{ const id=crxRoundHalf(age/4+4);
-      return {th:`ID ${seNum(id,1)} มม.`, en:`ID ${seNum(id,1)} mm`}; } },
   { needsAge:true, name:{th:'ETT ชนิดมี cuff', en:'Cuffed ETT'},
     calc:(w,age)=>{ const id=crxRoundHalf(age/4+3.5);
       return {th:`ID ${seNum(id,1)} มม.`, en:`ID ${seNum(id,1)} mm`}; } },
+  { needsAge:true, name:{th:'ETT ชนิดไม่มี cuff', en:'Uncuffed ETT'},
+    calc:(w,age)=>{ const id=crxRoundHalf(age/4+4);
+      return {th:`ID ${seNum(id,1)} มม.`, en:`ID ${seNum(id,1)} mm`}; } },
   { needsAge:true, name:{th:'ความลึกท่อ (ที่ริมฝีปาก)', en:'Tube depth (at the lip)'},
-    calc:(w,age)=>{ const id=crxRoundHalf(age/4+4); const depth=id*3;
+    calc:(w,age)=>{ const id=crxRoundHalf(age/4+4); const depth = age>2 ? (age/2+12) : (id*3);
       return {th:`${seNum(depth,1)} ซม.`, en:`${seNum(depth,1)} cm`}; } },
   { needsAge:true, name:{th:'ใบ Laryngoscope', en:'Laryngoscope blade'},
     calc:(w,age)=>crxBladeFor(age) },
@@ -10771,6 +10772,7 @@ function crxRender(){
     const card = document.createElement('div');
     card.className = 'section-card';
     let body = `<h3 style="font-size:13.5px;">${t(CRX.equipmentHeading)}</h3>`;
+    body += `<div class="mini-note">${t(CRX.ettCuffNote)}</div>`;
     CRX_EQUIPMENT.forEach((eq, i)=>{
       body += `<div class="drugline"><span class="dname">${t(eq.name)}</span><span class="ddose" id="crxEq${i}">${eq.needsAge ? t(CRX.placeholderAge) : t(CRX.placeholder)}</span></div>`;
     });
