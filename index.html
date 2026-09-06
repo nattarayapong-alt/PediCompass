@@ -133,7 +133,8 @@ main{flex:1; width:100%; max-width:640px; margin:0 auto; padding:22px 18px 40px;
 .module-card .arrow{color:var(--pink-400); font-size:18px;}
 .module-card.urgent{border-color:var(--sev-bd); background:linear-gradient(180deg,#FFFDFD,#FFF7F8);}
 .module-card.urgent .icon{background:var(--sev-bg);}
-.module-card.hub{border-style:dashed; border-color:var(--pink-300);}
+.module-card.hub{border-style:solid; border-color:var(--mild-bd);}
+.module-card.hub:hover{border-color:var(--mild-bd);}
 
 .quickcalc-card{
   display:flex; align-items:center; gap:12px; width:100%;
@@ -158,12 +159,26 @@ main{flex:1; width:100%; max-width:640px; margin:0 auto; padding:22px 18px 40px;
 
 .search-wrap{position:relative; margin:0 0 6px;}
 .search-wrap input{
-  width:100%; padding:12px 14px 12px 40px; border-radius:14px;
+  width:100%; padding:12px 40px 12px 42px; border-radius:14px;
   border:1.5px solid var(--pink-200); background:white; font-size:14px;
   font-family:'Sarabun',sans-serif; color:var(--ink); outline:none;
 }
 .search-wrap input:focus{border-color:var(--pink-400);}
-.search-wrap .search-icon{position:absolute; left:13px; top:50%; transform:translateY(-50%); color:var(--pink-400); font-size:16px;}
+.search-wrap .search-icon{position:absolute; left:14px; top:50%; transform:translateY(-50%); width:17px; height:17px; stroke:var(--pink-500); fill:none; pointer-events:none;}
+.search-wrap .search-clear{
+  position:absolute; right:9px; top:50%; transform:translateY(-50%);
+  width:24px; height:24px; border:none; border-radius:50%;
+  background:var(--pink-100); color:var(--pink-600); font-size:12px; line-height:1;
+  cursor:pointer; display:none; align-items:center; justify-content:center; padding:0;
+}
+.search-wrap .search-clear:active{transform:translateY(-50%) scale(0.9);}
+.module-card:active{transform:scale(0.985);}
+.quickcalc-card:active{transform:scale(0.985);}
+.opt-btn:active{transform:scale(0.99);}
+.btn:active{transform:scale(0.99);}
+.crx-tab:active{transform:scale(0.98);}
+.restart-btn:active{transform:scale(0.99);}
+.back-btn:active{transform:scale(0.95);}
 .search-empty{text-align:center; padding:30px 10px; color:var(--ink-soft); font-size:13px;}
 
 .group-head{display:flex; align-items:center; gap:8px; margin:22px 0 10px;}
@@ -200,7 +215,7 @@ main{flex:1; width:100%; max-width:640px; margin:0 auto; padding:22px 18px 40px;
   transition:.15s; display:flex; align-items:center; gap:10px; font-family:'Sarabun',sans-serif;
 }
 .opt-btn:hover{border-color:var(--pink-400); background:var(--pink-100);}
-.opt-btn.selected{border-color:var(--pink-500); background:var(--pink-200); font-weight:600;}
+.opt-btn.selected{border-color:var(--pink-500); background:var(--pink-200); font-weight:600; box-shadow:inset 0 0 0 1.5px var(--pink-500);}
 .opt-btn .chk{
   width:18px; height:18px; border-radius:5px; border:1.5px solid var(--pink-400); flex-shrink:0;
   display:flex; align-items:center; justify-content:center; font-size:12px; color:white;
@@ -243,6 +258,7 @@ main{flex:1; width:100%; max-width:640px; margin:0 auto; padding:22px 18px 40px;
 /* Results */
 .result-banner{
   border-radius:var(--radius); padding:18px 18px 16px; margin-bottom:16px; border:1.5px solid;
+  box-shadow:inset 4px 0 0 currentColor;
 }
 .result-banner.mild{background:var(--mild-bg); border-color:var(--mild-bd); color:var(--mild-tx);}
 .result-banner.moderate{background:var(--mod-bg); border-color:var(--mod-bd); color:var(--mod-tx);}
@@ -310,10 +326,14 @@ footer .disclaimer-warning{
 .ref-note{font-size:11px; color:var(--ink-soft); text-align:center; margin-top:16px; line-height:1.6;}
 
 .top-back-link{
-  background:none; border:none; color:var(--pink-600); font-family:'IBM Plex Mono',monospace;
-  font-size:12.5px; font-weight:600; cursor:pointer; padding:0; margin-bottom:14px; display:inline-block;
+  background:var(--pink-100); border:1px solid var(--pink-200); color:var(--pink-700);
+  font-family:'Sarabun',sans-serif; font-weight:600;
+  font-size:13px; cursor:pointer; padding:8px 14px 8px 12px; margin-bottom:14px;
+  border-radius:12px; display:inline-flex; align-items:center; gap:7px;
 }
-.top-back-link:hover{text-decoration:underline;}
+.top-back-link::before{content:'🏠'; font-size:14px; line-height:1;}
+.top-back-link:hover{background:var(--pink-200); border-color:var(--pink-400);}
+.top-back-link:active{transform:scale(0.97);}
 
 .select-input{
   width:100%; border:1.5px solid var(--pink-200); border-radius:13px; padding:12px 14px;
@@ -528,7 +548,7 @@ const UI = {
   respHomeEyebrow:{th:'โรคติดเชื้อระบบหายใจ', en:'RESPIRATORY TRACT INFECTIONS'},
   respHomeTitle:{th:'เลือกภาวะที่ต้องการประเมิน', en:'Select a condition to assess'},
   respHomeDesc:{th:'เครื่องมือช่วยประเมินและวางแผนการรักษาโรคติดเชื้อเฉียบพลันระบบหายใจในเด็ก 5 กลุ่มโรค ตามแนวทาง พ.ศ. 2562', en:'A step-by-step assessment and treatment guide for five acute pediatric respiratory infections, based on the 2019 guideline.'},
-  backToMainHome:{th:'← กลับหน้าหลัก', en:'← Back to main menu'},
+  backToMainHome:{th:'กลับหน้าหลัก', en:'Back to main menu'},
   respScopeNote:{th:'⚠ ใช้สำหรับผู้ป่วยเด็กอายุมากกว่า 1 เดือนที่ไม่มีภาวะภูมิคุ้มกันบกพร่องหรือโรคประจำตัวรุนแรง ผลลัพธ์เป็นเพียงข้อเสนอแนะเบื้องต้น ต้องประเมินร่วมกับการตรวจร่างกายและดุลยพินิจทางคลินิกเสมอ', en:'⚠ Intended for children older than 1 month without severe immunodeficiency or major comorbidity. Output is a preliminary suggestion only — always confirm with physical examination and clinical judgment.'},
   back:{th:'ย้อนกลับ', en:'Back'},
   next:{th:'ถัดไป', en:'Next'},
@@ -1585,6 +1605,12 @@ function rsRenderQuestion(app, mod, qs, idx){
   const total = qs.length;
   const wrap = document.createElement('div');
 
+  const topHome = document.createElement('button');
+  topHome.className='top-back-link';
+  topHome.textContent = t(UI.backToMainHome);
+  topHome.onclick = goMainHome;
+  wrap.appendChild(topHome);
+
   const head = document.createElement('div');
   head.className='wizard-head';
   head.innerHTML = `<button class="back-btn" id="backBtn">‹</button><div class="wizard-title">${t(mod.name)}</div>`;
@@ -1699,6 +1725,12 @@ function rsRenderQuestion(app, mod, qs, idx){
 function rsRenderResult(app, mod){
   const result = mod.compute(rsState.answers);
   const wrap = document.createElement('div');
+
+  const topHome = document.createElement('button');
+  topHome.className='top-back-link';
+  topHome.textContent = t(UI.backToMainHome);
+  topHome.onclick = goMainHome;
+  wrap.appendChild(topHome);
 
   const head = document.createElement('div');
   head.className='wizard-head';
@@ -2382,7 +2414,7 @@ function syComputeScenario(f){
   return { scenario:null, fold, examAbnormal, darkfieldPositive, titerFlag };
 }
 
-const syInitialForm = { maternalTiter:'1:8', infantTiter:'1:8', darkfield:null, exam:{}, maternalTreatment:null, reinfection:null, serofast:null };
+const syInitialForm = { maternalTiter:'Nonreactive', infantTiter:'Nonreactive', darkfield:null, exam:{}, maternalTreatment:null, reinfection:null, serofast:null };
 let syState = { step:0, form: JSON.parse(JSON.stringify(syInitialForm)) };
 
 function syResetAll(){ syState = { step:0, form: JSON.parse(JSON.stringify(syInitialForm)) }; }
@@ -2401,14 +2433,15 @@ function syRender(){
   const backBtn = document.createElement('button');
   backBtn.className='top-back-link';
   backBtn.textContent = t(UI.backToMainHome);
-  backBtn.onclick = goNewbornHome;
+  backBtn.onclick = goMainHome;
   app.appendChild(backBtn);
 
   const head = document.createElement('div');
   head.className='wizard-head';
   const stepNames = [t(SY.stepMaternal), t(SY.stepExam), t(SY.stepLabs), t(SY.stepResult)];
-  head.innerHTML = `<div class="wizard-title">${stepNames[syState.step]}</div>`;
+  head.innerHTML = `<button class="back-btn" id="syHubBack" aria-label="${(LANG==='th'?'กลับไปหน้ารวม':'Back to')} ${t(UI.groupNewborn)}">‹</button><div class="wizard-title">${stepNames[syState.step]}</div>`;
   app.appendChild(head);
+  document.getElementById('syHubBack').onclick = goNewbornHome;
 
   const track = document.createElement('div');
   track.className='progress-track';
@@ -2778,7 +2811,7 @@ function eoRender(){
   const backBtn = document.createElement('button');
   backBtn.className='top-back-link';
   backBtn.textContent = t(UI.backToMainHome);
-  backBtn.onclick = goNewbornHome;
+  backBtn.onclick = goMainHome;
   app.appendChild(backBtn);
 
   if(eoState.screen==='ga') eoGaView(app);
@@ -2796,8 +2829,10 @@ function eoRender(){
 function eoHeader(app, title){
   const head = document.createElement('div');
   head.className='wizard-head';
-  head.innerHTML = `<div class="wizard-title">${title}</div>`;
+  const hubLabel = (LANG==='th'?'กลับไปหน้ารวม':'Back to') + ' ' + t(UI.groupNewborn);
+  head.innerHTML = `<button class="back-btn" id="eoHubBack" aria-label="${hubLabel}">‹</button><div class="wizard-title">${title}</div>`;
   app.appendChild(head);
+  document.getElementById('eoHubBack').onclick = goNewbornHome;
 }
 
 function eoNav(app, opts){
@@ -7413,7 +7448,7 @@ function jaRender(){
   const backBtn = document.createElement('button');
   backBtn.className='top-back-link';
   backBtn.textContent = t(UI.backToMainHome);
-  backBtn.onclick = goNewbornHome;
+  backBtn.onclick = goMainHome;
   app.appendChild(backBtn);
 
   if(jaState.screen==='ga') jaGaView(app);
@@ -7426,6 +7461,16 @@ function jaRender(){
   else if(jaState.screen==='ptRisk') jaPtRiskView(app);
   else if(jaState.screen==='ptTsb') jaPtTsbView(app);
   else if(jaState.screen==='ptResult') jaPtResultView(app);
+
+  const jaHead = app.querySelector('.wizard-head');
+  if(jaHead && !jaHead.querySelector('.back-btn')){
+    const jaHubBack = document.createElement('button');
+    jaHubBack.className='back-btn';
+    jaHubBack.setAttribute('aria-label', (LANG==='th'?'กลับไปหน้ารวม':'Back to') + ' ' + t(UI.groupNewborn));
+    jaHubBack.textContent = '‹';
+    jaHubBack.onclick = goNewbornHome;
+    jaHead.insertBefore(jaHubBack, jaHead.firstChild);
+  }
 }
 
 /* ============================================================================
@@ -10841,12 +10886,17 @@ function renderMainHome(app){
 
   const searchWrap = document.createElement('div');
   searchWrap.className = 'search-wrap';
-  searchWrap.innerHTML = `<span class="search-icon">⌕</span>
-    <input type="text" id="homeSearchInput" placeholder="${t(UI.searchPlaceholder)}">`;
+  searchWrap.innerHTML = `<svg class="search-icon" viewBox="0 0 24 24" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg>
+    <input type="text" id="homeSearchInput" inputmode="search" enterkeyhint="search" placeholder="${t(UI.searchPlaceholder)}">
+    <button type="button" class="search-clear" id="homeSearchClear" aria-label="ล้างการค้นหา">✕</button>`;
   app.appendChild(searchWrap);
   const searchInput = searchWrap.querySelector('#homeSearchInput');
   searchInput.value = homeSearchQuery;
-  searchInput.oninput = function(){ homeSearchQuery = searchInput.value; renderHomeResults(resultsArea); searchInput.focus(); };
+  const searchClear = searchWrap.querySelector('#homeSearchClear');
+  function syncSearchClear(){ searchClear.style.display = searchInput.value ? 'flex' : 'none'; }
+  syncSearchClear();
+  searchInput.oninput = function(){ homeSearchQuery = searchInput.value; syncSearchClear(); renderHomeResults(resultsArea); searchInput.focus(); };
+  searchClear.onclick = function(){ homeSearchQuery = ''; searchInput.value = ''; syncSearchClear(); renderHomeResults(resultsArea); searchInput.focus(); };
 
   const resultsArea = document.createElement('div');
   app.appendChild(resultsArea);
