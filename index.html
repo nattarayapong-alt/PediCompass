@@ -28,6 +28,7 @@
   --ink-soft:#5B7C93;
   --white:#FFFFFF;
   --mild-bg:#E5F5E7; --mild-bd:#9FD3A8; --mild-tx:#2E6B3A;
+  --purple-bg:#F1E7FA; --purple-bd:#B48CDA; --purple-tx:#5B2E8A;
   --mod-bg:#FFF1DA; --mod-bd:#F0BC72; --mod-tx:#8A5A0E;
   --sev-bg:#FDE1E4; --sev-bd:#EF9AA3; --sev-tx:#9C2B37;
   --info-bg:#E9F1FB; --info-bd:#A9C7EC; --info-tx:#2C5480;
@@ -135,6 +136,9 @@ main{flex:1; width:100%; max-width:640px; margin:0 auto; padding:22px 18px 40px;
 .module-card.urgent .icon{background:var(--sev-bg);}
 .module-card.hub{border-style:solid; border-color:var(--mild-bd);}
 .module-card.hub:hover{border-color:var(--mild-bd);}
+.module-card.hub-purple{border-style:solid; border-color:var(--purple-bd);}
+.module-card.hub-purple:hover{border-color:var(--purple-bd);}
+.module-card.hub-purple .icon{background:var(--purple-bg);}
 
 .quickcalc-card{
   display:flex; align-items:center; gap:12px; width:100%;
@@ -187,6 +191,7 @@ main{flex:1; width:100%; max-width:640px; margin:0 auto; padding:22px 18px 40px;
 .group-head .dot-urgent{background:var(--sev-bd);}
 .group-head .dot-common{background:var(--pink-400);}
 .group-head .dot-newborn{background:var(--mild-bd);}
+.group-head .dot-allergy{background:var(--purple-bd);}
 .group-head .count{
   font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--ink-soft);
   background:var(--pink-100); padding:2px 8px; border-radius:999px; margin-left:auto;
@@ -229,6 +234,24 @@ main{flex:1; width:100%; max-width:640px; margin:0 auto; padding:22px 18px 40px;
 }
 .num-input:focus{outline:none; border-color:var(--pink-500);}
 .field-unit{font-size:12px; color:var(--ink-soft); margin-top:6px;}
+
+.xr-select{
+  width:100%; border:1.5px solid var(--pink-200); border-radius:13px; padding:12px 14px;
+  font-size:14.5px; font-family:'Sarabun',sans-serif; color:var(--ink); background:var(--pink-50);
+  appearance:none; -webkit-appearance:none;
+}
+.xr-select:focus{outline:none; border-color:var(--pink-500);}
+.xr-verdict{border-radius:14px; padding:16px; margin-top:16px; border:1.5px solid; text-align:center;}
+.xr-verdict .xr-tag{font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.06em; opacity:.85;}
+.xr-verdict h3{margin:4px 0 6px; font-size:16px;}
+.xr-verdict p{margin:0; font-size:13px; line-height:1.6;}
+.xr-verdict.safe{background:var(--mild-bg); border-color:var(--mild-bd); color:var(--mild-tx);}
+.xr-verdict.caution{background:var(--mod-bg); border-color:var(--mod-bd); color:var(--mod-tx);}
+.xr-verdict.avoid{background:var(--sev-bg); border-color:var(--sev-bd); color:var(--sev-tx);}
+.xr-verdict.same{background:var(--info-bg); border-color:var(--info-bd); color:var(--info-tx);}
+.xr-legend{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; font-size:11px; color:var(--ink-soft);}
+.xr-legend span{display:inline-flex; align-items:center; gap:5px;}
+.xr-legend i{width:10px; height:10px; border-radius:3px; display:inline-block;}
 
 .grade-list{display:flex; flex-direction:column; gap:16px;}
 .grade-row .grade-label{font-size:12.5px; font-weight:600; color:var(--ink); margin-bottom:6px;}
@@ -334,6 +357,83 @@ footer .disclaimer-warning{
 .top-back-link::before{content:'🏠'; font-size:14px; line-height:1;}
 .top-back-link:hover{background:var(--pink-200); border-color:var(--pink-400);}
 .top-back-link:active{transform:scale(0.97);}
+
+.hamburger-btn{
+  width:34px; height:34px; border-radius:11px; flex-shrink:0;
+  background:var(--pink-100); border:1px solid var(--pink-200);
+  display:flex; align-items:center; justify-content:center; cursor:pointer;
+}
+.hamburger-btn:hover{background:var(--pink-200);}
+.hamburger-btn:active{transform:scale(0.95);}
+.hamburger-btn img{width:16px; height:16px;}
+
+.sb-group-header{display:flex; align-items:center; justify-content:space-between; cursor:pointer; padding:13px 10px 4px 10px; margin:0;}
+.sb-group-header .sb-group-label{padding:0;}
+.sb-group-header .sb-group-chevron{width:10px; height:10px; opacity:.5; transition:transform .18s ease; flex-shrink:0;}
+.sb-group-header.expanded .sb-group-chevron{transform:rotate(90deg);}
+.sb-group-body{overflow:hidden; max-height:0; transition:max-height .22s ease;}
+.sb-group-body.expanded{max-height:600px;}
+
+.sb-overlay{
+  position:fixed; inset:0; background:rgba(20,16,14,0.45);
+  opacity:0; pointer-events:none; transition:opacity .25s ease; z-index:200;
+}
+.sb-overlay.open{opacity:1; pointer-events:auto;}
+
+.sb-panel{
+  position:fixed; top:0; left:0; bottom:0; width:82%; max-width:300px;
+  background:var(--white); z-index:201; display:flex; flex-direction:column;
+  transform:translateX(-100%); transition:transform .28s cubic-bezier(.4,0,.2,1);
+  box-shadow:2px 0 24px rgba(0,0,0,0.14);
+}
+.sb-panel.open{transform:translateX(0);}
+
+.sb-header{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:18px 14px 12px; border-bottom:1px solid var(--pink-200); flex-shrink:0;
+}
+.sb-brand{display:flex; align-items:center; gap:8px;}
+.sb-brand-logo{width:32px; height:32px; border-radius:10px; object-fit:cover; box-shadow:0 1px 3px rgba(0,0,0,0.15);}
+.sb-brand-text{font-size:15px; font-weight:700; font-family:'Taviraj',serif;}
+.sb-brand-text .pedi{color:#014FAE;}
+.sb-brand-text .compass{color:#4E9EF7;}
+.sb-close-btn{width:30px; height:30px; border-radius:9px; border:none; background:none; display:flex; align-items:center; justify-content:center; cursor:pointer;}
+.sb-close-btn:hover{background:var(--pink-100);}
+.sb-close-btn img{width:15px; height:15px;}
+
+.sb-search-wrap{margin:12px 12px 4px; position:relative; flex-shrink:0;}
+.sb-search-wrap img{position:absolute; left:11px; top:50%; transform:translateY(-50%); width:14px; height:14px; opacity:.55;}
+.sb-search-wrap input{
+  width:100%; box-sizing:border-box; padding:9px 12px 9px 32px; border-radius:11px;
+  border:1px solid var(--pink-200); background:var(--pink-50); font-family:'Sarabun',sans-serif;
+  font-size:13px; color:var(--ink);
+}
+.sb-search-wrap input:focus{outline:none; border-color:var(--pink-500); background:var(--white);}
+
+.sb-list{flex:1; overflow-y:auto; padding:4px 8px 16px;}
+.sb-group-label{font-size:10.5px; font-weight:700; letter-spacing:.05em; padding:13px 10px 4px; text-transform:uppercase;}
+.sb-item{
+  display:flex; align-items:center; gap:10px; width:100%; text-align:left;
+  padding:8px 8px; border-radius:11px; border:none; background:none; cursor:pointer;
+  font-family:'Sarabun',sans-serif;
+}
+.sb-item:hover, .sb-item:active{background:var(--pink-50);}
+.sb-group-body .sb-item{padding-left:22px;}
+.sb-group-body{position:relative;}
+.sb-group-body::before{content:''; position:absolute; left:23px; top:0; bottom:8px; width:1px; background:var(--pink-200);}
+.sb-item-badge{width:26px; height:26px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+.sb-item-badge img{width:14px; height:14px;}
+.sb-item-name{font-size:12.5px; color:var(--ink); flex:1; line-height:1.3;}
+.sb-item-chevron{width:11px; height:11px; opacity:.4; flex-shrink:0;}
+.sb-empty{font-size:12px; color:var(--ink-soft); text-align:center; padding:28px 16px;}
+
+.sb-footer{border-top:1px solid var(--pink-200); padding:10px 14px; flex-shrink:0; display:flex; align-items:center; justify-content:space-between;}
+.sb-footer-lang{display:flex; gap:6px;}
+.sb-footer-lang button{
+  font-size:11px; font-weight:700; padding:4px 10px; border-radius:8px; border:1px solid var(--pink-200);
+  background:var(--white); color:var(--ink-soft); cursor:pointer; font-family:'Sarabun',sans-serif;
+}
+.sb-footer-lang button.active{background:var(--pink-500); border-color:var(--pink-500); color:white;}
 
 .select-input{
   width:100%; border:1.5px solid var(--pink-200); border-radius:13px; padding:12px 14px;
@@ -467,15 +567,16 @@ footer .disclaimer-warning{
 </div>
 
 <header class="top">
+  <button class="hamburger-btn" id="sbToggleBtn" aria-label="เมนู / Menu"><img src="" id="sbToggleIcon" alt=""></button>
   <div class="brand" onclick="goMainHome()" style="cursor:pointer;">
     <img class="logo" src="data:image/webp;base64,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" alt="PediCompass">
     <div class="brand-text">
       <div class="title"><span class="pedi">Pedi</span><span class="compass">Compass</span></div>
-      <div class="subtitle" data-i18n="appSubtitle">เข็มทิศดูแลเด็ก · เครื่องมือช่วยตัดสินใจทางคลินิก</div>
+      <div class="subtitle" data-i18n="appSubtitle">เข็มทิศดูแลเด็ก</div>
     </div>
   </div>
   <div style="display:flex; align-items:center; gap:8px;">
-    <button class="wn-bell-btn" id="wnBell" onclick="wnOpen()" aria-label="What's new / มีอัปเดตอะไรใหม่บ้าง">🔔<span class="wn-badge" id="wnBadge"></span></button>
+    <button class="wn-bell-btn" id="wnBell" onclick="wnOpen()" aria-label="What's new / มีอัปเดตอะไรใหม่บ้าง"><img id="wnBellIcon" src="" alt="" style="width:16px; height:16px;"><span class="wn-badge" id="wnBadge"></span></button>
     <div class="lang-toggle">
       <button id="btn-th" class="active" onclick="setLang('th')">TH</button>
       <button id="btn-en" onclick="setLang('en')">EN</button>
@@ -484,6 +585,9 @@ footer .disclaimer-warning{
 </header>
 
 <main id="app"></main>
+
+<div class="sb-overlay" id="sbOverlay"></div>
+<aside class="sb-panel" id="sbPanel"></aside>
 
 <button class="feedback-fab" id="fbFab" aria-label="Feedback">💬</button>
 
@@ -530,7 +634,7 @@ footer .disclaimer-warning{
 /* ============================= I18N — UI CHROME ============================= */
 const UI = {
   appTitleShort:{th:'PediCompass', en:'PediCompass'},
-  appSubtitle:{th:'เข็มทิศดูแลเด็ก · เครื่องมือช่วยตัดสินใจทางคลินิก', en:'Pediatric Care Compass · Clinical Decision Support'},
+  appSubtitle:{th:'เข็มทิศดูแลเด็ก', en:'Pediatric Care Compass'},
   creditLine:{th:'พัฒนาโดย นายแพทย์ณัฐ อารยะพงษ์ กุมารแพทย์โรคติดเชื้อ โรงพยาบาลสุรินทร์', en:'Developed by Natt Arayapong, M.D. — Pediatric Infectious Disease, Surin Hospital'},
   creditSub:{th:'', en:''},
   mainHomeEyebrow:{th:'สำหรับบุคลากรทางการแพทย์', en:'FOR HEALTHCARE PROFESSIONALS'},
@@ -545,6 +649,11 @@ const UI = {
   newbornHomeEyebrow:{th:'ภาวะในทารกแรกเกิด', en:'NEWBORN CONDITIONS'},
   newbornHomeTitle:{th:'เลือกภาวะที่ต้องการประเมิน', en:'Select a condition to assess'},
   newbornHomeDesc:{th:'เครื่องมือช่วยประเมินและวางแผนการดูแลรักษาทารกแรกเกิด 3 กลุ่มภาวะ', en:'A decision-support suite covering three newborn clinical conditions.'},
+  groupAllergy:{th:'แพ้ยาปฏิชีวนะ', en:'Antibiotic Allergy'},
+  atbSubCount:{th:'2 เครื่องมือ', en:'2 tools'},
+  atbHomeEyebrow:{th:'การประเมินและจัดการแพ้ยาปฏิชีวนะ', en:'ANTIBIOTIC ALLERGY EVALUATION'},
+  atbHomeTitle:{th:'เลือกเครื่องมือที่ต้องการใช้', en:'Select a tool'},
+  atbHomeDesc:{th:'ประเมินความเสี่ยงของประวัติแพ้ยาปฏิชีวนะ และตรวจสอบ cross-reactivity ระหว่าง β-lactam ตามแนวทาง ESCMID 2026', en:'Risk-stratify a reported antibiotic allergy and check β-lactam cross-reactivity, based on the ESCMID 2026 guideline.'},
   respHomeEyebrow:{th:'โรคติดเชื้อระบบหายใจ', en:'RESPIRATORY TRACT INFECTIONS'},
   respHomeTitle:{th:'เลือกภาวะที่ต้องการประเมิน', en:'Select a condition to assess'},
   respHomeDesc:{th:'เครื่องมือช่วยประเมินและวางแผนการรักษาโรคติดเชื้อเฉียบพลันระบบหายใจในเด็ก 5 กลุ่มโรค ตามแนวทาง พ.ศ. 2562', en:'A step-by-step assessment and treatment guide for five acute pediatric respiratory infections, based on the 2019 guideline.'},
@@ -609,6 +718,10 @@ function fbBackdropClick(e){
    (ไม่จำเป็นต้องลงทุก commit — เฉพาะที่คนใช้งานควรรู้ เช่น โมดูลใหม่ / แก้ logic สำคัญ)
    entry แรกของ array ต้องเป็น version ล่าสุดเสมอ — ระบบเทียบกับ entry แรกนี้เพื่อรู้ว่ามีอัปเดตใหม่ */
 const CHANGELOG = [
+  { version:'1.2.0', date:'7 ก.ย. 2569', items:[
+    'เพิ่มโมดูล Antibiotic Allergy (ESCMID 2026) — ประเมินความเสี่ยงแพ้ยาปฏิชีวนะ และ Cross-Reactivity Checker ระหว่าง β-lactam',
+    'เพิ่มเมนู Sidebar เข้าถึงทุกโมดูลได้เร็วขึ้นจากทุกหน้าจอ'
+  ]},
   { version:'1.1.0', date:'4 ก.ย. 2569', items:[
     'เพิ่มโมดูล Acute Asthmatic Attack',
     'เพิ่มโมดูล Acute Wheezing ในเด็กอายุน้อยกว่า 5 ปี'
@@ -8761,6 +8874,10 @@ const CATEGORY_DISCLAIMERS = {
     th:'เครื่องมือนี้จัดทำขึ้นเพื่อสนับสนุนการตัดสินใจทางคลินิกของบุคลากรทางการแพทย์ โดยอ้างอิงแนวทางเวชปฏิบัติสำหรับการดูแลผู้ป่วยที่มีการแพ้ชนิดรุนแรง (Clinical Practice Guidelines for Anaphylaxis) พ.ศ. 2560 คณะทำงานเพื่อการรักษาและป้องกันการแพ้ชนิดรุนแรงแห่งประเทศไทย',
     en:'This tool is intended to support the clinical decision-making of healthcare professionals, based on the Clinical Practice Guidelines for Anaphylaxis 2017 (Thai Anaphylaxis Working Group).'
   },
+  atbAllergy:{
+    th:'เครื่องมือนี้จัดทำขึ้นเพื่อสนับสนุนการตัดสินใจทางคลินิกของบุคลากรทางการแพทย์ โดยอ้างอิง Joean O, Sermet K, Ashkenazi-Hoffnung L, et al. ESCMID clinical guidelines on the evaluation and management of a reported antibiotic allergy. Clinical Microbiology and Infection 2026;32(5):767-787',
+    en:'This tool is intended to support the clinical decision-making of healthcare professionals, based on Joean O, Sermet K, Ashkenazi-Hoffnung L, et al. ESCMID clinical guidelines on the evaluation and management of a reported antibiotic allergy. Clinical Microbiology and Infection 2026;32(5):767-787.'
+  },
   jaundice:{
     th:'เครื่องมือนี้จัดทำขึ้นเพื่อสนับสนุนการตัดสินใจทางคลินิกของบุคลากรทางการแพทย์ โดยอ้างอิง (1) แนวทางเวชปฏิบัติการดูแลรักษาภาวะตัวเหลืองในทารกแรกเกิด พ.ศ. 2568 ชมรมเวชศาสตร์ทารกแรกเกิดแห่งประเทศไทย (ตารางที่ 5.1–5.5 และรูปที่ 1–4) และ (2) Kemper AR, Newman TB, Slaughter JL, et al. Clinical Practice Guideline Revision: Management of Hyperbilirubinemia in the Newborn Infant 35 or More Weeks of Gestation. Pediatrics 2022;150(3):e2022058859 (American Academy of Pediatrics)',
     en:'This tool is intended to support the clinical decision-making of healthcare professionals, based on (1) the Clinical Practice Guideline for the Management of Neonatal Jaundice 2025 (Thai Neonatal Society), Tables 5.1–5.5 and Figures 1–4, and (2) Kemper AR, Newman TB, Slaughter JL, et al. Clinical Practice Guideline Revision: Management of Hyperbilirubinemia in the Newborn Infant 35 or More Weeks of Gestation. Pediatrics 2022;150(3):e2022058859 (American Academy of Pediatrics).'
@@ -10837,6 +10954,562 @@ function crxRender(){
 }
 /* ======================= End Emergency Drugs Calculator ======================= */
 
+
+/* ============================================================================
+   MODULE — ANTIBIOTIC ALLERGY EVALUATION
+   Ref: Joean O, Sermet K, Ashkenazi-Hoffnung L, et al. ESCMID clinical
+   guidelines on the evaluation and management of a reported antibiotic
+   allergy. Clin Microbiol Infect 2026;32(5):767-787.
+   Covers: risk-stratification (Recs 1.1-2.4), CDCT protocol (Recs 3.1-3.2),
+   β-lactam cross-reactivity matrix (Table 3, Recs 4.1-4.13), non-β-lactam
+   antibiotics (Recs 5.1-5.2). Weight-based CDCT dosing is intentionally not
+   calculated by this module — the guideline specifies only an adult dose;
+   follow local/institutional pediatric protocol.
+   ============================================================================ */
+const AT = {
+  refBadge:{th:'การประเมินแพ้ยาปฏิชีวนะ — ESCMID 2026', en:'Antibiotic Allergy Evaluation — ESCMID 2026'},
+  scopeNote:{th:'เครื่องมือนี้ช่วยจัดกลุ่มความเสี่ยงของประวัติแพ้ยาปฏิชีวนะที่รายงาน และแนะนำแนวทางจัดการเบื้องต้น ไม่ใช่การวินิจฉัยยืนยัน หากไม่แน่ใจหรือมีความเสี่ยงสูง ควรปรึกษาแพทย์ผู้เชี่ยวชาญด้านภูมิแพ้', en:'This tool risk-stratifies a reported antibiotic allergy and suggests an initial management pathway. It does not provide a definitive diagnosis. When uncertain or risk is high, consult an allergy specialist.'},
+
+  home:{
+    riskName:{th:'ประเมินความเสี่ยงแพ้ยา', en:'Risk Assessment'},
+    riskShort:{th:'คัดกรองประวัติแพ้ยา → แนวทางจัดการ', en:'Screen the reported reaction → management pathway'},
+    xrName:{th:'Cross-Reactivity Checker', en:'Cross-Reactivity Checker'},
+    xrShort:{th:'ตรวจสอบความเสี่ยงข้ามกลุ่ม β-lactam (Table 3)', en:'Check β-lactam cross-reactivity risk (Table 3)'}
+  },
+
+  cls:{
+    heading:{th:'ยาที่สงสัยว่าแพ้อยู่ในกลุ่มใด', en:'What class is the reported culprit antibiotic?'},
+    hint:{th:'เลือกกลุ่มยาที่ทำให้เกิดอาการแพ้ตามประวัติ', en:'Select the drug class that caused the reported reaction'},
+    penicillin:{th:'Penicillin (amoxicillin, ampicillin, piperacillin, ...)', en:'Penicillin (amoxicillin, ampicillin, piperacillin, ...)'},
+    cephalosporin:{th:'Cephalosporin (cefazolin, ceftriaxone, cefixime, ...)', en:'Cephalosporin (cefazolin, ceftriaxone, cefixime, ...)'},
+    nonbeta:{th:'ยากลุ่มอื่น (macrolide, quinolone, sulfonamide, glycopeptide, ...)', en:'Other class (macrolide, quinolone, sulfonamide, glycopeptide, ...)'}
+  },
+
+  sym:{
+    heading:{th:'ลักษณะปฏิกิริยาที่เกิดขึ้น', en:'Nature of the reported reaction'},
+    hint:{th:'เลือกข้อที่ตรงกับประวัติมากที่สุด', en:'Select the option that best matches the history'},
+    notCompatible:{th:'อาการไม่เข้าข่ายแพ้ยา (เช่น คลื่นไส้/ท้องเสียอย่างเดียว ใจสั่น ตาพร่า ปวดหัว เชื้อรา)', en:'Symptoms not compatible with an allergic reaction (e.g. GI complaints only, palpitations, blurred vision, headache, candidiasis)'},
+    familyOrFear:{th:'ติด label จากประวัติครอบครัวหรือความกลัวเท่านั้น ไม่เคยมีอาการเอง', en:'Label based solely on family history of allergy or fear — no personal reaction'},
+    toleratedSince:{th:'เคยได้รับยาต้นเหตุซ้ำหลังปฏิกิริยานั้น โดยไม่มีอาการแพ้เกิดขึ้นอีก', en:'Has received the culprit drug again since the index reaction, without recurrence'},
+    scar:{th:'สัญญาณอันตรายของ SCAR — ตุ่มน้ำ/ผิวลอก เยื่อบุอักเสบรุนแรง ผื่นตุ่มหนอง ผื่นจ้ำเลือด หรือผื่นร่วมกับไข้สูง/ตับ-ไตผิดปกติ (สงสัย SJS/TEN, DRESS, AGEP)', en:'Danger signs of SCAR — vesicles/skin detachment, severe mucosal involvement, pustular rash, purpura, or rash with high fever/deranged liver-kidney function (suspected SJS/TEN, DRESS, AGEP)'},
+    severeImmediate:{th:'Anaphylaxis / angioedema / หายใจลำบาก-ความดันตกเฉียบพลันหลังได้ยา (severe immediate)', en:'Anaphylaxis / angioedema / acute respiratory or cardiovascular compromise after the drug (severe immediate)'},
+    severeDelayedOther:{th:'ปฏิกิริยา delayed รุนแรงชนิดอื่น (เช่น ตับอักเสบ ไตอักเสบ เม็ดเลือดผิดปกติจากยา) ที่ไม่ใช่ SCAR', en:'Other severe delayed reaction (e.g. drug-induced hepatitis, nephritis, cytopenia) that is not SCAR'},
+    urticaria:{th:'ลมพิษ (urticaria) — ไม่ว่าจะเป็นเฉพาะที่หรือทั่วตัว', en:'Urticaria (hives) — localized or generalized'},
+    nonsevere:{th:'ผื่นไม่รุนแรง / อาการทางเดินอาหารเล็กน้อย / อาการเฉพาะที่อื่น ๆ (ไม่ครบเกณฑ์ด้านบน)', en:'Nonsevere rash / mild GI symptoms / other localized symptoms (does not meet the criteria above)'}
+  },
+
+  timing:{
+    heading:{th:'ปฏิกิริยานั้นเกิดขึ้นเมื่อไร', en:'When did the reaction occur?'},
+    hint:{th:'ใช้เกณฑ์ 5 ปีตาม ESCMID 2026 (ดัดแปลงจาก PEN-FAST) ในการแยกความเสี่ยง', en:'ESCMID 2026 uses a 5-year cut-off (adapted from PEN-FAST) to separate risk'},
+    over5y:{th:'มากกว่า 5 ปีที่แล้ว', en:'More than 5 years ago'},
+    onlyRash:{th:'จำรายละเอียดไม่ได้ / มีแต่ผื่นอย่างเดียวไม่มีประวัติอื่น และไม่เคยรุนแรง/ต้องนอนโรงพยาบาล', en:'Cannot recall details / only a rash with no other history, and was never told it was severe or required hospital treatment'},
+    within5y:{th:'ภายใน 5 ปีที่ผ่านมา', en:'Within the past 5 years'}
+  },
+
+  res:{
+    verylowTag:{th:'VERY LOW RISK — Rec 2.1', en:'VERY LOW RISK — Rec 2.1'},
+    verylowTitle:{th:'ถอด allergy label ได้ทันที', en:'Direct de-labelling appropriate'},
+    verylowSummary:{th:'ไม่จำเป็นต้องทำ allergy testing ก่อน สามารถถอด label และสั่งยากลุ่มนี้ได้ตามข้อบ่งชี้ทางคลินิก (Strong recommendation, moderate quality of evidence)', en:'No prior allergy testing is required. The label can be removed and the drug prescribed as clinically indicated (Strong recommendation, moderate quality of evidence).'},
+    lowTag:{th:'LOW RISK — Rec 2.2a / 5.2', en:'LOW RISK — Rec 2.2a / 5.2'},
+    lowTitle:{th:'ทำ Controlled Drug Challenge Test (CDCT) ได้', en:'Eligible for a Controlled Drug Challenge Test (CDCT)'},
+    lowSummaryBL:{th:'ผู้ป่วยกลุ่มนี้สามารถทำ CDCT กับยาต้นเหตุในสถานพยาบาลที่เหมาะสมได้ (Strong recommendation, low quality of evidence) หากเป็นผู้ป่วยในและปฏิกิริยาเดิมเป็นชนิด delayed nonsevere >5 ปี อาจให้ยาต่อได้เลยโดยไม่ต้องทำ CDCT พร้อม follow-up (Rec 2.2b, weak recommendation)', en:'These patients may undergo a CDCT with the culprit drug in an appropriate clinical setting (Strong recommendation, low quality of evidence). For hospitalized patients with a nonsevere delayed reaction >5 years ago, the culprit β-lactam may be given directly with follow-up instead of CDCT (Rec 2.2b, weak recommendation).'},
+    lowSummaryNB:{th:'ผู้ป่วยกลุ่มนี้สามารถทำ CDCT เพื่อนำยาต้นเหตุหรือยาอื่นในกลุ่มเดียวกันกลับมาใช้ได้ (Weak recommendation, low quality of evidence)', en:'These patients may undergo a CDCT to reintroduce the culprit drug or another drug in the same class (Weak recommendation, low quality of evidence).'},
+    highTag:{th:'HIGH RISK', en:'HIGH RISK'},
+    highTitleAvoid:{th:'หลีกเลี่ยงยากลุ่มนี้ตลอดไป — ส่งปรึกษาผู้เชี่ยวชาญ', en:'Avoid this drug class permanently — refer to a specialist'},
+    highSummaryScar:{th:'ปฏิกิริยารุนแรง — anaphylaxis รุนแรง, SCAR, หรือ severe delayed reaction ชนิดอื่น — มีความเสี่ยงสูงต่อการแพ้จริงและอันตรายถึงชีวิตหากสัมผัสซ้ำ ตามผังการตัดสินใจของ ESCMID 2026 (Fig. 1) กลุ่มนี้ควรหลีกเลี่ยง β-lactam ทุกชนิดและส่งปรึกษาผู้เชี่ยวชาญด้านภูมิแพ้ หากจำเป็นต้องรักษาก่อนได้พบผู้เชี่ยวชาญ ให้ใช้ยานอกกลุ่ม β-lactam เท่านั้น — ไม่ใช้ข้อมูล cross-reactivity ของ β-lactam ในกลุ่มนี้ (Rec 2.3, 2.4)', en:'Severe reactions — severe anaphylaxis, SCAR, or another severe delayed reaction — carry a high risk of true, life-threatening allergy on re-exposure. Per the ESCMID 2026 decision flow (Fig. 1), this group should avoid all β-lactams and be referred to an allergy specialist. If treatment is needed before specialist review, use a non-β-lactam antibiotic only — β-lactam cross-reactivity data should not be used for this group (Rec 2.3, 2.4).'},
+    highSummaryNBSevere:{th:'ปฏิกิริยารุนแรงต่อยานอกกลุ่ม β-lactam — หลีกเลี่ยงทั้งยาต้นเหตุและยาอื่นในกลุ่มเดียวกัน (Strong recommendation, low quality of evidence — Rec 5.1)', en:'Severe reaction to a non-β-lactam antibiotic — avoid both the culprit drug and all other drugs in the same class (Strong recommendation, low quality of evidence — Rec 5.1).'},
+    highTitleRefer:{th:'ส่งปรึกษาเพื่อทำ formal allergy work-up ก่อน re-exposure', en:'Refer for formal allergy work-up before considering re-exposure'},
+    highSummaryRefer:{th:'ปฏิกิริยา severe immediate-type (ไม่ว่าเวลาผ่านไปนานเท่าไร) หรือ nonsevere immediate-type ภายใน 5 ปี หรือ urticaria มีความเสี่ยงสูงพอที่ควรได้รับการประเมินโดยผู้เชี่ยวชาญก่อนพิจารณาใช้ยาซ้ำ (Strong recommendation, low quality of evidence — Rec 2.4)', en:'Severe immediate-type reactions (irrespective of time elapsed), nonsevere immediate-type reactions within 5 years, or urticaria warrant specialist evaluation before re-exposure is considered (Strong recommendation, low quality of evidence — Rec 2.4).'},
+
+    cdctHeading:{th:'หลักการทำ CDCT (Table 4, Rec 3.1–3.2)', en:'CDCT principles (Table 4, Recs 3.1–3.2)'},
+    cdctSteps:[
+      {th:'ขอความยินยอมจากผู้ป่วย/ผู้ปกครอง และคัดกรองข้อห้าม (ดูรายการด้านล่าง) ก่อนเริ่ม', en:'Obtain informed consent from the patient/guardian and screen for contraindications (see list below) before starting'},
+      {th:'ทำในสถานที่ที่วัดสัญญาณชีพได้และรักษา anaphylaxis ได้ทันที', en:'Perform in a setting where vital signs can be monitored and anaphylaxis treated immediately'},
+      {th:'เลือก single-dose (ให้ยา 100% ของขนาดปกติครั้งเดียว) หรือ graded-dose (10% → 50% → ส่วนที่เหลือ โดยเว้นช่วงสังเกตอาการระหว่างขั้น) ตามโปรโตคอลของหน่วยงาน — เครื่องมือนี้ไม่คำนวณขนาดยาให้ ให้ใช้ขนาดยาปกติตามน้ำหนัก/อายุของผู้ป่วยจากโมดูลยาที่เกี่ยวข้อง', en:'Choose single-dose (100% of the standard dose at once) or graded-dose (10% → 50% → remainder, observing between steps) per local protocol — this tool does not calculate the dose; use the patient\u2019s standard weight/age-based dose from the relevant drug module'},
+      {th:'หากมีอาการเข้าได้กับ anaphylaxis ระหว่างทดสอบ ให้รักษาตามแนวทาง anaphylaxis ของสถานพยาบาล/module Anaphylaxis ทันที', en:'If symptoms consistent with anaphylaxis develop, treat immediately per local/institutional anaphylaxis protocol'},
+      {th:'สังเกตอาการต่ออย่างน้อย 1 ชั่วโมงหลังได้รับยาโดสสุดท้าย', en:'Observe for at least 1 hour after the last dose'},
+      {th:'ให้คำแนะนำเป็นลายลักษณ์อักษรแก่ผู้ป่วยเรื่องอาการที่ต้องกลับมาพบแพทย์หลังกลับบ้าน และแจ้งผลการทดสอบแก่ผู้เกี่ยวข้อง (เช่น เวชระเบียน/แพทย์เจ้าของไข้)', en:'Give the patient written instructions on what to do if symptoms develop after discharge, and record/communicate the CDCT result to relevant providers'},
+      {th:'ไม่แนะนำให้ทำ multi-day drug challenge เป็นมาตรฐาน (Rec 3.2)', en:'Routine multi-day drug challenge testing is not recommended (Rec 3.2)'}
+    ],
+    cdctContraHeading:{th:'ข้อห้ามทำ CDCT (ไม่เหมาะสม หากมีข้อใดข้อหนึ่ง)', en:'CDCT contraindications (unsuitable if any of the following apply)'},
+    cdctContra:[
+      {th:'อาการทั่วไปไม่คงที่ / ป่วยเฉียบพลัน', en:'Acutely unwell or clinically unstable'},
+      {th:'โรคทางเดินหายใจรุนแรงหรือควบคุมไม่ได้', en:'Severe or uncontrolled airways disease'},
+      {th:'โรคหัวใจรุนแรง (เช่น aortic stenosis รุนแรง)', en:'Severe cardiac disease (e.g. severe aortic stenosis)'},
+      {th:'ตั้งครรภ์', en:'Pregnancy'},
+      {th:'ไม่สามารถขอความยินยอมได้ (จากผู้ป่วยหรือผู้แทนโดยชอบธรรม)', en:'Unable to obtain informed consent (from patient or legal representative)'},
+      {th:'กำลังได้รับ corticosteroid ขนาดสูง', en:'Currently taking high-dose corticosteroids'},
+      {th:'กำลังได้รับยาต้านฮีสตามีนและไม่สามารถงดก่อนทดสอบได้', en:'Currently taking antihistamines and unable to withhold prior to testing'}
+    ],
+
+    cdctUnableHeading:{th:'หากทำ CDCT ไม่ได้ (เข้าเกณฑ์ข้อห้ามข้างต้น)', en:'If CDCT cannot be performed (meets a contraindication above)'},
+    cdctUnableList:[
+      {th:'หากสาเหตุเป็นภาวะชั่วคราว (เช่น กำลังป่วยเฉียบพลัน หรือกำลังใช้ยาต้านฮีสตามีน/สเตียรอยด์ขนาดสูงอยู่) — เลื่อนการทำ CDCT ออกไปจนกว่าจะแก้ไขได้ และหลีกเลี่ยงยาต้นเหตุระหว่างรอ', en:'If the reason is temporary (e.g. acute illness, or currently on antihistamines/high-dose steroids) — defer the CDCT until resolved, and avoid the culprit drug while waiting'},
+      {th:'หากจำเป็นต้องรักษาด้วยยาปฏิชีวนะทันทีก่อนแก้ไขข้อห้าม — เลือกยาทางเลือกที่ไม่ใช่ยาต้นเหตุแทนการให้ยาต้นเหตุโดยไม่ทดสอบ (หากเป็น β-lactam ตรวจสอบ cross-reactivity ในเครื่องมือ Cross-Reactivity Checker ประกอบการเลือก)', en:'If antibiotic treatment is needed immediately and the contraindication cannot be resolved in time — choose an alternative agent rather than giving the untested culprit drug (if it is a β-lactam, check cross-reactivity in the Cross-Reactivity Checker to help choose)'},
+      {th:'หากไม่สามารถขอความยินยอมได้ หรือข้อห้ามเป็นแบบถาวร (เช่น โรคหัวใจ/ทางเดินหายใจรุนแรงที่ควบคุมไม่ได้) — ส่งปรึกษาผู้เชี่ยวชาญด้านภูมิแพ้เพื่อพิจารณาแนวทางอื่น (เช่น skin testing ในสถานที่ที่มีความพร้อมสูงกว่า) แทนการทำ CDCT ทั่วไป', en:'If consent cannot be obtained, or the contraindication is permanent (e.g. uncontrolled severe cardiac/airway disease) — refer to an allergy specialist to consider alternatives (e.g. skin testing in a higher-acuity setting) instead of a standard CDCT'},
+      {th:'ยังไม่ควรถอด allergy label จนกว่าจะมีการทดสอบยืนยันหรือได้รับการประเมินจากผู้เชี่ยวชาญ', en:'The allergy label should not be removed until confirmed by testing or specialist evaluation'}
+    ],
+    cdctUnableNote:{th:'ESCMID 2026 ไม่ได้ระบุแนวทางเฉพาะสำหรับสถานการณ์นี้ไว้โดยตรง ข้อเสนอแนะข้างต้นเป็นแนวปฏิบัติที่ปลอดภัยโดยทั่วไป ควรใช้ร่วมกับดุลยพินิจทางคลินิก', en:'ESCMID 2026 does not directly specify a pathway for this situation. The suggestions above reflect general safe practice and should be applied together with clinical judgment.'},
+
+    xrCardHeading:{th:'ทางเลือกยาระหว่างรอผลปรึกษา (β-lactam cross-reactivity)', en:'Alternative agents while awaiting specialist review (β-lactam cross-reactivity)'},
+    xrCardBody:{th:'สำหรับผู้ป่วยแพ้ penicillin หรือ cephalosporin ที่มีความเสี่ยงสูง แนวทาง ESCMID 2026 สรุปแนวทางเลือกยาไว้ดังนี้ (ยกเว้นผู้ป่วยที่มีประวัติ anaphylactic shock/ต้องเข้า ICU จากยาต้นเหตุ — กลุ่มนี้ควรปรึกษาผู้เชี่ยวชาญก่อนเสมอ ไม่ใช้ตารางนี้):', en:'For high-risk penicillin or cephalosporin allergy, ESCMID 2026 summarizes the following alternatives (except patients with a history of anaphylactic shock/ICU admission from the culprit drug — these patients should always be referred to a specialist rather than relying on this table):'},
+    xrCardList:[
+      {th:'Cephalosporin ที่มี side chain ต่างจากยาต้นเหตุ (R1/R2 ไม่เหมือนกัน) มักใช้ได้ (Rec 4.4, 4.5, 4.9, 4.10) — ตรวจสอบคู่ยาที่ต้องการในเครื่องมือ Cross-Reactivity Checker', en:'A cephalosporin with a dissimilar side chain (different R1/R2) to the culprit is usually safe (Recs 4.4, 4.5, 4.9, 4.10) — check the specific pair in the Cross-Reactivity Checker'},
+      {th:'Cefazolin ไม่มี side chain ร่วมกับ penicillin ตัวใดเลย ใช้ได้แม้แพ้ penicillin แบบ immediate-type (Rec 4.6)', en:'Cefazolin shares no side chain with any penicillin and can be used even after an immediate-type penicillin allergy (Rec 4.6)'},
+      {th:'Monobactam (aztreonam) และ carbapenem มักใช้ได้ในผู้แพ้ penicillin แทบทุกกรณี (Rec 4.7) — ยกเว้น aztreonam ห้ามใช้หากยาต้นเหตุคือ ceftazidime หรือ cefiderocol (side chain ร่วมกัน, Rec 4.12)', en:'Monobactams (aztreonam) and carbapenems are usually safe in penicillin allergy (Rec 4.7) — except aztreonam should be avoided if the culprit was ceftazidime or cefiderocol (shared side chain, Rec 4.12)'},
+      {th:'Carbapenem มักใช้ได้แม้แพ้ cephalosporin แบบ immediate-type (Rec 4.11)', en:'Carbapenems are usually safe even after an immediate-type cephalosporin allergy (Rec 4.11)'}
+    ],
+
+    avoidNoteHeading:{th:'หากจำเป็นต้องรักษาด้วยยาปฏิชีวนะ', en:'If antibiotic treatment is required'},
+    avoidNoteBL:{th:'ควรเลือกยานอกกลุ่ม β-lactam ทั้งหมด (เช่น macrolide, lincosamide, quinolone, sulfonamide ตามความไวของเชื้อ) ภายใต้การพิจารณาของผู้เชี่ยวชาญด้านภูมิแพ้/โรคติดเชื้อ — ข้อมูล cross-reactivity ระหว่าง β-lactam (Table 3 / เครื่องมือ Cross-Reactivity Checker) ไม่ครอบคลุมผู้ป่วยกลุ่มนี้ จึงไม่ควรใช้เพื่อเลือกยาทดแทน', en:'Choose an antibiotic entirely outside the β-lactam class (e.g. macrolide, lincosamide, quinolone, sulfonamide, per organism susceptibility), under specialist allergy/infectious disease guidance. β-lactam cross-reactivity data (Table 3 / the Cross-Reactivity Checker) does not cover this group, so it should not be used to select a replacement drug.'},
+    avoidNoteNB:{th:'ควรเลือกยาปฏิชีวนะจากกลุ่มเคมีอื่นที่ไม่ใช่กลุ่มยาต้นเหตุโดยสิ้นเชิง (Rec 5.1) ภายใต้การพิจารณาของผู้เชี่ยวชาญด้านภูมิแพ้/โรคติดเชื้อ', en:'Choose an antibiotic from a chemical class entirely different from the culprit class (Rec 5.1), under specialist allergy/infectious disease guidance.'},
+
+    disclaimer:{th:'ผลจากเครื่องมือนี้เป็นเพียงแนวทางเบื้องต้น ไม่ทดแทนดุลยพินิจทางคลินิกหรือการประเมินโดยแพทย์ผู้เชี่ยวชาญด้านภูมิแพ้ในรายที่ซับซ้อนหรือไม่แน่ใจ', en:'This result is an initial guide only and does not replace clinical judgment or specialist allergy evaluation in complex or uncertain cases.'},
+    openXr:{th:'เปิด Cross-Reactivity Checker', en:'Open Cross-Reactivity Checker'}
+  },
+
+  xr:{
+    heading:{th:'ตรวจสอบ Cross-Reactivity ระหว่าง β-lactam', en:'Check β-lactam Cross-Reactivity'},
+    hint:{th:'อ้างอิง Table 3, ESCMID 2026 (ดัดแปลงจาก Dutch SWAB guideline) — ใช้ได้เฉพาะยากลุ่ม β-lactam ในรายการเท่านั้น', en:'Based on Table 3, ESCMID 2026 (adapted from the Dutch SWAB guideline) — applies only to the β-lactams listed'},
+    labelA:{th:'ยาที่ผู้ป่วยแพ้ (ต้นเหตุ)', en:'Culprit drug (reported allergy)'},
+    labelB:{th:'ยาที่ต้องการพิจารณาใช้', en:'Drug being considered'},
+    sameTag:{th:'ยาตัวเดียวกัน', en:'SAME DRUG'},
+    sameMsg:{th:'เลือกยาตัวเดียวกันทั้งสองช่อง — โปรดเลือกยาที่ต้องการเปรียบเทียบ', en:'The same drug is selected in both fields — please choose a different drug to compare'},
+    safeTag:{th:'✓ ไม่มีความเสี่ยง cross-reactivity', en:'✓ NO CROSS-REACTIVITY RISK'},
+    safeMsg:{th:'ตาม Table 3 ไม่มีรายงานความเสี่ยง cross-reactivity ระหว่างยาคู่นี้', en:'Per Table 3, there is no reported cross-reactivity risk between this drug pair'},
+    greyTag:{th:'✕ ความเสี่ยงสูง — กลุ่ม Penicillin ร่วมกัน (PPL)', en:'✕ HIGH RISK — shared penicillin core (PPL)'},
+    greyMsg:{th:'ยาทั้งสองอยู่ในกลุ่ม penicillin ที่แพ้ข้ามกันได้ผ่านกลไก penicilloyl-poly-L-lysine (PPL) ร่วมกัน ควรหลีกเลี่ยง', en:'Both drugs are penicillins that can cross-react via a shared penicilloyl-poly-L-lysine (PPL) mechanism — avoid'},
+    orangeTag:{th:'⚠ ความเสี่ยงปานกลาง — side chain ใกล้เคียงกัน', en:'⚠ MODERATE RISK — similar side chain'},
+    orangeMsg:{th:'มี R1 หรือ R2 side chain ใกล้เคียงกันและ/หรือมีรายงานการศึกษาสนับสนุน ควรใช้ด้วยความระมัดระวังหรือพิจารณาทางเลือกอื่นหากมี โดยเฉพาะในรายที่มีปฏิกิริยา immediate-type รุนแรง', en:'Similar R1 or R2 side chain and/or supporting clinical study data. Use with caution, or consider an alternative — especially in patients with a severe immediate-type reaction'},
+    redTag:{th:'✕ ความเสี่ยงสูง — side chain เหมือนกัน', en:'✕ HIGH RISK — identical side chain'},
+    redMsg:{th:'มี R1 หรือ R2 side chain เหมือนกัน ความเสี่ยง cross-reactivity สูง ควรหลีกเลี่ยงหรือปรึกษาผู้เชี่ยวชาญก่อนใช้', en:'Identical R1 or R2 side chain — high cross-reactivity risk. Avoid, or consult a specialist before use'},
+    exceptionNote:{th:'ข้อยกเว้นเสมอ: หากผู้ป่วยเคยมี severe anaphylaxis (anaphylactic shock/ต้องเข้า ICU) จากยาต้นเหตุ ให้ปรึกษาผู้เชี่ยวชาญก่อนใช้ยาใด ๆ ในตารางนี้ ไม่ว่าผลจะแสดงเป็นสีใด', en:'Always an exception: if the patient had severe anaphylaxis (anaphylactic shock/ICU admission) from the culprit drug, consult a specialist before using any drug in this table, regardless of the result shown'},
+    legendSame:{th:'ยาเดียวกัน', en:'Same drug'},
+    legendSafe:{th:'ไม่มีความเสี่ยง', en:'No risk'},
+    legendGrey:{th:'กลุ่ม PPL ร่วมกัน', en:'Shared PPL group'},
+    legendOrange:{th:'side chain ใกล้เคียง', en:'Similar side chain'},
+    legendRed:{th:'side chain เหมือนกัน', en:'Identical side chain'},
+    sourceNote:{th:'Table 3, Joean O, et al. ESCMID clinical guidelines on the evaluation and management of a reported antibiotic allergy. Clin Microbiol Infect 2026;32:767-787 (adapted from the Dutch SWAB guideline).', en:'Table 3, Joean O, et al. ESCMID clinical guidelines on the evaluation and management of a reported antibiotic allergy. Clin Microbiol Infect 2026;32:767-787 (adapted from the Dutch SWAB guideline).'}
+  }
+};
+
+/* Table 3 β-lactam list, in the exact row/column order of the source table */
+const AT_BLACTAMS = [
+  {th:'Amoxicillin', en:'Amoxicillin'},
+  {th:'Penicillin G', en:'Penicillin G'},
+  {th:'Penicillin V', en:'Penicillin V'},
+  {th:'Flucloxacillin', en:'Flucloxacillin'},
+  {th:'Feneticillin', en:'Feneticillin'},
+  {th:'Piperacillin', en:'Piperacillin'},
+  {th:'Cefalexin', en:'Cefalexin'},
+  {th:'Cefazolin', en:'Cefazolin'},
+  {th:'Cefalothin', en:'Cefalothin'},
+  {th:'Cefuroxime', en:'Cefuroxime'},
+  {th:'Cefaclor', en:'Cefaclor'},
+  {th:'Cefamandole', en:'Cefamandole'},
+  {th:'Ceftibuten', en:'Ceftibuten'},
+  {th:'Ceftriaxone', en:'Ceftriaxone'},
+  {th:'Cefotaxime', en:'Cefotaxime'},
+  {th:'Ceftazidime', en:'Ceftazidime'},
+  {th:'Cefepime', en:'Cefepime'},
+  {th:'Cefiderocol', en:'Cefiderocol'},
+  {th:'Ceftaroline', en:'Ceftaroline'},
+  {th:'Ceftolozane', en:'Ceftolozane'},
+  {th:'Meropenem', en:'Meropenem'},
+  {th:'Imipenem', en:'Imipenem'},
+  {th:'Ertapenem', en:'Ertapenem'},
+  {th:'Aztreonam', en:'Aztreonam'}
+];
+
+/* Table 3 matrix — codes: B=same drug, G=shared PPL group (grey), O=similar side
+   chain (orange), R=identical side chain (red), W=no cross-reactivity risk (✓).
+   Digitised and verified from the ESCMID 2026 guideline (symmetric matrix,
+   diagonal cross-checked against the published legend). */
+const AT_MATRIX = [
+  ['B','G','G','G','G','G','O','W','W','W','O','O','W','W','W','W','W','W','W','W','W','W','W','W'],
+  ['G','B','G','G','G','G','O','W','W','W','O','O','W','W','W','W','W','W','W','W','W','W','W','W'],
+  ['G','G','B','G','G','G','O','W','W','W','O','O','W','W','W','W','W','W','W','W','W','W','W','W'],
+  ['G','G','G','B','G','G','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W'],
+  ['G','G','G','G','B','G','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W'],
+  ['G','G','G','G','G','B','O','W','W','W','O','O','W','W','W','W','W','W','W','W','W','W','W','W'],
+  ['O','O','O','W','W','O','B','W','W','W','R','O','W','W','W','W','W','W','W','W','W','W','W','W'],
+  ['W','W','W','W','W','W','W','B','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W'],
+  ['W','W','W','W','W','W','W','W','B','O','W','W','W','W','O','W','W','W','W','W','W','W','W','W'],
+  ['W','W','W','W','W','W','W','W','O','B','W','W','W','O','O','O','O','O','O','O','W','W','W','O'],
+  ['O','O','O','W','W','O','R','W','W','W','B','O','W','W','W','W','W','W','W','W','W','W','W','W'],
+  ['O','O','O','W','W','O','O','W','W','W','O','B','W','W','W','W','W','W','W','W','W','W','W','W'],
+  ['W','W','W','W','W','W','W','W','W','W','W','W','B','O','O','O','O','O','O','O','W','W','W','O'],
+  ['W','W','W','W','W','W','W','W','W','O','W','W','O','B','R','O','O','O','O','O','W','W','W','O'],
+  ['W','W','W','W','W','W','W','W','O','O','W','W','O','R','B','O','R','O','O','O','W','W','W','O'],
+  ['W','W','W','W','W','W','W','W','W','O','W','W','O','O','O','B','O','R','O','O','W','W','W','R'],
+  ['W','W','W','W','W','W','W','W','W','O','W','W','O','O','R','O','B','O','O','O','W','W','W','O'],
+  ['W','W','W','W','W','W','W','W','W','O','W','W','O','O','O','R','O','B','O','O','W','W','W','R'],
+  ['W','W','W','W','W','W','W','W','W','O','W','W','O','O','O','O','O','O','B','O','W','W','W','O'],
+  ['W','W','W','W','W','W','W','W','W','O','W','W','O','O','O','O','O','O','O','B','W','W','W','O'],
+  ['W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','B','O','O','W'],
+  ['W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','O','B','O','W'],
+  ['W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','O','O','B','W'],
+  ['W','W','W','W','W','W','W','W','W','O','W','W','O','O','O','R','O','R','O','O','W','W','W','B']
+];
+
+let atState = { screen:'home', form:{ cls:null, sym:null, timing:null }, xr:{ a:0, b:9, returnTo:'home' } };
+
+function atResetAll(){
+  atState = { screen:'home', form:{ cls:null, sym:null, timing:null }, xr:{ a:0, b:9, returnTo:'home' } };
+}
+
+function atGoTo(s){ atState.screen = s; scrollToTop(); render(); }
+
+function atHeader(app){
+  const backBtn = document.createElement('button');
+  backBtn.className = 'top-back-link';
+  backBtn.textContent = t(UI.backToMainHome);
+  backBtn.onclick = goMainHome;
+  app.appendChild(backBtn);
+}
+
+function atHomeView(app){
+  atHeader(app);
+  const hero = document.createElement('div');
+  hero.innerHTML = `
+    <div class="hero">
+      <span class="eyebrow">${LANG==='th'?'การประเมินและจัดการแพ้ยาปฏิชีวนะ':'ANTIBIOTIC ALLERGY EVALUATION'}</span>
+      <h1>${LANG==='th'?'เลือกเครื่องมือที่ต้องการใช้':'Select a tool'}</h1>
+      <p>${LANG==='th'?'ประเมินความเสี่ยงของประวัติแพ้ยาปฏิชีวนะ และตรวจสอบ cross-reactivity ระหว่าง β-lactam ตามแนวทาง ESCMID 2026':'Risk-stratify a reported antibiotic allergy and check β-lactam cross-reactivity, based on the ESCMID 2026 guideline.'}</p>
+    </div>`;
+  app.appendChild(hero);
+
+  const grid = document.createElement('div');
+  grid.className = 'module-grid';
+  grid.appendChild(buildModuleCard(
+    { icon:'🩺', name:AT.home.riskName, short:AT.home.riskShort },
+    function(){ atState = { screen:'cls', form:{ cls:null, sym:null, timing:null }, xr:atState.xr }; scrollToTop(); render(); }
+  ));
+  grid.appendChild(buildModuleCard(
+    { icon:'🔀', name:AT.home.xrName, short:AT.home.xrShort },
+    function(){ atState.xr.returnTo = 'home'; atGoTo('xr'); }
+  ));
+  app.appendChild(grid);
+}
+
+function atClsView(app){
+  atHeader(app);
+  spHeader(app, t(AT.refBadge));
+  const scope = document.createElement('div');
+  scope.className = 'scope-note';
+  scope.textContent = t(AT.scopeNote);
+  app.appendChild(scope);
+
+  const f = atState.form;
+  const card = document.createElement('div');
+  card.className = 'q-card';
+  const opts = [['penicillin',AT.cls.penicillin],['cephalosporin',AT.cls.cephalosporin],['nonbeta',AT.cls.nonbeta]];
+  card.innerHTML = '' +
+    '<div class="q-text">' + t(AT.cls.heading) + '</div>' +
+    '<div class="q-hint">' + t(AT.cls.hint) + '</div>' +
+    '<div class="opt-list">' +
+      opts.map(function(p){
+        const sel = f.cls===p[0];
+        return '<button class="opt-btn radio ' + (sel?'selected':'') + '" data-cls="' + p[0] + '"><span class="chk">' + (sel?'✓':'') + '</span>' + t(p[1]) + '</button>';
+      }).join('') +
+    '</div>' +
+    '<div class="wizard-nav">' +
+      '<button class="btn btn-ghost" id="atClsBack">' + t(UI.back) + '</button>' +
+      '<button class="btn btn-primary" id="atClsNext" ' + (f.cls?'':'disabled') + '>' + (LANG==='th'?'ถัดไป':'Next') + '</button>' +
+    '</div>';
+  app.appendChild(card);
+
+  card.querySelectorAll('[data-cls]').forEach(function(btn){
+    btn.onclick = function(){ f.cls = btn.getAttribute('data-cls'); render(); };
+  });
+  card.querySelector('#atClsBack').onclick = function(){ atGoTo('home'); };
+  const nextBtn = card.querySelector('#atClsNext');
+  nextBtn.onclick = function(){ if(f.cls) atGoTo('sym'); };
+}
+
+function atSymView(app){
+  atHeader(app);
+  spHeader(app, t(AT.refBadge));
+  const f = atState.form;
+  const isBL = f.cls==='penicillin' || f.cls==='cephalosporin';
+
+  const opts = [
+    ['notCompatible', AT.sym.notCompatible],
+    ['familyOrFear', AT.sym.familyOrFear],
+    ['toleratedSince', AT.sym.toleratedSince],
+    ['scar', AT.sym.scar],
+    ['severeImmediate', AT.sym.severeImmediate],
+    ['severeDelayedOther', AT.sym.severeDelayedOther]
+  ];
+  if(isBL) opts.push(['urticaria', AT.sym.urticaria]);
+  opts.push(['nonsevere', AT.sym.nonsevere]);
+
+  const card = document.createElement('div');
+  card.className = 'q-card';
+  card.innerHTML = '' +
+    '<div class="q-text">' + t(AT.sym.heading) + '</div>' +
+    '<div class="q-hint">' + t(AT.sym.hint) + '</div>' +
+    '<div class="opt-list">' +
+      opts.map(function(p){
+        const sel = f.sym===p[0];
+        return '<button class="opt-btn radio ' + (sel?'selected':'') + '" data-sym="' + p[0] + '"><span class="chk">' + (sel?'✓':'') + '</span>' + t(p[1]) + '</button>';
+      }).join('') +
+    '</div>' +
+    '<div class="wizard-nav">' +
+      '<button class="btn btn-ghost" id="atSymBack">' + t(UI.back) + '</button>' +
+      '<button class="btn btn-primary" id="atSymNext" ' + (f.sym?'':'disabled') + '>' + (LANG==='th'?'ถัดไป':'Next') + '</button>' +
+    '</div>';
+  app.appendChild(card);
+
+  card.querySelectorAll('[data-sym]').forEach(function(btn){
+    btn.onclick = function(){ f.sym = btn.getAttribute('data-sym'); render(); };
+  });
+  card.querySelector('#atSymBack').onclick = function(){ atGoTo('cls'); };
+  card.querySelector('#atSymNext').onclick = function(){
+    if(!f.sym) return;
+    if(f.sym==='nonsevere' && isBL){ atGoTo('timing'); }
+    else { atGoTo('result'); }
+  };
+}
+
+function atTimingView(app){
+  atHeader(app);
+  spHeader(app, t(AT.refBadge));
+  const f = atState.form;
+  const opts = [['over5y',AT.timing.over5y],['onlyRash',AT.timing.onlyRash],['within5y',AT.timing.within5y]];
+  const card = document.createElement('div');
+  card.className = 'q-card';
+  card.innerHTML = '' +
+    '<div class="q-text">' + t(AT.timing.heading) + '</div>' +
+    '<div class="q-hint">' + t(AT.timing.hint) + '</div>' +
+    '<div class="opt-list">' +
+      opts.map(function(p){
+        const sel = f.timing===p[0];
+        return '<button class="opt-btn radio ' + (sel?'selected':'') + '" data-tm="' + p[0] + '"><span class="chk">' + (sel?'✓':'') + '</span>' + t(p[1]) + '</button>';
+      }).join('') +
+    '</div>' +
+    '<div class="wizard-nav">' +
+      '<button class="btn btn-ghost" id="atTmBack">' + t(UI.back) + '</button>' +
+      '<button class="btn btn-primary" id="atTmNext" ' + (f.timing?'':'disabled') + '>' + (LANG==='th'?'ดูผลประเมิน':'See result') + '</button>' +
+    '</div>';
+  app.appendChild(card);
+
+  card.querySelectorAll('[data-tm]').forEach(function(btn){
+    btn.onclick = function(){ f.timing = btn.getAttribute('data-tm'); render(); };
+  });
+  card.querySelector('#atTmBack').onclick = function(){ atGoTo('sym'); };
+  card.querySelector('#atTmNext').onclick = function(){ if(f.timing) atGoTo('result'); };
+}
+
+/* Classify the assembled answers into a risk tier + result content */
+function atClassify(f){
+  const isBL = f.cls==='penicillin' || f.cls==='cephalosporin';
+
+  /* Rec 2.1 — applies to any antibiotic class: direct de-labelling */
+  if(f.sym==='notCompatible' || f.sym==='familyOrFear' || f.sym==='toleratedSince'){
+    return { risk:'verylow' };
+  }
+
+  if(!isBL){
+    /* Non-β-lactam pathway — Rec 5.1/5.2 is a binary rule: any severe reaction
+       (immediate or delayed, incl. SCAR) means avoid the whole class; the
+       β-lactam-specific "refer for work-up" nuance (Rec 2.4) does not apply
+       here, so severe non-β-lactam reactions all route to 'avoidNB' (Rec 5.1). */
+    if(f.sym==='nonsevere'){
+      return { risk:'low', bl:false };
+    }
+    return { risk:'high', sub:'avoidNB' };
+  }
+
+  /* β-lactam pathway (penicillin / cephalosporin) — Fig. 1 "High risk" branch:
+     right side (avoid all βL, use non-βL if treatment is needed before
+     specialist review) = severe anaphylactic reactions + SCAR + other severe
+     drug-induced delayed reactions. Left side (refer, but a cephalosporin
+     with dissimilar side chain / monobactam may still be used per Table 3
+     if treatment is needed before review) = urticaria + nonsevere <5y only.
+     Severe anaphylaxis is explicitly excluded from the cross-reactivity-based
+     recommendations (Recs 4.4/4.6/4.7/4.9/4.11 exception clause), so it is
+     grouped with SCAR/severe-delayed here, not with urticaria. */
+  if(f.sym==='scar' || f.sym==='severeDelayedOther' || f.sym==='severeImmediate'){
+    return { risk:'high', sub:'avoid' };
+  }
+  if(f.sym==='urticaria'){
+    return { risk:'high', sub:'refer' };
+  }
+  if(f.sym==='nonsevere'){
+    if(f.timing==='over5y' || f.timing==='onlyRash') return { risk:'low', bl:true };
+    return { risk:'high', sub:'refer' };
+  }
+  return { risk:'high', sub:'refer' };
+}
+
+function atResultView(app){
+  atHeader(app);
+  spHeader(app, t(AT.refBadge));
+  const f = atState.form;
+  const isBL = f.cls==='penicillin' || f.cls==='cephalosporin';
+  const c = atClassify(f);
+  const wrap = document.createElement('div');
+
+  const banner = document.createElement('div');
+  if(c.risk==='verylow'){
+    banner.className = 'result-banner mild';
+    banner.innerHTML = '<span class="tag">' + t(AT.res.verylowTag) + '</span><h2>' + t(AT.res.verylowTitle) + '</h2><p>' + t(AT.res.verylowSummary) + '</p>';
+  } else if(c.risk==='low'){
+    banner.className = 'result-banner mild';
+    banner.innerHTML = '<span class="tag">' + t(AT.res.lowTag) + '</span><h2>' + t(AT.res.lowTitle) + '</h2><p>' + t(isBL ? AT.res.lowSummaryBL : AT.res.lowSummaryNB) + '</p>';
+  } else {
+    banner.className = 'result-banner severe';
+    if(c.sub==='avoid' || c.sub==='avoidNB'){
+      banner.innerHTML = '<span class="tag">' + t(AT.res.highTag) + '</span><h2>' + t(AT.res.highTitleAvoid) + '</h2><p>' + t(c.sub==='avoidNB' ? AT.res.highSummaryNBSevere : AT.res.highSummaryScar) + '</p>';
+    } else {
+      banner.innerHTML = '<span class="tag">' + t(AT.res.highTag) + '</span><h2>' + t(AT.res.highTitleRefer) + '</h2><p>' + t(AT.res.highSummaryRefer) + '</p>';
+    }
+  }
+  wrap.appendChild(banner);
+
+  if(c.risk==='low'){
+    const stepsHtml = '<ol style="margin:0; padding-left:18px; font-size:12.5px; line-height:1.8; color:var(--ink);">' +
+      AT.res.cdctSteps.map(function(s){ return '<li>' + t(s) + '</li>'; }).join('') + '</ol>';
+    spSectionCard(wrap, { h:AT.res.cdctHeading, icon:'🧪', customHtml: stepsHtml });
+    const contraHtml = '<ul style="margin:0; padding-left:18px; font-size:12.5px; line-height:1.8; color:var(--sev-tx);">' +
+      AT.res.cdctContra.map(function(s){ return '<li>' + t(s) + '</li>'; }).join('') + '</ul>';
+    spSectionCard(wrap, { h:AT.res.cdctContraHeading, icon:'🚫', collapsible:true, openByDefault:true, customHtml: contraHtml });
+    const unableHtml = '<ul style="margin:0; padding-left:18px; font-size:12.5px; line-height:1.8; color:var(--ink);">' +
+      AT.res.cdctUnableList.map(function(s){ return '<li>' + t(s) + '</li>'; }).join('') + '</ul>' +
+      '<div class="mini-note" style="margin-top:10px;">' + t(AT.res.cdctUnableNote) + '</div>';
+    spSectionCard(wrap, { h:AT.res.cdctUnableHeading, icon:'🧭', collapsible:true, customHtml: unableHtml });
+    if(isBL){
+      const xrBtnCdct = document.createElement('button');
+      xrBtnCdct.className = 'btn btn-ghost';
+      xrBtnCdct.style.width = '100%';
+      xrBtnCdct.style.marginTop = '4px';
+      xrBtnCdct.textContent = t(AT.res.openXr);
+      xrBtnCdct.onclick = function(){ atState.xr.returnTo = 'result'; atGoTo('xr'); };
+      wrap.appendChild(xrBtnCdct);
+    }
+  }
+
+  if(c.risk==='high' && c.sub==='refer' && isBL){
+    const listHtml = '<ul style="margin:8px 0 0; padding-left:18px; font-size:12.5px; line-height:1.8; color:var(--ink);">' +
+      AT.res.xrCardList.map(function(s){ return '<li>' + t(s) + '</li>'; }).join('') + '</ul>';
+    spSectionCard(wrap, { h:AT.res.xrCardHeading, icon:'🔀', customHtml: '<div style="font-size:12.5px; line-height:1.7;">' + t(AT.res.xrCardBody) + '</div>' + listHtml });
+    const xrBtn = document.createElement('button');
+    xrBtn.className = 'btn btn-ghost';
+    xrBtn.style.width = '100%';
+    xrBtn.style.marginTop = '4px';
+    xrBtn.textContent = t(AT.res.openXr);
+    xrBtn.onclick = function(){ atState.xr.returnTo = 'result'; atGoTo('xr'); };
+    wrap.appendChild(xrBtn);
+  }
+
+  if(c.risk==='high' && (c.sub==='avoid' || c.sub==='avoidNB')){
+    spSectionCard(wrap, { h:AT.res.avoidNoteHeading, icon:'⚠️', customHtml: '<div style="font-size:12.5px; line-height:1.7;">' + t(c.sub==='avoid' ? AT.res.avoidNoteBL : AT.res.avoidNoteNB) + '</div>' });
+  }
+
+  const note = document.createElement('div');
+  note.className = 'mini-note';
+  note.style.marginTop = '14px';
+  note.textContent = t(AT.res.disclaimer);
+  wrap.appendChild(note);
+
+  const back = document.createElement('button');
+  back.className = 'btn btn-ghost';
+  back.style.width = '100%';
+  back.style.marginTop = '14px';
+  back.textContent = t(UI.back);
+  back.onclick = function(){ atGoTo(isBL && f.sym==='nonsevere' ? 'timing' : 'sym'); };
+  wrap.appendChild(back);
+
+  const restart = document.createElement('button');
+  restart.className = 'restart-btn';
+  restart.textContent = t(UI.restart);
+  restart.onclick = function(){ atResetAll(); atGoTo('cls'); };
+  wrap.appendChild(restart);
+
+  app.appendChild(wrap);
+}
+
+function atXrVerdict(code){
+  if(code==='B') return { cls:'same', tag:AT.xr.sameTag, msg:AT.xr.sameMsg };
+  if(code==='W') return { cls:'safe', tag:AT.xr.safeTag, msg:AT.xr.safeMsg };
+  if(code==='G') return { cls:'avoid', tag:AT.xr.greyTag, msg:AT.xr.greyMsg };
+  if(code==='O') return { cls:'caution', tag:AT.xr.orangeTag, msg:AT.xr.orangeMsg };
+  return { cls:'avoid', tag:AT.xr.redTag, msg:AT.xr.redMsg };
+}
+
+function atXrView(app){
+  atHeader(app);
+  spHeader(app, t(AT.xr.heading));
+  const hint = document.createElement('div');
+  hint.className = 'scope-note';
+  hint.textContent = t(AT.xr.hint);
+  app.appendChild(hint);
+
+  const card = document.createElement('div');
+  card.className = 'q-card';
+  const optionsHtml = AT_BLACTAMS.map(function(d, i){ return '<option value="' + i + '">' + t(d) + '</option>'; }).join('');
+  card.innerHTML = '' +
+    '<label style="font-size:12.5px; font-weight:600; display:block; margin-bottom:5px;">' + t(AT.xr.labelA) + '</label>' +
+    '<select class="xr-select" id="atXrA">' + optionsHtml + '</select>' +
+    '<label style="font-size:12.5px; font-weight:600; display:block; margin:14px 0 5px;">' + t(AT.xr.labelB) + '</label>' +
+    '<select class="xr-select" id="atXrB">' + optionsHtml + '</select>' +
+    '<div id="atXrResult"></div>' +
+    '<div class="xr-legend">' +
+      '<span><i style="background:var(--info-bd);"></i>' + t(AT.xr.legendSame) + '</span>' +
+      '<span><i style="background:var(--mild-bd);"></i>' + t(AT.xr.legendSafe) + '</span>' +
+      '<span><i style="background:var(--pink-300);"></i>' + t(AT.xr.legendGrey) + '</span>' +
+      '<span><i style="background:var(--mod-bd);"></i>' + t(AT.xr.legendOrange) + '</span>' +
+      '<span><i style="background:var(--sev-bd);"></i>' + t(AT.xr.legendRed) + '</span>' +
+    '</div>' +
+    '<div style="font-size:10.5px; color:var(--ink-soft); margin-top:12px; line-height:1.6;">' + t(AT.xr.sourceNote) + '</div>';
+  app.appendChild(card);
+
+  const selA = card.querySelector('#atXrA');
+  const selB = card.querySelector('#atXrB');
+  const resultEl = card.querySelector('#atXrResult');
+  selA.value = String(atState.xr.a);
+  selB.value = String(atState.xr.b);
+
+  function renderVerdict(){
+    const i = parseInt(selA.value, 10);
+    const j = parseInt(selB.value, 10);
+    atState.xr.a = i; atState.xr.b = j;
+    const code = AT_MATRIX[i][j];
+    const v = atXrVerdict(code);
+    let html = '<div class="xr-verdict ' + v.cls + '"><span class="xr-tag">' + t(v.tag) + '</span><h3>' + t(AT_BLACTAMS[i]) + ' × ' + t(AT_BLACTAMS[j]) + '</h3><p>' + t(v.msg) + '</p></div>';
+    if(code!=='B'){
+      html += '<div class="mini-note" style="margin-top:10px;">' + t(AT.xr.exceptionNote) + '</div>';
+    }
+    resultEl.innerHTML = html;
+  }
+  selA.onchange = renderVerdict;
+  selB.onchange = renderVerdict;
+  renderVerdict();
+
+  const back = document.createElement('button');
+  back.className = 'btn btn-ghost';
+  back.style.width = '100%';
+  back.style.marginTop = '16px';
+  const returnTo = atState.xr.returnTo || 'home';
+  back.textContent = returnTo==='result' ? (LANG==='th'?'กลับไปผลประเมิน':'Back to result') : (LANG==='th'?'กลับหน้ารวมแพ้ยา':'Back to allergy tools');
+  back.onclick = function(){ atGoTo(returnTo); };
+  app.appendChild(back);
+}
+
+function atRender(){
+  const app = document.getElementById('app');
+  app.innerHTML = '';
+  if(atState.screen==='home') atHomeView(app);
+  else if(atState.screen==='cls') atClsView(app);
+  else if(atState.screen==='sym') atSymView(app);
+  else if(atState.screen==='timing') atTimingView(app);
+  else if(atState.screen==='result') atResultView(app);
+  else if(atState.screen==='xr') atXrView(app);
+}
+/* ======================= End Antibiotic Allergy Evaluation ======================= */
+
+
 let topState = { screen:'home' };
 
 function goMainHome(){
@@ -10862,6 +11535,21 @@ function selectCategory(cat){
   scrollToTop();
   render();
 }
+
+const APP_LOGO = 'data:image/webp;base64,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';
+const SB_ICONS = {
+  menu: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAACjklEQVR4nO3azWoTURjG8eedMxGLSBGhW8FV+rWQXMCsRAS3QcEr8Da8BVcuXPuRjbhx5SIX4KKkJCgoBfEe2mbmvC7S2FKhnWksZ9r8fzCQmWTOMOfkvGcGHgkAAAAAAAAAAACXyv7j+b5gW1fRwvd/0QGwoy3ODxRFkV+wrStpOBy6pOrEoXBq/9Jk8w+9Xm+11+utavGZdCWdvv9+vx+attG04zJJsdvt3s3z8Eryx5KZu/+Q/KuZmbtf61LkLjOTm+mOZA/NFCXbc48vd3cnH6V+kAa1Z0KTATBJ2traWjPzzyGEB2VZysz+bssmxijJZTYrCtNp9XQymXxQg3JUu9dm02ug8XjjbaeT96fT6YGZ3Tj62t09ntnANWRmQZLcvcqyLLjrMISyu7PzbU9H1eLcNupeS5L3evdX9/dv/soyu+Xu84UYktx9mud5XlXVi93d8euiKPLhcFied1523g9OKsvKbFZr6Ph/mSSfz4q6mgxAtrJSHbj776PFdulKzhlckrsrk+J3SVpbW6v1MNLknxwkVZub3Sch5J/c3WKM04ZtXFudTic/PCzfj8fjZ6pZ/6XmnRckVdvbG30pexOC3b7eD531xVi9G43Gz3X8gvrfZ8BckFStr6/fy/P8kVQt7RDEGD3LOiaVP0ejyRcd9+el90mjxXtJXKgUL1K/s6IoGAjNFtzBoP7bLwAAAAAAy4tc0GLIBaVCLqgFyAUlQC6oRcgFJUYuqEXIBaVHLighckGpkQtKjFxQAuSC2oVcUCrkggAAAAAAqItc0GLIBaVCLqgFyAUlQC6oRcgFJUYuqEXIBaVHLighckGpkQtKjFxQAuSC2oVcUCrkggAAAAAAAAAAAFrsD/E6DE2pTjjhAAAAAElFTkSuQmCC',
+  close: 'data:image/png;base64,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',
+  search: 'data:image/png;base64,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',
+  chevron: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAFUElEQVR4nO2dQW8bRRiG329m1qFCooeWcAShyHIct0q0d/ZSQPwAK5Q7/4ArSsRPoD8C2lyKhMSh6SGcerEUlGTXihBSBQgk2lNV0WRn5uPgndSynVQU4t0ZzyPlYq2lyfe+7zfrnfEYiEQikUgkEolEIpFIJBKJRCJzgeoewATj4+HaRrGAEAAx8ZqsYyCLyFnh0zS9mqbpVVRJ6Pf7wYtQdwsSAGyn07mmlLwD8CdEZAE8ZrZfHR4W9/v9vtzZ2TE1j/PSqFMAAoBer7dMxD9IKTe01iACiEahKEuzWRTFvSzL1N7enq5xrJdGbQKM2ssO8rz7TZKoflmWJ0TUAgBmNkIIyYxTa/m9PM//xGhOCC4JdQlAADhN37/64sUbvwpBbzIzTYzHEBEB+OnkpPzo+Pj4CQIUYfLOY65obagq8iwjSGsthBAbrVbyoNPpXMOo+EFNzHUKIK5cMSfM/DsRETPbyQuISGittZRiPUnkbogi1CUAA6BHj377G7BfAGAhxMz2QkRKa62FEOtKhSdCnQkwAOTR0fB7ZrsJ0LPRxMvnihBiEur+HABUE+vq6uq7Son7Qoh1rbUmIjV5ITNrpZQyxu5rbW4Nh8On8HxirnUSrjBZlqmiKB6XpblljN1XSilmnrrvDzEJTUiAQwIw7Xb7+tJS8mBRktCEBDgMAHl8fPxkkZLQJAGAqojD4fCp1uaWta8Wwfe7oya1oHEkAFM9pNuV8tXtyFq7X5b+taOmJcCxMEloagIcwSehqQlwBJ+EpifAEWwSmp4AR7BJ8CUBjuCS4EsCHMElwbcEOIJJgm8JcASTBF8T4PA+Cb4mwOF9EnxPgMPbJPieAIe3SQhFAGBMhH+7ntBut69X7597PUJpQeOctaMkkbuvsbJGmOPW+JAS4HjdJDxYWVl5CyMB5mbMEAUAxkQ4PS0/dHMCgFmbv5TWupRSbrRarc8B2CzL5jYfhNiCxpEAzPr6ytvGtHYA+oCZGdPGs0QEa/kPZnTyPH9evX7prSjUBDhMt9tt7e///Je1/GO1BXJWUV3buZYkzxXiHPC/QFmWqTzPT2/cWN1WSn1prTVENNVequ3wxGy/a7cfP6u+mTMXEYJtQe5LHWtrq9tJora0NhrA1J0QACYiJiI6PdU3h8PhIeb4wWzWgHyHsiyTe3t7utfrbkkpLyz+6I+I2W7Ou/g4Z1Be44q/tra6rZTc0lprYLrtoCq+EILK0nxaFMUOangkEdIcQK7t9HrdLaVc2yGF6VbLAJhIELPdLIriXpqmCWp4HhRMAv6L89M0TQaDQTnvMQNhCHBOz59+9IBp59dafCAAAXx1vsNnAbx2vsNbAXx3vsNHAYJwvsM7AUJxvsMnAYJyvsMbAUJzvsMHAYJ0vqPxAoTqfEeTBQja+Y7GChC68x1NFGAhnO9onACL4nxHkwRYKOc7mrImTGmaqsFgUL5cwz1z/szFlDHn3/O1+EAzBBCoNkzdvNndIpLbxly8hkskCLCbBwe5t8531N2CBADbbrevt1rJ1wDdNsact1M5iJ4/SZ0CEADu9XrvuHNDy7KcuYkWAfX8SWoToN/vi9G5ofaOUmqjOjd0acalQTrf0eRzQ4EAe/4ktc4Brzg3lAEYIYQM0fmOpp4bysyshZDKGHPb91vNi2jUuaHMXDKzZmaTJEmitbl7dFTcDbX4QMPODVVKJarCGP1tnuefZVmmBoNBkCenA834IDZ2bih9DEgG9C8HB8VDvBxf/DmTS2ZWEptgjkunSf+kyLJMAMDy8jKH/KsZkUgkEolEIpFIJBKJRCKRSKQG/gHhbT/CVu1cmwAAAABJRU5ErkJggg==',
+  globe: 'data:image/png;base64,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',
+  urgent: 'data:image/png;base64,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',
+  common: 'data:image/png;base64,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',
+  newborn: 'data:image/png;base64,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',
+  allergy: 'data:image/png;base64,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',
+  tools: 'data:image/png;base64,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',
+  bell: 'data:image/png;base64,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'
+};
 
 const CATEGORIES = [
   { id:'asthma', icon:'🫁', group:'urgent', name:{th:'Acute asthmatic attack', en:'Acute asthmatic attack'}, short:{th:'ประเมินความรุนแรง · แผนการรักษา · ขนาดยาตามน้ำหนัก', en:'Severity assessment · management plan · weight-based dosing'}, keywords:'asthma หืด หืดกำเริบ หอบหืด wheeze wheezing salbutamol ventolin ipratropium terbutaline exacerbation' },
@@ -10890,6 +11578,170 @@ function goNewbornHome(){
   render();
 }
 
+const ATB_HUB = { id:'atbAllergy', icon:'💊', name:{th:'Antibiotic Allergy', en:'Antibiotic Allergy'}, short:{th:'ประเมินความเสี่ยง · Cross-reactivity checker', en:'Risk assessment · Cross-reactivity checker'}, keywords:'antibiotic allergy แพ้ยาปฏิชีวนะ แพ้ยา ยา ปฏิชีวนะ ยาต้านจุลชีพ beta-lactam เบต้าแลคแทม บีตาแลคแทม penicillin เพนิซิลลิน เพนนิซิลิน amoxicillin อะม็อกซิซิลลิน augmentin cephalosporin เซฟาโลสปอริน ceftriaxone cefazolin cefixime cephalexin cross reactivity cross-reactivity ครอสรีแอคทิวิตี escmid delabel delabeling de-labelling drug challenge cdct ผื่นแพ้ยา แพ้ผื่น anaphylaxis scar sjs ten dress agep' };
+
+function goAtbHome(){
+  topState = { screen:'atbAllergy' };
+  atState.screen = 'home';
+  scrollToTop();
+  render();
+}
+
+/* ======================= Sidebar Navigation Drawer ======================= */
+let sidebarOpen = false;
+let sbSearchQuery = '';
+let sbGroupsExpanded = { urgent:false, common:false, newborn:false, atb:false };
+
+function sbOpen(){
+  sidebarOpen = true;
+  sbSearchQuery = '';
+  renderSidebar();
+}
+function sbClose(){
+  sidebarOpen = false;
+  renderSidebar();
+}
+function sbNavigate(fn){
+  sbClose();
+  fn();
+}
+function sbOpenAtbRisk(){
+  topState = { screen:'atbAllergy' };
+  atState = { screen:'cls', form:{ cls:null, sym:null, timing:null }, xr:atState.xr };
+  scrollToTop();
+  render();
+}
+function sbOpenAtbXr(){
+  topState = { screen:'atbAllergy' };
+  atState.screen = 'xr';
+  atState.xr.returnTo = 'home';
+  scrollToTop();
+  render();
+}
+
+function sbBadge(iconKey, bg){
+  return `<div class="sb-item-badge" style="background:${bg};"><img src="${SB_ICONS[iconKey]}" alt=""></div>`;
+}
+
+function sbItemRow(iconKey, bg, label, onClickFnName){
+  return `<button class="sb-item" data-fn="${onClickFnName}">${sbBadge(iconKey, bg)}<span class="sb-item-name">${label}</span><img class="sb-item-chevron" src="${SB_ICONS.chevron}" alt=""></button>`;
+}
+
+function sbGroupHeaderRow(iconKey, bg, labelColor, label, count, groupKey, expandable, expanded){
+  const chev = expandable ? `<img class="sb-group-chevron" src="${SB_ICONS.chevron}" alt="">` : '';
+  const countTxt = count ? ` · ${count}` : '';
+  return `<div class="sb-group-header${expanded?' expanded':''}" data-group="${groupKey}" data-expandable="${expandable?'1':'0'}">
+    <div style="display:flex; align-items:center; gap:9px;">${sbBadge(iconKey, bg)}<span class="sb-group-label" style="color:${labelColor}; text-transform:none; font-size:12.5px; padding:0;">${label}${countTxt}</span></div>
+    ${chev}
+  </div>`;
+}
+
+function renderSidebar(){
+  const overlay = document.getElementById('sbOverlay');
+  const panel = document.getElementById('sbPanel');
+  if(!overlay || !panel) return;
+  overlay.className = 'sb-overlay' + (sidebarOpen ? ' open' : '');
+  panel.className = 'sb-panel' + (sidebarOpen ? ' open' : '');
+  if(!sidebarOpen){ panel.innerHTML = ''; return; }
+
+  const q = sbSearchQuery.trim().toLowerCase();
+  const urgent = CATEGORIES.filter(c => c.group==='urgent' && homeMatches(c, q));
+  const common = CATEGORIES.filter(c => c.group==='common' && homeMatches(c, q));
+  const newbornShown = homeMatches(NEWBORN_HUB, q);
+  const atbShown = homeMatches(ATB_HUB, q);
+  const crxShown = homeMatches({name:CRX.title, short:CRX.short, keywords:CRX.keywords}, q);
+  const nothing = !urgent.length && !common.length && !newbornShown && !atbShown && !crxShown;
+
+  let html = '';
+  html += `<div class="sb-header">
+    <div class="sb-brand" id="sbBrand" style="cursor:pointer;"><img class="sb-brand-logo" src="${APP_LOGO}" alt=""><span class="sb-brand-text"><span class="pedi">Pedi</span><span class="compass">Compass</span></span></div>
+    <button class="sb-close-btn" id="sbCloseBtn" aria-label="ปิดเมนู"><img src="${SB_ICONS.close}" alt=""></button>
+  </div>
+  <div class="sb-search-wrap"><img src="${SB_ICONS.search}" alt=""><input type="text" id="sbSearchInput" inputmode="search" enterkeyhint="search" placeholder="${t(UI.searchPlaceholder)}"></div>
+  <div class="sb-list">`;
+
+  if(nothing){
+    html += `<div class="sb-empty">${LANG==='th'?'ไม่พบผลลัพธ์':'No results found'}</div>`;
+  }
+  if(urgent.length){
+    const openU = sbGroupsExpanded.urgent || !!q;
+    html += sbGroupHeaderRow('urgent', 'var(--sev-bg)', 'var(--sev-tx)', 'URGENT', urgent.length, 'urgent', true, openU);
+    html += `<div class="sb-group-body${openU?' expanded':''}" id="sbGroupBody-urgent">`;
+    urgent.forEach(c => { html += sbItemRow('urgent', 'var(--sev-bg)', t(c.name), 'cat:'+c.id); });
+    html += `</div>`;
+  }
+  if(common.length){
+    const openC = sbGroupsExpanded.common || !!q;
+    html += sbGroupHeaderRow('common', 'var(--pink-100)', 'var(--pink-600)', 'COMMON CONDITIONS', common.length, 'common', true, openC);
+    html += `<div class="sb-group-body${openC?' expanded':''}" id="sbGroupBody-common">`;
+    common.forEach(c => { html += sbItemRow('common', 'var(--pink-100)', t(c.name), 'cat:'+c.id); });
+    html += `</div>`;
+  }
+  if(newbornShown){
+    const openN = sbGroupsExpanded.newborn || !!q;
+    html += sbGroupHeaderRow('newborn', 'var(--mild-bg)', 'var(--mild-tx)', t(NEWBORN_HUB.name), NEWBORN_CATEGORIES.length, 'newborn', true, openN);
+    html += `<div class="sb-group-body${openN?' expanded':''}" id="sbGroupBody-newborn">`;
+    NEWBORN_CATEGORIES.forEach(c => { html += sbItemRow('newborn', 'var(--mild-bg)', t(c.name), 'nb:'+c.id); });
+    html += `</div>`;
+  }
+  if(atbShown){
+    const openA = sbGroupsExpanded.atb || !!q;
+    html += sbGroupHeaderRow('allergy', 'var(--purple-bg)', 'var(--purple-tx)', t(ATB_HUB.name), 2, 'atb', true, openA);
+    html += `<div class="sb-group-body${openA?' expanded':''}" id="sbGroupBody-atb">`;
+    html += sbItemRow('allergy', 'var(--purple-bg)', t(AT.home.riskName), 'atbrisk');
+    html += sbItemRow('allergy', 'var(--purple-bg)', t(AT.home.xrName), 'atbxr');
+    html += `</div>`;
+  }
+  if(crxShown){
+    html += sbGroupHeaderRow('tools', 'var(--mod-bg)', 'var(--mod-tx)', t(CRX.title), 0, 'crx', false, false);
+  }
+
+  html += `</div>
+  <div class="sb-footer">
+    <span style="font-size:11px; color:var(--ink-soft);">${LANG==='th'?'ภาษา':'Language'}</span>
+    <div class="sb-footer-lang">
+      <button class="${LANG==='th'?'active':''}" data-lang="th">TH</button>
+      <button class="${LANG==='en'?'active':''}" data-lang="en">EN</button>
+    </div>
+  </div>`;
+
+  panel.innerHTML = html;
+
+  panel.querySelector('#sbCloseBtn').onclick = sbClose;
+  panel.querySelector('#sbBrand').onclick = function(){ sbNavigate(goMainHome); };
+  const sInput = panel.querySelector('#sbSearchInput');
+  sInput.value = sbSearchQuery;
+  sInput.oninput = function(){ sbSearchQuery = sInput.value; renderSidebar(); panel.querySelector('#sbSearchInput').focus(); };
+
+  panel.querySelectorAll('.sb-item').forEach(function(btn){
+    btn.onclick = function(){
+      const key = btn.getAttribute('data-fn');
+      if(key.indexOf('cat:')===0){ sbNavigate(function(){ selectCategory(key.slice(4)); }); }
+      else if(key.indexOf('nb:')===0){ sbNavigate(function(){ nbOpenModule(key.slice(3)); }); }
+      else if(key==='atbrisk'){ sbNavigate(sbOpenAtbRisk); }
+      else if(key==='atbxr'){ sbNavigate(sbOpenAtbXr); }
+    };
+  });
+  panel.querySelectorAll('.sb-group-header').forEach(function(el){
+    if(el.getAttribute('data-expandable')==='1'){
+      el.onclick = function(){
+        const g = el.getAttribute('data-group');
+        sbGroupsExpanded[g] = !sbGroupsExpanded[g];
+        renderSidebar();
+      };
+    } else {
+      el.onclick = function(){ sbNavigate(crxOpen); };
+      el.style.cursor = 'pointer';
+    }
+  });
+  panel.querySelectorAll('.sb-footer-lang button').forEach(function(btn){
+    btn.onclick = function(){ setLang(btn.getAttribute('data-lang')); renderSidebar(); };
+  });
+}
+
+document.addEventListener('keydown', function(e){ if(e.key==='Escape' && sidebarOpen) sbClose(); });
+/* ======================= End Sidebar Navigation Drawer ======================= */
+
 function nbOpenModule(id){
   topState = { screen: id };
   if(id==='syphilis'){ syResetAll(); }
@@ -10903,14 +11755,15 @@ function nbOpenModule(id){
 function buildModuleCard(item, onClick, opts){
   opts = opts || {};
   const card = document.createElement('button');
-  card.className = 'module-card' + (opts.urgent ? ' urgent' : '') + (opts.hub ? ' hub' : '');
+  card.className = 'module-card' + (opts.urgent ? ' urgent' : '') + (opts.hub ? ' hub' : '') + (opts.hubClass ? ' ' + opts.hubClass : '');
   card.onclick = onClick;
+  const subCountLabel = opts.hubSubLabel || UI.newbornSubCount;
   card.innerHTML = `
     <div class="icon">${item.icon}</div>
     <div class="txt">
       <div class="name">${t(item.name)}</div>
       <div class="desc">${t(item.short)}</div>
-      ${opts.hub ? `<div class="hub-sub">${t(UI.newbornSubCount)} →</div>` : ''}
+      ${opts.hub ? `<div class="hub-sub">${t(subCountLabel)} →</div>` : ''}
     </div>
     <div class="arrow">›</div>`;
   return card;
@@ -10969,6 +11822,7 @@ function renderHomeResults(area){
   const urgent = CATEGORIES.filter(c => c.group==='urgent' && homeMatches(c, q));
   const common = CATEGORIES.filter(c => c.group==='common' && homeMatches(c, q));
   const newbornShown = homeMatches(NEWBORN_HUB, q);
+  const atbShown = homeMatches(ATB_HUB, q);
   const crxShown = homeMatches({name:CRX.title, short:CRX.short, keywords:CRX.keywords}, q);
 
   if(crxShown){
@@ -11014,7 +11868,17 @@ function renderHomeResults(area){
     grid.appendChild(buildModuleCard(NEWBORN_HUB, ()=>goNewbornHome(), {hub:true}));
     area.appendChild(grid);
   }
-  if(!urgent.length && !common.length && !newbornShown && !crxShown){
+  if(atbShown){
+    const head = document.createElement('div');
+    head.className = 'group-head';
+    head.innerHTML = `<span class="dot dot-allergy"></span><h2>${t(UI.groupAllergy)}</h2>`;
+    area.appendChild(head);
+    const grid = document.createElement('div');
+    grid.className = 'module-grid';
+    grid.appendChild(buildModuleCard(ATB_HUB, ()=>goAtbHome(), {hub:true, hubClass:'hub-purple', hubSubLabel:UI.atbSubCount}));
+    area.appendChild(grid);
+  }
+  if(!urgent.length && !common.length && !newbornShown && !atbShown && !crxShown){
     const empty = document.createElement('div');
     empty.className = 'search-empty';
     empty.textContent = t(UI.searchEmpty);
@@ -11052,6 +11916,7 @@ function render(){
   updateFooterDisclaimer();
   if(topState.screen==='home'){ renderMainHome(app); return; }
   if(topState.screen==='newborn'){ nbRenderHome(app); return; }
+  if(topState.screen==='atbAllergy'){ atRender(); return; }
   if(topState.screen==='respiratory'){ rsRender(); return; }
   if(topState.screen==='fever'){ fvRender(); return; }
   if(topState.screen==='syphilis'){ syRender(); return; }
@@ -11071,6 +11936,10 @@ function render(){
 render();
 fbInitDrag();
 wnCheckAutoPopup();
+document.getElementById('sbToggleIcon').src = SB_ICONS.menu;
+document.getElementById('wnBellIcon').src = SB_ICONS.bell;
+document.getElementById('sbToggleBtn').onclick = sbOpen;
+document.getElementById('sbOverlay').onclick = sbClose;
 
 function hideSplashScreen(){
   const s = document.getElementById('splashScreen');
