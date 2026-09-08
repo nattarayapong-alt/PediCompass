@@ -44,6 +44,34 @@ body{
   min-height:100vh;
   display:flex; flex-direction:column;
 }
+@media (min-width:1024px){
+  body{
+    display:grid;
+    grid-template-columns:264px minmax(0,1fr);
+    grid-template-areas:"sidebar header" "sidebar main";
+    align-items:start;
+  }
+  header.top{grid-area:header; display:grid !important; grid-template-columns:1fr auto 1fr; align-items:center;}
+  main{grid-area:main; padding-top:10px !important;}
+  .hamburger-btn{display:none !important;}
+  .sb-overlay{display:none !important;}
+  .sb-close-btn{display:none !important;}
+  .sb-panel{
+    grid-area:sidebar;
+    position:sticky !important; top:0 !important; left:auto !important; bottom:auto !important;
+    transform:none !important; width:100% !important; max-width:none !important;
+    height:100vh !important; z-index:1 !important;
+    box-shadow:none !important; border-right:1px solid var(--pink-200);
+  }
+  .sb-brand-logo{width:52px !important; height:52px !important; border-radius:14px !important;}
+  .sb-brand-text{font-size:19px !important;}
+  .sb-header{padding:22px 18px 16px !important;}
+  header.top .brand{grid-column:2; justify-self:center; flex-direction:row !important; text-align:left; gap:10px !important;}
+  header.top > div:last-child{grid-column:3; justify-self:end;}
+  .brand .logo{width:60px !important; height:60px !important; border-radius:16px !important;}
+  .brand-text .title{display:inline !important; font-size:26px !important;}
+  .brand-text .subtitle{display:inline !important; font-size:22px !important; font-weight:600 !important; color:var(--ink-soft) !important; margin-left:6px;}
+}
 h1,h2,h3,.display{font-family:'Taviraj','Sarabun',serif; font-weight:600;}
 .mono{font-family:'IBM Plex Mono',monospace;}
 
@@ -98,6 +126,12 @@ header.top{
 .lang-toggle button.active{background:var(--pink-500); color:white;}
 
 main{flex:1; width:100%; max-width:640px; margin:0 auto; padding:22px 18px 40px;}
+@media (min-width:768px){
+  main{max-width:720px; padding:26px 28px 48px;}
+}
+@media (min-width:1024px){
+  main{max-width:860px; padding:28px 36px 56px;}
+}
 
 /* Home screen */
 .hero{text-align:center; margin-bottom:22px;}
@@ -115,6 +149,12 @@ main{flex:1; width:100%; max-width:640px; margin:0 auto; padding:22px 18px 40px;
 }
 
 .module-grid{display:flex; flex-direction:column; gap:12px; margin-top:18px;}
+@media (min-width:768px){
+  .module-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+}
+@media (min-width:1024px){
+  .module-grid{grid-template-columns:1fr 1fr 1fr; gap:16px;}
+}
 .module-card{
   display:flex; align-items:center; gap:14px;
   background:var(--white); border:1px solid var(--pink-200); border-radius:var(--radius);
@@ -8898,6 +8938,10 @@ const CATEGORY_DISCLAIMERS = {
     th:'เครื่องมือนี้จัดทำขึ้นเพื่อสนับสนุนการตัดสินใจทางคลินิกของบุคลากรทางการแพทย์ โดยอ้างอิงบท Acute Life-threatening Asthma หนังสือ Ramathibodi Handbook of Pediatric Emergency พ.ศ. 2565 ภาควิชากุมารเวชศาสตร์ คณะแพทยศาสตร์โรงพยาบาลรามาธิบดี มหาวิทยาลัยมหิดล',
     en:'This tool is intended to support the clinical decision-making of healthcare professionals, based on the Acute Life-threatening Asthma chapter of the Ramathibodi Handbook of Pediatric Emergency 2022, Department of Pediatrics, Faculty of Medicine Ramathibodi Hospital, Mahidol University.'
   },
+  tb:{
+    th:'เครื่องมือนี้จัดทำขึ้นเพื่อสนับสนุนการตัดสินใจทางคลินิกของบุคลากรทางการแพทย์ โดยอ้างอิงแนวทางเวชปฏิบัติเรื่องวัณโรคในเด็ก: การวินิจฉัย รักษา และป้องกัน พ.ศ. 2568 (ราชวิทยาลัยกุมารแพทย์แห่งประเทศไทย) ครอบคลุมบทที่ 2 (วัณโรคปอดและนอกปอด) บทที่ 3 (การรักษาวัณโรคที่ไม่ดื้อยา, การจัดการปัญหาระหว่างรักษา, และแนวทางวัณโรคดื้อยา) บทที่ 4 (การดูแลเด็กที่สัมผัสวัณโรคและวัณโรคระยะแฝง) บทที่ 5 (วัคซีนบีซีจี) และคำแนะนำเสริมสำหรับผู้ป่วยวัณโรคที่ติดเชื้อเอชไอวีร่วม (บทที่ 6 บางส่วน) ไม่ครอบคลุมกรณีพิเศษอื่นในบทที่ 6 (ตับ/ไต) เนื้อหาส่วนวัณโรคดื้อยาให้ข้อมูลเบื้องต้นเพื่อช่วยจำแนกประเภทและดูสูตรยาที่อาจเป็นไปได้เท่านั้น การรักษาต้องอยู่ภายใต้การดูแลของผู้เชี่ยวชาญด้านวัณโรคดื้อยา',
+    en:'This tool is intended to support the clinical decision-making of healthcare professionals, based on the Clinical Practice Guideline on Tuberculosis in Children: Diagnosis, Treatment, and Prevention 2025 (Royal College of Pediatricians of Thailand), covering chapter 2 (pulmonary and extrapulmonary TB), chapter 3 (drug-susceptible TB treatment, managing on-treatment problems, and drug-resistant TB guidance), chapter 4 (TB contact management and latent TB infection), chapter 5 (BCG vaccine), and supplementary guidance for TB patients with concurrent HIV (part of chapter 6). It does not cover other chapter 6 special populations (liver/renal). The drug-resistant TB content provides preliminary classification and possible regimen information only; treatment must be managed under a drug-resistant TB specialist.'
+  },
   coderx:{
     th:'เครื่องมือนี้จัดทำขึ้นเพื่อสนับสนุนการตัดสินใจทางคลินิกของบุคลากรทางการแพทย์ โดยอ้างอิง (1) AAP "Drugs Used to Treat Pediatric Emergencies" Pediatrics 2020;145(1):e20193450 (ยาส่วนใหญ่และอุปกรณ์) และ (2) แนวทางเวชปฏิบัติในการรักษาโรคลมชักสำหรับแพทย์ พ.ศ. 2564 สถาบันประสาทวิทยา กรมการแพทย์ (เฉพาะ Diazepam และ Midazolam ตรงกับโมดูล Status Epilepticus)',
     en:'This tool is intended to support the clinical decision-making of healthcare professionals, based on (1) the AAP report "Drugs Used to Treat Pediatric Emergencies," Pediatrics 2020;145(1):e20193450 (most drugs and equipment) and (2) the Clinical Practice Guidelines for Epilepsy 2021, Neurological Institute of Thailand (Diazepam and Midazolam only, matching the Status Epilepticus module).'
@@ -11581,6 +11625,7 @@ function selectCategory(cat){
   else if(cat==='meningoencephalitis'){ mgResetAll(); }
   else if(cat==='sepsis'){ spResetAll(); }
   else if(cat==='uti'){ utResetAll(); }
+  else if(cat==='tb'){ tbResetAll(); }
   else if(cat==='anaphylaxis'){ anResetAll(); }
   else if(cat==='statusepilepticus'){ seResetAll(); }
   else if(cat==='dka'){ dkaResetAll(); }
@@ -11606,6 +11651,1858 @@ const SB_ICONS = {
   bell: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAPiklEQVR4nO1dfYxc1XX/nXPf27UN2HgBCxrAQFzsnY81ZlBCUKoHIYmaFkJCNNC4idRUtFKUv1Ia0qgfi0vVUmiiNG0VVW0oEi2JGSlpSUoRNEUT0caJYtbe3fmwoUpNGqhsYhS8Zj/evef0j3ffenZ29nt2dxbmJ61W3nffe/edc+455/7uuddAF1100UUXXXTRRRdddNFFF1100UUXXXTRxdsBtN4dWCYYrfsuAHSN+/K2AEdRFCARPC+mrW/f8QbWyR2kYrHIpVIJAFzjhVwutycI9AJrSVWVACAMgW3bLh4ql8u2sW0URUG5XHbo0JHRkQooFoumVCpNCz2fz1/PjIK19g5m2iGi1xljwub7RFyNiM8AeBLQYyMj1W/BK88/s+NcVKcpgJC4GAdEwcDAa/sBul1EPhoEgRERAID/Lc03MxMDBKLks5xzLzDjaWvxt9Vq9WUAKBZhSqWZI2o90UkKMPDWms9n9gP4PLMZAADnHFTVUirZBYKwqioAMoYNEUPEvU7Ej05MTP3p8ePHXysUCuHhw4fjNfimBdERCvB+2l577bUX9/SEXzGGP66qcM45ACCiuQS+EERVhYiCIAjgnFRV3e+Pjtb+GYkSFevsktZdAanws9ndtzAHXzTG7IvjOCYig4UznsVCVdUaY0JVhQjuq1QqX8Q54a+bEtZVAanw8/lMkYifAADnnCWiYBG3NwfUBUeJKoQICIKAnbNPjIxUf83fs24jYd0UkAq/v7//rjA0B0VEVFW95beCqqoDQETEzExNFyGiAqh4lzXP6NGpIAh74tiWLr74kv1jY2N0+PBhi3VQwrooIE0zs9ndNxkTPi8i6vvSqj+KxNqNMQaqmv4MAWpViYhUVfGLxpgLiQgiAh+IMcczkSrB2qmvjY7W70FDErCWWA8FEADK5XKXEMkzRJx3zskcli8AmJkhIj9npmedw5POuUq9Xn+hsWE+n7+cyF3lnN5NRL9KRFcDgIjM5dIUgGUmE8eyv1arHcQ6KGHNFXAu6GYOhmFwVxzHLQWkqs4YYwCFiH4tCKa+cOTIS6camjSPmOl5wY03Xr75zJltdxiDh4n4cmutm0PBfvxg0pipdx49+uIr/pmz5hirhXZlGYtCsVg05XLZDgz0322MuctnO3MKXxVVEfno6Gj1niNHXjpVLMIUi8U0O0pdU/rDAEwURcGhQ/87XqlUvgGMF5yTryeKbGnZpKqWmXpFwkf9M9fUKNfyZQSACoWCmZwcf4GZs5JMaWdY5jnh65E4du+v1+s/Wwaf0zCjBgYGMoNE5n5rbUxEsygMAI6ZjXP6vkql8hzW0BWt5QgwAHR8fPwuY0zOOddK+GKMYRF9qUn4S81QFIkAqVAohMPD1QPW2gfDMAx9JjWzsY/XqjIYRQgGBwfXLBtasxGQZj6ZTP+TYRjc5v1yo/tRAMrMmJqyH67X6//aIPyVgKMo4snJyfDs2TcOEfGAH3mNxucFTrExU9ccPfriT/31VY8FazUCTKlUknx+T8EY/oBzTlv4fmFmEnGPtFH4ACA7duzQQ4cOjYvQpwGMYfbEixLXx6Fz4ecAUBRFayKbtXgJFwoFBqCqfAMzb1LVZstSIjIiOrZ1q/wOAPY+vy0olUquUCiElUrlv6x13zTGcLMr8rMJAjQCoOVy2fqAv6pYbRc0HcwKhcK2ycnxrzPzh0TEocH/q6oNgiCIY/udbLb2EaCIxvWANvZFstnsbUHAT3qir1HACgBENOacvv/s2bPDJ06cmMAqu6LVVIAB4Pr7+/eFoXlYVa5XxfY52jpjjIlj9+vVavVxAAGAdrifRhAA5PP5CwE5AuAKP1ue4QWICKp6lohOqsqXR0drX8EqKmG1XBADcAMD/fuCgJ8lolvnET4AkIg4VT3q/70aWYgCoJGRkddF5Md+bWHWe3xGdB6Aq4Mg/MtcLjMIT4WsQp9WRQEEAJlM5nxV+idmusg5O4XWH+sATBKRqMoLW7ZsOY6G/L3d8IGVmPkJAFZVY1VtleKqqoq1Ng4Cc382m/0gVkkJq6EABiDGmN1E3O+cOIB6MNvdqUnQG4ZBoIqta7RKpYBSGAaBMWZTEAStqicIAKsqqUJU3ScBaBRFbXfZi+HdlwNyzl0SBDzX1F6TlFMeIqIXnVNDpCfTa6vUJ5TL5WQxWeg/rHW/ba2FMUyADhLxZc0xIcnMBMzmV/bt699ZLpdfRpvjQdsVEEURlctlBWQ/kSFVdZ6fT6GePz5DZB4cGRl5vekRqzkLFQCoVCo1ALX0j7lcf2QM749j29xXEhEbBEFfHOvtAP46iiKTKrIdaPeQYgBaKOy5dHLSjBJhuw9q0+9JU05r7Zcqldq9O3fu3HTVVVfZHTt26CqknnP2M4oiPnXqFG/evFmnpsauUQ2+R4RLmvuL6QmiHOnt3fzuw4cPp5xUWwylrQpI6YZcrv9LxgSftdY2U82apHl4PQxtfmjo2KtYY/q3BdJ0+dYwNE+LCKEFQRgEgYlj9wmfJhu0KU1uZxCmUqmkhUIhBPBhEdGm4QxVdZ5ueGpo6NgrURQZrK/wgSTjMrVa7bvOuRozt8rCvLXr3QC0WCy2zU22UwENbGfwzhaEF4iIVRVE5jEAPlasP4rFIgCAGY9NL3A2gIgC55wYwx/I5a4d8BV2bZFd2xTgrUK9lQCzfWRq/c9UKpVnkLiejqhQ8wKlvj76qrXuBDPPGpmqKsy8CQjuQJKSdpQCuFQqyd69/VnPdkoz2+krHgjAY8D0pKhToEl2Ux0D9NvMTM2EIRGxd6v3FAqFbZ4sXHEMbZcQCICK4AtzsJ3CzMZa96oIPYXE/XSE9afwqSWJ4BERiX38mlF3JCKOma+cmDj7KXilrfS97VAAAZBdu3ZtVaVb5gi+mliVPFytVk/7jneE/2+AAOBarTYkIk8kE7RZLtLHB74TAG6++eYVJxArVkBqBT09Pb9ljPmFVqtNRESJVZknkVj/emc+LZFSDcbwQSBdHzgHPzNWZn7v3r3ZWw4cOKArXTNYqQ9LibeQCP/NTO9oQfFaZjaq7vGRkdonsE4FUEsAR9HOnlOntvwgCEzeF43N+B5jOHDOPT06WvsQVvg9KxoBxWKRASizvIeZL23Fr/vYS0R8EDhnZZ2KKIq4XD4xQYR/8Slp82g1IqpE/K69e/e+A4nwly3HFSmgVCoh2YtFg0QIMNuvizGGrXWV7dvHnkWy1NjuhZa2Ig3GqvT3STUeN8cr8sG4z9qpe+FpjeW+byUKMADk9OnT/czmljlqfNLKsz8rl6eX9zodEkWRqVarL6vqP/iUtHn92CSuiX6jULhs00pS0mULxLsSdS7+pF/Gm7WowcwsIm841/sc1p/zWTR27NihAIhIv5nM3KlZTiQiYgxvnZi48HYk9MSyZLlcBXC5XHb79vXvZDafnof3gYj83bFjQ6/4Dm4IBZRKJTc4OEgjI7XnrXXPzTEKAMAQ0R8UCoUtpVJpWWWNy1KA93kax3S7MXy+r3JofLkSkXFOYub4y/BE3XLetV44cOCAn4jRQz6LaG5iklFgcpOTk3uTtkuX53IUQOVyWTzr+ZvezzdbvxhjSES+39f30v8NDg5uGPfTgNSofuic+6mvrm7mhzT57T6DxA0t+SXLCRwBAJfJZPaHofnHOUq/HRGriH5wrYtd24mGLVSfJeK/aMFxeQKSBIgLo6PHR7DEWLfkEbBI1pNFXM0Lf9WqHFYb57KbsUedk4lWKWky2jlYLku6VAVwqVSSXO7agYVYT+aE9SwWix098VoAWiwWec+el99QxYIsaSaT6VtqSrokBaTBFwjuWID1PNHXR19FEnw3mu+fgVKphFIJTkT+RETebFHQxX6t4EoA7/LXFs0PLUUBVC6XXaFQ2EZE98yRekqye1G/XS5XxzqU9VwqHACu1+ujInLU785sDsY+IOt9AGhwcLD9MSAV5sTE2U8x85U+9WxmPVlEYhE8gg5mPZeK1I0S0d94fmjG9XRmHATmlny+/71LYUkXrYBz3DffmZ7F0NTEGcMkIk/UarUhrNEGh7VAugZ80UXVg3Fsh40xs77NH4kAVboTgJ48eXJRcWBRjdKjXvbuzd4sQt9VnUXRTpduAHpnEPR+5/zzz29b6UYnYHJyMuzt7Y1fe+3kA2EY/l6L3Z3qJ2tvOKcD1Wr1J1hESrrYaG0AuFyu/9+MMb/snFjMrKpzSfCV71er1ZuW8F0bDgMDA+epuhcBXDpP0dkDlUrtjxazy2cxCmAAMjAwsEPV1QBc6FeKZlSPJSUnclQVP/DlJ7LI528UeIKOLICPENFlLVyxMDNZ60Y2b95yw2233eYOHDgwbxXdQgIiAJTJZAIAjwcBf8zn/i1jBzOjBWfyloM/CqHltdQVq8YfHx6uf6P59K9mzCut9OZ8PnufMebP59rV3ti3FnODtxw89TKX7DwTIBXm4Mbh4eFxzFNLupC5MgDJ5TKHmfk6vz666hvX3gIQZmZr5d3VavWHmIcLW2Qaqss9septDc8dzYuF9gekE5DjRHSdz3Vn7SzsAsA5AxVfXvpmHNu0+ntOOS2kAB/55Q9F6FZjzEXOuTj5G9E8hyu9reCpCAu/EMVsjHNTDxw7dux/sAAVv+g0tL+/f18Q8LeYeWd6KJJz8vP2fMLGBBGgChBhaxAYUk3YYOfcH1cqtfvbNQ8AvBJ27959QU+P+RizCa2V05s2jf+7tY6CwKyhK0p2u05NTbFzzleyGe3p6fHZV/OOp9WDtRdQEJzROO69hohuAABV/dHwcG1oofRzOdgIJSWdgkXLaqmZDTVWBK9hhfOsEZbNZq8IAr0MAKylVyuVyk/muHctsrfpwz08A7zoudBGSC0pk8lsN0avZw6udi7+JSLeI6K7jDHbAcA59zozvaQqdWPC552Lf0wU/qivr2+8XC5PrPcHzIeOVkDDTPxBY8zn0xMTgenMQ4BkWTClQHwtEkTkuLVyU71eP+0f15Ep8wbx6/KUczJhrX3TOWf9uRIpJc6qqiLiRMTFcXwWIKjqf9br9Z/h3PlyHYmOVkCpVHJRFAUjI7XvOWf/qre3dwuAVkQYwVcohGFwnnPu1QsuOPMZbIBFoY52QR4EgHbt2hVu2tTzABF9jpnhz/VOhUvMTL5G9bmpKfu79Xp9CBugHnUjKGAGMpnM+4yhewF9DxFvB5IRQYQXnMPBSqXykG86LwXQKdhQCmicWWaz2SvCEJfGcXI6rl+HTtHxrmcjY65j7Wmj/Mc9jdhQnW1CI0WenqLbRRdddNFFF1100UUXXXTRRRdddDT+H7OZhAa4MvPWAAAAAElFTkSuQmCC'
 };
 
+/* ============================================================
+   TB MODULE — วัณโรคในเด็ก (บทที่ 2 วินิจฉัย + บทที่ 3 การรักษา)
+   Ref: แนวทางเวชปฏิบัติเรื่องวัณโรคในเด็ก พ.ศ. 2568
+   Scope: drug-susceptible TB only. Chapters 1,5,6 and LTBI deferred.
+   ============================================================ */
+const TB_INTERRUPT_DETAIL = {
+  heading: {th:'สิ่งที่ต้องตรวจและเกณฑ์ก่อนเริ่มยาใหม่', en:'Work-up and criteria before restarting treatment'},
+  icon: '🔄',
+  items: [
+    {th:'ก่อนเริ่มยาต้านวัณโรคใหม่ ควรส่งตรวจ: ภาพรังสีทรวงอก, เสมหะย้อม AFB และพิจารณา Xpert MTB/RIF (Ultra) ร่วมกับเพาะเชื้อวัณโรคและทดสอบความไวยา (โดยเฉพาะถ้าผู้ป่วยกิน ๆ หยุด ๆ ในช่วงระยะต่อเนื่อง)', en:'Before restarting anti-TB drugs: chest X-ray, AFB smear, and consider Xpert MTB/RIF (Ultra) together with TB culture and drug susceptibility testing (especially if the patient has been taking medication intermittently during the continuation phase).'},
+    {th:'ก่อนเริ่มยาใหม่ ผู้ป่วยควรมีลักษณะครบ 3 ข้อ: (1) อาการทางคลินิกไม่เลวลง (2) ภาพรังสีทรวงอกไม่เลวลง (3) ตรวจเสมหะไม่พบเชื้อ หรือพบเชื้อแต่ปริมาณไม่มากขึ้น', en:'Before restarting, the patient should meet all 3 criteria: (1) no clinical worsening, (2) no worsening on chest X-ray, (3) sputum smear negative, or positive but not increasing in quantity.'},
+    {th:'หากไม่เข้าเกณฑ์ข้างต้น หรือสงสัยวัณโรคดื้อยา ให้ปรึกษาผู้เชี่ยวชาญเพื่อวางแผนการดูแลผู้ป่วย', en:'If the above criteria are not met, or drug-resistant TB is suspected, consult a specialist to plan patient care.'},
+    {th:'หาสาเหตุที่ทำให้ผู้ป่วยขาดยา และแนะนำให้รักษาภายใต้การกำกับดูแล (directly observed therapy, DOT) ทุกราย', en:'Identify the reason the patient interrupted treatment, and recommend directly observed therapy (DOT) for all such patients.'}
+  ]
+};
+
+const TB_RECHALLENGE_RASH_DETAIL = {
+  heading: {th:'ขั้นตอนการ Rechallenge ยาหลังผื่นแพ้', en:'Drug rechallenge steps after a rash reaction'},
+  icon: '💊',
+  items: [
+    {th:'เริ่ม rechallenge เมื่อผื่นหายดีแล้ว', en:'Start rechallenge once the rash has fully resolved.'},
+    {th:'ลำดับยา: เริ่มจาก INH หรือ RIF ก่อน (สมาคมโรคติดเชื้อแห่งสหรัฐอเมริกา (IDSA) แนะนำให้เริ่มจาก RIF ก่อน) ตามด้วย EMB หรือ PZA (อาจพิจารณา EMB ก่อน PZA เนื่องจากโอกาสแพ้ EMB น้อยกว่า PZA มาก)', en:'Drug order: start with INH or RIF (IDSA recommends starting with RIF), followed by EMB or PZA (EMB before PZA may be preferred since allergy to EMB is much less common than to PZA).'},
+    {th:'ยาแต่ละชนิดเริ่มจากขนาด 1/2 หรือ 1/3 ของขนาดที่ควรได้รับ ปรับขึ้นจนถึงขนาดเต็มภายใน 2–3 วัน หากไม่พบอาการแพ้ จึง rechallenge ยาตัวถัดไป', en:'Start each drug at 1/2 or 1/3 of the full dose, titrating up to the full dose over 2–3 days; if no reaction occurs, proceed to rechallenge the next drug.'},
+    {th:'หากเกิดผื่นหรืออาการแพ้ยาอีกหลัง rechallenge ยาตัวใด ให้หยุดยาตัวนั้นทันที รักษาจนอาการกลับปกติ แล้วจึงเริ่ม rechallenge ยาตัวถัดไป', en:'If a rash or allergic reaction recurs after rechallenging any drug, stop that drug immediately, treat until resolved, then rechallenge the next drug.'},
+    {th:'หาก rechallenge ยาได้สำเร็จ 3 ชนิดแล้ว ไม่จำเป็นต้อง rechallenge ยาตัวที่เหลือ ยกเว้นผื่นแพ้มีอาการน้อยและจำเป็นต้องได้รับยาตัวที่ 4 จริง ๆ', en:'Once 3 drugs have been successfully rechallenged, rechallenging the remaining drug is not required, unless the reaction was mild and the 4th drug is truly needed.'},
+    {th:'กรณีผื่นแพ้ยารุนแรง ให้ปรึกษาผู้เชี่ยวชาญตั้งแต่การดูแลรักษาผื่นไปจนถึงการเลือกสูตรยาต้านวัณโรค', en:'For severe drug reactions, consult a specialist throughout — from managing the rash to selecting the anti-TB regimen.'}
+  ]
+};
+
+const TB_RECHALLENGE_HEP_DETAIL = {
+  heading: {th:'ขั้นตอนการ Rechallenge ยาหลังภาวะตับอักเสบ', en:'Drug rechallenge steps after hepatitis'},
+  icon: '🧪',
+  items: [
+    {th:'เริ่ม rechallenge เมื่อค่า ALT/AST ลดลงน้อยกว่า 2 เท่าของค่าปกติ (ULN) และค่า total bilirubin น้อยกว่า 1.5 มก./ดล.', en:'Start rechallenge once ALT/AST has fallen below 2\u00d7 the upper limit of normal (ULN) and total bilirubin is below 1.5 mg/dL.'},
+    {th:'ห้าม rechallenge โดยเด็ดขาดในกรณี fulminant hepatitis', en:'Rechallenge is absolutely contraindicated in fulminant hepatitis.'},
+    {th:'ลำดับยา: เริ่มจาก RIF ก่อน (ทำให้ตับอักเสบได้น้อยกว่า INH และ PZA) ตามด้วย INH แล้วจึง PZA', en:'Drug order: start with RIF (less hepatotoxic than INH or PZA), followed by INH, then PZA.'},
+    {th:'หลัง rechallenge ยาแต่ละชนิด ตรวจค่าการทำงานของตับภายใน 1 สัปดาห์ หากผลผิดปกติหรือมีอาการตับอักเสบอีก ให้หยุดยานั้นทันที', en:'After rechallenging each drug, check liver function within 1 week; if abnormal or symptoms recur, stop that drug immediately.'},
+    {th:'หากตับอักเสบก่อนหน้านี้รุนแรง แต่สามารถ rechallenge RIF และ INH ได้สำเร็จ ไม่แนะนำให้ rechallenge PZA — ใช้สูตรไม่มี PZA ได้ แต่ต้องรักษารวมอย่างน้อย 9 เดือน (ใช้ได้เฉพาะวัณโรคที่รักษาด้วยสูตร 2HRZE/4HR)', en:'If the prior hepatitis was severe but RIF and INH rechallenge succeed, PZA rechallenge is not recommended — a PZA-free regimen may be used, but total treatment must be at least 9 months (applies only to TB treated with the 2HRZE/4HR regimen).'}
+  ]
+};
+
+const TB_DRTB_DOSE_DETAIL = {
+  heading: {th:'ขนาดยาโดยสังเขป (มก./กก./วัน) — ยากลุ่ม A และ B บางชนิด', en:'Reference dosing (mg/kg/day) \u2014 selected Group A and B drugs'},
+  icon: '💊',
+  intro: {th:'ตารางนี้เป็นขนาดยาโดยสังเขปสำหรับอ้างอิงเท่านั้น ยาบางชนิด (เช่น bedaquiline, delamanid) มีตารางขนาดยาแบบละเอียดตามน้ำหนักและช่วงอายุที่ซับซ้อนกว่านี้มาก ควรตรวจสอบกับเภสัชกรหรือผู้เชี่ยวชาญด้านวัณโรคดื้อยาก่อนสั่งยาทุกครั้ง', en:'This table is a brief reference only. Some drugs (e.g. bedaquiline, delamanid) have much more complex weight- and age-banded dosing tables. Always verify with a pharmacist or a drug-resistant TB specialist before prescribing.'},
+  table: {
+    cols: [{key:'drug', label:{th:'ยา', en:'Drug'}}, {key:'dose', label:{th:'ขนาดยา', en:'Dose'}}],
+    rows: [
+      {drug:'Levofloxacin (Lfx)', dose:{th:'อายุ <5 ปี: 20 มก./กก./วัน แบ่งวันละ 2 ครั้ง; อายุ ≥5 ปี: 10 มก./กก./วัน (ไม่เกิน 1 กรัม/วัน) วันละครั้ง', en:'Age <5y: 20 mg/kg/day divided twice daily; age \u22655y: 10 mg/kg/day (max 1 g/day) once daily'}},
+      {drug:'Moxifloxacin (Mfx)', dose:{th:'10–15 มก./กก./วัน ไม่เกิน 400 มก./วัน วันละครั้ง', en:'10\u201315 mg/kg/day, max 400 mg/day, once daily'}},
+      {drug:'Linezolid (Lzd)', dose:{th:'10–12 มก./กก./วัน ไม่เกิน 600 มก./วัน วันละครั้ง', en:'10\u201312 mg/kg/day, max 600 mg/day, once daily'}},
+      {drug:'Clofazimine (Cfz)', dose:{th:'2–5 มก./กก./วัน วันละครั้ง (นน. <10 กก. ให้ 3 ครั้ง/สัปดาห์; นน. >30 กก. มักใช้ 100 มก./วัน)', en:'2\u20135 mg/kg/day once daily (weight <10 kg: 3 times/week; weight >30 kg: usually 100 mg/day)'}},
+      {drug:'Cycloserine (Cs) / Terizidone (Trd)', dose:{th:'10–20 มก./กก./วัน ไม่เกิน 1 กรัม/วัน แบ่งวันละ 2 ครั้ง', en:'10\u201320 mg/kg/day, max 1 g/day, divided twice daily'}},
+      {drug:'Ethionamide (Eto) / Prothionamide (Pto)', dose:{th:'15–20 มก./กก./วัน ไม่เกิน 1 กรัม/วัน วันละครั้ง (อาจแบ่งวันละ 2 ครั้ง)', en:'15\u201320 mg/kg/day, max 1 g/day, once daily (may be divided twice daily)'}},
+      {drug:'Bedaquiline (Bdq) / Delamanid (Dlm)', dose:{th:'ขนาดยาซับซ้อน ขึ้นกับน้ำหนักและอายุ (มีทั้งระยะ loading และ continuation) — ดูตารางขนาดยาละเอียดของ CPG หรือปรึกษาเภสัชกร', en:'Complex dosing depending on weight and age (loading and continuation phases) \u2014 refer to the detailed CPG dosing table or consult a pharmacist.'}}
+    ]
+  }
+};
+
+const TB_HIV_TX_DETAIL = {
+  heading: {th:'คำแนะนำเพิ่มเติมสำหรับผู้ป่วยวัณโรคที่ติดเชื้อเอชไอวีร่วม', en:'Additional guidance for TB patients with concurrent HIV'},
+  icon: '🎗️',
+  intro: {th:'เด็กที่ติดเชื้อเอชไอวีควรซักประวัติคัดกรองวัณโรคสม่ำเสมอ (สัมผัสวัณโรค, ไอ ≥2 สัปดาห์, ไข้ไม่ทราบสาเหตุ >1 สัปดาห์, น้ำหนักลด/ไม่ขึ้นตามเกณฑ์) หากไม่ได้ตรวจ anti-HIV มาก่อน แนะนำตรวจในผู้ป่วยวัยรุ่นอายุ ≥10 ปีที่วินิจฉัยวัณโรคทุกราย', en:'HIV-infected children should be routinely screened for TB (contact history, cough ≥2 weeks, unexplained fever >1 week, weight loss/faltering growth). If not already tested, anti-HIV testing is recommended for all adolescents ≥10 years diagnosed with TB.'},
+  items: [
+    {th:'เวลาเริ่มยาต้านไวรัส: เริ่มโดยเร็วภายใน 2–8 สัปดาห์หลังเริ่มยารักษาวัณโรค โดยไม่คำนึงถึงระดับ CD4 ในวัณโรคทุกชนิด', en:'ART timing: start promptly within 2\u20138 weeks of starting TB treatment, regardless of CD4 count, for all TB types.'},
+    {th:'วัณโรคระบบประสาทส่วนกลาง: เริ่มยาต้านไวรัสหลังรักษาวัณโรคไปแล้วอย่างน้อย 2 สัปดาห์ (ช้าสุดไม่เกิน 8 สัปดาห์) เนื่องจากมีความเสี่ยงเกิด immune reconstitution inflammatory syndrome (IRIS)', en:'CNS TB: delay ART until at least 2 weeks of TB treatment (no later than 8 weeks), due to the risk of immune reconstitution inflammatory syndrome (IRIS).'},
+    {th:'หากวินิจฉัยวัณโรคขณะกำลังรับประทานยาต้านไวรัสอยู่แล้ว ไม่ต้องหยุดยาต้านไวรัส แต่ให้พิจารณาอันตรกิริยาระหว่างยา (drug interaction) กับ rifampicin', en:'If TB is diagnosed while already on ART, do not stop ART \u2014 but review drug interactions with rifampicin.'},
+    {th:'ยาต้านไวรัสที่แนะนำให้ใช้ร่วมกับ rifampicin: dolutegravir (DTG) — ปรับเพิ่มขนาดยาจากวันละครั้งเป็นวันละ 2 ครั้ง', en:'Preferred ART with rifampicin: dolutegravir (DTG) \u2014 increase dosing from once to twice daily.'},
+    {th:'Efavirenz (EFV) หรือ nevirapine (NVP): ใช้ร่วมกับ rifampicin ได้โดยไม่ต้องปรับขนาดยา', en:'Efavirenz (EFV) or nevirapine (NVP): may be used with rifampicin without dose adjustment.'},
+    {th:'ยากลุ่ม boosted protease inhibitor (PI): ระดับยาลดลงมากเมื่อใช้ร่วมกับ rifampicin ไม่แนะนำให้ใช้ร่วมกัน หากจำเป็นต้องใช้ PI ให้ปรับสูตรยาวัณโรคเป็นสูตรไม่มี rifampicin ตาม CD4: CD4 <15% ใช้สูตรไม่มี RIF ตลอด (รวม 12–18 เดือน: เข้มข้น INH+PZA+EMB+FQ/aminoglycoside 2 เดือน ตามด้วยต่อเนื่อง INH+(PZA หรือ EMB)+FQ 10–16 เดือน ร่วมกับ boosted PI); CD4 >15% ใช้สูตรมี RIF จนครบ 2 เดือนก่อน แล้วจึงปรับเป็นสูตรไม่มี RIF และเริ่ม boosted PI หลังหยุด RIF ไปแล้ว 2 สัปดาห์', en:'Boosted protease inhibitors (PI): levels drop substantially with rifampicin and are not recommended together. If a PI is required, switch to a rifampicin-free TB regimen based on CD4: CD4 <15% \u2014 rifampicin-free throughout (total 12\u201318 months: intensive INH+PZA+EMB+FQ/aminoglycoside for 2 months, then continuation INH+(PZA or EMB)+FQ for 10\u201316 months, with boosted PI); CD4 >15% \u2014 keep the rifampicin-containing regimen for the first 2 months, then switch to a rifampicin-free regimen and start the boosted PI 2 weeks after stopping rifampicin.'},
+    {th:'ติดตามวินัยการรับประทานยา ผลข้างเคียงของยา และอาการของ IRIS อย่างใกล้ชิด', en:'Closely monitor treatment adherence, drug side effects, and signs of IRIS.'}
+  ],
+  table: {
+    cols: [{key:'art', label:{th:'ยาต้านไวรัส', en:'ART drug'}}, {key:'rif', label:{th:'ร่วมกับ Rifampicin', en:'With Rifampicin'}}, {key:'rpt', label:{th:'ร่วมกับ Rifapentine', en:'With Rifapentine'}}],
+    rows: [
+      {art:'Efavirenz (EFV)', rif:{th:'ใช้ขนาดเดิมได้', en:'No dose change'}, rpt:{th:'ใช้ขนาดเดิมได้', en:'No dose change'}},
+      {art:'Nevirapine (NVP)', rif:{th:'ไม่ต้องปรับขนาดยา', en:'No dose change'}, rpt:{th:'ระดับยาอาจลดลง ไม่แนะนำคู่กัน', en:'Levels may drop; not recommended together'}},
+      {art:'Dolutegravir (DTG)', rif:{th:'เพิ่มเป็นวันละ 2 ครั้ง', en:'Increase to twice daily'}, rpt:{th:'ระดับยาลดลง แต่ใช้คู่กับสูตร 3HP/1HP ได้', en:'Levels drop, but may still be used with 3HP/1HP'}},
+      {art:'Boosted PI (เช่น lopinavir, atazanavir)', rif:{th:'ระดับยาลดลงมาก ไม่แนะนำคู่กัน', en:'Levels drop substantially; not recommended together'}, rpt:{th:'ไม่แนะนำคู่กัน', en:'Not recommended together'}},
+      {art:'Rilpivirine (RPV)', rif:{th:'ระดับยาลดลงมาก ไม่แนะนำคู่กัน', en:'Levels drop substantially; not recommended together'}, rpt:{th:'ระดับยาลดลงมาก ไม่แนะนำคู่กัน', en:'Levels drop substantially; not recommended together'}}
+    ]
+  }
+};
+
+const TB_BCG_DETAIL = {
+  heading: {th:'วัคซีนบีซีจี: ประสิทธิภาพ ข้อบ่งชี้ และการดูแลผลข้างเคียง', en:'BCG vaccine: efficacy, indications, and managing side effects'},
+  icon: '💉',
+  intro: {th:'วัคซีนบีซีจีเป็นวัคซีนชนิดเดียวที่ใช้ป้องกันวัณโรค ผลิตจากเชื้อ Mycobacterium bovis สายพันธุ์ลดฤทธิ์ ป้องกันวัณโรคโดยรวมได้ประมาณร้อยละ 50 โดยป้องกันวัณโรคในทารกได้ร้อยละ 69 (95%CI 42–71) และป้องกันวัณโรคเยื่อหุ้มสมอง/ชนิดแพร่กระจายในทารกได้สูงถึงร้อยละ 90 (95%CI 23–99) ฉีดเข้าในผิวหนัง (intradermal) ขนาด 0.1 มล. ที่ไหล่ซ้าย ไม่ฉีดที่สะโพก', en:'BCG is the only vaccine used to prevent TB, made from an attenuated Mycobacterium bovis strain. It prevents TB overall in about 50% of cases, prevents TB specifically in infants in 69% (95% CI 42\u201371), and prevents TB meningitis/miliary TB in infants in up to 90% (95% CI 23\u201399). Given intradermally, 0.1 mL, in the left shoulder \u2014 not the hip.'},
+  items: [
+    {th:'ทารกแรกเกิดไทยทุกคนควรได้รับวัคซีน หากไม่มีข้อห้าม รวมถึงทารกน้ำหนักน้อยและคลอดก่อนกำหนด (ให้ก่อนกลับบ้านได้)', en:'All Thai newborns should receive BCG unless contraindicated, including low-birth-weight and preterm infants (may be given before discharge).'},
+    {th:'ไม่แนะนำฉีดซ้ำในผู้ที่เคยได้รับวัคซีนแล้ว แม้ตรวจไม่พบแผลเป็นบีซีจี', en:'Revaccination is not recommended for those already vaccinated, even if no BCG scar is seen.'},
+    {th:'ข้อห้าม: ภูมิคุ้มกันบกพร่อง/ได้ยากดภูมิคุ้มกัน/เอชไอวีที่มีอาการ (ทารกเกิดจากมารดาติดเชื้อเอชไอวีที่ยังไม่แสดงอาการยังให้ได้ตามปกติ), หญิงตั้งครรภ์, เจ็บป่วยเฉียบพลัน, แพ้ส่วนประกอบวัคซีน', en:'Contraindications: immunodeficiency/immunosuppressive drugs/symptomatic HIV (infants born to HIV-positive mothers without symptoms may still receive BCG normally), pregnancy, acute illness, vaccine component allergy.'},
+    {th:'เด็กที่เป็นวัณโรคและยังไม่เคยฉีดบีซีจี หลังรักษาหายแล้วไม่จำเป็นต้องฉีดวัคซีนอีก', en:'Children who had TB and were never vaccinated do not need BCG after completing treatment.'},
+    {th:'ชะลอการฉีดวัคซีนในทารกที่กำลังได้ยาป้องกันวัณโรค (TPT) เนื่องจาก isoniazid ลดประสิทธิภาพวัคซีน — ให้วัคซีนหลังหยุดยาป้องกัน หรือหากฉีดวัคซีนไปแล้วตั้งแต่แรกเกิด ให้เริ่มยาป้องกันหลังฉีดวัคซีนประมาณ 3–7 วัน', en:'Delay BCG in infants currently on TPT, since isoniazid reduces vaccine efficacy \u2014 give BCG after stopping TPT, or if BCG was already given at birth, start TPT about 3\u20137 days after vaccination.'}
+  ],
+  table: {
+    cols: [{key:'reaction', label:{th:'ผลข้างเคียง', en:'Reaction'}}, {key:'management', label:{th:'การดูแล', en:'Management'}}],
+    rows: [
+      {reaction:{th:'ฝีบีซีจี / ต่อมน้ำเหลืองอักเสบขนาดเล็กไม่เป็นหนอง', en:'BCG abscess / small non-suppurative lymphadenitis'}, management:{th:'สังเกตอาการ ดูแลความสะอาด ห้ามบ่งหนอง หายเองได้ใน 4–6 เดือน', en:'Observe, keep clean, do not squeeze/drain; usually resolves in 4\u20136 months'}},
+      {reaction:{th:'ต่อมน้ำเหลืองเป็นหนองหรือขนาด > 2 ซม.', en:'Suppurative lymphadenitis or size > 2 cm'}, management:{th:'พิจารณา isoniazid ± rifampicin นาน 1–3 เดือน และพิจารณาเจาะดูดหนอง (ไม่ผ่าระบาย)', en:'Consider isoniazid \u00b1 rifampicin for 1\u20133 months; consider needle aspiration (not incision)'}},
+      {reaction:{th:'กระดูกอักเสบจากบีซีจี (พบน้อยมาก)', en:'BCG osteomyelitis (very rare)'}, management:{th:'ยาต้านวัณโรค 3–4 ตัว (ไม่รวม pyrazinamide) นานรวม 12 เดือน ปรึกษาแพทย์กระดูกและข้อ', en:'3\u20134 anti-TB drugs (excluding pyrazinamide) for a total of 12 months; consult orthopedics'}},
+      {reaction:{th:'บีซีจีชนิดแพร่กระจาย (BCGosis, พบน้อยมาก มักมีภูมิคุ้มกันบกพร่องร่วม)', en:'Disseminated BCG (BCGosis, very rare, usually with underlying immunodeficiency)'}, management:{th:'สืบค้นภาวะภูมิคุ้มกันบกพร่อง ให้ยาต้านวัณโรค 4 ตัว (ไม่รวม pyrazinamide) เช่นเดียวกับผู้ป่วยวัณโรค ปรึกษาผู้เชี่ยวชาญ', en:'Investigate for underlying immunodeficiency; treat with 4 anti-TB drugs (excluding pyrazinamide) as for active TB; consult a specialist'}}
+    ]
+  }
+};
+
+const TB_BCG_CONTACT_DETAIL = {
+  heading: {th:'การให้วัคซีนบีซีจีร่วมกับยาป้องกัน', en:'BCG timing alongside TPT'},
+  icon: '💉',
+  intro: {th:'ยา isoniazid ลดประสิทธิภาพวัคซีนบีซีจี จึงต้องจัดลำดับเวลาการให้ทั้งสองอย่างดังนี้', en:'Isoniazid reduces BCG vaccine efficacy, so the timing of the two must be coordinated.'},
+  items: [
+    {th:'ทารกที่ยังไม่เคยได้รับวัคซีนบีซีจี: เริ่มยาป้องกันวัณโรคก่อน แล้วนัดฉีดวัคซีนบีซีจีหลังหยุดยาป้องกัน เพื่อลดการรบกวนประสิทธิภาพวัคซีน', en:'Infant not yet vaccinated: start TPT first, then give BCG after completing TPT to minimize interference with vaccine efficacy.'},
+    {th:'ทารกที่ได้รับวัคซีนบีซีจีไปแล้วตั้งแต่แรกเกิด: เริ่มยาป้องกันวัณโรคได้หลังฉีดวัคซีนประมาณ 3–7 วัน', en:'Infant already vaccinated at birth: TPT may start about 3–7 days after vaccination.'},
+    {th:'ดูคำแนะนำวัคซีนบีซีจีแบบเต็ม (ประสิทธิภาพ ข้อห้าม การดูแลผลข้างเคียง) ได้ที่หมวด "วัคซีนบีซีจี" ในหน้าหลักของโมดูลวัณโรค', en:'See the full BCG guidance (efficacy, contraindications, managing side effects) in the "BCG vaccine" section on the TB module home page.'}
+  ]
+};
+
+const TB_INFANT_ASSESS_DETAIL = {
+  heading: {th:'เกณฑ์วินิจฉัยและแนวทางตรวจประเมินทารก', en:'Diagnostic criteria and infant work-up'},
+  icon: '🔍',
+  intro: {th:'อาการที่พบบ่อยในวัณโรคแต่กำเนิด ได้แก่ หายใจลำบาก อ่อนเพลีย น้ำหนักไม่ขึ้น ไข้ ร้องกวน ท้องโต ตับม้ามโต ต่อมน้ำเหลืองโต คล้าย neonatal sepsis มักเริ่มมีอาการช่วงอายุ 2–4 สัปดาห์', en:'Common signs of congenital TB include respiratory distress, lethargy, faltering growth, fever, irritability, abdominal distension, hepatosplenomegaly, and lymphadenopathy \u2014 resembling neonatal sepsis, usually starting at 2\u20134 weeks of age.'},
+  items: [
+    {th:'เกณฑ์วินิจฉัย (Cantwell criteria) — เข้าข้อใดข้อหนึ่ง: (1) พบตำแหน่งติดเชื้อวัณโรคภายในสัปดาห์แรกของชีวิต (2) พบ caseating hepatic granuloma (3) พบวัณโรคที่รกหรืออวัยวะสืบพันธุ์มารดา (4) ไม่มีหลักฐานติดเชื้อหลังคลอด (สืบค้นประวัติสัมผัสครบถ้วนแล้ว)', en:'Diagnostic criteria (Cantwell criteria) \u2014 any one of: (1) TB found at a site within the first week of life; (2) caseating hepatic granuloma; (3) TB found in the placenta or maternal genital tract; (4) no evidence of postnatal infection after a full contact investigation.'},
+    {th:'ตรวจทารก: ภาพรังสีทรวงอก (มักพบ miliary/bronchopneumonia/consolidation), เก็บ gastric aspirate หรือ ETT aspirate ส่ง AFB stain, mycobacterium culture และ Xpert MTB/RIF (Ultra)', en:'Infant work-up: chest X-ray (often miliary/bronchopneumonia/consolidation pattern); gastric or ETT aspirate for AFB stain, mycobacterial culture, and Xpert MTB/RIF (Ultra).'},
+    {th:'ไม่แนะนำตรวจ TST ในช่วงอายุ 4–8 สัปดาห์แรกของชีวิต เพราะมักให้ผลลบลวง', en:'TST is not recommended in the first 4\u20138 weeks of life, as it is often falsely negative.'},
+    {th:'ตรวจ liver function test และอัลตราซาวด์ช่องท้อง หา hepatic granuloma หรือฝีที่ตับ/ม้าม/ต่อมน้ำเหลืองในช่องท้อง — พิจารณาตัดชิ้นเนื้อตับ/ต่อมน้ำเหลืองหากพบความผิดปกติ', en:'Check liver function tests and abdominal ultrasound for hepatic granuloma or abscesses in the liver/spleen/abdominal nodes \u2014 consider liver/lymph node biopsy if abnormal.'},
+    {th:'พิจารณาเจาะน้ำไขสันหลัง (cell count, โปรตีน, น้ำตาล, AFB, Xpert MTB/RIF, culture) หากมีอาการ/ผลตรวจอื่นเข้าได้กับวัณโรค เพื่อช่วยกำหนดระยะเวลาการรักษา', en:'Consider lumbar puncture (cell count, protein, glucose, AFB, Xpert MTB/RIF, culture) if other findings are compatible with TB, to help determine treatment duration.'},
+    {th:'ตรวจมารดา: ตรวจรกส่งพยาธิวิทยา, AFB stain, PCR for TB และเพาะเชื้อ พิจารณา endometrial biopsy หากสงสัยวัณโรคที่มดลูก', en:'Maternal work-up: placental histopathology, AFB stain, PCR for TB, and culture; consider endometrial biopsy if uterine TB is suspected.'}
+  ]
+};
+
+const TB = {
+  refBadge: {th:'วัณโรคในเด็ก · วินิจฉัยและรักษา', en:'Pediatric TB · diagnosis & treatment'},
+  backToTbHome: {th:'หน้าหลักวัณโรค', en:'TB home'},
+  scopeNote: {th:'ครอบคลุมบทที่ 2 (วินิจฉัยวัณโรคปอด/นอกปอด) บทที่ 3 (การรักษาวัณโรคไม่ดื้อยา, การจัดการปัญหาระหว่างรักษา, และแนวทางวัณโรคดื้อยา) บทที่ 4 (การดูแลเด็กที่สัมผัสวัณโรคและวัณโรคระยะแฝง) บทที่ 5 (วัคซีนบีซีจี) และคำแนะนำเสริมสำหรับผู้ป่วยวัณโรคที่ติดเชื้อเอชไอวีร่วม (บทที่ 6 บางส่วน) ไม่รวมกรณีพิเศษอื่นในบทที่ 6 (ตับ/ไต)', en:'Covers chapter 2 (pulmonary/extrapulmonary diagnosis), chapter 3 (drug-susceptible treatment, managing on-treatment problems, and drug-resistant TB guidance), chapter 4 (TB contact management and LTBI), chapter 5 (BCG vaccine), and supplementary guidance for TB patients with concurrent HIV (part of chapter 6). Excludes other chapter 6 special populations (liver/renal).'},
+
+  home: {
+    heading: {th:'เลือกหมวดที่ต้องการ', en:'Choose what you need'},
+    hint: {th:'วินิจฉัยผู้ป่วยที่สงสัยวัณโรคใหม่ คำนวณสูตรยา/ขนาดยาสำหรับผู้ป่วยที่วินิจฉัยแล้ว ประเมินเด็กที่สัมผัสวัณโรค หรือดูคำแนะนำวัคซีนบีซีจี', en:'Diagnose a newly suspected case, calculate the regimen/dosing for an already-diagnosed patient, assess a child exposed to TB, or view BCG vaccine guidance.'},
+    dx: {th:'การวินิจฉัย', en:'Diagnosis'},
+    dxDesc: {th:'ประเมินตามเกณฑ์ 3 ข้อ แยกปอด/นอกปอด', en:'Assess using the 3 diagnostic criteria; pulmonary or extrapulmonary'},
+    tx: {th:'การรักษา', en:'Treatment'},
+    txDesc: {th:'เลือกตำแหน่งที่วินิจฉัยแล้ว ดูสูตรยาและคำนวณขนาดยา', en:'Select the diagnosed site; view the regimen and calculate dosing'},
+    contact: {th:'การสัมผัสวัณโรค', en:'TB contact'},
+    contactDesc: {th:'ทารก · เด็ก · เอชไอวี — ประเมินและให้ยาป้องกันวัณโรคระยะแฝง (TPT)', en:'Infant · child · HIV — assess and prescribe TB preventive treatment (TPT)'},
+    bcg: {th:'วัคซีนบีซีจี', en:'BCG vaccine'},
+    bcgDesc: {th:'ประสิทธิภาพ ข้อบ่งชี้ ข้อห้าม และการดูแลผลข้างเคียง', en:'Efficacy, indications, contraindications, and managing side effects'},
+    problem: {th:'ปัญหาระหว่างรักษา', en:'Problems during treatment'},
+    problemDesc: {th:'ขาดยา/หยุดยา · ผื่นแพ้ยา · ตับอักเสบจากยา', en:'Treatment interrupted · rash · hepatitis'},
+    drtb: {th:'วัณโรคดื้อยา', en:'Drug-resistant TB'},
+    drtbDesc: {th:'จำแนกประเภท · เลือกสูตรยาตามความเหมาะสม · ต้องปรึกษาผู้เชี่ยวชาญ', en:'Classify · select an eligible regimen · specialist consultation required'}
+  },
+  contactCat: {
+    heading: {th:'เลือกกลุ่มผู้สัมผัสวัณโรค', en:'Choose the TB-contact group'},
+    hint: {th:'แนวทางประเมินและสูตรยาป้องกันต่างกันตามกลุ่ม', en:'Assessment approach and preventive regimens differ by group.'},
+    infant: {th:'ทารกที่คลอดจากมารดาที่เป็นวัณโรค', en:'Infant born to a mother with TB'},
+    infantDesc: {th:'ประเมินวัณโรคแต่กำเนิด · BCG · การให้นม', en:'Assess for congenital TB · BCG timing · breastfeeding'},
+    child: {th:'เด็กสัมผัสวัณโรคทั่วไป', en:'General pediatric TB contact'},
+    childDesc: {th:'ไม่ติดเชื้อเอชไอวี · ตามอายุและผลทดสอบ', en:'Non-HIV · based on age and test result'},
+    hiv: {th:'เด็กติดเชื้อเอชไอวีที่สัมผัสวัณโรค', en:'HIV-infected child'},
+    hivDesc: {th:'แนะนำ TPT ในเกณฑ์ที่กว้างกว่าเด็กทั่วไป', en:'Broader TPT criteria than non-HIV children'}
+  },
+  contactInfo: {
+    algoHeading: {th:'แนวทางการประเมิน', en:'Assessment approach'},
+    regimenHeading: {th:'สูตรยาป้องกันวัณโรค (TPT)', en:'TB preventive treatment (TPT) regimens'},
+    col_regimen: {th:'สูตร', en:'Regimen'}, col_use: {th:'ใช้เมื่อ', en:'Use when'},
+    followUpNote: {th:'เด็กที่คัดกรองแล้วไม่ป่วยและไม่ติดเชื้อ (ไม่ว่าจะได้รับ TPT หรือไม่) แนะนำเฝ้าระวัง ซักประวัติและตรวจร่างกายทุก 3–6 เดือน นาน 1–2 ปี และพิจารณา CXR เมื่อมีข้อบ่งชี้ (+, IV)', en:'Children screened as not having active TB and not infected (whether or not given TPT) should be monitored with history and exam every 3–6 months for 1–2 years, with CXR if indicated (+, IV).'},
+    goRegimen: {th:'เลือกสูตรยาเพื่อคำนวณขนาดยา', en:'Choose a regimen to calculate dosing'},
+    infant: {
+      algo: [
+        {th:'ประเมินภาวะวัณโรคแต่กำเนิด: ตรวจร่างกายละเอียด + ภาพรังสีทรวงอก + ตรวจรก/เยื่อบุมดลูกมารดา', en:'Assess for congenital TB: detailed exam + chest X-ray + placenta/endometrium histopathology.'},
+        {th:'หากผิดปกติเข้าได้กับวัณโรคแต่กำเนิด — เริ่มรักษาทันทีด้วยสูตรมาตรฐาน (ดูหน้า "การรักษา") โดยไม่ต้องรอผลยืนยันเชื้อ', en:'If findings are compatible with congenital TB — start standard treatment immediately (see the "Treatment" section) without waiting for confirmatory results.'},
+        {th:'หากปกติและมารดารักษามาแล้ว ≥3 เดือนพร้อมตอบสนองดี — ถือว่าไม่เสี่ยง ให้วัคซีนบีซีจีได้ตามปกติ ไม่ต้องให้ยาป้องกัน', en:'If normal and the mother has been treated ≥3 months with good response — considered low risk; give BCG as usual, no TPT needed.'},
+        {th:'หากปกติแต่มารดารักษามา <3 เดือน — ไม่ต้องตรวจ TST ให้ยาป้องกัน 3HR หรือ 6-9H ทันที (ถ้ามารดาดื้อ isoniazid แต่ไม่ดื้อ rifampicin ให้ 4R แทน)', en:'If normal but the mother has been treated <3 months — skip TST, start TPT (3HR or 6-9H) immediately (use 4R instead if the mother has isoniazid-resistant but rifampicin-susceptible TB).'},
+        {th:'วัคซีนบีซีจี: หากยังไม่ได้รับ ให้รับหลังหยุดยาป้องกันเพื่อลดการรบกวนประสิทธิภาพวัคซีน หากได้รับบีซีจีไปแล้วตั้งแต่แรกเกิด ให้เริ่มยาป้องกันหลังวัคซีนประมาณ 3–7 วัน', en:'BCG: if not yet given, give it after stopping TPT to minimize interference with vaccine efficacy. If BCG was already given at birth, start TPT about 3–7 days after vaccination.'},
+        {th:'การให้นม: กินนมแม่โดยตรงได้หากมารดารักษา ≥2 สัปดาห์ ตอบสนองดี และ AFB เป็นลบแล้ว หากยังไม่ถึง 2 สัปดาห์หรือ AFB ยังบวก ให้แยกทารกจากมารดาชั่วคราวแต่ให้นมที่บีบออกมาได้', en:'Breastfeeding: direct breastfeeding is fine once the mother has been treated ≥2 weeks, responded well, and AFB is negative. If not yet 2 weeks or AFB still positive, temporarily separate but expressed milk may still be given.'},
+        {th:'ทารกที่ได้รับ isoniazid หรือกินนมแม่ที่ได้รับ isoniazid ควรได้รับ pyridoxine (วิตามินบี6) 5–10 มก./วัน', en:'Infants receiving isoniazid, or breastfed by a mother taking isoniazid, should receive pyridoxine (vitamin B6) 5–10 mg/day.'},
+        {th:'ติดตามที่สถานพยาบาลใกล้บ้านทุกครั้งที่มารับวัคซีนตามนัด อย่างน้อย 1 ปี', en:'Follow up at the local clinic at every scheduled vaccination visit for at least 1 year.'}
+      ],
+      regimens: [
+        {regimen:'3HR', use:{th:'สูตรหลัก — isoniazid 10 มก./กก./วัน + rifampicin 15 มก./กก./วัน ทุกวัน นาน 3 เดือน', en:'Main option — isoniazid 10 mg/kg/day + rifampicin 15 mg/kg/day daily for 3 months'}},
+        {regimen:'6-9H', use:{th:'ทางเลือก — isoniazid 10 มก./กก./วัน ทุกวัน นาน 6–9 เดือน หรือใช้แทน 3HR หากมารดาติดเชื้อเอชไอวีและทารกเสี่ยงสูงที่ต้องใช้ nevirapine', en:'Alternative — isoniazid 10 mg/kg/day daily for 6–9 months; also used instead of 3HR if the mother is HIV-positive and the infant needs nevirapine (rifamycins reduce nevirapine levels)'}},
+        {regimen:'4R', use:{th:'ใช้เมื่อมารดาดื้อ isoniazid แต่ไม่ดื้อ rifampicin — rifampicin 10–20 มก./กก./วัน ทุกวัน นาน 4 เดือน', en:'Use when the mother has isoniazid-resistant but rifampicin-susceptible TB — rifampicin 10–20 mg/kg/day daily for 4 months'}}
+      ]
+    },
+    child: {
+      algo: [
+        {th:'สัมผัสวัณโรคภายใน 2 ปีที่ผ่านมา — ตรวจร่างกายและภาพรังสีทรวงอกทุกราย', en:'Contact with TB within the past 2 years — exam and chest X-ray in all cases.'},
+        {th:'ผลผิดปกติเข้าได้กับวัณโรค — ประเมิน/รักษาวัณโรคตามความเหมาะสม (ไปหน้า "การวินิจฉัย")', en:'Findings compatible with active TB — evaluate/treat as TB (see the "Diagnosis" section).'},
+        {th:'ผลปกติ อายุ <5 ปี หรือมีภาวะภูมิคุ้มกันบกพร่อง — ให้ยาป้องกันทุกราย โดยไม่ต้องรอผล IGRA/TST', en:'Normal findings, age <5 years or immunocompromised — start TPT in all cases, without waiting for IGRA/TST.'},
+        {th:'ผลปกติ อายุ ≥5 ปี — ให้ยาป้องกันเฉพาะเมื่อ IGRA ให้ผลบวก หรือ TST > 15 มม.', en:'Normal findings, age ≥5 years — start TPT only if IGRA is positive or TST > 15 mm.'}
+      ],
+      regimens: [
+        {regimen:'3HR', use:{th:'สูตรหลัก ทุกกลุ่มอายุ — isoniazid 10 มก./กก./วัน + rifampicin 15 มก./กก./วัน นาน 3 เดือน', en:'Main option, all ages — isoniazid 10 mg/kg/day + rifampicin 15 mg/kg/day for 3 months'}},
+        {regimen:'6-9H', use:{th:'สูตรหลัก ทุกกลุ่มอายุ — isoniazid เดี่ยว นาน 6–9 เดือน', en:'Main option, all ages — isoniazid alone for 6–9 months'}},
+        {regimen:'3HP', use:{th:'สูตรหลัก อายุ >2 ปี — isoniazid + rifapentine สัปดาห์ละครั้ง นาน 3 เดือน', en:'Main option, age >2 years — isoniazid + rifapentine once weekly for 3 months'}},
+        {regimen:'4R', use:{th:'สูตรทางเลือก — rifampicin เดี่ยว นาน 4 เดือน', en:'Alternative — rifampicin alone for 4 months'}},
+        {regimen:'1HP', use:{th:'สูตรทางเลือก เฉพาะอายุ >13 ปี — isoniazid + rifapentine ทุกวัน นาน 1 เดือน', en:'Alternative, age >13 years only — isoniazid + rifapentine daily for 1 month'}}
+      ]
+    },
+    hiv: {
+      algo: [
+        {th:'เด็กติดเชื้อเอชไอวีที่ไม่ได้เป็นวัณโรค แนะนำให้ยาป้องกัน (TPT) ในเกณฑ์ที่กว้างกว่าเด็กทั่วไป และให้ได้โดยไม่ต้องรอผล TST/IGRA', en:'HIV-infected children without active TB should receive TPT under broader criteria than non-HIV children, and it may be given without waiting for TST/IGRA.'},
+        {th:'รายใหม่ (เริ่มยาต้านไวรัส ≤12 เดือน): อายุ ≤1 ปี ให้เฉพาะรายที่มีประวัติสัมผัสวัณโรค / อายุ >1 ปี ให้ทุกราย (เริ่มหลังไม่มีผลข้างเคียงจากยาต้านไวรัสหรือ co-trimoxazole)', en:'New ART patients (≤12 months on ART): age ≤1 year — only if there is a known TB contact; age >1 year — give to all (start once free of ART/co-trimoxazole side effects).'},
+        {th:'รายเก่า (ยาต้านไวรัส >12 เดือน) อายุ <12 ปี — ให้เฉพาะรายที่มีประวัติสัมผัสวัณโรค', en:'Established ART patients (>12 months on ART), age <12 years — only if there is a known TB contact.'},
+        {th:'รายเก่า อายุ ≥12 ปี — มีประวัติสัมผัส: ให้ทุกราย; ไม่มีประวัติสัมผัส: CD4 <200 หรือคุมไวรัสไม่สำเร็จหรือขาดยา >90 วัน → ให้เลย; CD4 ≥200 และกินยาต่อเนื่อง → ตรวจ IGRA/TST ก่อน (บวกจึงให้)', en:'Established ART patients, age ≥12 years — with a known contact: give to all; without a contact: CD4 <200, virologic failure, or >90 days off ART → start TPT directly; CD4 ≥200 with continuous ART → test IGRA/TST first (start only if positive).'}
+      ],
+      regimens: [
+        {regimen:'6-9H', use:{th:'สูตรหลัก อายุ <13 ปี — isoniazid เดี่ยว นาน 6–9 เดือน', en:'Main option, age <13 years — isoniazid alone for 6–9 months'}},
+        {regimen:'3HP', use:{th:'สูตรหลัก อายุ ≥13 ปี — ห้ามใช้ร่วมกับสูตรยาต้านไวรัสที่มี boosted protease inhibitor', en:'Main option, age ≥13 years — must not be combined with a boosted protease inhibitor ART regimen'}},
+        {regimen:'1HP', use:{th:'ทางเลือก อายุ ≥13 ปี — ห้ามใช้ร่วมกับสูตรยาต้านไวรัสที่มี boosted protease inhibitor', en:'Alternative, age ≥13 years — must not be combined with a boosted protease inhibitor ART regimen'}}
+      ]
+    }
+  },
+  contactRegimen: {
+    heading: {th:'เลือกสูตรยาป้องกันที่ต้องการคำนวณขนาดยา', en:'Choose the TPT regimen to calculate dosing for'}
+  },
+  contactDoseInput: {
+    heading: {th:'ข้อมูลเพื่อคำนวณขนาดยา', en:'Information for dosing calculation'},
+    ageLabel: {th:'อายุ (ปี)', en:'Age (years)'},
+    agePh: {th:'เช่น 6', en:'e.g. 6'},
+    wtLabel: {th:'น้ำหนัก (กก.)', en:'Weight (kg)'},
+    wtPh: {th:'เช่น 20', en:'e.g. 20'}
+  },
+  contactResult: {
+    doseTableTitle: {th:'ขนาดยา', en:'Dosing'},
+    col_drug: {th:'ยา', en:'Drug'}, col_mgkg: {th:'มก./กก./วัน', en:'mg/kg/day'}, col_dose: {th:'ขนาด', en:'Dose'},
+    durationLabel: {th:'ระยะเวลา', en:'Duration'},
+    weeklyNote3HP: {th:'ให้สัปดาห์ละครั้ง (ทั้งหมด 12 ครั้ง)', en:'Given once weekly (12 doses total)'},
+    boostedPiWarning: {th:'ห้ามใช้ร่วมกับสูตรยาต้านไวรัสที่มี boosted protease inhibitor', en:'Must not be combined with a boosted protease inhibitor ART regimen'},
+    pyridoxineNote: {th:'ควรให้ pyridoxine (วิตามินบี6) ร่วมด้วยในเด็กที่ได้รับ isoniazid โดยเฉพาะเด็กที่ทุพโภชนาการ ติดเชื้อเอชไอวี หรือวัยรุ่นตั้งครรภ์', en:'Consider adding pyridoxine (vitamin B6), especially for malnourished children, HIV-infected children, or pregnant adolescents.'}
+  },
+  contactTree: {
+    goDiagnosis: {th:'ไปหน้าการวินิจฉัย', en:'Go to Diagnosis'},
+    goTreatment: {th:'ไปหน้าการรักษา', en:'Go to Treatment'},
+    infant: {
+      start: 'q1',
+      nodes: {
+        q1: { type:'question',
+          text:{th:'ประเมินวัณโรคแต่กำเนิด: ตรวจร่างกายละเอียด + ภาพรังสีทรวงอก + ตรวจรก/เยื่อบุมดลูกมารดา — ผลผิดปกติเข้าได้กับวัณโรคหรือไม่?', en:'Congenital TB assessment: detailed exam + chest X-ray + placenta/endometrium histopathology — are findings compatible with TB?'},
+          options:[
+            {val:'abn', label:{th:'ผิดปกติ เข้าได้กับวัณโรค', en:'Abnormal, compatible with TB'}, next:'rActive'},
+            {val:'norm', label:{th:'ปกติ', en:'Normal'}, next:'q2'}
+          ],
+          details:[TB_INFANT_ASSESS_DETAIL] },
+        rActive: { type:'result', severity:'severe',
+          title:{th:'เข้าได้กับวัณโรคแต่กำเนิด', en:'Compatible with congenital TB'},
+          summary:{th:'เริ่มรักษาทันทีด้วยสูตรมาตรฐาน (2HRZE ต่อด้วย HR) โดยไม่ต้องรอผลตรวจยืนยันเชื้อ รวม 6 เดือน (12 เดือนหากเป็นกระดูก/ข้อหรือเยื่อหุ้มสมอง) หากยังไม่เคยฉีดบีซีจี ไม่จำเป็นต้องให้วัคซีนบีซีจีอีก', en:'Start standard treatment immediately (2HRZE followed by HR) without waiting for confirmatory results; total 6 months (12 months if bone/joint or meningeal TB). If not yet vaccinated, BCG is not needed afterward.'},
+          action:'toTreatment', details:[TB_INFANT_ASSESS_DETAIL] },
+        q2: { type:'question',
+          text:{th:'มารดารักษาวัณโรคมานานเท่าไหร่ และตอบสนองต่อการรักษาหรือไม่?', en:'How long has the mother been treated, and has she responded well?'},
+          options:[
+            {val:'ge3', label:{th:'≥3 เดือน และตอบสนองดี', en:'≥3 months and responding well'}, next:'rLowRisk'},
+            {val:'lt3', label:{th:'<3 เดือน หรือตอบสนองไม่ดี', en:'<3 months or poor response'}, next:'q3'}
+          ]},
+        rLowRisk: { type:'result', severity:'info',
+          title:{th:'ความเสี่ยงต่ำ', en:'Low risk'},
+          summary:{th:'ให้วัคซีนบีซีจีได้ตามปกติ ไม่ต้องให้ยาป้องกันวัณโรค ติดตามตามนัดฉีดวัคซีนตามปกติ', en:'Give BCG as usual; no TPT needed. Follow up at routine vaccination visits.'},
+          action:null, details:[TB_BCG_CONTACT_DETAIL] },
+        q3: { type:'question',
+          text:{th:'มารดามีผลตรวจว่าเชื้อดื้อยา isoniazid หรือไม่ (ทราบผลความไวยา)?', en:'Does the mother have isoniazid-resistant TB (known DST result)?'},
+          options:[
+            {val:'no', label:{th:'ไม่ดื้อ หรือยังไม่ทราบผล', en:'Not resistant, or result unknown'}, next:'q4'},
+            {val:'yes', label:{th:'ดื้อ isoniazid แต่ไวต่อ rifampicin', en:'Isoniazid-resistant but rifampicin-susceptible'}, next:'r4R'}
+          ]},
+        r4R: { type:'result', severity:'info',
+          title:{th:'แนะนำสูตร 4R', en:'4R regimen recommended'},
+          summary:{th:'เนื่องจากมารดาดื้อ isoniazid แนะนำให้ rifampicin เดี่ยว 10–20 มก./กก./วัน นาน 4 เดือนแทน', en:'Since the mother has isoniazid-resistant TB, give rifampicin alone 10–20 mg/kg/day for 4 months instead.'},
+          action:'toRegimen', regimens:['4R'], details:[TB_BCG_CONTACT_DETAIL] },
+        q4: { type:'question',
+          text:{th:'มารดาติดเชื้อเอชไอวีและทารกมีความเสี่ยงสูงที่จำเป็นต้องได้รับยา nevirapine หรือไม่?', en:'Is the mother HIV-positive with the infant at high risk requiring nevirapine?'},
+          hint:{th:'หากใช่ ควรเลี่ยงยากลุ่ม rifamycin เนื่องจากลดระดับยา nevirapine', en:'If yes, avoid rifamycins as they reduce nevirapine levels.'},
+          options:[
+            {val:'no', label:{th:'ไม่ใช่', en:'No'}, next:'r3HR'},
+            {val:'yes', label:{th:'ใช่', en:'Yes'}, next:'r69H'}
+          ]},
+        r3HR: { type:'result', severity:'info',
+          title:{th:'แนะนำสูตร 3HR หรือ 6-9H', en:'3HR or 6-9H regimen recommended'},
+          summary:{th:'ให้ยาป้องกันวัณโรค 3HR (isoniazid+rifampicin นาน 3 เดือน) หรือ 6-9H เป็นทางเลือก โดยไม่ต้องตรวจ TST ก่อน', en:'Start TPT with 3HR (isoniazid+rifampicin for 3 months) or 6-9H as an alternative, without needing a TST first.'},
+          action:'toRegimen', regimens:['3HR','6-9H'], details:[TB_BCG_CONTACT_DETAIL] },
+        r69H: { type:'result', severity:'info',
+          title:{th:'แนะนำสูตร 6-9H', en:'6-9H regimen recommended'},
+          summary:{th:'เลี่ยงสูตรที่มี rifamycin เนื่องจากทารกต้องใช้ nevirapine ให้ isoniazid เดี่ยวนาน 6–9 เดือนแทน', en:'Avoid rifamycin-containing regimens since the infant needs nevirapine; give isoniazid alone for 6–9 months instead.'},
+          action:'toRegimen', regimens:['6-9H'], details:[TB_BCG_CONTACT_DETAIL] }
+      }
+    },
+    child: {
+      start: 'q1',
+      nodes: {
+        q1: { type:'question',
+          text:{th:'ตรวจร่างกายและภาพรังสีทรวงอกผิดปกติเข้าได้กับวัณโรคหรือไม่?', en:'Are the physical exam and chest X-ray compatible with active TB?'},
+          options:[
+            {val:'abn', label:{th:'ผิดปกติ เข้าได้กับวัณโรค', en:'Abnormal, compatible with TB'}, next:'rActive'},
+            {val:'norm', label:{th:'ปกติ', en:'Normal'}, next:'q2'}
+          ]},
+        rActive: { type:'result', severity:'severe',
+          title:{th:'เข้าได้กับวัณโรค', en:'Compatible with active TB'},
+          summary:{th:'ควรประเมิน/รักษาวัณโรคตามความเหมาะสม กรุณาไปที่หน้าการวินิจฉัยเพื่อประเมินต่อ', en:'Evaluate/treat as active TB. Please continue in the Diagnosis section.'},
+          action:'toDiagnosis' },
+        q2: { type:'question',
+          text:{th:'เด็กอายุน้อยกว่า 5 ปี หรือมีภาวะภูมิคุ้มกันบกพร่องหรือไม่?', en:'Is the child younger than 5 years, or immunocompromised?'},
+          options:[
+            {val:'yes', label:{th:'ใช่', en:'Yes'}, next:'rTptAll'},
+            {val:'no', label:{th:'ไม่ใช่', en:'No'}, next:'q3'}
+          ]},
+        rTptAll: { type:'result', severity:'info',
+          title:{th:'ให้ยาป้องกันได้เลย', en:'Start TPT'},
+          summary:{th:'อายุ <5 ปี หรือมีภูมิคุ้มกันบกพร่อง ให้ยาป้องกันได้เลยโดยไม่ต้องรอผล IGRA/TST', en:'Age <5 years or immunocompromised — start TPT without waiting for IGRA/TST.'},
+          action:'toRegimen', regimens:['3HR','6-9H','3HP'] },
+        q3: { type:'question',
+          text:{th:'ผล IGRA เป็นบวก หรือ TST > 15 มม. หรือไม่?', en:'Is IGRA positive, or TST > 15 mm?'},
+          options:[
+            {val:'yes', label:{th:'ใช่', en:'Yes'}, next:'rTptTest'},
+            {val:'no', label:{th:'ไม่ใช่/ยังไม่เข้าเกณฑ์', en:'No / not yet meeting criteria'}, next:'rNoTpt'}
+          ]},
+        rTptTest: { type:'result', severity:'info',
+          title:{th:'เข้าเกณฑ์ให้ยาป้องกัน', en:'Meets criteria for TPT'},
+          summary:{th:'ผลทดสอบเข้าเกณฑ์ ให้ยาป้องกันวัณโรคได้', en:'The test result meets criteria — start TPT.'},
+          action:'toRegimen', regimens:['3HR','6-9H','3HP','4R','1HP'] },
+        rNoTpt: { type:'result', severity:'info',
+          title:{th:'ยังไม่เข้าเกณฑ์ให้ยาป้องกัน', en:'Does not yet meet criteria for TPT'},
+          summary:{th:'แนะนำเฝ้าระวัง ซักประวัติและตรวจร่างกายทุก 3–6 เดือน นาน 1–2 ปี', en:'Recommend monitoring with history and exam every 3–6 months for 1–2 years.'},
+          action:null }
+      }
+    },
+    hiv: {
+      start: 'q1',
+      nodes: {
+        q1: { type:'question',
+          text:{th:'เด็กเป็นวัณโรคหรือไม่ (คัดกรองแล้ว)?', en:'Does the child have active TB (already screened)?'},
+          options:[
+            {val:'yes', label:{th:'เป็นวัณโรค', en:'Has active TB'}, next:'rActive'},
+            {val:'no', label:{th:'ไม่เป็นวัณโรค', en:'No active TB'}, next:'q2'}
+          ]},
+        rActive: { type:'result', severity:'severe',
+          title:{th:'เป็นวัณโรค', en:'Has active TB'},
+          summary:{th:'ให้รักษาวัณโรคตามแนวทาง (ไปหน้าการรักษา) อาจพิจารณาให้ยาป้องกันต่อเนื่องหลังรักษาวัณโรคเสร็จสิ้น', en:'Treat as active TB (see Treatment section). Continued TPT after completing TB treatment may be considered.'},
+          action:'toTreatment' },
+        q2: { type:'question',
+          text:{th:'เพิ่งเริ่มยาต้านไวรัส (ART) ไม่เกิน 12 เดือน หรือรักษามานานกว่า 12 เดือน?', en:'Newly started ART (≤12 months) or established on ART (>12 months)?'},
+          options:[
+            {val:'new', label:{th:'รายใหม่ ≤12 เดือน', en:'New, ≤12 months on ART'}, next:'q3a'},
+            {val:'est', label:{th:'รายเก่า >12 เดือน', en:'Established, >12 months on ART'}, next:'q4a'}
+          ]},
+        q3a: { type:'question',
+          text:{th:'อายุมากกว่า 1 ปีหรือไม่?', en:'Is the child older than 1 year?'},
+          options:[
+            {val:'yes', label:{th:'ใช่ (>1 ปี)', en:'Yes (>1 year)'}, next:'rTptAll'},
+            {val:'no', label:{th:'ไม่ใช่ (≤1 ปี)', en:'No (≤1 year)'}, next:'q3b'}
+          ]},
+        q3b: { type:'question',
+          text:{th:'มีประวัติสัมผัสวัณโรคหรือไม่?', en:'Is there a known TB contact history?'},
+          options:[
+            {val:'yes', label:{th:'มี', en:'Yes'}, next:'rTptContact'},
+            {val:'no', label:{th:'ไม่มี', en:'No'}, next:'rNoTpt'}
+          ]},
+        q4a: { type:'question',
+          text:{th:'อายุน้อยกว่า 12 ปีหรือไม่?', en:'Is the child younger than 12 years?'},
+          options:[
+            {val:'yes', label:{th:'ใช่ (<12 ปี)', en:'Yes (<12 years)'}, next:'q4b'},
+            {val:'no', label:{th:'ไม่ใช่ (≥12 ปี)', en:'No (≥12 years)'}, next:'q5'}
+          ]},
+        q4b: { type:'question',
+          text:{th:'มีประวัติสัมผัสวัณโรคหรือไม่?', en:'Is there a known TB contact history?'},
+          options:[
+            {val:'yes', label:{th:'มี', en:'Yes'}, next:'rTptContact'},
+            {val:'no', label:{th:'ไม่มี', en:'No'}, next:'rNoTpt'}
+          ]},
+        q5: { type:'question',
+          text:{th:'มีประวัติสัมผัสวัณโรคหรือไม่? (อายุ ≥12 ปี)', en:'Is there a known TB contact history? (age ≥12 years)'},
+          options:[
+            {val:'yes', label:{th:'มี', en:'Yes'}, next:'rTptAll2'},
+            {val:'no', label:{th:'ไม่มี', en:'No'}, next:'q6'}
+          ]},
+        q6: { type:'question',
+          text:{th:'CD4 น้อยกว่า 200 เซลล์/ลบ.มม. หรือคุมไวรัสไม่สำเร็จ (viral load >1,000 copies/มล.) หรือขาด/ไม่ได้ยาต้านไวรัสต่อเนื่อง >90 วัน หรือไม่?', en:'Is CD4 <200 cells/mm³, or virologic failure (viral load >1,000 copies/mL), or >90 days off/irregular ART?'},
+          options:[
+            {val:'yes', label:{th:'ใช่', en:'Yes'}, next:'rTptAll2'},
+            {val:'no', label:{th:'ไม่ใช่', en:'No'}, next:'q7'}
+          ]},
+        q7: { type:'question',
+          text:{th:'ผล IGRA เป็นบวก หรือ TST ≥ 5 มม. หรือไม่?', en:'Is IGRA positive, or TST ≥ 5 mm?'},
+          hint:{th:'หากยังไม่ได้ตรวจ การให้ TPT มีประโยชน์และสามารถให้ได้โดยไม่ต้องตรวจ ตามดุลยพินิจแพทย์', en:'If not yet tested, TPT is beneficial and may be given without testing, at clinical discretion.'},
+          options:[
+            {val:'posOrUnknown', label:{th:'บวก หรือยังไม่ได้ตรวจ', en:'Positive, or not yet tested'}, next:'rTptContact'},
+            {val:'neg', label:{th:'ลบ', en:'Negative'}, next:'rNoTptWatch'}
+          ]},
+        rTptAll: { type:'result', severity:'info',
+          title:{th:'ให้ยาป้องกันทุกราย', en:'Start TPT in all cases'},
+          summary:{th:'อายุ >1 ปี ให้ยาป้องกันทุกราย ไม่ขึ้นกับประวัติสัมผัสหรือ CD4 เริ่มยาหลังไม่มีผลข้างเคียงจากยาต้านไวรัสหรือ co-trimoxazole', en:'Age >1 year — give TPT to all, regardless of contact history or CD4. Start once free of ART/co-trimoxazole side effects.'},
+          action:'toRegimen', regimens:['6-9H','3HP','1HP'] },
+        rTptContact: { type:'result', severity:'info',
+          title:{th:'ให้ยาป้องกัน', en:'Start TPT'},
+          summary:{th:'มีประวัติสัมผัสวัณโรค (หรือผลทดสอบเข้าเกณฑ์) ให้ยาป้องกันวัณโรค', en:'Known TB contact (or test result meets criteria) — start TPT.'},
+          action:'toRegimen', regimens:['6-9H','3HP','1HP'] },
+        rTptAll2: { type:'result', severity:'info',
+          title:{th:'ให้ยาป้องกันทุกราย', en:'Start TPT in all cases'},
+          summary:{th:'เข้าเกณฑ์ตามประวัติสัมผัสหรือความเสี่ยงทางภูมิคุ้มกัน ให้ยาป้องกันวัณโรค', en:'Meets criteria based on contact history or immunologic risk — start TPT.'},
+          action:'toRegimen', regimens:['6-9H','3HP','1HP'] },
+        rNoTpt: { type:'result', severity:'info',
+          title:{th:'ยังไม่ต้องให้ยาป้องกัน', en:'TPT not indicated yet'},
+          summary:{th:'ไม่เข้าเกณฑ์ให้ TPT ในขณะนี้ แนะนำเฝ้าระวังตามปกติ', en:'Does not meet criteria for TPT at this time; continue routine monitoring.'},
+          action:null },
+        rNoTptWatch: { type:'result', severity:'info',
+          title:{th:'เฝ้าระวัง', en:'Monitor'},
+          summary:{th:'ผลลบ ไม่เข้าเกณฑ์ให้ยาป้องกันในขณะนี้ แนะนำเฝ้าระวังนาน 2 ปี', en:'Negative result; TPT not indicated now. Recommend monitoring for 2 years.'},
+          action:null }
+      }
+    }
+  },
+  problemCat: {
+    heading: {th:'เลือกปัญหาที่พบระหว่างรักษา', en:'Choose the problem encountered during treatment'},
+    hint: {th:'แนวทางนี้ใช้กับผู้ป่วยที่กำลังรักษาวัณโรคด้วยยาสูตรมาตรฐาน (INH, RIF, PZA, EMB)', en:'This guidance applies to patients being treated with the standard anti-TB regimen (INH, RIF, PZA, EMB).'},
+    interrupted: {th:'ขาดยา / หยุดยา', en:'Treatment interrupted'},
+    interruptedDesc: {th:'พิจารณาว่าควรรักษาต่อ หรือเริ่มระยะเข้มข้นใหม่', en:'Decide whether to continue treatment or restart the intensive phase'},
+    rash: {th:'ผื่นแพ้ยา', en:'Rash'},
+    rashDesc: {th:'ประเมินความรุนแรง และแนวทางการ rechallenge ยา', en:'Assess severity and the drug rechallenge approach'},
+    hepatitis: {th:'ตับอักเสบจากยา', en:'Hepatitis'},
+    hepatitisDesc: {th:'ประเมินตามอาการและค่า ALT/AST/bilirubin', en:'Assess based on symptoms and ALT/AST/bilirubin levels'}
+  },
+  problemTree: {
+    interrupted: {
+      start: 'q1',
+      nodes: {
+        q1: { type:'question',
+          text:{th:'ผู้ป่วยได้รับการรักษาด้วยสูตรยามาตรฐานระยะสั้น 2HRZE/4HR หรือ 2HRZE/2HR หรือไม่?', en:'Is the patient on the standard short-course regimen 2HRZE/4HR or 2HRZE/2HR?'},
+          options:[
+            {val:'yes', label:{th:'ใช่', en:'Yes'}, next:'q2'},
+            {val:'no', label:{th:'ไม่ใช่ (สูตรอื่น)', en:'No (other regimen)'}, next:'rConsult'}
+          ]},
+        rConsult: { type:'result', severity:'info',
+          title:{th:'ปรึกษาผู้เชี่ยวชาญ', en:'Consult a specialist'},
+          summary:{th:'คำแนะนำนี้ใช้ได้เฉพาะสูตรยามาตรฐานระยะสั้น 2HRZE/4HR หรือ 2HRZE/2HR เท่านั้น ผู้ป่วยที่ใช้สูตรยาอื่นหากขาดยาหรือหยุดยา ให้ปรึกษาแพทย์ผู้เชี่ยวชาญ', en:'This guidance applies only to the standard short-course regimens 2HRZE/4HR or 2HRZE/2HR. For patients on other regimens who interrupt treatment, consult a specialist.'} },
+        q2: { type:'question',
+          text:{th:'ขาดยาหรือหยุดยาอยู่ในช่วงใดของการรักษา?', en:'Which phase of treatment was interrupted?'},
+          options:[
+            {val:'intensive', label:{th:'ระยะเข้มข้น (intensive phase)', en:'Intensive phase'}, next:'q3'},
+            {val:'continuation', label:{th:'ระยะต่อเนื่อง (continuation phase)', en:'Continuation phase'}, next:'q5'}
+          ]},
+        q3: { type:'question',
+          text:{th:'ขาดยาหรือหยุดยาติดต่อกันกี่วัน?', en:'How many consecutive days of missed treatment?'},
+          options:[
+            {val:'lt14', label:{th:'น้อยกว่า 14 วัน', en:'Fewer than 14 days'}, next:'rContinueIntensive'},
+            {val:'ge14', label:{th:'ตั้งแต่ 14 วันขึ้นไป', en:'14 days or more'}, next:'q4'}
+          ]},
+        rContinueIntensive: { type:'result', severity:'info',
+          title:{th:'รักษาต่อจนครบระยะเข้มข้น', en:'Continue treatment to complete the intensive phase'},
+          summary:{th:'ขาดยา/หยุดยาน้อยกว่า 14 วัน สามารถให้การรักษาต่อจนครบได้ แต่หากขาดยาน้อยกว่า 14 วันหลายครั้งจนทำให้การรับยาระยะเข้มข้นเกินกว่า 3 เดือนนับจากวันเริ่มรักษาครั้งแรก ให้เริ่มนับระยะเข้มข้นใหม่', en:'If interrupted for fewer than 14 days, continue treatment to completion. However, if repeated short interruptions cause the intensive phase to extend beyond 3 months from the original start date, restart the intensive phase count.'},
+          action:null },
+        q4: { type:'question',
+          text:{th:'หยุดยานานเกิน 2 เดือนหรือไม่?', en:'Has treatment been stopped for more than 2 months?'},
+          options:[
+            {val:'no', label:{th:'ไม่เกิน 2 เดือน', en:'2 months or less'}, next:'rRestartIntensive'},
+            {val:'yes', label:{th:'เกิน 2 เดือน', en:'More than 2 months'}, next:'rCaseByCase'}
+          ]},
+        rRestartIntensive: { type:'result', severity:'severe',
+          title:{th:'เริ่มระยะเข้มข้นใหม่', en:'Restart the intensive phase'},
+          summary:{th:'ขาดยา/หยุดยาตั้งแต่ 14 วันขึ้นไปในระยะเข้มข้น ให้เริ่มการรักษาระยะเข้มข้นใหม่', en:'For interruptions of 14 days or more during the intensive phase, restart the intensive phase.'},
+          action:null, details:[TB_INTERRUPT_DETAIL] },
+        rCaseByCase: { type:'result', severity:'info',
+          title:{th:'พิจารณาเป็นรายๆ ไป', en:'Consider case by case'},
+          summary:{th:'หยุดยานานเกิน 2 เดือน ให้พิจารณาเป็นรายๆ ไปว่าจะให้การรักษาต่อหรือไม่ ควรปรึกษาผู้เชี่ยวชาญ', en:'If treatment has been stopped for more than 2 months, decide whether to continue on a case-by-case basis; consult a specialist.'},
+          action:null, details:[TB_INTERRUPT_DETAIL] },
+        q5: { type:'question',
+          text:{th:'ผู้ป่วยรักษาด้วยสูตรใด?', en:'Which regimen is the patient on?'},
+          options:[
+            {val:'4hr', label:{th:'2HRZE/4HR (รวม 6 เดือน)', en:'2HRZE/4HR (total 6 months)'}, next:'q6a'},
+            {val:'2hr', label:{th:'2HRZE/2HR (รวม 4 เดือน)', en:'2HRZE/2HR (total 4 months)'}, next:'q6b'}
+          ]},
+        q6a: { type:'question',
+          text:{th:'ได้รับยาระยะต่อเนื่องไปแล้วอย่างน้อยร้อยละ 80 ภายใน 16 สัปดาห์หรือไม่?', en:'Has the patient received at least 80% of continuation-phase doses within 16 weeks?'},
+          options:[
+            {val:'yes', label:{th:'ใช่ (≥80% ภายใน 16 สัปดาห์)', en:'Yes (\u226580% within 16 weeks)'}, next:'q7a'},
+            {val:'no', label:{th:'ไม่ใช่ (น้อยกว่าร้อยละ 80)', en:'No (less than 80%)'}, next:'q8a'}
+          ]},
+        q7a: { type:'question',
+          text:{th:'ผลตรวจเสมหะ/สิ่งส่งตรวจก่อนเริ่มการรักษาเป็นอย่างไร?', en:'What was the pre-treatment sputum/specimen result?'},
+          options:[
+            {val:'neg', label:{th:'ตรวจไม่พบเชื้อก่อนเริ่มยา', en:'Negative before starting treatment'}, next:'rCompleted4HR'},
+            {val:'pos', label:{th:'ตรวจพบเชื้อก่อนเริ่มยา', en:'Positive before starting treatment'}, next:'rContinue4HRPos'}
+          ]},
+        rCompleted4HR: { type:'result', severity:'info',
+          title:{th:'ถือว่ารักษาครบแล้ว', en:'Considered treatment complete'},
+          summary:{th:'ได้รับยาระยะต่อเนื่อง ≥80% ภายใน 16 สัปดาห์ และตรวจไม่พบเชื้อตั้งแต่ก่อนเริ่มรักษา ถือว่าผู้ป่วยรักษาครบแล้ว', en:'\u226580% of continuation-phase doses within 16 weeks, with a negative pre-treatment specimen, is considered treatment completion.'},
+          action:null },
+        rContinue4HRPos: { type:'result', severity:'info',
+          title:{th:'รักษาต่อจนครบ', en:'Continue treatment to completion'},
+          summary:{th:'ได้รับยาระยะต่อเนื่อง ≥80% ภายใน 16 สัปดาห์ แต่ตรวจพบเชื้อก่อนเริ่มรักษา ให้รักษาต่อจนครบ อย่างไรก็ตาม หากหยุดยานานเกิน 2 เดือน ให้พิจารณาเป็นรายๆ ไปว่าจะให้การรักษาต่อหรือไม่', en:'\u226580% of continuation-phase doses within 16 weeks, but the pre-treatment specimen was positive \u2014 continue treatment to completion. However, if treatment was stopped for more than 2 months, decide whether to continue on a case-by-case basis.'},
+          action:null },
+        q8a: { type:'question',
+          text:{th:'ขาดยาช่วงระยะต่อเนื่องติดต่อกันนานเท่าไหร่?', en:'How long was the continuation-phase interruption?'},
+          options:[
+            {val:'lt2mo', label:{th:'น้อยกว่า 2 เดือน', en:'Less than 2 months'}, next:'rContinue4HR'},
+            {val:'ge2mo', label:{th:'ตั้งแต่ 2 เดือนขึ้นไป', en:'2 months or more'}, next:'rRestart4HR'}
+          ]},
+        rContinue4HR: { type:'result', severity:'info',
+          title:{th:'รักษาต่อจนครบ', en:'Continue treatment to completion'},
+          summary:{th:'ขาดยาระยะต่อเนื่องน้อยกว่า 2 เดือน ให้รักษาต่อจนครบ', en:'Continuation-phase interruption of less than 2 months \u2014 continue treatment to completion.'},
+          action:null },
+        rRestart4HR: { type:'result', severity:'severe',
+          title:{th:'เริ่มรักษาใหม่ตั้งแต่ระยะเข้มข้น', en:'Restart from the intensive phase'},
+          summary:{th:'ขาดยาระยะต่อเนื่องตั้งแต่ 2 เดือนขึ้นไป (สูตร 2HRZE/4HR) ให้เริ่มการรักษาใหม่ตั้งแต่ระยะเข้มข้น', en:'Continuation-phase interruption of 2 months or more (2HRZE/4HR regimen) \u2014 restart from the intensive phase.'},
+          action:null, details:[TB_INTERRUPT_DETAIL] },
+        q6b: { type:'question',
+          text:{th:'ได้รับยาระยะต่อเนื่องไปแล้วอย่างน้อยร้อยละ 80 ภายใน 8 สัปดาห์หรือไม่?', en:'Has the patient received at least 80% of continuation-phase doses within 8 weeks?'},
+          options:[
+            {val:'yes', label:{th:'ใช่ (≥80% ภายใน 8 สัปดาห์)', en:'Yes (\u226580% within 8 weeks)'}, next:'rCompleted2HR'},
+            {val:'no', label:{th:'ไม่ใช่ (น้อยกว่าร้อยละ 80)', en:'No (less than 80%)'}, next:'q8b'}
+          ]},
+        rCompleted2HR: { type:'result', severity:'info',
+          title:{th:'ถือว่ารักษาครบแล้ว', en:'Considered treatment complete'},
+          summary:{th:'ได้รับยาระยะต่อเนื่อง ≥80% ภายใน 8 สัปดาห์ ถือว่าผู้ป่วยรักษาครบแล้ว', en:'\u226580% of continuation-phase doses within 8 weeks is considered treatment completion.'},
+          action:null },
+        q8b: { type:'question',
+          text:{th:'ขาดยาช่วงระยะต่อเนื่องติดต่อกันนานเท่าไหร่?', en:'How long was the continuation-phase interruption?'},
+          options:[
+            {val:'lt1mo', label:{th:'น้อยกว่า 1 เดือน', en:'Less than 1 month'}, next:'rContinue2HR'},
+            {val:'ge1mo', label:{th:'ตั้งแต่ 1 เดือนขึ้นไป', en:'1 month or more'}, next:'rRestart2HR'}
+          ]},
+        rContinue2HR: { type:'result', severity:'info',
+          title:{th:'รักษาต่อจนครบ', en:'Continue treatment to completion'},
+          summary:{th:'ขาดยาระยะต่อเนื่องน้อยกว่า 1 เดือน ให้รักษาต่อจนครบ', en:'Continuation-phase interruption of less than 1 month \u2014 continue treatment to completion.'},
+          action:null },
+        rRestart2HR: { type:'result', severity:'severe',
+          title:{th:'เริ่มรักษาใหม่ตั้งแต่ระยะเข้มข้น', en:'Restart from the intensive phase'},
+          summary:{th:'ขาดยาระยะต่อเนื่องตั้งแต่ 1 เดือนขึ้นไป (สูตร 2HRZE/2HR) ให้เริ่มการรักษาใหม่ตั้งแต่ระยะเข้มข้น', en:'Continuation-phase interruption of 1 month or more (2HRZE/2HR regimen) \u2014 restart from the intensive phase.'},
+          action:null, details:[TB_INTERRUPT_DETAIL] }
+      }
+    },
+    rash: {
+      start: 'q1',
+      nodes: {
+        q1: { type:'question',
+          text:{th:'ลักษณะผื่น/ปฏิกิริยาทางผิวหนังเป็นอย่างไร?', en:'What does the skin reaction look like?'},
+          options:[
+            {val:'itch', label:{th:'คันแต่ไม่มีผื่น', en:'Itching without a rash'}, next:'rItch'},
+            {val:'acne', label:{th:'ผื่นคล้ายสิว ไม่มีอาการระบบอื่น', en:'Acneiform rash, no systemic symptoms'}, next:'rAcne'},
+            {val:'generalized', label:{th:'ผื่น maculopapular กระจายทั่วตัว (ไม่มีรอยโรคเยื่อบุ/ไข้)', en:'Generalized maculopapular rash (no mucosal lesions/fever)'}, next:'rGeneralized'},
+            {val:'severe', label:{th:'ผื่นรุนแรง มีรอยโรคที่เยื่อบุ หรือมีไข้ร่วมด้วย', en:'Severe rash with mucosal lesions or accompanying fever'}, next:'rSevere'}
+          ]},
+        rItch: { type:'result', severity:'info',
+          title:{th:'คันแต่ไม่มีผื่น', en:'Itching without a rash'},
+          summary:{th:'ให้ยาต้านฮิสตามีน ไม่ต้องหยุดยาต้านวัณโรค อาการจะค่อย ๆ ดีขึ้น อาจใช้เวลาหลายสัปดาห์', en:'Give an antihistamine; anti-TB drugs do not need to be stopped. Symptoms improve gradually, possibly over several weeks.'},
+          action:null },
+        rAcne: { type:'result', severity:'info',
+          title:{th:'ผื่นคล้ายสิว', en:'Acneiform rash'},
+          summary:{th:'ไม่ต้องหยุดยาต้านวัณโรค เนื่องจากไม่เป็นอันตราย อาจมีผลด้านความสวยงามเท่านั้น', en:'Anti-TB drugs do not need to be stopped, as this is not dangerous \u2014 it may only be a cosmetic concern.'},
+          action:null },
+        rGeneralized: { type:'result', severity:'severe',
+          title:{th:'ผื่น maculopapular กระจายทั่วตัว', en:'Generalized maculopapular rash'},
+          summary:{th:'หยุดยาต้านวัณโรคทุกชนิด ให้ยาต้านฮิสตามีน รอผื่นหายดีก่อน แล้วจึงพิจารณา rechallenge ยาทีละชนิด', en:'Stop all anti-TB drugs, give an antihistamine, and wait until the rash has fully resolved before considering drug rechallenge one at a time.'},
+          action:null, details:[TB_RECHALLENGE_RASH_DETAIL] },
+        rSevere: { type:'result', severity:'severe',
+          title:{th:'ผื่นรุนแรง / มีรอยโรคเยื่อบุ / มีไข้ร่วม', en:'Severe rash / mucosal lesions / accompanying fever'},
+          summary:{th:'หยุดยาต้านวัณโรคทุกชนิด รับผู้ป่วยไว้ในโรงพยาบาล ให้ systemic corticosteroid ขนาดสูง เช่น prednisolone 1–2 มก./กก./วัน แล้วค่อย ๆ ลดขนาดตามการตอบสนอง ปรึกษาผู้เชี่ยวชาญเพื่อวางแผนการรักษา หากวัณโรคยังอยู่ในระยะรุนแรงระหว่างหยุดยา อาจพิจารณาให้ยาขนานอื่นไปพลางก่อน', en:'Stop all anti-TB drugs, admit to hospital, and give high-dose systemic corticosteroids (e.g. prednisolone 1\u20132 mg/kg/day), tapering according to response. Consult a specialist to plan treatment. If TB remains severe while off treatment, consider alternative agents in the interim.'},
+          action:null }
+      }
+    },
+    hepatitis: {
+      start: 'q1',
+      nodes: {
+        q1: { type:'question',
+          text:{th:'ผู้ป่วยมีอาการของภาวะตับอักเสบหรือไม่ (คลื่นไส้ อาเจียน ปวดท้อง เบื่ออาหาร)?', en:'Does the patient have symptoms of hepatitis (nausea, vomiting, abdominal pain, anorexia)?'},
+          options:[
+            {val:'yes', label:{th:'มีอาการ', en:'Symptomatic'}, next:'q2'},
+            {val:'no', label:{th:'ไม่มีอาการ', en:'Asymptomatic'}, next:'q3'}
+          ]},
+        q2: { type:'question',
+          text:{th:'ค่า ALT (และ/หรือ AST) สูงกว่าค่าปกติ (ULN) กี่เท่า?', en:'How many times the upper limit of normal (ULN) is the ALT (and/or AST)?'},
+          options:[
+            {val:'lt3', label:{th:'น้อยกว่า 3 เท่า', en:'Less than 3\u00d7'}, next:'rMildSymptomatic'},
+            {val:'ge3', label:{th:'ตั้งแต่ 3 เท่าขึ้นไป', en:'3\u00d7 or more'}, next:'rStopSymptomatic'}
+          ]},
+        rMildSymptomatic: { type:'result', severity:'info',
+          title:{th:'ตับอักเสบเล็กน้อย (มีอาการ)', en:'Mild hepatitis (symptomatic)'},
+          summary:{th:'ให้ยาต้านวัณโรคต่อไปได้ ตรวจค่าการทำงานของตับซ้ำในอีก 3 วัน', en:'Continue anti-TB drugs; recheck liver function tests in 3 days.'},
+          action:null },
+        rStopSymptomatic: { type:'result', severity:'severe',
+          title:{th:'ตับอักเสบ ALT/AST ≥3 เท่า (มีอาการ)', en:'Hepatitis, ALT/AST \u22653\u00d7 (symptomatic)'},
+          summary:{th:'หยุดยา INH, RIF และ PZA ให้ EMB, levofloxacin (Lfx) และ amikacin (Am) ไปก่อนหากเป็นวัณโรคที่รุนแรง รอค่าตับดีขึ้นก่อนพิจารณา rechallenge', en:'Stop INH, RIF, and PZA; give EMB, levofloxacin (Lfx), and amikacin (Am) in the interim if TB is severe. Wait for liver function to improve before considering rechallenge.'},
+          action:null, details:[TB_RECHALLENGE_HEP_DETAIL] },
+        q3: { type:'question',
+          text:{th:'ผลตรวจเป็นแบบใด?', en:'Which lab pattern applies?'},
+          options:[
+            {val:'lt5', label:{th:'ALT/AST น้อยกว่า 5 เท่าของ ULN', en:'ALT/AST less than 5\u00d7 ULN'}, next:'rMildAsymptomatic'},
+            {val:'ge5', label:{th:'ALT/AST ตั้งแต่ 5 เท่าของ ULN ขึ้นไป', en:'ALT/AST 5\u00d7 ULN or more'}, next:'rStopAsymptomatic'},
+            {val:'bili', label:{th:'Total bilirubin > 3 มก./ดล. แต่ ALT/AST ปกติหรือไม่เกิน 3 เท่า', en:'Total bilirubin > 3 mg/dL but ALT/AST normal or ≤3\u00d7'}, next:'rStopRifOnly'}
+          ]},
+        rMildAsymptomatic: { type:'result', severity:'info',
+          title:{th:'ตับอักเสบเล็กน้อย (ไม่มีอาการ)', en:'Mild hepatitis (asymptomatic)'},
+          summary:{th:'ให้ยาต้านวัณโรคต่อไปได้ ตรวจค่าการทำงานของตับซ้ำทุก 1 สัปดาห์', en:'Continue anti-TB drugs; recheck liver function tests weekly.'},
+          action:null },
+        rStopAsymptomatic: { type:'result', severity:'severe',
+          title:{th:'ตับอักเสบ ALT/AST ≥5 เท่า (ไม่มีอาการ)', en:'Hepatitis, ALT/AST \u22655\u00d7 (asymptomatic)'},
+          summary:{th:'หยุดยา INH, RIF, PZA ให้ EMB, Lfx, Am ไปก่อนหากเป็นวัณโรคที่รุนแรง', en:'Stop INH, RIF, and PZA; give EMB, Lfx, and Am in the interim if TB is severe.'},
+          action:null, details:[TB_RECHALLENGE_HEP_DETAIL] },
+        rStopRifOnly: { type:'result', severity:'severe',
+          title:{th:'Total bilirubin สูงเดี่ยว', en:'Isolated elevated total bilirubin'},
+          summary:{th:'หยุดเฉพาะยา RIF โดยยังให้ยาต้านวัณโรคตัวอื่นต่อได้', en:'Stop RIF only; the other anti-TB drugs may be continued.'},
+          action:null }
+      }
+    }
+  },
+  drtbInfo: {
+    heading: {th:'วัณโรคดื้อยาในเด็ก', en:'Drug-resistant TB in children'},
+    classifyHeading: {th:'การจำแนกประเภท', en:'Classification'},
+    classifyItems: [
+      {th:'RR-TB (rifampicin-resistant TB): เชื้อวัณโรคดื้อต่อยา rifampicin ไม่ว่าจะดื้อยาตัวอื่นร่วมด้วยหรือไม่', en:'RR-TB (rifampicin-resistant TB): TB resistant to rifampicin, regardless of resistance to other drugs.'},
+      {th:'MDR-TB (multidrug-resistant TB): เชื้อวัณโรคดื้อต่อทั้ง isoniazid และ rifampicin อย่างน้อย', en:'MDR-TB (multidrug-resistant TB): TB resistant to at least both isoniazid and rifampicin.'},
+      {th:'Pre-XDR-TB: MDR/RR-TB ที่ดื้อยากลุ่ม fluoroquinolone เพิ่มเติม', en:'Pre-XDR-TB: MDR/RR-TB with additional resistance to a fluoroquinolone.'},
+      {th:'XDR-TB (extensively drug-resistant TB): Pre-XDR-TB ที่ดื้อยากลุ่ม A เพิ่มเติมอีกอย่างน้อย 1 ชนิด (bedaquiline หรือ linezolid)', en:'XDR-TB (extensively drug-resistant TB): Pre-XDR-TB with additional resistance to at least one further Group A drug (bedaquiline or linezolid).'}
+    ],
+    referralTitle: {th:'ต้องปรึกษาผู้เชี่ยวชาญด้านวัณโรคดื้อยาเสมอ', en:'Always consult a drug-resistant TB specialist'},
+    referralSummary: {th:'การรักษาวัณโรคดื้อยาในเด็กมีความซับซ้อน ใช้ยาหลายชนิดร่วมกัน มีผลข้างเคียงที่ต้องเฝ้าระวังใกล้ชิด และการเลือกสูตรยาขึ้นกับผลความไวของเชื้อ ประวัติการรักษา และดุลยพินิจเฉพาะราย เครื่องมือนี้ให้ข้อมูลเบื้องต้นเพื่อช่วยจำแนกประเภทและดูสูตรยาที่อาจเป็นไปได้เท่านั้น ไม่ใช่คำแนะนำสำหรับการเริ่มยาด้วยตนเอง', en:'Treating drug-resistant TB in children is complex, involves multiple drugs, requires close monitoring for side effects, and regimen choice depends on susceptibility results, treatment history, and individualized judgment. This tool provides preliminary information to help classify the case and see possible regimen options only \u2014 it is not guidance for independently starting treatment.'},
+    goSelector: {th:'ไปดูแนวทางเลือกสูตรยา', en:'View regimen options'}
+  },
+  drtbCategory: {
+    heading: {th:'ผลความไวของเชื้อเป็นแบบใด?', en:'What is the drug susceptibility result?'},
+    hr: {th:'Hr-TB (ดื้อ isoniazid อย่างเดียว ไวต่อ rifampicin)', en:'Hr-TB (isoniazid mono-resistant, rifampicin-susceptible)'},
+    mdrrr: {th:'MDR/RR-TB ที่ไวต่อยากลุ่ม fluoroquinolone', en:'MDR/RR-TB, fluoroquinolone-susceptible'},
+    prexdr: {th:'Pre-XDR-TB (ดื้อยากลุ่ม fluoroquinolone)', en:'Pre-XDR-TB (fluoroquinolone-resistant)'},
+    xdr: {th:'XDR-TB', en:'XDR-TB'}
+  },
+  drtbAge: {
+    heading: {th:'อายุผู้ป่วย', en:'Patient age'},
+    lt14: {th:'น้อยกว่า 14 ปี', en:'Younger than 14 years'},
+    ge14: {th:'ตั้งแต่ 14 ปีขึ้นไป', en:'14 years or older'}
+  },
+  drtbSite: {
+    heading: {th:'ตำแหน่ง/ความรุนแรงของวัณโรค', en:'TB site/severity'},
+    pulmSevere: {th:'วัณโรคปอดรุนแรง (โพรงหนองมาก/รอยโรคแพร่กระจาย)', en:'Severe pulmonary TB (extensive cavitation/disseminated disease)'},
+    pulmMild: {th:'วัณโรคปอดไม่รุนแรง หรือต่อมน้ำเหลือง', en:'Non-severe pulmonary TB, or lymph node TB'},
+    exHighRisk: {th:'นอกปอด: ระบบประสาทส่วนกลาง / กระดูกและข้อ / เยื่อหุ้มหัวใจ / ชนิดแพร่กระจาย', en:'Extrapulmonary: CNS / bone-joint / pericardial / disseminated (miliary)'},
+    exOther: {th:'นอกปอดตำแหน่งอื่น', en:'Other extrapulmonary site'}
+  },
+  drtbResult: {
+    heading: {th:'สูตรยาที่อาจพิจารณาได้', en:'Regimens that may be considered'},
+    col_regimen: {th:'สูตรยา', en:'Regimen'}, col_note: {th:'หมายเหตุ', en:'Notes'},
+    note18: {th:'สูตรยาระยะยาว 18 เดือน ใช้ได้กับผู้ป่วยทุกกลุ่ม ปรับสูตรยาตามผลความไวของเชื้อเป็นรายบุคคล เลือกยาจากกลุ่ม A → B → C ตามลำดับ (อย่างน้อย 4 ชนิดที่ไวในระยะเข้มข้น อย่างน้อย 3 ชนิดในระยะต่อเนื่อง)', en:'The 18-month regimen is an option for all patients, individualized based on susceptibility results, selecting drugs from Group A \u2192 B \u2192 C in order (at least 4 effective drugs in the intensive phase, at least 3 in the continuation phase).'},
+    considerHeading: {th:'ข้อควรพิจารณาหากเลือกใช้สูตรยาได้หลายสูตร', en:'Considerations when more than one regimen is an option'},
+    considerItems: [
+      {th:'อาการไม่พึงประสงค์จากการใช้ยา', en:'Potential drug adverse effects'},
+      {th:'ประวัติการรักษา สูตรการรักษาที่เคยได้รับ และความน่าจะเป็นของประสิทธิผลของยาที่เลือกใช้ในสูตร', en:'Treatment history, prior regimens received, and the likely effectiveness of the drugs in the proposed regimen'},
+      {th:'สูตรยาที่ผู้ป่วยหรือครอบครัวต้องการ', en:'The regimen preferred by the patient or family'},
+      {th:'การเข้าถึงสูตรยา และราคายา', en:'Access to and cost of the regimen'}
+    ],
+    noneEligible: {th:'ไม่มีสูตรระยะสั้นที่เข้าเกณฑ์สำหรับกลุ่มนี้ตามตารางสรุป — ใช้สูตรยาระยะยาว 18 เดือนแบบปรับตามบุคคล และปรึกษาผู้เชี่ยวชาญ', en:'No short-course regimen meets the criteria for this combination per the summary table \u2014 use the individualized 18-month regimen and consult a specialist.'},
+    hrRegimenNote: {th:'สูตรมาตรฐานสำหรับ Hr-TB (ดื้อ isoniazid อย่างเดียว แต่ยังไวต่อ rifampicin) — ให้ isoniazid ต่อในสูตร (อาจพิจารณาเพิ่มขนาดเป็น 15 มก./กก./วัน เนื่องจากอาจเป็นการดื้อยาแบบไม่รุนแรง) ร่วมกับ rifampicin, pyrazinamide, ethambutol และ levofloxacin นาน 6 เดือนเต็ม หากทราบผลดื้อ isoniazid ขณะยังอยู่ในช่วง 2HRZE ให้เริ่มนับสูตรนี้ใหม่ 6 เดือนเต็ม หากทราบขณะอยู่ในช่วงต่อเนื่อง (HR) และตอบสนองดีแล้ว ให้ปรึกษาผู้เชี่ยวชาญเพื่อปรับสูตรที่เหมาะสม', en:'Standard regimen for Hr-TB (isoniazid mono-resistant, rifampicin-susceptible) \u2014 continue isoniazid in the regimen (consider increasing to 15 mg/kg/day, since resistance may be low-level) together with rifampicin, pyrazinamide, ethambutol, and levofloxacin for a full 6 months. If isoniazid resistance is identified while still in the 2HRZE intensive phase, restart the count for a full 6 months of this regimen. If identified during the continuation phase (HR) with good response, consult a specialist to adjust the regimen appropriately.'},
+    legendHeading: {th:'คำอธิบายตัวย่อยา (เฉพาะยาในสูตรที่แสดง)', en:'Drug abbreviation key (for the regimens shown)'},
+    legendNote: {th:'ตัวเลขหน้าชื่อสูตรยา หมายถึงจำนวนเดือนของระยะนั้น เช่น 6 Bdq = ให้ bedaquiline นาน 6 เดือน', en:'The number before a regimen abbreviation indicates the number of months for that phase, e.g. 6 Bdq = bedaquiline for 6 months.'},
+    legendMap: {
+      H:{th:'H = Isoniazid', en:'H = Isoniazid'},
+      R:{th:'R = Rifampicin', en:'R = Rifampicin'},
+      Z:{th:'Z = Pyrazinamide', en:'Z = Pyrazinamide'},
+      E:{th:'E = Ethambutol', en:'E = Ethambutol'},
+      Hh:{th:'Hh = high-dose isoniazid', en:'Hh = high-dose isoniazid'},
+      Lfx:{th:'Lfx = Levofloxacin', en:'Lfx = Levofloxacin'},
+      Mfx:{th:'Mfx (M) = Moxifloxacin', en:'Mfx (M) = Moxifloxacin'},
+      Bdq:{th:'Bdq (B) = Bedaquiline', en:'Bdq (B) = Bedaquiline'},
+      Pa:{th:'Pa = Pretomanid', en:'Pa = Pretomanid'},
+      Lzd:{th:'Lzd (L) = Linezolid', en:'Lzd (L) = Linezolid'},
+      Dlm:{th:'Dlm (D) = Delamanid', en:'Dlm (D) = Delamanid'},
+      Cfz:{th:'Cfz (C) = Clofazimine', en:'Cfz (C) = Clofazimine'},
+      Cs:{th:'Cs = Cycloserine', en:'Cs = Cycloserine'},
+      Trd:{th:'Trd = Terizidone', en:'Trd = Terizidone'},
+      Eto:{th:'Eto/Pto = Ethionamide/Prothionamide', en:'Eto/Pto = Ethionamide/Prothionamide'}
+    }
+  },
+  site: {
+    heading: {th:'สงสัยวัณโรคตำแหน่งใด', en:'Suspected TB site'},
+    hint: {th:'เลือกตำแหน่งหลักที่สงสัยเพื่อกำหนดชนิดสิ่งส่งตรวจและภาพถ่ายรังสีที่เหมาะสม', en:'Choose the primary suspected site to guide specimen collection and imaging.'},
+    pulmonary: {th:'วัณโรคปอด (± เยื่อหุ้มปอด)', en:'Pulmonary TB (± pleural involvement)'},
+    extrapulmonary: {th:'วัณโรคนอกปอด', en:'Extrapulmonary TB'}
+  },
+  quickDose: {
+    scopeNote: {th:'ใช้เมื่อวินิจฉัยวัณโรคแล้วและต้องการเลือกสูตรยา/คำนวณขนาดยาเท่านั้น', en:'For when TB is already diagnosed and you only need to select a regimen and calculate dosing.'},
+    heading: {th:'เลือกตำแหน่งของวัณโรคเพื่อดูสูตรยาที่แนะนำ', en:'Choose the TB site to see the recommended regimen'},
+    hint: {th:'สูตรยาและขนาดยาจะปรับตามตำแหน่งที่เลือก', en:'The regimen and dosing will be tailored to the selected site.'}
+  },
+  exSite: {
+    heading: {th:'สงสัยวัณโรคนอกปอดตำแหน่งใด', en:'Which extrapulmonary site is suspected?'},
+    hint: {th:'อาการ สิ่งส่งตรวจ และเกณฑ์การเลือกสูตรยาต่างกันตามตำแหน่ง', en:'Symptoms, specimens, and regimen eligibility differ by site.'},
+    lymphNode:{th:'ต่อมน้ำเหลือง', en:'Lymph node'},
+    cns:{th:'เยื่อหุ้มสมอง/สมอง (CNS)', en:'Meninges/brain (CNS)'},
+    abdominal:{th:'ช่องท้อง', en:'Abdominal'},
+    boneJoint:{th:'กระดูกและข้อ', en:'Bone/joint'},
+    spine:{th:'กระดูกสันหลัง', en:'Spine'},
+    pericardial:{th:'เยื่อหุ้มหัวใจ', en:'Pericardium'},
+    miliary:{th:'แพร่กระจาย (Miliary)', en:'Disseminated (Miliary)'},
+    other:{th:'อื่นๆ', en:'Other'}
+  },
+  clinical: {
+    heading: {th:'ลักษณะทางคลินิกเข้าได้กับวัณโรคหรือไม่', en:'Are clinical features compatible with TB?'},
+    hint: {th:'เช่น ไข้เรื้อรัง >7 วัน ไอเรื้อรัง >2 สัปดาห์ น้ำหนักลด/ไม่ขึ้นตามเกณฑ์ เบื่ออาหาร เหงื่อออกกลางคืน หรือปอดอักเสบไม่ดีขึ้นแม้รักษาแล้ว >2 สัปดาห์', en:'E.g. fever >7 days, cough >2 weeks, weight loss/faltering growth, anorexia, night sweats, or pneumonia not improving after >2 weeks of treatment.'},
+    yes:{th:'ใช่ เข้าได้กับวัณโรค', en:'Yes, compatible'}, no:{th:'ไม่เข้าได้', en:'No'}
+  },
+  contact: {
+    heading: {th:'ประวัติสัมผัสและผลทดสอบภูมิคุ้มกัน', en:'Contact history & immune test'},
+    contactQ: {th:'มีประวัติสัมผัสผู้ป่วยวัณโรคหรือไม่', en:'History of TB contact?'},
+    yes:{th:'มี', en:'Yes'}, no:{th:'ไม่มี', en:'No'},
+    testQ: {th:'ผล TST / IGRA / TBST', en:'TST / IGRA / TBST result'},
+    pos:{th:'ผลบวก', en:'Positive'}, neg:{th:'ผลลบ', en:'Negative'}, none:{th:'ไม่ได้ตรวจ', en:'Not done'}
+  },
+
+  findings: {
+    pulmonary: {
+      heading:{th:'ภาพถ่ายรังสีทรวงอกเข้าได้กับวัณโรคหรือไม่', en:'Is the chest X-ray compatible with TB?'},
+      hint:{th:'เช่น ต่อมน้ำเหลืองขั้วปอดโต, Ghon complex, calcification, miliary infiltration, lobar/segmental atelectasis, effusion, cavitation, apical infiltration', en:'E.g. hilar lymphadenopathy, Ghon complex, calcification, miliary pattern, lobar/segmental atelectasis, effusion, cavitation, apical infiltrate.'}
+    },
+    lymphNode: {
+      heading:{th:'ผลอัลตราซาวด์หรือชิ้นเนื้อต่อมน้ำเหลืองเข้าได้กับวัณโรคหรือไม่', en:'Are lymph node ultrasound/tissue findings compatible with TB?'},
+      hint:{th:'เช่น อัลตราซาวด์พบ hilus หาย ขอบไม่ชัด necrosis หรือพยาธิวิทยาพบ caseating granuloma/multinucleated giant cells', en:'E.g. ultrasound showing absent hilus, unclear edge, necrosis; or pathology showing caseating granuloma/multinucleated giant cells.'}
+    },
+    cns: {
+      heading:{th:'ผลน้ำไขสันหลังหรือภาพสมองเข้าได้กับวัณโรคหรือไม่', en:'Are CSF or brain imaging findings compatible with TB?'},
+      hint:{th:'เช่น CSF ลิมโฟไซต์เด่น โปรตีนสูง น้ำตาลต่ำ หรือ CT/MRI พบ hydrocephalus, basal meningeal enhancement, infarction', en:'E.g. lymphocyte-predominant CSF, high protein, low glucose; or CT/MRI showing hydrocephalus, basal meningeal enhancement, infarction.'}
+    },
+    abdominal: {
+      heading:{th:'ผลน้ำในช่องท้องหรือภาพรังสีช่องท้องเข้าได้กับวัณโรคหรือไม่', en:'Are ascitic fluid or abdominal imaging findings compatible with TB?'},
+      hint:{th:'เช่น น้ำในช่องท้องลิมโฟไซต์เด่น โปรตีนสูง ADA > 30 U/L หรืออัลตราซาวด์/CT พบก้อนหรือต่อมน้ำเหลืองในช่องท้อง', en:'E.g. lymphocyte-predominant ascites, high protein, ADA > 30 U/L; or ultrasound/CT showing an abdominal mass or lymphadenopathy.'}
+    },
+    boneJoint: {
+      heading:{th:'ผลภาพรังสีหรือน้ำในข้อเข้าได้กับวัณโรคหรือไม่', en:'Are joint imaging or joint fluid findings compatible with TB?'},
+      hint:{th:'เช่น ภาพรังสีข้อผิดปกติ มีน้ำในข้อข้างเดียว (เข่า/สะโพก) หรือชิ้นเนื้อพบ caseating granuloma', en:'E.g. abnormal joint imaging, unilateral joint effusion (knee/hip), or tissue showing caseating granuloma.'}
+    },
+    spine: {
+      heading:{th:'ผลภาพรังสีกระดูกสันหลังเข้าได้กับวัณโรคหรือไม่', en:'Are spine imaging findings compatible with TB?'},
+      hint:{th:'เช่น กระดูกสันหลังผิดรูป (gibbus), end-plate disruption, paravertebral soft tissue จาก MRI', en:'E.g. spinal deformity (gibbus), end-plate disruption, paravertebral soft tissue on MRI.'}
+    },
+    pericardial: {
+      heading:{th:'ผลตรวจหัวใจหรือน้ำในเยื่อหุ้มหัวใจเข้าได้กับวัณโรคหรือไม่', en:'Are cardiac/pericardial fluid findings compatible with TB?'},
+      hint:{th:'เช่น echocardiography พบน้ำในเยื่อหุ้มหัวใจ/เยื่อหุ้มหัวใจหนาตัว ภาพรังสีทรวงอกหัวใจโต หรือน้ำเยื่อหุ้มหัวใจเป็น exudate ลิมโฟไซต์เด่น โปรตีนสูง ADA > 40 U/L', en:'E.g. echocardiography showing pericardial effusion/thickening, cardiomegaly on CXR, or lymphocyte-predominant exudative pericardial fluid with high protein and ADA > 40 U/L.'}
+    },
+    miliary: {
+      heading:{th:'ภาพถ่ายรังสีทรวงอกเข้าได้กับวัณโรคแพร่กระจายหรือไม่', en:'Is the chest X-ray compatible with miliary TB?'},
+      hint:{th:'ลักษณะจำเพาะ: diffuse micro-nodular infiltration กระจายทั่วปอดทั้งสองข้าง ขนาดไม่เกิน 2 มม. (คล้ายเมล็ดข้าวฟ่าง) เห็นชัดขึ้นด้วย HRCT', en:'Characteristic pattern: diffuse micro-nodular infiltrates (\u22642 mm, "millet seed") throughout both lungs, seen more sensitively on HRCT.'}
+    },
+    other: {
+      heading:{th:'ผลตรวจสารน้ำ/ชิ้นเนื้อหรือภาพรังสีที่เกี่ยวข้องเข้าได้กับวัณโรคหรือไม่', en:'Are fluid/tissue findings or related imaging compatible with TB?'},
+      hint:{th:'เช่น exudate ลิมโฟไซต์เด่น โปรตีนสูง ADA สูง หรือลักษณะทางพยาธิ/รังสีวิทยาที่เข้าได้', en:'E.g. lymphocyte-predominant exudate, high protein, high ADA, or compatible pathology/imaging.'}
+    },
+    yes:{th:'ผิดปกติหรือเข้าได้กับวัณโรค', en:'Abnormal / compatible with TB'}, no:{th:'ปกติหรือไม่เหมือนวัณโรค', en:'Normal / not suggestive of TB'}, pending:{th:'รอผล', en:'Pending'}
+  },
+
+  specimenExtra: {
+    lymphNode:{th:'ส่งชิ้นเนื้อจากต่อมน้ำเหลือง (fine needle aspiration หรือตัดทั้งต่อม) ตรวจพยาธิวิทยา, AFB, Xpert MTB/RIF(Ultra), เพาะเชื้อ', en:'Send lymph node tissue (fine needle aspiration or excisional biopsy) for pathology, AFB, Xpert MTB/RIF(Ultra), and culture.'},
+    cns:{th:'เจาะน้ำไขสันหลัง วัดความดัน ส่งนับเซลล์ โปรตีน น้ำตาล AFB, Xpert MTB/RIF(Ultra), เพาะเชื้อ พิจารณา CT/MRI สมอง', en:'Lumbar puncture with opening pressure; send cell count, protein, glucose, AFB, Xpert MTB/RIF(Ultra), culture; consider CT/MRI brain.'},
+    abdominal:{th:'เจาะน้ำในช่องท้อง ส่ง AFB, Xpert MTB/RIF หรือ PCR for TB, เพาะเชื้อ และ ADA (cut-off 30 U/L)', en:'Send ascitic fluid for AFB, Xpert MTB/RIF or PCR for TB, culture, and ADA (cut-off 30 U/L).'},
+    boneJoint:{th:'เจาะน้ำในข้อ หรือชิ้นเนื้อเยื่อหุ้มกระดูก/กระดูก ส่ง AFB, Xpert MTB/RIF, เพาะเชื้อ', en:'Send joint fluid or bone/synovial tissue for AFB, Xpert MTB/RIF, and culture.'},
+    spine:{th:'ส่งชิ้นเนื้อยืนยันเชื้อ พิจารณา MRI กระดูกสันหลังเมื่อมีข้อบ่งชี้ (อาการทางระบบประสาท, กระดูกสันหลังคด, ปวดร้าวลงขา)', en:'Send tissue for confirmation; consider spine MRI when indicated (neurological deficit, spinal deformity, radicular pain).'},
+    pericardial:{th:'เจาะตรวจน้ำในช่องเยื่อหุ้มหัวใจทุกราย ส่ง AFB, Xpert MTB/RIF หรือ PCR for TB, เพาะเชื้อ และ ADA (cut-off 40 U/L)', en:'Pericardiocentesis in all cases; send fluid for AFB, Xpert MTB/RIF or PCR for TB, culture, and ADA (cut-off 40 U/L).'},
+    miliary:{th:'ส่งเสมหะ/น้ำดูดจากกระเพาะ/อุจจาระ ตรวจย้อม AFB เพาะเชื้อวัณโรค และ Xpert MTB/RIF หรือ Ultra (++, II) — ควรเจาะน้ำไขสันหลังทุกรายเพื่อคัดกรองเยื่อหุ้มสมองอักเสบร่วมด้วย (+, III)', en:'Send sputum/gastric aspirate/stool for AFB smear, TB culture, and Xpert MTB/RIF or Ultra (++, II) \u2014 lumbar puncture is recommended in all cases to screen for concurrent TB meningitis (+, III).'},
+    other:{th:'ส่งสารน้ำปลอดเชื้อหรือชิ้นเนื้อตรวจ AFB, Xpert MTB/RIF(Ultra), เพาะเชื้อ และ ADA (หากส่งได้)', en:'Send sterile fluid or tissue for AFB, Xpert MTB/RIF(Ultra), culture, and ADA (if available).'}
+  },
+
+  siteMeta: {
+    lymphNode:{altEligible:true, regimenLabel:null, regimenSummary:null, steroidNote:null},
+    cns:{altEligible:false,
+      regimenLabel:{th:'2HRZE/10HR (รวม 12 เดือน)', en:'2HRZE/10HR (total 12 months)'},
+      regimenSummary:{th:'สูตรยามาตรฐานสำหรับวัณโรคเยื่อหุ้มสมองและวัณโรคระบบประสาทส่วนกลางอื่น ๆ (เช่น tuberculoma) ระยะเข้มข้น 2 เดือน (H,R,Z,E) ตามด้วยระยะต่อเนื่อง 10 เดือน (H,R) (++, I)', en:'Standard regimen for TB meningitis and other CNS TB (e.g. tuberculoma): 2-month intensive phase (H,R,Z,E) followed by 10-month continuation phase (H,R) (++, I).'},
+      steroidNote:{th:'ให้สเตียรอยด์เสริมทุกรายในวัณโรคเยื่อหุ้มสมอง (++, I) เช่น prednisolone 2 มก./กก./วัน (เพิ่มได้ถึง 4 มก./กก./วัน หากอาการรุนแรง สูงสุดไม่เกิน 60 มก./วัน) นาน 4 สัปดาห์ แล้วค่อยลดขนาดจนหยุดใน 2–4 สัปดาห์ หรือ dexamethasone 0.3–0.6 มก./กก./วัน สูงสุดไม่เกิน 10 มก./วัน ลดขนาดแบบเดียวกัน สำหรับวัณโรคระบบประสาทส่วนกลางอื่น ๆ (เช่น tuberculoma) อาจพิจารณาให้สเตียรอยด์หากมีสมองบวมมาก ระดับความรู้สึกตัวผิดปกติ หรือมี neurological deficit (+/-, IV) การให้สเตียรอยด์โดยไม่ได้ยาต้านวัณโรคที่เหมาะสมอาจทำให้อาการเลวลง', en:'Give adjunctive steroids to all TB meningitis patients (++, I), e.g. prednisolone 2 mg/kg/day (up to 4 mg/kg/day if severe, max 60 mg/day) for 4 weeks then taper off over 2\u20134 weeks, or dexamethasone 0.3\u20130.6 mg/kg/day (max 10 mg/day) tapered similarly. For other CNS TB (e.g. tuberculoma), consider steroids if there is significant cerebral edema, altered consciousness, or a neurological deficit (+/-, IV). Steroids without adequate anti-TB therapy may worsen the disease.'},
+      altRegimen:{
+        label:{th:'สูตรทางเลือก 6HRZEto (6 เดือน)', en:'Alternative regimen 6HRZEto (6 months)'},
+        eligibility:{th:'สูตรทางเลือก (+, IV) — ใช้ยา ethionamide แทน ethambutol เนื่องจากผ่าน blood-brain barrier ได้ดีกว่ามาก เฉพาะผู้ป่วยที่ไม่ติดเชื้อเอชไอวี และเฉพาะวัณโรคเยื่อหุ้มสมองเท่านั้น — ยังไม่มีข้อมูลเพียงพอสำหรับวัณโรคระบบประสาทส่วนกลางอื่น ๆ เช่น tuberculoma ซึ่งควรใช้สูตรมาตรฐาน 2HRZE/10HR', en:'Alternative regimen (+, IV) using ethionamide instead of ethambutol for better blood-brain barrier penetration. Only for HIV-negative patients and only for TB meningitis specifically — insufficient evidence for other CNS TB (e.g. tuberculoma), which should use the standard 2HRZE/10HR regimen.'},
+        drugs:[
+          {key:'H', name:{th:'Isoniazid (H)', en:'Isoniazid (H)'}, target:20, max:400},
+          {key:'R', name:{th:'Rifampicin (R)', en:'Rifampicin (R)'}, target:20, max:600},
+          {key:'Z', name:{th:'Pyrazinamide (Z)', en:'Pyrazinamide (Z)'}, target:40, max:2000},
+          {key:'Eto', name:{th:'Ethionamide (Eto)', en:'Ethionamide (Eto)'}, target:20, max:750}
+        ]
+      }},
+    abdominal:{altEligible:false,
+      regimenLabel:{th:'2HRZE/4HR (รวม 6 เดือน)', en:'2HRZE/4HR (total 6 months)'},
+      regimenSummary:{th:'สูตรยามาตรฐานสำหรับวัณโรคช่องท้อง (เช่นเดียวกับวัณโรคเยื่อหุ้มหัวใจ ทางเดินปัสสาวะและระบบสืบพันธุ์) ระยะเข้มข้น 2 เดือน (H,R,Z,E) ตามด้วยระยะต่อเนื่อง 4 เดือน (H,R) (++, I)', en:'Standard regimen for abdominal TB (as with pericardial, urinary tract, and genital TB): 2-month intensive phase (H,R,Z,E) followed by 4-month continuation phase (H,R) (++, I).'},
+      steroidNote:null},
+    boneJoint:{altEligible:false,
+      regimenLabel:{th:'2HRZE/10HR (รวม 12 เดือน)', en:'2HRZE/10HR (total 12 months)'},
+      regimenSummary:{th:'สูตรยามาตรฐานสำหรับวัณโรคกระดูกและข้อ ระยะเข้มข้น 2 เดือน (H,R,Z,E) ตามด้วยระยะต่อเนื่อง 10 เดือน (H,R) (++, I)', en:'Standard regimen for bone/joint TB: 2-month intensive phase (H,R,Z,E) followed by 10-month continuation phase (H,R) (++, I).'},
+      steroidNote:null,
+      pearlNote:{th:'หากตรวจพบวัณโรคกระดูกในเด็กอายุน้อยกว่า 3 ปี และไม่มีประวัติสัมผัสวัณโรค ให้คิดถึงกระดูกอักเสบจากวัคซีนบีซีจี (BCG osteomyelitis) มากกว่าวัณโรคกระดูกทั่วไป เนื่องจากวัณโรคกระดูกมักมีระยะฟักตัวนาน จึงไม่ค่อยพบในเด็กเล็ก อาการ อาการแสดง ผลตรวจทางจุลชีววิทยาและพยาธิวิทยาเหมือนกันทุกประการ ห้องปฏิบัติการทั่วไปจะรายงานผลเพาะเชื้อเป็น M. tuberculosis complex เหมือนกัน แต่เชื้อบีซีจีจะดื้อต่อยา pyrazinamide (PZA) โดยธรรมชาติ ควรติดต่อห้องปฏิบัติการเพื่อยืนยันสายพันธุ์บีซีจี', en:'If bone TB is found in a child younger than 3 years with no known TB contact, consider BCG osteomyelitis rather than typical TB osteomyelitis \u2014 TB osteomyelitis usually has a long incubation period and is uncommon in young children. Symptoms, signs, microbiology, and pathology are identical; routine labs will report the culture as M. tuberculosis complex either way, but BCG strains are intrinsically resistant to pyrazinamide (PZA). Contact the laboratory to confirm whether it is a BCG strain.'}},
+    spine:{altEligible:false,
+      regimenLabel:{th:'2HRZE/10HR (รวม 12 เดือน)', en:'2HRZE/10HR (total 12 months)'},
+      regimenSummary:{th:'ใช้สูตรเดียวกับวัณโรคกระดูกและข้อ ระยะเข้มข้น 2 เดือน (H,R,Z,E) ตามด้วยระยะต่อเนื่อง 10 เดือน (H,R) อาจต้องติดตามจนถึงอายุ 18 ปีเพื่อประเมินภาวะกระดูกสันหลังทรุด', en:'Same regimen as bone/joint TB: 2-month intensive phase (H,R,Z,E) followed by 10-month continuation phase (H,R). Follow-up may be needed until age 18 to assess for spinal collapse.'},
+      steroidNote:null},
+    pericardial:{altEligible:false,
+      regimenLabel:{th:'2HRZE/4HR (รวม 6 เดือน)', en:'2HRZE/4HR (total 6 months)'},
+      regimenSummary:{th:'สูตรยามาตรฐานเช่นเดียวกับวัณโรคช่องท้อง ทางเดินปัสสาวะและระบบสืบพันธุ์ ระยะเข้มข้น 2 เดือน (H,R,Z,E) ตามด้วยระยะต่อเนื่อง 4 เดือน (H,R) (++, I)', en:'Standard regimen as with abdominal, urinary tract, and genital TB: 2-month intensive phase (H,R,Z,E) followed by 4-month continuation phase (H,R) (++, I).'},
+      steroidNote:{th:'อาจพิจารณาให้สเตียรอยด์เสริมในผู้ป่วยที่มีหรือมีความเสี่ยงต่อภาวะเยื่อหุ้มหัวใจอักเสบรัดตีบ (constrictive pericarditis) (+/-, II)', en:'Consider adjunctive steroids in patients with or at risk of constrictive pericarditis (+/-, II).'}},
+    miliary:{altEligible:false,
+      regimenLabel:{th:'2HRZE/4HR (รวม 6 เดือน) — ต้องคัดกรองเยื่อหุ้มสมองอักเสบก่อน', en:'2HRZE/4HR (total 6 months) \u2014 screen for meningitis first'},
+      regimenSummary:{th:'พบวัณโรคเยื่อหุ้มสมองร่วมด้วยได้ถึงร้อยละ 50 จึงต้องเจาะน้ำไขสันหลังทุกรายก่อนกำหนดสูตรยา หากพบวัณโรคเยื่อหุ้มสมองร่วมด้วย ให้ใช้สูตร 12 เดือน (2HRZE/10HR) ครอบคลุมอวัยวะที่ต้องรักษานานที่สุดแทน (+, III) หากไม่พบเยื่อหุ้มสมองอักเสบ ใช้สูตรมาตรฐาน 6 เดือนของวัณโรคปอด', en:'Concurrent TB meningitis is found in up to 50% of cases, so lumbar puncture is required in all cases before finalizing the regimen. If meningitis is also found, switch to the 12-month regimen (2HRZE/10HR) covering the site requiring the longest treatment (+, III). If no meningitis is found, use the standard 6-month pulmonary regimen.'},
+      steroidNote:null},
+    other:{altEligible:false,
+      regimenLabel:{th:'2HRZE/4HR (รวม 6 เดือน) โดยทั่วไป', en:'2HRZE/4HR (total 6 months), generally'},
+      regimenSummary:{th:'ตำแหน่งนอกปอดส่วนใหญ่ใช้สูตรมาตรฐาน 6 เดือน ยกเว้นเยื่อหุ้มสมอง/สมอง กระดูกและข้อ/กระดูกสันหลังที่ต้องรักษานาน 12 เดือน — หากไม่แน่ใจตำแหน่งหรือความรุนแรง ควรปรึกษาผู้เชี่ยวชาญ', en:'Most extrapulmonary sites use the standard 6-month regimen, except meninges/brain and bone/joint/spine which require 12 months. If the site or severity is uncertain, consult a specialist.'},
+      steroidNote:null}
+  },
+
+  exInfo: {
+    symptomsHeading:{th:'อาการและอาการแสดงที่พบบ่อย', en:'Common symptoms and signs'},
+    investigationHeading:{th:'แนวทางการส่งตรวจ', en:'Recommended work-up'},
+    findingsHeading:{th:'ลักษณะผลตรวจที่ผิดปกติซึ่งเข้าได้กับวัณโรค', en:'Abnormal findings compatible with TB'},
+    cxrNote:{th:'ควรตรวจภาพรังสีทรวงอกทุกรายเพื่อค้นหาวัณโรคปอดที่อาจพบร่วมด้วย', en:'Chest X-ray is recommended in all cases to look for concurrent pulmonary TB.'},
+    regimenHeading:{th:'สูตรยาและระยะเวลาการรักษา', en:'Regimen and duration'},
+    steroidHeading:{th:'คำแนะนำการใช้สเตียรอยด์เสริม', en:'Adjunctive steroid recommendation'},
+    goDose:{th:'ไปคำนวณขนาดยา', en:'Continue to dosing calculator'},
+    symptoms: {
+      lymphNode:{th:'ต่อมน้ำเหลืองโต มากกว่า 1 เดือน มักพบบริเวณคอข้างใดข้างหนึ่ง ไม่เจ็บ และไม่ตอบสนองต่อยาปฏิชีวนะ', en:'Lymph node enlargement for more than 1 month, usually unilateral neck nodes, painless, and not responding to antibiotics.'},
+      cns:{th:'Subacute onset (>5 วัน) ปวดศีรษะ กระสับกระส่าย พฤติกรรมเปลี่ยนแปลง อาเจียนโดยไม่มีท้องเสีย ซึม ชัก ตรวจพบ bulging fontanelle, neck stiffness, cranial nerve palsies', en:'Subacute onset (>5 days) of headache, irritability, behavioral change, vomiting without diarrhea, lethargy, seizures; exam may show bulging fontanelle, neck stiffness, cranial nerve palsies.'},
+      abdominal:{th:'ท้องอืด มีน้ำในช่องท้องหรือก้อนในช่องท้อง อาการค่อยเป็นค่อยไป', en:'Abdominal distension, ascites or an abdominal mass, with a gradual onset.'},
+      boneJoint:{th:'ปวดข้อ ขยับได้ไม่เต็มที่ เดินผิดปกติ มีน้ำในข้อข้างใดข้างหนึ่ง มักพบที่ข้อเข่าหรือข้อสะโพก บวมบริเวณปลายกระดูกยาวหรือปลายนิ้วมือ (dactylitis)', en:'Joint pain, limited range of motion, abnormal gait, unilateral joint effusion (commonly knee or hip), swelling at the end of long bones or fingers (dactylitis).'},
+      spine:{th:'กระดูกสันหลังผิดรูปลักษณะ narrow-angle kyphosis (gibbus) อาจมีขาอ่อนแรง หรือกลั้นปัสสาวะ/อุจจาระลำบาก', en:'Spinal deformity with narrow-angle kyphosis (gibbus); may have leg weakness or bowel/bladder dysfunction.'},
+      pericardial:{th:'เหนื่อย หัวใจล้มเหลว ตรวจร่างกายพบเสียงหัวใจเบาลง (distant heart sounds) คลำ apex beat ไม่ได้ อาจมีเจ็บหน้าอกที่แย่ลงเมื่อหายใจเข้าหรือนอนหงาย และดีขึ้นเมื่อนั่งโน้มตัวไปข้างหน้า', en:'Dyspnea, heart failure; exam may show distant heart sounds, impalpable apex beat; possible chest pain that worsens with inspiration or lying flat and improves when leaning forward.'},
+      miliary:{th:'อาการไม่จำเพาะ ไข้เรื้อรัง น้ำหนักลดหรือไม่ขึ้น อ่อนเพลีย หายใจลำบาก อาจมีอาการวัณโรคนอกปอดตำแหน่งอื่นร่วมด้วย', en:'Nonspecific symptoms: chronic fever, weight loss/faltering growth, fatigue, dyspnea; may have symptoms of TB at other extrapulmonary sites too.'},
+      other:{th:'อาการขึ้นกับอวัยวะที่ติดเชื้อ มักเป็นแบบเรื้อรังค่อยเป็นค่อยไป ร่วมกับไข้ น้ำหนักลด', en:'Symptoms depend on the organ involved, typically chronic and gradual, often with fever and weight loss.'}
+    }
+  },
+
+  dxPath: {
+    h123:{th:'เข้าเกณฑ์ 1+2+3 — ส่งตรวจยืนยันเชื้อ', en:'Meets criteria 1+2+3 — send confirmatory specimens'},
+    s123:{th:'ส่งเสมหะหรือน้ำดูดจากกระเพาะ (หรืออุจจาระถ้าเก็บทางเดินหายใจไม่ได้) ตรวจ Xpert MTB/RIF หรือ Xpert MTB/RIF Ultra อย่างน้อย 1 ครั้ง และย้อม AFB 3 ครั้ง + เพาะเชื้อวัณโรคอย่างน้อย 1 ครั้ง', en:'Send sputum or gastric aspirate (or stool if respiratory specimens cannot be obtained) for Xpert MTB/RIF or Ultra at least once, plus AFB smear \u00d73 and TB culture at least once.'},
+    btn123:{th:'ระบุผลตรวจ Xpert MTB/RIF', en:'Enter Xpert MTB/RIF result'},
+    h12:{th:'เข้าเกณฑ์ 1+2 เท่านั้น (ไม่มี CXR/ผลตรวจที่เข้าได้)', en:'Meets criteria 1+2 only (no compatible imaging/findings)'},
+    s12:{th:'ประเมินหาวัณโรคตำแหน่งอื่น หรือหาสาเหตุอื่นของอาการ และนัดติดตามอาการ เครื่องมือนี้ยังไม่ครอบคลุมขั้นตอนถัดไปของเส้นทางนี้', en:'Evaluate for TB at another site or investigate alternative causes, and schedule follow-up. This tool does not yet cover further steps in this pathway.'},
+    h13:{th:'เข้าเกณฑ์ 1+3 เท่านั้น (ไม่มีประวัติสัมผัส/ผลทดสอบบวก)', en:'Meets criteria 1+3 only (no known contact/positive test)'},
+    s13:{th:'ให้การรักษาภาวะปอดอักเสบจากเชื้อแบคทีเรียทั่วไป และ/หรือมัยโคพลาสมาตามแนวทางที่ใช้อยู่เดิม (นอกขอบเขตเครื่องมือนี้) แล้วนัดติดตามอาการและภาพรังสีทรวงอกใน 1\u20132 สัปดาห์', en:'Treat for typical bacterial and/or mycoplasma pneumonia per your existing guideline (outside this tool\u2019s scope), then reassess symptoms and repeat chest X-ray in 1\u20132 weeks.'},
+    btn13no:{th:'ไม่ดีขึ้น หรือ CXR เป็น miliary TB → ส่งตรวจยืนยันเชื้อ', en:'Not improved, or CXR shows miliary TB \u2192 send confirmatory specimens'},
+    btn13yes:{th:'ดีขึ้น → ไม่ใช่วัณโรค', en:'Improved \u2192 not TB'},
+    hNone:{th:'ไม่เข้าเกณฑ์ขั้นต่ำของวัณโรค', en:'Does not meet the minimum TB criteria'},
+    sNone:{th:'ต้องมีอย่างน้อยเกณฑ์ 1 ร่วมกับเกณฑ์ 2 หรือเกณฑ์ 3 จึงจะเข้าสู่เส้นทางวินิจฉัยวัณโรคได้ ควรพิจารณาสาเหตุอื่นของอาการ', en:'At least criterion 1 together with criterion 2 or 3 is needed to enter the TB diagnostic pathway. Consider alternative causes for the symptoms.'}
+  },
+  xpertResult: {
+    heading:{th:'ผลตรวจ Xpert MTB/RIF (หรือ Ultra)', en:'Xpert MTB/RIF (or Ultra) result'},
+    hint:{th:'หากยังไม่มีผล ให้เลือกตามผลย้อม AFB หรือเพาะเชื้อที่มีก่อน', en:'If not yet available, select based on AFB smear or culture results if those are available first.'},
+    notDetected:{th:'MTB: Not detected', en:'MTB: Not detected'},
+    detectedSens:{th:'MTB: Detected — RIF resistance: not detected', en:'MTB: Detected — RIF resistance: not detected'},
+    detectedRes:{th:'MTB: Detected — RIF resistance: detected', en:'MTB: Detected — RIF resistance: detected'},
+    detectedInd:{th:'MTB: Detected — RIF resistance: indeterminate', en:'MTB: Detected — RIF resistance: indeterminate'}
+  },
+  dx: {
+    confirmedTitle:{th:'Bacteriologically confirmed tuberculosis', en:'Bacteriologically confirmed tuberculosis'},
+    confirmedSummary:{th:'ยืนยันการวินิจฉัยด้วยวิธีทางจุลชีววิทยา ให้ตรวจความไวยาทุกรายที่เพาะเชื้อขึ้น', en:'Confirmed by microbiology. Test drug susceptibility whenever culture is positive.'},
+    confirmedIndSummary:{th:'ตรวจพบเชื้อวัณโรคแต่ผล RIF resistance ไม่ชัดเจน (indeterminate) — ให้ตรวจความไวยา isoniazid และ fluoroquinolone เพิ่มเติมด้วย WHO-recommended rapid test และพิจารณาประวัติสัมผัสวัณโรคดื้อยาประกอบการเลือกสูตรยา', en:'MTB detected but RIF resistance result is indeterminate — also test isoniazid and fluoroquinolone susceptibility with a WHO-recommended rapid test, and factor in any drug-resistant TB contact history when choosing a regimen.'},
+    clinicalTitle:{th:'Clinically diagnosed tuberculosis (presumptive)', en:'Clinically diagnosed tuberculosis (presumptive)'},
+    clinicalSummary:{th:'Xpert MTB/RIF ไม่พบเชื้อ แต่อาการทางคลินิกเข้าได้กับวัณโรค วินิจฉัยเป็น presumptive diagnosis ให้เริ่มสูตรยามาตรฐาน ปรับยาตามผลความไวยาและผลเพาะเชื้อเมื่อทราบ พร้อมนัดติดตามอาการและหาสาเหตุอื่นควบคู่กัน', en:'Xpert MTB/RIF did not detect MTB, but clinical features are compatible with TB. This is a presumptive diagnosis \u2014 start the standard regimen, adjust per culture/DST results when available, and follow up while also considering other causes.'},
+    reverseNote:{th:'หากคิดถึง/ยืนยันวัณโรคในเด็กแต่ไม่พบประวัติสัมผัส ควรสืบค้นวัณโรคในครอบครัวหรือผู้ใหญ่ใกล้ชิด (reverse contact investigation) และแนะนำตรวจ anti-HIV หากอายุ ≥10 ปี', en:'If TB is suspected/confirmed with no known contact, pursue reverse contact investigation in family/close adults; recommend anti-HIV testing if age ≥10 years.'}
+  },
+  txContact: {
+    heading:{th:'ประวัติสัมผัสผู้ป่วยวัณโรคดื้อยา', en:'Contact with a drug-resistant TB case'},
+    hint:{th:'สัมผัสใกล้ชิดกับผู้ใหญ่ที่ได้รับการวินิจฉัยหรือสงสัยวัณโรคดื้อยาหลายขนาน (MDR/RR-TB)', en:'Close contact with an adult diagnosed with or suspected of multidrug/rifampicin-resistant TB (MDR/RR-TB).'},
+    yes:{th:'มี', en:'Yes'}, no:{th:'ไม่มี', en:'No'}
+  },
+  mdrRefer: {
+    titleContact:{th:'พิจารณารักษาแบบวัณโรคดื้อยาไปก่อน', en:'Consider treating as drug-resistant TB pending confirmation'},
+    summaryContact:{th:'ผู้ป่วยเด็กที่มีประวัติสัมผัสผู้ใหญ่ที่เป็นวัณโรคดื้อยา ควรพิจารณาให้การรักษาแบบเชื้อดื้อยาไปก่อนและส่งต่อ/ปรึกษาผู้เชี่ยวชาญด้านวัณโรคดื้อยา', en:'A child with contact to an adult with drug-resistant TB should be treated empirically as drug-resistant TB pending work-up, with referral to/consultation with a drug-resistant TB specialist.'},
+    titleRif:{th:'ตรวจพบ RIF resistance — รักษาสูตรวัณโรคดื้อยา', en:'RIF resistance detected — treat with an MDR-TB regimen'},
+    summaryRif:{th:'ผล Xpert MTB/RIF ยืนยัน RIF resistance ให้รักษาด้วยสูตรยาวัณโรคดื้อยาหลายขนาน (MDR-TB) และส่งต่อ/ปรึกษาผู้เชี่ยวชาญด้านวัณโรคดื้อยาทันที', en:'Xpert MTB/RIF confirms RIF resistance — treat with an MDR-TB regimen and refer to/consult a drug-resistant TB specialist promptly.'},
+    footer:{th:'เครื่องมือนี้ไม่ครอบคลุมการคำนวณสูตรยาสำหรับวัณโรคดื้อยา', en:'This tool does not cover drug-resistant TB dosing.'}
+  },
+  txInput: {
+    heading:{th:'ข้อมูลเพื่อเลือกสูตรยาและคำนวณขนาดยา', en:'Information for regimen selection and dosing'},
+    ageLabel:{th:'อายุ', en:'Age'},
+    agePh:{th:'เช่น 48', en:'e.g. 48'},
+    ageYearsPh:{th:'เช่น 4', en:'e.g. 4'},
+    unitMonths:{th:'เดือน', en:'months'},
+    unitYears:{th:'ปี', en:'years'},
+    wtLabel:{th:'น้ำหนัก (กก.)', en:'Weight (kg)'},
+    wtPh:{th:'เช่น 15', en:'e.g. 15'},
+    mildQ:{th:'เข้าเกณฑ์วัณโรคที่อาการไม่รุนแรงหรือไม่', en:'Meets non-severe TB criteria?'},
+    mildHintIntro:{th:'เข้าเกณฑ์วัณโรคที่อาการไม่รุนแรง หากตรงกับข้อใดข้อหนึ่งต่อไปนี้:', en:'Meets non-severe TB criteria if any of the following apply:'},
+    mildHintItems:[
+      {th:'วัณโรคในช่องอก (ปอด/ต่อมน้ำเหลืองในช่องอก) ที่ไม่มีการอุดกั้นทางเดินหายใจ', en:'Intrathoracic TB (pulmonary/intrathoracic lymph node) without airway obstruction'},
+      {th:'วัณโรคเยื่อหุ้มปอดชนิดไม่ซับซ้อน หรือมีปริมาณเชื้อน้อย (paucibacillary)', en:'Uncomplicated or paucibacillary pleural TB'},
+      {th:'วัณโรคต่อมน้ำเหลืองส่วนปลาย (peripheral lymph node)', en:'Peripheral lymph node TB'}
+    ],
+    mildYes:{th:'เข้าเกณฑ์', en:'Meets criteria'}, mildNo:{th:'ไม่เข้าเกณฑ์/รุนแรงกว่านี้', en:'Does not meet / more severe'},
+    notEligibleNote:{th:'ตำแหน่งที่เลือกไม่เข้าเกณฑ์สูตรทางเลือกระยะสั้น ใช้สูตรมาตรฐาน 2HRZE/4HR เป็นหลัก', en:'The selected site is not eligible for the short alternative regimen. The standard 2HRZE/4HR regimen applies.'}
+  },
+  txResult: {
+    standardTitle:{th:'สูตรมาตรฐาน 2HRZE/4HR', en:'Standard regimen 2HRZE/4HR'},
+    standardSummary:{th:'ระยะเข้มข้น 2 เดือน (H,R,Z,E) ตามด้วยระยะต่อเนื่อง 4 เดือน (H,R) รวม 6 เดือน', en:'2-month intensive phase (H,R,Z,E) followed by 4-month continuation phase (H,R); total 6 months.'},
+    altEligibleTitle:{th:'เข้าเกณฑ์สูตรทางเลือกระยะสั้น 2HRZE*/2HR ได้ด้วย', en:'Also eligible for the shorter alternative regimen 2HRZE*/2HR'},
+    altEligibleSummary:{th:'อายุ 3 เดือน–16 ปี น้ำหนัก ≥3 กก. และเข้าเกณฑ์วัณโรคไม่รุนแรง — ระยะเข้มข้น 2 เดือนตามด้วยระยะต่อเนื่อง 2 เดือน (H,R) รวม 4 เดือน อาจพิจารณาใช้แทนสูตรมาตรฐานได้ (+, I)', en:'Age 3 months\u201316 years, weight ≥3 kg, meeting non-severe TB criteria \u2014 2-month intensive phase followed by 2-month continuation phase (H,R); total 4 months. May be considered instead of the standard regimen (+, I).'},
+    altNotEligible:{th:'ไม่เข้าเกณฑ์สูตรทางเลือกระยะสั้น 2HRZE*/2HR — ใช้สูตรมาตรฐาน 2HRZE/4HR', en:'Not eligible for the shorter 2HRZE*/2HR regimen \u2014 use the standard 2HRZE/4HR regimen.'},
+    doseTableTitle:{th:'ขนาดยาต้านวัณโรค (ตามน้ำหนักที่ระบุ)', en:'Anti-TB drug dosing (based on entered weight)'},
+    col_drug:{th:'ยา', en:'Drug'}, col_mgkg:{th:'มก./กก./วัน', en:'mg/kg/day'}, col_dose:{th:'ขนาดแนะนำ (มก./วัน)', en:'Recommended dose (mg/day)'}, col_range:{th:'ช่วงยอมรับได้ (มก./วัน)', en:'Acceptable range (mg/day)'}, col_max:{th:'ขนาดสูงสุด (มก./วัน)', en:'Max (mg/day)'},
+    doseFooter:{th:'ให้ยาทุกชนิดวันละครั้ง แนะนำการรักษาภายใต้การกำกับดูแล (DOT) เพื่อความต่อเนื่อง', en:'All drugs given once daily. Directly observed therapy (DOT) is recommended for continuity.'},
+    tableToggle:{th:'ดูตารางเปรียบเทียบสูตรยาทั้งหมด (ตำแหน่งปอด/ต่อมน้ำเหลือง)', en:'View full regimen comparison table (pulmonary/lymph node TB)'},
+    col_regimen:{th:'สูตรยา', en:'Regimen'}, col_note:{th:'หมายเหตุ', en:'Notes'},
+    regStdNote:{th:'สูตรยามาตรฐาน (++, I)', en:'Standard regimen (++, I)'},
+    regAltNote:{th:'สูตรทางเลือก (+, I) — อายุ 3 เดือน–16 ปี น้ำหนัก ≥3 กก. เฉพาะวัณโรคไม่รุนแรง', en:'Alternative regimen (+, I) — age 3mo\u201316y, weight ≥3kg, non-severe TB only'},
+    regHpmNote:{th:'สูตรทางเลือก (+, I) — อายุ ≥12 ปี น้ำหนัก ≥40 กก. ไม่ใช้ในเอชไอวีที่ CD4<100 หรือตั้งครรภ์/ให้นมบุตร', en:'Alternative regimen (+, I) — age ≥12y, weight ≥40kg; avoid if HIV with CD4<100 or pregnant/breastfeeding'},
+    durationNote:{th:'ตารางนี้ครอบคลุมเฉพาะวัณโรคปอด/ต่อมน้ำเหลืองส่วนปลาย ตำแหน่งอื่น เช่น เยื่อหุ้มสมอง กระดูกและข้อ ใช้สูตร 12 เดือน ซึ่งเครื่องมือนี้แสดงแยกไว้ในหน้าผลลัพธ์ของตำแหน่งนั้น ๆ', en:'This table covers pulmonary/peripheral lymph node TB only. Other sites (e.g. meninges, bone/joint) use a 12-month regimen, shown separately on that site\u2019s result page in this tool.'}
+  }
+};
+
+let tbState = { screen:'home', form:null };
+function tbInitialForm(){
+  return { site:null, exSite:null, quickSite:null, clinical:null, contactYes:null, testResult:null, radiology:null, xpert:null,
+           mdrContact:null, mdrReason:null, ageRaw:null, ageUnit:'years', wt:null, mild:null,
+           contactCat:null, contactRegimen:null, cAgeY:null, cWt:null,
+           contactNode:null, contactHistory:[], contactChoice:null, contactRegimenFilter:null,
+           problemCat:null, problemNode:null, problemHistory:[], problemChoice:null,
+           drtbCategory:null, drtbAge:null, drtbSite:null };
+}
+function tbResetAll(){ tbState = { screen:'home', form: tbInitialForm() }; }
+function tbGoTo(s){ tbState.screen = s; scrollToTop(); render(); }
+function tbFindingsKey(f){ return f.site==='pulmonary' ? 'pulmonary' : (f.exSite || 'other'); }
+function tbAltCapable(f){ return f.site==='pulmonary' || (f.site==='extrapulmonary' && f.exSite==='lymphNode'); }
+function tbAgeMonths(f){ return f.ageRaw===null ? null : (f.ageUnit==='years' ? f.ageRaw*12 : f.ageRaw); }
+
+function tbDose(wt){
+  function d(target,max){ let v = Math.round(wt*target); return v>max?max:v; }
+  return {
+    H:{dose:d(10,300), lo:d(7,300), hi:d(15,300), max:300, mgkg:'10 (7–15)'},
+    R:{dose:d(15,600), lo:d(10,600), hi:d(20,600), max:600, mgkg:'15 (10–20)'},
+    Z:{dose:d(35,2000), lo:d(30,2000), hi:d(40,2000), max:2000, mgkg:'35 (30–40)'},
+    E:{dose:d(20,1200), lo:d(15,1200), hi:d(25,1200), max:1200, mgkg:'20 (15–25)'}
+  };
+}
+
+function tbAltRegimenDoseTable(drugs, wt){
+  const cols = [
+    {key:'drug', label:TB.txResult.col_drug}, {key:'mgkg', label:TB.txResult.col_mgkg},
+    {key:'dose', label:TB.txResult.col_dose}, {key:'max', label:TB.txResult.col_max}
+  ];
+  const rows = drugs.map(dr=>{
+    let v = Math.round(wt*dr.target);
+    if(v>dr.max) v = dr.max;
+    return { drug:dr.name, mgkg:`${dr.target}`, dose:`${v} มก.`, max:`${dr.max} มก.` };
+  });
+  return spTableHtml(cols, rows);
+}
+
+function tbRadioGroup(name, opts, current, onPick){
+  const wrap = document.createElement('div');
+  wrap.className = 'opt-list';
+  opts.forEach(o=>{
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn radio' + (current===o.val?' selected':'');
+    btn.innerHTML = `<span class="chk">${current===o.val?'✓':''}</span>${t(o.label)}`;
+    btn.onclick = ()=>onPick(o.val);
+    wrap.appendChild(btn);
+  });
+  return wrap;
+}
+
+function tbNav(app, opts){
+  const nav = document.createElement('div'); nav.className='wizard-nav';
+  let html = '';
+  if(opts.back) html += `<button class="btn btn-ghost" id="tbBack">${t(UI.back)}</button>`;
+  if(opts.next) html += `<button class="btn btn-primary" id="tbNext" ${opts.nextEnabled?'':'disabled'}>${t(UI.next)}</button>`;
+  nav.innerHTML = html;
+  app.appendChild(nav);
+  if(opts.back) document.getElementById('tbBack').onclick = opts.onBack;
+  if(opts.next){
+    const nb = document.getElementById('tbNext');
+    nb.onclick = ()=>{ if(!nb.disabled) opts.onNext(); };
+  }
+}
+
+function tbRestartBtn(){
+  const restart = document.createElement('button');
+  restart.className='restart-btn';
+  restart.textContent = t(UI.restart);
+  restart.onclick = ()=>{ tbResetAll(); scrollToTop(); render(); };
+  return restart;
+}
+
+function tbHeader(app){
+  const head = document.createElement('div');
+  head.className='wizard-head';
+  if(tbState.screen==='home'){
+    head.innerHTML = `<div class="wizard-title">${t(TB.refBadge)}</div>`;
+    app.appendChild(head);
+  } else {
+    head.innerHTML = `<button class="back-btn" id="tbHubBack" aria-label="${t(TB.backToTbHome)}">‹</button><div class="wizard-title">${t(TB.refBadge)}</div>`;
+    app.appendChild(head);
+    document.getElementById('tbHubBack').onclick = ()=>tbGoTo('home');
+  }
+}
+
+function tbHomeView(app){
+  tbHeader(app);
+  const scope = document.createElement('div');
+  scope.className='scope-note'; scope.textContent = t(TB.scopeNote);
+  app.appendChild(scope);
+  const card = document.createElement('div');
+  card.className='q-card';
+  card.innerHTML = `<div class="q-text">${t(TB.home.heading)}</div><div class="q-hint">${t(TB.home.hint)}</div>`;
+  app.appendChild(card);
+
+  const grid = document.createElement('div');
+  grid.className = 'module-grid';
+  [
+    {icon:'🩺', name:TB.home.dx, desc:TB.home.dxDesc, go:'site'},
+    {icon:'💊', name:TB.home.tx, desc:TB.home.txDesc, go:'quickSite'},
+    {icon:'🧑‍🤝‍🧑', name:TB.home.contact, desc:TB.home.contactDesc, go:'contactCat'},
+    {icon:'💉', name:TB.home.bcg, desc:TB.home.bcgDesc, go:'bcgInfo'},
+    {icon:'⚠️', name:TB.home.problem, desc:TB.home.problemDesc, go:'problemCat'},
+    {icon:'🧬', name:TB.home.drtb, desc:TB.home.drtbDesc, go:'drtbInfo'}
+  ].forEach(opt=>{
+    const b = document.createElement('button');
+    b.className='module-card';
+    b.onclick = ()=>tbGoTo(opt.go);
+    b.innerHTML = `<div class="icon">${opt.icon}</div><div class="txt"><div class="name">${t(opt.name)}</div><div class="desc">${t(opt.desc)}</div></div><div class="arrow">›</div>`;
+    grid.appendChild(b);
+  });
+  app.appendChild(grid);
+}
+
+function tbBcgInfoView(app){
+  tbHeader(app);
+  const wrap = document.createElement('div');
+  tbRenderDetail(wrap, TB_BCG_DETAIL, true);
+  wrap.appendChild(tbRestartBtn());
+  app.appendChild(wrap);
+  tbNav(app, { back:true, onBack: ()=>tbGoTo('home') });
+}
+
+function tbProblemCatView(app){
+  tbHeader(app);
+  const card = document.createElement('div');
+  card.className='q-card';
+  card.innerHTML = `<div class="q-text">${t(TB.problemCat.heading)}</div><div class="q-hint">${t(TB.problemCat.hint)}</div>`;
+  app.appendChild(card);
+  const grid = document.createElement('div');
+  grid.className = 'module-grid';
+  [
+    {icon:'⏸️', name:TB.problemCat.interrupted, desc:TB.problemCat.interruptedDesc, val:'interrupted'},
+    {icon:'🌡️', name:TB.problemCat.rash, desc:TB.problemCat.rashDesc, val:'rash'},
+    {icon:'🧪', name:TB.problemCat.hepatitis, desc:TB.problemCat.hepatitisDesc, val:'hepatitis'}
+  ].forEach(opt=>{
+    const b = document.createElement('button');
+    b.className='module-card';
+    b.onclick = ()=>{
+      const f=tbState.form;
+      f.problemCat=opt.val; f.problemNode=null; f.problemHistory=[]; f.problemChoice=null;
+      tbGoTo('problemTree');
+    };
+    b.innerHTML = `<div class="icon">${opt.icon}</div><div class="txt"><div class="name">${t(opt.name)}</div><div class="desc">${t(opt.desc)}</div></div><div class="arrow">›</div>`;
+    grid.appendChild(b);
+  });
+  app.appendChild(grid);
+  tbNav(app, { back:true, onBack: ()=>tbGoTo('home') });
+}
+
+function tbProblemTreeView(app){
+  tbHeader(app);
+  const f = tbState.form;
+  const tree = TB.problemTree[f.problemCat];
+  const nodeKey = f.problemNode || tree.start;
+  const node = tree.nodes[nodeKey];
+  const wrap = document.createElement('div');
+
+  if(node.type==='result'){
+    const banner = document.createElement('div');
+    banner.className = `result-banner ${node.severity||'info'}`;
+    banner.innerHTML = `<h2>${t(node.title)}</h2><p>${t(node.summary)}</p>`;
+    wrap.appendChild(banner);
+    if(node.details) node.details.forEach(d=>tbRenderDetail(wrap, d));
+    wrap.appendChild(tbRestartBtn());
+    app.appendChild(wrap);
+    tbNav(app, { back:true, onBack: ()=>{
+      const h = f.problemHistory||[];
+      if(h.length){ f.problemNode = h.pop(); f.problemChoice=null; scrollToTop(); render(); }
+      else tbGoTo('problemCat');
+    } });
+    return;
+  }
+
+  const card = document.createElement('div');
+  card.className='q-card';
+  card.innerHTML = `<div class="q-text">${t(node.text)}</div>${node.hint?`<div class="q-hint">${t(node.hint)}</div>`:''}`;
+  wrap.appendChild(card);
+  card.appendChild(tbRadioGroup('problemChoice', node.options.map(o=>({val:o.val, label:o.label})), f.problemChoice, v=>{ f.problemChoice=v; render(); }));
+  if(node.details) node.details.forEach(d=>tbRenderDetail(wrap, d));
+  app.appendChild(wrap);
+
+  tbNav(app, { back:true, onBack: ()=>{
+      const h = f.problemHistory||[];
+      if(h.length){ f.problemNode = h.pop(); f.problemChoice=null; scrollToTop(); render(); }
+      else tbGoTo('problemCat');
+    },
+    next:true, nextEnabled: f.problemChoice!==null, onNext: ()=>{
+      const opt = node.options.find(o=>o.val===f.problemChoice);
+      if(!opt) return;
+      const h = f.problemHistory||[]; h.push(nodeKey); f.problemHistory=h;
+      f.problemNode = opt.next; f.problemChoice = null;
+      scrollToTop(); render();
+    } });
+}
+
+function tbDrtbInfoView(app){
+  tbHeader(app);
+  const wrap = document.createElement('div');
+  const classifyCard = document.createElement('div'); classifyCard.className='section-card';
+  classifyCard.innerHTML = `<h3 style="font-size:13.5px;">🧬 ${t(TB.drtbInfo.classifyHeading)}</h3><ul style="margin:6px 0 0; padding-left:18px;">${TB.drtbInfo.classifyItems.map(i=>`<li>${t(i)}</li>`).join('')}</ul>`;
+  wrap.appendChild(classifyCard);
+
+  const banner = document.createElement('div');
+  banner.className = 'result-banner severe';
+  banner.innerHTML = `<h2>${t(TB.drtbInfo.referralTitle)}</h2><p>${t(TB.drtbInfo.referralSummary)}</p>`;
+  wrap.appendChild(banner);
+
+  const nav = document.createElement('div'); nav.className='wizard-nav'; nav.style.flexDirection='column';
+  nav.innerHTML = `<button class="btn btn-primary" id="tbGoDrtbCat" style="width:100%;">${t(TB.drtbInfo.goSelector)}</button>`;
+  wrap.appendChild(nav);
+  wrap.appendChild(tbRestartBtn());
+  app.appendChild(wrap);
+  document.getElementById('tbGoDrtbCat').onclick = ()=>tbGoTo('drtbCategory');
+  tbNav(app, { back:true, onBack: ()=>tbGoTo('home') });
+}
+
+function tbDrtbCategoryView(app){
+  tbHeader(app);
+  const f = tbState.form;
+  const card = document.createElement('div');
+  card.className='q-card';
+  card.innerHTML = `<div class="q-text">${t(TB.drtbCategory.heading)}</div>`;
+  app.appendChild(card);
+  card.appendChild(tbRadioGroup('drtbCategory', [
+    {val:'hr', label:TB.drtbCategory.hr},
+    {val:'mdrrr', label:TB.drtbCategory.mdrrr}, {val:'prexdr', label:TB.drtbCategory.prexdr}, {val:'xdr', label:TB.drtbCategory.xdr}
+  ], f.drtbCategory, v=>{ f.drtbCategory=v; render(); }));
+  tbNav(app, { back:true, onBack: ()=>tbGoTo('drtbInfo'),
+    next:true, nextEnabled: f.drtbCategory!==null, onNext: ()=>tbGoTo(f.drtbCategory==='hr' ? 'drtbResult' : 'drtbAge') });
+}
+
+function tbDrtbAgeView(app){
+  tbHeader(app);
+  const f = tbState.form;
+  const card = document.createElement('div');
+  card.className='q-card';
+  card.innerHTML = `<div class="q-text">${t(TB.drtbAge.heading)}</div>`;
+  app.appendChild(card);
+  card.appendChild(tbRadioGroup('drtbAge', [
+    {val:'lt14', label:TB.drtbAge.lt14}, {val:'ge14', label:TB.drtbAge.ge14}
+  ], f.drtbAge, v=>{ f.drtbAge=v; render(); }));
+  tbNav(app, { back:true, onBack: ()=>tbGoTo('drtbCategory'),
+    next:true, nextEnabled: f.drtbAge!==null, onNext: ()=>tbGoTo('drtbSite') });
+}
+
+function tbDrtbSiteView(app){
+  tbHeader(app);
+  const f = tbState.form;
+  const card = document.createElement('div');
+  card.className='q-card';
+  card.innerHTML = `<div class="q-text">${t(TB.drtbSite.heading)}</div>`;
+  app.appendChild(card);
+  card.appendChild(tbRadioGroup('drtbSite', [
+    {val:'pulmSevere', label:TB.drtbSite.pulmSevere}, {val:'pulmMild', label:TB.drtbSite.pulmMild},
+    {val:'exHighRisk', label:TB.drtbSite.exHighRisk}, {val:'exOther', label:TB.drtbSite.exOther}
+  ], f.drtbSite, v=>{ f.drtbSite=v; render(); }));
+  tbNav(app, { back:true, onBack: ()=>tbGoTo('drtbAge'),
+    next:true, nextEnabled: f.drtbSite!==null, onNext: ()=>tbGoTo('drtbResult') });
+}
+
+function tbDrtbEligible(category, age, site){
+  if(category==='hr'){
+    return [{regimen:'(H)RZE + Lfx × 6 เดือน', note:TB.drtbResult.hrRegimenNote, drugs:['H','R','Z','E','Lfx']}];
+  }
+  const rows = [];
+  const notExHighRisk = site!=='exHighRisk';
+  const age14 = age==='ge14';
+  if(age14 && notExHighRisk){
+    if(category==='mdrrr') rows.push({regimen:'6 เดือน BPaLM', note:{th:'อายุ ≥14 ปี เท่านั้น (++, I)', en:'Age \u226514 years only (++, I)'}, drugs:['Bdq','Pa','Lzd','Mfx']});
+    if(category==='prexdr') rows.push({regimen:'6 เดือน BPaL', note:{th:'อายุ ≥14 ปี เท่านั้น (++, I)', en:'Age \u226514 years only (++, I)'}, drugs:['Bdq','Pa','Lzd']});
+  }
+  if(notExHighRisk){
+    if(category==='mdrrr') rows.push({regimen:'6 เดือน BDLLfx', note:{th:'ทุกช่วงอายุ', en:'All ages'}, drugs:['Bdq','Dlm','Lzd','Lfx']});
+    if(category==='prexdr') rows.push({regimen:'6 เดือน BDLC', note:{th:'ทุกช่วงอายุ', en:'All ages'}, drugs:['Bdq','Dlm','Lzd','Cfz']});
+    if(category==='mdrrr') rows.push({regimen:'9 เดือน BLMZ / BLLfxCZ / BDLLfxZ', note:{th:'ทุกช่วงอายุ', en:'All ages'}, drugs:['Bdq','Lzd','Mfx','Z','Lfx','Cfz','Dlm']});
+    if(category==='mdrrr' && site!=='pulmSevere') rows.push({regimen:'สูตรรับประทานระยะสั้น 9–11 เดือน', note:{th:'ไม่ใช้ในวัณโรคปอดรุนแรง', en:'Not for severe pulmonary TB'}, drugs:['Bdq','Lfx','Mfx','Cfz','Z','E','Hh','Eto','Lzd']});
+  }
+  rows.push({regimen:'18 เดือน (ปรับตามบุคคล)', note:TB.drtbResult.note18, drugs:[]});
+  return rows;
+}
+
+function tbDrtbResultView(app){
+  tbHeader(app);
+  const f = tbState.form;
+  const wrap = document.createElement('div');
+  const rows = tbDrtbEligible(f.drtbCategory, f.drtbAge, f.drtbSite);
+
+  const banner = document.createElement('div');
+  banner.className = 'result-banner severe';
+  banner.innerHTML = `<h2>${t(TB.drtbInfo.referralTitle)}</h2><p>${t(TB.drtbInfo.referralSummary)}</p>`;
+  wrap.appendChild(banner);
+
+  const cols = [{key:'regimen', label:TB.drtbResult.col_regimen}, {key:'note', label:TB.drtbResult.col_note}];
+  spSectionCard(wrap, { h:TB.drtbResult.heading, icon:'📋', prominent:true,
+    customHtml: spTableHtml(cols, rows) });
+
+  const usedKeys = [...new Set(rows.flatMap(r=>r.drugs||[]))];
+  if(usedKeys.length){
+    const legendHtml = `<ul style="margin:0; padding-left:18px; font-size:12.5px; color:var(--ink-soft);">${usedKeys.map(k=>`<li>${t(TB.drtbResult.legendMap[k])}</li>`).join('')}</ul><p style="margin:8px 0 0; font-size:11px; color:var(--ink-soft);">${t(TB.drtbResult.legendNote)}</p>`;
+    spSectionCard(wrap, { h:TB.drtbResult.legendHeading, icon:'🔤', collapsible:true, customHtml: legendHtml });
+  }
+
+  const considerCard = document.createElement('div'); considerCard.className='section-card';
+  considerCard.innerHTML = `<h3 style="font-size:13.5px;">🧭 ${t(TB.drtbResult.considerHeading)}</h3><ul style="margin:6px 0 0; padding-left:18px;">${TB.drtbResult.considerItems.map(i=>`<li>${t(i)}</li>`).join('')}</ul>`;
+  wrap.appendChild(considerCard);
+
+  tbRenderDetail(wrap, TB_DRTB_DOSE_DETAIL);
+
+  wrap.appendChild(tbRestartBtn());
+  app.appendChild(wrap);
+  tbNav(app, { back:true, onBack: ()=>tbGoTo(f.drtbCategory==='hr' ? 'drtbCategory' : 'drtbSite') });
+}
+
+function tbTptCompute(regimen, wt, ageY){
+  function cap(v,max){ return v>max?max:v; }
+  if(regimen==='3HR'){
+    return { rows:[
+      {drug:{th:'Isoniazid (H)',en:'Isoniazid (H)'}, mgkg:'10', dose:`${cap(Math.round(wt*10),300)} มก.`},
+      {drug:{th:'Rifampicin (R)',en:'Rifampicin (R)'}, mgkg:'15', dose:`${cap(Math.round(wt*15),600)} มก.`}
+    ], duration:{th:'3 เดือน (ทุกวัน)', en:'3 months (daily)'} };
+  }
+  if(regimen==='6-9H'){
+    const target = ageY>=10 ? 5 : 10;
+    const d = cap(Math.round(wt*target),300);
+    return { rows:[{drug:{th:'Isoniazid (H)',en:'Isoniazid (H)'}, mgkg:String(target), dose:`${d} มก.`}], duration:{th:'6–9 เดือน (ทุกวัน)', en:'6–9 months (daily)'} };
+  }
+  if(regimen==='4R'){
+    const target = ageY>=10 ? 10 : 15;
+    const d = cap(Math.round(wt*target),600);
+    return { rows:[{drug:{th:'Rifampicin (R)',en:'Rifampicin (R)'}, mgkg:String(target), dose:`${d} มก.`}], duration:{th:'4 เดือน (ทุกวัน)', en:'4 months (daily)'} };
+  }
+  if(regimen==='3HP'){
+    let H,P;
+    if(ageY<=14){
+      if(wt<16){H=300;P=300;} else if(wt<24){H=500;P=450;} else if(wt<=30){H=600;P=600;} else {H=700;P=750;}
+    } else {
+      H = Math.min(Math.ceil(wt*15/100)*100, 900);
+      P = wt<=50?750:900;
+    }
+    return { rows:[
+      {drug:{th:'Isoniazid (H)',en:'Isoniazid (H)'}, mgkg:{th:'ตามช่วงน้ำหนัก', en:'per weight band'}, dose:`${H} มก.`},
+      {drug:{th:'Rifapentine (P)',en:'Rifapentine (P)'}, mgkg:{th:'ตามช่วงน้ำหนัก', en:'per weight band'}, dose:`${P} มก.`}
+    ], duration:{th:'3 เดือน', en:'3 months'}, weekly:true };
+  }
+  if(regimen==='1HP'){
+    const H = 300;
+    const P = wt<35?300:(wt<=45?450:600);
+    return { rows:[
+      {drug:{th:'Isoniazid (H)',en:'Isoniazid (H)'}, mgkg:{th:'ขนาดคงที่', en:'fixed dose'}, dose:`${H} มก.`},
+      {drug:{th:'Rifapentine (P)',en:'Rifapentine (P)'}, mgkg:{th:'ตามช่วงน้ำหนัก', en:'per weight band'}, dose:`${P} มก.`}
+    ], duration:{th:'1 เดือน (ทุกวัน)', en:'1 month (daily)'} };
+  }
+  return null;
+}
+
+function tbContactCatView(app){
+  tbHeader(app);
+  const card = document.createElement('div');
+  card.className='q-card';
+  card.innerHTML = `<div class="q-text">${t(TB.contactCat.heading)}</div><div class="q-hint">${t(TB.contactCat.hint)}</div>`;
+  app.appendChild(card);
+  const grid = document.createElement('div');
+  grid.className = 'module-grid';
+  [
+    {icon:'👶', name:TB.contactCat.infant, desc:TB.contactCat.infantDesc, val:'infant'},
+    {icon:'🧒', name:TB.contactCat.child, desc:TB.contactCat.childDesc, val:'child'},
+    {icon:'🎗️', name:TB.contactCat.hiv, desc:TB.contactCat.hivDesc, val:'hiv'}
+  ].forEach(opt=>{
+    const b = document.createElement('button');
+    b.className='module-card';
+    b.onclick = ()=>{
+      const f=tbState.form;
+      f.contactCat=opt.val; f.contactNode=null; f.contactHistory=[]; f.contactChoice=null; f.contactRegimenFilter=null;
+      tbGoTo('contactTree');
+    };
+    b.innerHTML = `<div class="icon">${opt.icon}</div><div class="txt"><div class="name">${t(opt.name)}</div><div class="desc">${t(opt.desc)}</div></div><div class="arrow">›</div>`;
+    grid.appendChild(b);
+  });
+  app.appendChild(grid);
+}
+
+function tbRenderDetail(wrap, d, openByDefault){
+  let html = '';
+  if(d.intro) html += `<p style="margin:0 0 8px;">${t(d.intro)}</p>`;
+  if(d.items) html += `<ul style="margin:0; padding-left:18px;">${d.items.map(i=>`<li>${t(i)}</li>`).join('')}</ul>`;
+  if(d.table) html += spTableHtml(d.table.cols, d.table.rows);
+  spSectionCard(wrap, { h:d.heading, icon:d.icon||'📋', collapsible:true, openByDefault:!!openByDefault, customHtml:html });
+}
+
+function tbContactTreeView(app){
+  tbHeader(app);
+  const f = tbState.form;
+  const tree = TB.contactTree[f.contactCat];
+  const nodeKey = f.contactNode || tree.start;
+  const node = tree.nodes[nodeKey];
+  const wrap = document.createElement('div');
+
+  if(node.type==='result'){
+    const banner = document.createElement('div');
+    banner.className = `result-banner ${node.severity||'info'}`;
+    banner.innerHTML = `<h2>${t(node.title)}</h2><p>${t(node.summary)}</p>`;
+    wrap.appendChild(banner);
+
+    if(node.details) node.details.forEach(d=>tbRenderDetail(wrap, d));
+
+    const nav = document.createElement('div'); nav.className='wizard-nav'; nav.style.flexDirection='column';
+    if(node.action==='toRegimen') nav.innerHTML = `<button class="btn btn-primary" id="tbGoRegimen" style="width:100%;">${t(TB.contactInfo.goRegimen)}</button>`;
+    else if(node.action==='toDiagnosis') nav.innerHTML = `<button class="btn btn-primary" id="tbGoOut" style="width:100%;">${t(TB.contactTree.goDiagnosis)}</button>`;
+    else if(node.action==='toTreatment') nav.innerHTML = `<button class="btn btn-primary" id="tbGoOut" style="width:100%;">${t(TB.contactTree.goTreatment)}</button>`;
+    wrap.appendChild(nav);
+    wrap.appendChild(tbRestartBtn());
+    app.appendChild(wrap);
+
+    const goRegimen = document.getElementById('tbGoRegimen');
+    if(goRegimen) goRegimen.onclick = ()=>{ f.contactRegimenFilter = node.regimens || null; tbGoTo('contactRegimen'); };
+    const goOut = document.getElementById('tbGoOut');
+    if(goOut) goOut.onclick = ()=>tbGoTo(node.action==='toDiagnosis' ? 'site' : 'quickSite');
+
+    tbNav(app, { back:true, onBack: ()=>{
+      const h = f.contactHistory||[];
+      if(h.length){ f.contactNode = h.pop(); f.contactChoice=null; scrollToTop(); render(); }
+      else tbGoTo('contactCat');
+    } });
+    return;
+  }
+
+  const card = document.createElement('div');
+  card.className='q-card';
+  card.innerHTML = `<div class="q-text">${t(node.text)}</div>${node.hint?`<div class="q-hint">${t(node.hint)}</div>`:''}`;
+  wrap.appendChild(card);
+  card.appendChild(tbRadioGroup('contactChoice', node.options.map(o=>({val:o.val, label:o.label})), f.contactChoice, v=>{ f.contactChoice=v; render(); }));
+  if(node.details) node.details.forEach(d=>tbRenderDetail(wrap, d));
+  app.appendChild(wrap);
+
+  tbNav(app, { back:true, onBack: ()=>{
+      const h = f.contactHistory||[];
+      if(h.length){ f.contactNode = h.pop(); f.contactChoice=null; scrollToTop(); render(); }
+      else tbGoTo('contactCat');
+    },
+    next:true, nextEnabled: f.contactChoice!==null, onNext: ()=>{
+      const opt = node.options.find(o=>o.val===f.contactChoice);
+      if(!opt) return;
+      const h = f.contactHistory||[]; h.push(nodeKey); f.contactHistory=h;
+      f.contactNode = opt.next; f.contactChoice = null;
+      scrollToTop(); render();
+    } });
+}
+
+function tbContactRegimenView(app){
+  tbHeader(app);
+  const f = tbState.form;
+  const all = TB.contactInfo[f.contactCat].regimens;
+  const filtered = f.contactRegimenFilter ? all.filter(r=>f.contactRegimenFilter.includes(r.regimen)) : all;
+  const card = document.createElement('div');
+  card.className='q-card';
+  card.innerHTML = `<div class="q-text">${t(TB.contactRegimen.heading)}</div>`;
+  app.appendChild(card);
+  const opts = filtered.map(r=>({val:r.regimen, label:{th:`${r.regimen} — ${r.use.th}`, en:`${r.regimen} — ${r.use.en}`}}));
+  card.appendChild(tbRadioGroup('contactRegimen', opts, f.contactRegimen, v=>{ f.contactRegimen=v; render(); }));
+  tbNav(app, { back:true, onBack: ()=>tbGoTo('contactTree'),
+    next:true, nextEnabled: f.contactRegimen!==null, onNext: ()=>tbGoTo('contactDoseInput') });
+}
+
+function tbContactDoseInputView(app){
+  tbHeader(app);
+  const f = tbState.form;
+  const isInfant = f.contactCat==='infant';
+  const card = document.createElement('div');
+  card.className='q-card';
+  let html = `<div class="q-text">${t(TB.contactDoseInput.heading)}</div>`;
+  if(!isInfant){
+    html += `<label style="font-size:12.5px; font-weight:600; display:block; margin:14px 0 5px;">${t(TB.contactDoseInput.ageLabel)}</label>
+    <input class="num-input" id="cAge" type="number" inputmode="decimal" min="0" step="0.5" value="${f.cAgeY!==null?f.cAgeY:''}" placeholder="${t(TB.contactDoseInput.agePh)}">`;
+  }
+  html += `<label style="font-size:12.5px; font-weight:600; display:block; margin:14px 0 5px;">${t(TB.contactDoseInput.wtLabel)}</label>
+    <input class="num-input" id="cWt" type="number" inputmode="decimal" min="0" step="0.1" value="${f.cWt!==null?f.cWt:''}" placeholder="${t(TB.contactDoseInput.wtPh)}">`;
+  card.innerHTML = html;
+  app.appendChild(card);
+
+  if(isInfant) f.cAgeY = 0;
+  const ageInput = card.querySelector('#cAge');
+  const wtInput = card.querySelector('#cWt');
+  if(ageInput) ageInput.oninput = ()=>{ const v=parseFloat(ageInput.value); f.cAgeY = isFinite(v)&&v>=0?v:null; syncNext(); };
+  wtInput.oninput = ()=>{ const v=parseFloat(wtInput.value); f.cWt = isFinite(v)&&v>0?v:null; syncNext(); };
+
+  tbNav(app, { back:true, onBack: ()=>tbGoTo('contactRegimen'),
+    next:true, nextEnabled:false, onNext: ()=>{ if(f.cAgeY!==null && f.cWt!==null) tbGoTo('contactDoseResult'); } });
+  const nextBtn = document.getElementById('tbNext');
+  function syncNext(){ nextBtn.disabled = !(f.cAgeY!==null && f.cWt!==null); }
+  syncNext();
+}
+
+function tbContactDoseResultView(app){
+  tbHeader(app);
+  const f = tbState.form;
+  const wrap = document.createElement('div');
+  const result = tbTptCompute(f.contactRegimen, f.cWt, f.cAgeY);
+
+  const banner = document.createElement('div');
+  banner.className = 'result-banner info';
+  banner.innerHTML = `<h2>${f.contactRegimen}</h2><p>${t(TB.contactResult.durationLabel)}: ${t(result.duration)}</p>`;
+  wrap.appendChild(banner);
+
+  const cols = [{key:'drug',label:TB.contactResult.col_drug},{key:'mgkg',label:TB.contactResult.col_mgkg},{key:'dose',label:TB.contactResult.col_dose}];
+  spSectionCard(wrap, { h:TB.contactResult.doseTableTitle, icon:'💊', prominent:true,
+    customHtml: spTableHtml(cols, result.rows) });
+
+  if(result.weekly){
+    const note = document.createElement('div'); note.className='section-card';
+    note.innerHTML = `<p style="margin:0;">${t(TB.contactResult.weeklyNote3HP)}</p>`;
+    wrap.appendChild(note);
+  }
+  if(f.contactRegimen==='3HP' || f.contactRegimen==='1HP'){
+    const note = document.createElement('div'); note.className='result-banner severe';
+    note.innerHTML = `<p style="margin:0;">${t(TB.contactResult.boostedPiWarning)}</p>`;
+    wrap.appendChild(note);
+  }
+  const pyrNote = document.createElement('div'); pyrNote.className='section-card';
+  pyrNote.innerHTML = `<p style="font-size:12.5px; color:var(--ink-soft); margin:0;">${t(TB.contactResult.pyridoxineNote)}</p>`;
+  wrap.appendChild(pyrNote);
+
+  wrap.appendChild(tbRestartBtn());
+  app.appendChild(wrap);
+
+  tbNav(app, { back:true, onBack: ()=>tbGoTo('contactDoseInput') });
+}
+
+function tbSiteView(app){
+  tbHeader(app);
+  const f = tbState.form;
+  const card = document.createElement('div');
+  card.className='q-card';
+  card.innerHTML = `<div class="q-text">${t(TB.site.heading)}</div><div class="q-hint">${t(TB.site.hint)}</div>`;
+  app.appendChild(card);
+  card.appendChild(tbRadioGroup('site', [
+    {val:'pulmonary', label:TB.site.pulmonary}, {val:'extrapulmonary', label:TB.site.extrapulmonary}
+  ], f.site, v=>{ f.site=v; render(); }));
+  tbNav(app, { back:true, onBack: ()=>tbGoTo('home'),
+    next:true, nextEnabled: f.site!==null,
+    onNext: ()=>tbGoTo(f.site==='extrapulmonary' ? 'exSite' : 'clinical') });
+}
+
+function tbQuickSiteView(app){
+  tbHeader(app);
+  const f = tbState.form;
+  const scope = document.createElement('div');
+  scope.className='scope-note'; scope.textContent = t(TB.quickDose.scopeNote);
+  app.appendChild(scope);
+  const card = document.createElement('div');
+  card.className='q-card';
+  card.innerHTML = `<div class="q-text">${t(TB.quickDose.heading)}</div><div class="q-hint">${t(TB.quickDose.hint)}</div>`;
+  app.appendChild(card);
+  card.appendChild(tbRadioGroup('quickSite', [
+    {val:'pulmonary', label:TB.site.pulmonary}, {val:'lymphNode', label:TB.exSite.lymphNode},
+    {val:'cns', label:TB.exSite.cns}, {val:'abdominal', label:TB.exSite.abdominal},
+    {val:'boneJoint', label:TB.exSite.boneJoint}, {val:'spine', label:TB.exSite.spine},
+    {val:'pericardial', label:TB.exSite.pericardial}, {val:'miliary', label:TB.exSite.miliary},
+    {val:'other', label:TB.exSite.other}
+  ], f.quickSite, v=>{ f.quickSite=v; render(); }));
+  tbNav(app, { back:true, onBack: ()=>tbGoTo('home'),
+    next:true, nextEnabled: f.quickSite!==null, onNext: ()=>{
+      if(f.quickSite==='pulmonary'){ f.site='pulmonary'; f.exSite=null; }
+      else { f.site='extrapulmonary'; f.exSite=f.quickSite; }
+      tbGoTo('txInput');
+    } });
+}
+
+function tbExSiteView(app){
+  tbHeader(app);
+  const f = tbState.form;
+  const card = document.createElement('div');
+  card.className='q-card';
+  card.innerHTML = `<div class="q-text">${t(TB.exSite.heading)}</div><div class="q-hint">${t(TB.exSite.hint)}</div>`;
+  app.appendChild(card);
+  card.appendChild(tbRadioGroup('exSite', [
+    {val:'lymphNode', label:TB.exSite.lymphNode}, {val:'cns', label:TB.exSite.cns},
+    {val:'abdominal', label:TB.exSite.abdominal}, {val:'boneJoint', label:TB.exSite.boneJoint},
+    {val:'spine', label:TB.exSite.spine}, {val:'pericardial', label:TB.exSite.pericardial},
+    {val:'miliary', label:TB.exSite.miliary}, {val:'other', label:TB.exSite.other}
+  ], f.exSite, v=>{ f.exSite=v; render(); }));
+  tbNav(app, { back:true, onBack: ()=>tbGoTo('site'),
+    next:true, nextEnabled: f.exSite!==null, onNext: ()=>tbGoTo('exInfo') });
+}
+
+function tbExInfoView(app){
+  tbHeader(app);
+  const f = tbState.form;
+  const meta = TB.siteMeta[f.exSite] || TB.siteMeta.other;
+  const wrap = document.createElement('div');
+
+  const sx = document.createElement('div'); sx.className='section-card';
+  sx.innerHTML = `<h3 style="font-size:13.5px;">🩺 ${t(TB.exInfo.symptomsHeading)}</h3><p>${t(TB.exInfo.symptoms[f.exSite] || TB.exInfo.symptoms.other)}</p>`;
+  wrap.appendChild(sx);
+
+  if(meta.pearlNote){
+    const pearl = document.createElement('div');
+    pearl.className='result-banner info';
+    pearl.innerHTML = `<p style="margin:0;">⚠️ ${t(meta.pearlNote)}</p>`;
+    wrap.appendChild(pearl);
+  }
+
+  const inv = document.createElement('div'); inv.className='section-card';
+  inv.innerHTML = `<h3 style="font-size:13.5px;">🔬 ${t(TB.exInfo.investigationHeading)}</h3><p>${t(TB.specimenExtra[f.exSite] || TB.specimenExtra.other)}</p><p style="margin-top:6px; font-size:12.5px; color:var(--ink-soft);">${t(TB.exInfo.cxrNote)}</p>`;
+  wrap.appendChild(inv);
+
+  const fd = TB.findings[f.exSite] || TB.findings.other;
+  spSectionCard(wrap, { h:TB.exInfo.findingsHeading, icon:'🔎', collapsible:true, customHtml: `<p style="margin:0;">${t(fd.hint)}</p>` });
+
+  if(meta.regimenLabel){
+    spSectionCard(wrap, { h:TB.exInfo.regimenHeading, icon:'💊', prominent:true,
+      customHtml: `<p style="font-weight:600; margin:0 0 6px;">${t(meta.regimenLabel)}</p><p style="margin:0;">${t(meta.regimenSummary)}</p>` });
+  }
+  if(meta.steroidNote){
+    spSectionCard(wrap, { h:TB.exInfo.steroidHeading, icon:'🧪', prominent:true,
+      customHtml: `<p style="margin:0;">${t(meta.steroidNote)}</p>` });
+  }
+  if(meta.altRegimen){
+    spSectionCard(wrap, { h:meta.altRegimen.label, icon:'🔀', collapsible:true,
+      customHtml: `<p style="margin:0;">${t(meta.altRegimen.eligibility)}</p>` });
+  }
+
+  wrap.appendChild(tbRestartBtn());
+  app.appendChild(wrap);
+
+  tbNav(app, { back:true, onBack: ()=>tbGoTo('exSite'),
+    next:true, nextEnabled:true, onNext: ()=>tbGoTo('txInput') });
+}
+
+function tbClinicalView(app){
+  tbHeader(app);
+  const f = tbState.form;
+  const card = document.createElement('div');
+  card.className='q-card';
+  card.innerHTML = `<div class="q-text">${t(TB.clinical.heading)}</div><div class="q-hint">${t(TB.clinical.hint)}</div>`;
+  app.appendChild(card);
+  card.appendChild(tbRadioGroup('clinical', [
+    {val:true, label:TB.clinical.yes}, {val:false, label:TB.clinical.no}
+  ], f.clinical, v=>{ f.clinical=v; render(); }));
+  tbNav(app, { back:true, onBack: ()=>tbGoTo(f.site==='extrapulmonary'?'exSite':'site'),
+    next:true, nextEnabled: f.clinical!==null, onNext: ()=>tbGoTo('contact') });
+}
+
+function tbContactView(app){
+  tbHeader(app);
+  const f = tbState.form;
+  const card = document.createElement('div');
+  card.className='q-card';
+  card.innerHTML = `<div class="q-text">${t(TB.contact.contactQ)}</div>`;
+  app.appendChild(card);
+  card.appendChild(tbRadioGroup('contactYes', [
+    {val:true, label:TB.contact.yes}, {val:false, label:TB.contact.no}
+  ], f.contactYes, v=>{ f.contactYes=v; render(); }));
+
+  const card2 = document.createElement('div');
+  card2.className='q-card';
+  card2.innerHTML = `<div class="q-text">${t(TB.contact.testQ)}</div>`;
+  app.appendChild(card2);
+  card2.appendChild(tbRadioGroup('testResult', [
+    {val:'pos', label:TB.contact.pos}, {val:'neg', label:TB.contact.neg}, {val:'none', label:TB.contact.none}
+  ], f.testResult, v=>{ f.testResult=v; render(); }));
+
+  tbNav(app, { back:true, onBack: ()=>tbGoTo('clinical'),
+    next:true, nextEnabled: f.contactYes!==null && f.testResult!==null, onNext: ()=>tbGoTo('radiology') });
+}
+
+function tbRadiologyView(app){
+  tbHeader(app);
+  const f = tbState.form;
+  const key = tbFindingsKey(f);
+  const fd = TB.findings[key];
+  const card = document.createElement('div');
+  card.className='q-card';
+  card.innerHTML = `<div class="q-text">${t(fd.heading)}</div><div class="q-hint">${t(fd.hint)}</div>`;
+  app.appendChild(card);
+  card.appendChild(tbRadioGroup('radiology', [
+    {val:'yes', label:TB.findings.yes}, {val:'no', label:TB.findings.no}, {val:'pending', label:TB.findings.pending}
+  ], f.radiology, v=>{ f.radiology=v; render(); }));
+  tbNav(app, { back:true, onBack: ()=>tbGoTo('contact'),
+    next:true, nextEnabled: f.radiology!==null, onNext: ()=>tbGoTo('dxPath') });
+}
+
+function tbDxPath(f){
+  const c1 = f.clinical===true;
+  const c2 = f.contactYes===true || f.testResult==='pos';
+  const c3 = f.radiology==='yes';
+  if(c1 && c2 && c3) return '123';
+  if(c1 && c2) return '12';
+  if(c1 && c3) return '13';
+  return 'none';
+}
+
+function tbDxPathView(app){
+  tbHeader(app);
+  const f = tbState.form;
+  const path = tbDxPath(f);
+  const wrap = document.createElement('div');
+  const banner = document.createElement('div');
+  banner.className = `result-banner ${path==='123'||path==='13'?'severe':'info'}`;
+  if(path==='123'){
+    const key = tbFindingsKey(f);
+    let html = `<h2>${t(TB.dxPath.h123)}</h2><p>${t(TB.dxPath.s123)}</p>`;
+    if(f.site==='extrapulmonary') html += `<p style="margin-top:8px;">${t(TB.specimenExtra[key])}</p>`;
+    banner.innerHTML = html;
+  } else if(path==='12'){
+    banner.innerHTML = `<h2>${t(TB.dxPath.h12)}</h2><p>${t(TB.dxPath.s12)}</p>`;
+  } else if(path==='13'){
+    banner.innerHTML = `<h2>${t(TB.dxPath.h13)}</h2><p>${t(TB.dxPath.s13)}</p>`;
+  } else {
+    banner.innerHTML = `<h2>${t(TB.dxPath.hNone)}</h2><p>${t(TB.dxPath.sNone)}</p>`;
+  }
+  wrap.appendChild(banner);
+
+  const nav = document.createElement('div'); nav.className='wizard-nav'; nav.style.flexDirection='column';
+  if(path==='123'){
+    nav.innerHTML = `<button class="btn btn-primary" id="tbGoXpert" style="width:100%;">${t(TB.dxPath.btn123)}</button>`;
+  } else if(path==='13'){
+    nav.innerHTML = `<button class="btn btn-primary" id="tbGoXpert" style="width:100%;">${t(TB.dxPath.btn13no)}</button>
+      <button class="btn btn-ghost" id="tbImproved" style="width:100%; margin-top:8px;">${t(TB.dxPath.btn13yes)}</button>`;
+  }
+  wrap.appendChild(nav);
+  wrap.appendChild(tbRestartBtn());
+  app.appendChild(wrap);
+  const goXpert = document.getElementById('tbGoXpert');
+  if(goXpert) goXpert.onclick = ()=>tbGoTo('xpertResult');
+  const improved = document.getElementById('tbImproved');
+  if(improved) improved.onclick = ()=>{ tbResetAll(); scrollToTop(); render(); };
+}
+
+function tbXpertResultView(app){
+  tbHeader(app);
+  const f = tbState.form;
+  const card = document.createElement('div');
+  card.className='q-card';
+  card.innerHTML = `<div class="q-text">${t(TB.xpertResult.heading)}</div><div class="q-hint">${t(TB.xpertResult.hint)}</div>`;
+  app.appendChild(card);
+  card.appendChild(tbRadioGroup('xpert', [
+    {val:'notDetected', label:TB.xpertResult.notDetected},
+    {val:'detectedSens', label:TB.xpertResult.detectedSens},
+    {val:'detectedRes', label:TB.xpertResult.detectedRes},
+    {val:'detectedInd', label:TB.xpertResult.detectedInd}
+  ], f.xpert, v=>{ f.xpert=v; render(); }));
+  tbNav(app, { back:true, onBack: ()=>tbGoTo('dxPath'),
+    next:true, nextEnabled: f.xpert!==null, onNext: ()=>{
+      if(f.xpert==='detectedRes'){ f.mdrReason='rif'; tbGoTo('txMdrRefer'); }
+      else if(f.xpert==='detectedInd'){ tbGoTo('txContact'); }
+      else { tbGoTo('txInput'); }
+    } });
+}
+
+function tbDxBanner(wrap, f){
+  if(!f.xpert) return;
+  const banner = document.createElement('div');
+  banner.className = 'result-banner severe';
+  let title, summary;
+  if(f.xpert==='notDetected'){ title=TB.dx.clinicalTitle; summary=TB.dx.clinicalSummary; }
+  else if(f.xpert==='detectedSens'){ title=TB.dx.confirmedTitle; summary=TB.dx.confirmedSummary; }
+  else { title=TB.dx.confirmedTitle; summary=TB.dx.confirmedIndSummary; }
+  banner.innerHTML = `<h2>${t(title)}</h2><p>${t(summary)}</p>`;
+  wrap.appendChild(banner);
+  if(f.contactYes===false){
+    const note = document.createElement('div');
+    note.className='section-card';
+    note.innerHTML = `<p style="font-size:12.5px; color:var(--ink-soft); margin:0;">${t(TB.dx.reverseNote)}</p>`;
+    wrap.appendChild(note);
+  }
+}
+
+function tbTxContactView(app){
+  tbHeader(app);
+  const f = tbState.form;
+  const wrap = document.createElement('div');
+  tbDxBanner(wrap, f);
+  const card = document.createElement('div');
+  card.className='q-card';
+  card.innerHTML = `<div class="q-text">${t(TB.txContact.heading)}</div><div class="q-hint">${t(TB.txContact.hint)}</div>`;
+  wrap.appendChild(card);
+  card.appendChild(tbRadioGroup('mdrContact', [
+    {val:true, label:TB.txContact.yes}, {val:false, label:TB.txContact.no}
+  ], f.mdrContact, v=>{ f.mdrContact=v; render(); }));
+  app.appendChild(wrap);
+  tbNav(app, { next:true, nextEnabled: f.mdrContact!==null, onNext: ()=>{
+    f.mdrReason='contact'; tbGoTo(f.mdrContact?'txMdrRefer':'txInput');
+  } });
+}
+
+function tbMdrReferView(app){
+  tbHeader(app);
+  const f = tbState.form;
+  const wrap = document.createElement('div');
+  const banner = document.createElement('div');
+  banner.className = 'result-banner severe';
+  const isRif = f.mdrReason==='rif';
+  banner.innerHTML = `<h2>${t(isRif?TB.mdrRefer.titleRif:TB.mdrRefer.titleContact)}</h2><p>${t(isRif?TB.mdrRefer.summaryRif:TB.mdrRefer.summaryContact)}</p><p style="margin-top:8px;">${t(TB.mdrRefer.footer)}</p>`;
+  wrap.appendChild(banner);
+  wrap.appendChild(tbRestartBtn());
+  app.appendChild(wrap);
+}
+
+function tbTxInputView(app){
+  tbHeader(app);
+  const f = tbState.form;
+  const wrap = document.createElement('div');
+  tbDxBanner(wrap, f);
+  const altCapable = tbAltCapable(f);
+  const card = document.createElement('div');
+  card.className='q-card';
+  let html = `<div class="q-text">${t(TB.txInput.heading)}</div>
+    <label style="font-size:12.5px; font-weight:600; display:block; margin:14px 0 5px;">${t(TB.txInput.ageLabel)}</label>
+    <div style="display:flex; gap:8px; align-items:center;">
+      <input class="num-input" id="tbAge" type="number" inputmode="decimal" min="0" step="${f.ageUnit==='years'?'0.5':'1'}" value="${f.ageRaw!==null?f.ageRaw:''}" placeholder="${f.ageUnit==='years'?t(TB.txInput.ageYearsPh):t(TB.txInput.agePh)}" style="flex:1;">
+      <div class="opt-list" style="display:flex; flex-direction:row; gap:6px; margin:0;">
+        <button class="opt-btn radio" id="tbAgeUnitM" style="padding:8px 12px;">${t(TB.txInput.unitMonths)}</button>
+        <button class="opt-btn radio" id="tbAgeUnitY" style="padding:8px 12px;">${t(TB.txInput.unitYears)}</button>
+      </div>
+    </div>
+    <label style="font-size:12.5px; font-weight:600; display:block; margin:14px 0 5px;">${t(TB.txInput.wtLabel)}</label>
+    <input class="num-input" id="tbWt" type="number" inputmode="decimal" min="0" step="0.1" value="${f.wt!==null?f.wt:''}" placeholder="${t(TB.txInput.wtPh)}">`;
+  if(altCapable){
+    html += `<div class="q-text" style="margin-top:16px;">${t(TB.txInput.mildQ)}</div>
+      <div class="q-hint">${t(TB.txInput.mildHintIntro)}<ul style="margin:6px 0 0; padding-left:18px;">${TB.txInput.mildHintItems.map(i=>`<li>${t(i)}</li>`).join('')}</ul></div>`;
+  }
+  card.innerHTML = html;
+  wrap.appendChild(card);
+  card.querySelector('#tbAgeUnitM').classList.toggle('selected', f.ageUnit==='months');
+  card.querySelector('#tbAgeUnitY').classList.toggle('selected', f.ageUnit==='years');
+  if(altCapable){
+    card.appendChild(tbRadioGroup('mild', [
+      {val:true, label:TB.txInput.mildYes}, {val:false, label:TB.txInput.mildNo}
+    ], f.mild, v=>{ f.mild=v; render(); }));
+  } else {
+    f.mild = false;
+  }
+  app.appendChild(wrap);
+
+  const ageInput = card.querySelector('#tbAge');
+  const wtInput = card.querySelector('#tbWt');
+  ageInput.oninput = ()=>{ const v=parseFloat(ageInput.value); f.ageRaw = isFinite(v)&&v>=0?v:null; syncNext(); };
+  wtInput.oninput = ()=>{ const v=parseFloat(wtInput.value); f.wt = isFinite(v)&&v>0?v:null; syncNext(); };
+  card.querySelector('#tbAgeUnitM').onclick = ()=>{ if(f.ageUnit!=='months'){ f.ageUnit='months'; f.ageRaw=null; render(); } };
+  card.querySelector('#tbAgeUnitY').onclick = ()=>{ if(f.ageUnit!=='years'){ f.ageUnit='years'; f.ageRaw=null; render(); } };
+
+  const backTarget = f.quickSite!==null ? 'quickSite' : (f.site==='extrapulmonary' ? 'exInfo' : (f.xpert==='detectedInd'?'txContact':(f.xpert?'xpertResult':'radiology')));
+  tbNav(app, { back:true, onBack: ()=>tbGoTo(backTarget),
+    next:true, nextEnabled:false, onNext: ()=>{ if(tbAgeMonths(f)!==null && f.wt!==null && f.mild!==null) tbGoTo('txResult'); } });
+  const nextBtn = document.getElementById('tbNext');
+  function syncNext(){ nextBtn.disabled = !(tbAgeMonths(f)!==null && f.wt!==null && f.mild!==null); }
+  syncNext();
+}
+
+function tbTxResultView(app){
+  tbHeader(app);
+  const f = tbState.form;
+  const wrap = document.createElement('div');
+  const capable = tbAltCapable(f);
+  const eligibleAlt = capable && tbAgeMonths(f)>=3 && tbAgeMonths(f)<=192 && f.wt>=3 && f.mild===true;
+
+  const banner = document.createElement('div');
+  banner.className = 'result-banner info';
+  if(capable){
+    if(eligibleAlt){
+      banner.innerHTML = `<h2>${t(TB.txResult.altEligibleTitle)}</h2><p>${t(TB.txResult.altEligibleSummary)}</p>`;
+    } else {
+      banner.innerHTML = `<h2>${t(TB.txResult.standardTitle)}</h2><p>${t(TB.txResult.standardSummary)}</p><p style="margin-top:8px;">${t(TB.txResult.altNotEligible)}</p>`;
+    }
+  } else {
+    const meta = TB.siteMeta[f.exSite] || TB.siteMeta.other;
+    banner.innerHTML = `<h2>${t(meta.regimenLabel)}</h2><p>${t(meta.regimenSummary)}</p>`;
+  }
+  wrap.appendChild(banner);
+
+  if(!capable){
+    const meta = TB.siteMeta[f.exSite] || TB.siteMeta.other;
+    if(meta.steroidNote){
+      spSectionCard(wrap, { h:TB.exInfo.steroidHeading, icon:'🧪', prominent:true,
+        customHtml: `<p style="margin:0;">${t(meta.steroidNote)}</p>` });
+    }
+  }
+
+  const dose = tbDose(f.wt);
+  const cols = [
+    {key:'drug', label:TB.txResult.col_drug}, {key:'mgkg', label:TB.txResult.col_mgkg}, {key:'dose', label:TB.txResult.col_dose},
+    {key:'range', label:TB.txResult.col_range}, {key:'max', label:TB.txResult.col_max}
+  ];
+  const rows = ['H','R','Z','E'].map(k=>({
+    drug:{th:{H:'Isoniazid (H)',R:'Rifampicin (R)',Z:'Pyrazinamide (Z)',E:'Ethambutol (E)'}[k], en:{H:'Isoniazid (H)',R:'Rifampicin (R)',Z:'Pyrazinamide (Z)',E:'Ethambutol (E)'}[k]},
+    mgkg:dose[k].mgkg, dose:`${dose[k].dose} มก.`, range:`${dose[k].lo}–${dose[k].hi} มก.`, max:`${dose[k].max} มก.`
+  }));
+  spSectionCard(wrap, { h:TB.txResult.doseTableTitle, icon:'💊', prominent:true,
+    customHtml: spTableHtml(cols, rows, TB.txResult.doseFooter) });
+
+  if(!capable){
+    const meta = TB.siteMeta[f.exSite] || TB.siteMeta.other;
+    if(meta.altRegimen){
+      spSectionCard(wrap, { h:meta.altRegimen.label, icon:'🔀', collapsible:true,
+        customHtml: `<p style="margin:0 0 10px;">${t(meta.altRegimen.eligibility)}</p>` + tbAltRegimenDoseTable(meta.altRegimen.drugs, f.wt) });
+    }
+  }
+
+  if(capable){
+    const regCols = [{key:'regimen',label:TB.txResult.col_regimen},{key:'note',label:TB.txResult.col_note}];
+    const regRows = [
+      {regimen:'2HRZE/4HR', note:TB.txResult.regStdNote},
+      {regimen:'2HRZE*/2HR', note:TB.txResult.regAltNote},
+      {regimen:'2HPMZ/2HPM', note:TB.txResult.regHpmNote}
+    ];
+    spSectionCard(wrap, { h:TB.txResult.tableToggle, icon:'📋', collapsible:true,
+      customHtml: spTableHtml(regCols, regRows, TB.txResult.durationNote) });
+  }
+
+  tbRenderDetail(wrap, TB_HIV_TX_DETAIL);
+
+  wrap.appendChild(tbRestartBtn());
+  app.appendChild(wrap);
+}
+
+function tbRender(){
+  const app = document.getElementById('app');
+  app.innerHTML = '';
+  const backBtn = document.createElement('button');
+  backBtn.className='top-back-link';
+  backBtn.textContent = t(UI.backToMainHome);
+  backBtn.onclick = goMainHome;
+  app.appendChild(backBtn);
+  const s = tbState.screen;
+  if(s==='home') tbHomeView(app);
+  else if(s==='bcgInfo') tbBcgInfoView(app);
+  else if(s==='problemCat') tbProblemCatView(app);
+  else if(s==='problemTree') tbProblemTreeView(app);
+  else if(s==='drtbInfo') tbDrtbInfoView(app);
+  else if(s==='drtbCategory') tbDrtbCategoryView(app);
+  else if(s==='drtbAge') tbDrtbAgeView(app);
+  else if(s==='drtbSite') tbDrtbSiteView(app);
+  else if(s==='drtbResult') tbDrtbResultView(app);
+  else if(s==='contactCat') tbContactCatView(app);
+  else if(s==='contactTree') tbContactTreeView(app);
+  else if(s==='contactRegimen') tbContactRegimenView(app);
+  else if(s==='contactDoseInput') tbContactDoseInputView(app);
+  else if(s==='contactDoseResult') tbContactDoseResultView(app);
+  else if(s==='site') tbSiteView(app);
+  else if(s==='quickSite') tbQuickSiteView(app);
+  else if(s==='exSite') tbExSiteView(app);
+  else if(s==='exInfo') tbExInfoView(app);
+  else if(s==='clinical') tbClinicalView(app);
+  else if(s==='contact') tbContactView(app);
+  else if(s==='radiology') tbRadiologyView(app);
+  else if(s==='dxPath') tbDxPathView(app);
+  else if(s==='xpertResult') tbXpertResultView(app);
+  else if(s==='txContact') tbTxContactView(app);
+  else if(s==='txMdrRefer') tbMdrReferView(app);
+  else if(s==='txInput') tbTxInputView(app);
+  else if(s==='txResult') tbTxResultView(app);
+}
+
+
 const CATEGORIES = [
   { id:'asthma', icon:'🫁', group:'urgent', name:{th:'Acute asthmatic attack', en:'Acute asthmatic attack'}, short:{th:'ประเมินความรุนแรง · แผนการรักษา · ขนาดยาตามน้ำหนัก', en:'Severity assessment · management plan · weight-based dosing'}, keywords:'asthma หืด หืดกำเริบ หอบหืด wheeze wheezing salbutamol ventolin ipratropium terbutaline exacerbation' },
   { id:'anaphylaxis', icon:'🐝', group:'urgent', name:{th:'Anaphylaxis', en:'Anaphylaxis'}, short:{th:'การแพ้ชนิดรุนแรง · วินิจฉัย · ขนาดยาตามน้ำหนัก', en:'Severe allergic reaction · diagnosis · weight-based dosing'}, keywords:'anaphylaxis แพ้ชนิดรุนแรง แพ้รุนแรง ผื่นแพ้ epinephrine อีพิเนฟริน ภูมิแพ้' },
@@ -11616,6 +13513,7 @@ const CATEGORIES = [
   { id:'fever', icon:'🌡️', group:'common', name:{th:'Fever Without Source', en:'Fever Without Source'}, short:{th:'อายุ 0–3 ปี · ประเมินความเสี่ยง SBI', en:'Age 0–3y · SBI risk assessment'}, keywords:'fever ไข้ ไข้สูง ตัวร้อน sbi fws' },
   { id:'meningoencephalitis', icon:'🧠', group:'common', name:{th:'Meningoencephalitis', en:'Meningoencephalitis'}, short:{th:'ประเมิน LP · ผล CSF · ยาปฏิชีวนะ', en:'LP work-up · CSF result · antibiotics'}, keywords:'meningoencephalitis meningitis encephalitis เยื่อหุ้มสมองอักเสบ สมองอักเสบ เยื่อหุ้มสมองอักเสบ csf lp เจาะหลัง' },
   { id:'respiratory', icon:'🫁', group:'common', name:{th:'Respiratory Tract Infections', en:'Respiratory Tract Infections'}, short:{th:'หูชั้นกลาง · ไซนัส · Croup · ปอดบวม · เสียงหวีด', en:'AOM · Sinusitis · Croup · Pneumonia · Wheezing'}, keywords:'respiratory หายใจ ระบบหายใจ ไอ หอบ หวัด ปอดบวม ปอดอักเสบ pneumonia ไซนัส ไซนัสอักเสบ sinusitis หูชั้นกลางอักเสบ หูอักเสบ aom otitis croup กล่องเสียงอักเสบ หลอดลม เสียงหวีด หอบหืด wheeze wheezing asthma หลอดลมฝอยอักเสบ bronchiolitis' },
+  { id:'tb', icon:'🫁', group:'common', name:{th:'Tuberculosis', en:'Tuberculosis'}, short:{th:'วินิจฉัยปอด/นอกปอด · สูตรยา · คำนวณขนาดยา', en:'Pulmonary/extrapulmonary diagnosis · regimen · dosing'}, keywords:'tb tuberculosis วัณโรค ไอเรื้อรัง afb xpert mtb rif isoniazid rifampicin pyrazinamide ethambutol hrze' },
   { id:'uti', icon:'🚽', group:'common', name:{th:'Urinary Tract Infection', en:'Urinary Tract Infection'}, short:{th:'อายุ 2 เดือน–5 ปี · วินิจฉัย · แยก upper/lower · การรักษา', en:'Age 2mo–5y · diagnosis · upper/lower · treatment'}, keywords:'uti urinary tract infection ปัสสาวะ ทางเดินปัสสาวะ กระเพาะปัสสาวะอักเสบ กรวยไตอักเสบ ติดเชื้อทางเดินปัสสาวะ pyelonephritis cystitis' }
 ];
 
@@ -11697,7 +13595,8 @@ function renderSidebar(){
   if(!overlay || !panel) return;
   overlay.className = 'sb-overlay' + (sidebarOpen ? ' open' : '');
   panel.className = 'sb-panel' + (sidebarOpen ? ' open' : '');
-  if(!sidebarOpen){ panel.innerHTML = ''; return; }
+  const isDesktopRail = window.matchMedia('(min-width:1024px)').matches;
+  if(!sidebarOpen && !isDesktopRail){ panel.innerHTML = ''; return; }
 
   const q = sbSearchQuery.trim().toLowerCase();
   const urgent = CATEGORIES.filter(c => c.group==='urgent' && homeMatches(c, q));
@@ -11980,6 +13879,7 @@ function render(){
   if(topState.screen==='meningoencephalitis'){ mgRender(); return; }
   if(topState.screen==='sepsis'){ spRender(); return; }
   if(topState.screen==='uti'){ utRender(); return; }
+  if(topState.screen==='tb'){ tbRender(); return; }
   if(topState.screen==='anaphylaxis'){ anRender(); return; }
   if(topState.screen==='statusepilepticus'){ seRender(); return; }
   if(topState.screen==='jaundice'){ jaRender(); return; }
@@ -11989,12 +13889,18 @@ function render(){
 }
 
 render();
+renderSidebar();
 fbInitDrag();
 wnCheckAutoPopup();
 document.getElementById('sbToggleIcon').src = SB_ICONS.menu;
 document.getElementById('wnBellIcon').src = SB_ICONS.bell;
 document.getElementById('sbToggleBtn').onclick = sbOpen;
 document.getElementById('sbOverlay').onclick = sbClose;
+let sbResizeTimer = null;
+window.addEventListener('resize', function(){
+  clearTimeout(sbResizeTimer);
+  sbResizeTimer = setTimeout(renderSidebar, 150);
+});
 
 function hideSplashScreen(){
   const s = document.getElementById('splashScreen');
