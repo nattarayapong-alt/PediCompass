@@ -12160,18 +12160,32 @@ const TB = {
           summary:{th:'อายุ <5 ปี หรือมีภูมิคุ้มกันบกพร่อง ให้ยาป้องกันได้เลยโดยไม่ต้องรอผล IGRA/TST', en:'Age <5 years or immunocompromised — start TPT without waiting for IGRA/TST.'},
           action:'toRegimen', regimens:['3HR','6-9H','3HP'] },
         q3: { type:'question',
-          text:{th:'ผล IGRA เป็นบวก หรือ TST > 15 มม. หรือไม่?', en:'Is IGRA positive, or TST > 15 mm?'},
+          text:{th:'ผลตรวจ IGRA หรือ TST เป็นอย่างไร?', en:'What is the IGRA/TST result?'},
           options:[
-            {val:'yes', label:{th:'ใช่', en:'Yes'}, next:'rTptTest'},
-            {val:'no', label:{th:'ไม่ใช่/ยังไม่เข้าเกณฑ์', en:'No / not yet meeting criteria'}, next:'rNoTpt'}
+            {val:'high', label:{th:'IGRA บวก หรือ TST \u2265 15 มม.', en:'IGRA positive, or TST \u2265 15 mm'}, next:'rTptTest'},
+            {val:'mid', label:{th:'TST 10\u201314 มม.', en:'TST 10\u201314 mm'}, next:'rCaseByCase'},
+            {val:'low', label:{th:'IGRA ลบ หรือ TST < 10 มม.', en:'IGRA negative, or TST < 10 mm'}, next:'rNoTptWatch'}
           ]},
         rTptTest: { type:'result', severity:'info',
           title:{th:'เข้าเกณฑ์ให้ยาป้องกัน', en:'Meets criteria for TPT'},
-          summary:{th:'ผลทดสอบเข้าเกณฑ์ ให้ยาป้องกันวัณโรคได้', en:'The test result meets criteria — start TPT.'},
+          summary:{th:'ผลทดสอบเข้าเกณฑ์ ให้ยาป้องกันวัณโรคได้', en:'The test result meets criteria \u2014 start TPT.'},
           action:'toRegimen', regimens:['3HR','6-9H','3HP','4R','1HP'] },
-        rNoTpt: { type:'result', severity:'info',
-          title:{th:'ยังไม่เข้าเกณฑ์ให้ยาป้องกัน', en:'Does not yet meet criteria for TPT'},
-          summary:{th:'แนะนำเฝ้าระวัง ซักประวัติและตรวจร่างกายทุก 3–6 เดือน นาน 1–2 ปี', en:'Recommend monitoring with history and exam every 3–6 months for 1–2 years.'},
+        rCaseByCase: { type:'result', severity:'info',
+          title:{th:'TST 10\u201314 มม. \u2014 พิจารณาเป็นรายๆ ไป', en:'TST 10\u201314 mm \u2014 consider case-by-case'},
+          summary:{th:'ผล TST อยู่ในช่วงก้ำกึ่ง (10\u201314 มม.) ให้พิจารณาปัจจัยเสี่ยงเป็นรายบุคคลประกอบการตัดสินใจ เช่น ความใกล้ชิด/ระยะเวลาการสัมผัส ผลตรวจเสมหะของผู้ป่วยต้นตอ และภาวะภูมิคุ้มกัน/โภชนาการของเด็ก อาจพิจารณาให้ยาป้องกันวัณโรคระยะแฝงไปเลย หรือตรวจ TST/IGRA ซ้ำที่ 8\u201310 สัปดาห์เพื่อดูว่าเข้าเกณฑ์ recent converter หรือไม่', en:'A TST of 10\u201314 mm falls in an ambiguous zone. Weigh individual risk factors \u2014 closeness/duration of contact, the index case\u2019s sputum smear status, and the child\u2019s immune/nutritional status \u2014 when deciding. Options include starting LTBI treatment directly, or repeating TST/IGRA at 8\u201310 weeks to check for a recent converter.'},
+          action:null },
+        rNoTptWatch: { type:'result', severity:'info',
+          title:{th:'ยังไม่เข้าเกณฑ์ให้ยาป้องกัน \u2014 เฝ้าระวัง', en:'Does not yet meet criteria for TPT \u2014 monitor'},
+          summary:{th:'IGRA ลบ หรือ TST < 10 มม. ไม่เข้าเกณฑ์ให้ยาป้องกันในขณะนี้ แนะนำเฝ้าระวัง ซักประวัติและตรวจร่างกายทุก 3\u20136 เดือน นาน 1\u20132 ปี', en:'IGRA negative or TST < 10 mm does not meet criteria for TPT at this time. Recommend monitoring with history and exam every 3\u20136 months for 1\u20132 years.'},
+          details:[{
+            icon:'\ud83d\udd01',
+            heading:{th:'การตรวจซ้ำและการแปลผล (recent converter)', en:'Repeat testing and interpretation (recent converter)'},
+            intro:{th:'สำหรับผู้ที่เพิ่งสัมผัสวัณโรค อาจพิจารณาตรวจ TST หรือ IGRA ซ้ำที่ 8\u201310 สัปดาห์หลังสัมผัสครั้งล่าสุด เพื่อจับการติดเชื้อที่ยังอยู่ในช่วง window period', en:'For recent contacts, consider repeating TST or IGRA 8\u201310 weeks after the most recent exposure, to catch infection still within the window period.'},
+            items:[
+              {th:'ถือว่าเป็น recent converter หากผล TST ครั้งที่ 2 \u2265 10 มม. และต่างจากผลครั้งแรก \u2265 6 มม. \u2014 ให้พิจารณารักษาวัณโรคระยะแฝง', en:'Considered a recent converter if the 2nd TST is \u2265 10 mm AND \u2265 6 mm larger than the first result \u2014 consider starting LTBI treatment.'},
+              {th:'หากผลตรวจซ้ำไม่เข้าเกณฑ์ recent converter ให้เฝ้าระวังต่อตามกำหนดเดิม (ทุก 3\u20136 เดือน นาน 1\u20132 ปี)', en:'If the repeat result does not meet recent-converter criteria, continue routine monitoring (every 3\u20136 months for 1\u20132 years).'}
+            ]
+          }],
           action:null }
       }
     },
@@ -12610,7 +12624,7 @@ const TB = {
     cns:{altEligible:false,
       regimenLabel:{th:'2HRZE/10HR (รวม 12 เดือน)', en:'2HRZE/10HR (total 12 months)'},
       regimenSummary:{th:'สูตรยามาตรฐานสำหรับวัณโรคเยื่อหุ้มสมองและวัณโรคระบบประสาทส่วนกลางอื่น ๆ (เช่น tuberculoma) ระยะเข้มข้น 2 เดือน (H,R,Z,E) ตามด้วยระยะต่อเนื่อง 10 เดือน (H,R) (++, I)', en:'Standard regimen for TB meningitis and other CNS TB (e.g. tuberculoma): 2-month intensive phase (H,R,Z,E) followed by 10-month continuation phase (H,R) (++, I).'},
-      steroidNote:{th:'ให้สเตียรอยด์เสริมทุกรายในวัณโรคเยื่อหุ้มสมอง (++, I) เช่น prednisolone 2 มก./กก./วัน (เพิ่มได้ถึง 4 มก./กก./วัน หากอาการรุนแรง สูงสุดไม่เกิน 60 มก./วัน) นาน 4 สัปดาห์ แล้วค่อยลดขนาดจนหยุดใน 2–4 สัปดาห์ หรือ dexamethasone 0.3–0.6 มก./กก./วัน สูงสุดไม่เกิน 10 มก./วัน ลดขนาดแบบเดียวกัน สำหรับวัณโรคระบบประสาทส่วนกลางอื่น ๆ (เช่น tuberculoma) อาจพิจารณาให้สเตียรอยด์หากมีสมองบวมมาก ระดับความรู้สึกตัวผิดปกติ หรือมี neurological deficit (+/-, IV) การให้สเตียรอยด์โดยไม่ได้ยาต้านวัณโรคที่เหมาะสมอาจทำให้อาการเลวลง', en:'Give adjunctive steroids to all TB meningitis patients (++, I), e.g. prednisolone 2 mg/kg/day (up to 4 mg/kg/day if severe, max 60 mg/day) for 4 weeks then taper off over 2\u20134 weeks, or dexamethasone 0.3\u20130.6 mg/kg/day (max 10 mg/day) tapered similarly. For other CNS TB (e.g. tuberculoma), consider steroids if there is significant cerebral edema, altered consciousness, or a neurological deficit (+/-, IV). Steroids without adequate anti-TB therapy may worsen the disease.'},
+      steroidNote:{th:'ให้สเตียรอยด์เสริมทุกรายในวัณโรคเยื่อหุ้มสมอง (++, I) เช่น prednisolone 2 มก./กก./วัน (เพิ่มได้ถึง 4 มก./กก./วัน หากอาการรุนแรง สูงสุดไม่เกิน 60 มก./วัน) นาน 4 สัปดาห์ แล้วค่อยลดขนาดจนหยุดใน 2–4 สัปดาห์ หรือ dexamethasone 0.3–0.6 มก./กก./วัน สูงสุดไม่เกิน 10 มก./วัน ลดขนาดแบบเดียวกัน สำหรับวัณโรคระบบประสาทส่วนกลางอื่น ๆ อาจพิจารณาให้สเตียรอยด์เสริมในกรณีดังนี้ (+/-, IV): tuberculoma ที่มีภาวะสมองบวมมากหรือมีระดับความรู้สึกตัวผิดปกติ, ผู้ป่วยที่มี neurological deficit, spinal arachnoiditis ที่มีการกั้นของทางเดินน้ำไขสันหลัง, และ transverse myelitis ทั้งนี้การให้สเตียรอยด์โดยไม่ได้ยาต้านวัณโรคที่เหมาะสมอาจทำให้อาการของโรคเลวลง (++, IV)', en:'Give adjunctive steroids to all TB meningitis patients (++, I), e.g. prednisolone 2 mg/kg/day (up to 4 mg/kg/day if severe, max 60 mg/day) for 4 weeks then taper off over 2\u20134 weeks, or dexamethasone 0.3\u20130.6 mg/kg/day (max 10 mg/day) tapered similarly. For other CNS TB, consider adjunctive steroids in the following (+/-, IV): tuberculoma with significant cerebral edema or altered consciousness; a neurological deficit; spinal arachnoiditis with obstruction of CSF flow; and transverse myelitis. Giving steroids without adequate anti-TB therapy may worsen the disease (++, IV).'},
       altRegimen:{
         label:{th:'สูตรทางเลือก 6HRZEto (6 เดือน)', en:'Alternative regimen 6HRZEto (6 months)'},
         eligibility:{th:'สูตรทางเลือก (+, IV) — ใช้ยา ethionamide แทน ethambutol เนื่องจากผ่าน blood-brain barrier ได้ดีกว่ามาก เฉพาะผู้ป่วยที่ไม่ติดเชื้อเอชไอวี และเฉพาะวัณโรคเยื่อหุ้มสมองเท่านั้น — ยังไม่มีข้อมูลเพียงพอสำหรับวัณโรคระบบประสาทส่วนกลางอื่น ๆ เช่น tuberculoma ซึ่งควรใช้สูตรมาตรฐาน 2HRZE/10HR', en:'Alternative regimen (+, IV) using ethionamide instead of ethambutol for better blood-brain barrier penetration. Only for HIV-negative patients and only for TB meningitis specifically — insufficient evidence for other CNS TB (e.g. tuberculoma), which should use the standard 2HRZE/10HR regimen.'},
@@ -12742,7 +12756,8 @@ const TB = {
     regStdNote:{th:'สูตรยามาตรฐาน (++, I)', en:'Standard regimen (++, I)'},
     regAltNote:{th:'สูตรทางเลือก (+, I) — อายุ 3 เดือน–16 ปี น้ำหนัก ≥3 กก. เฉพาะวัณโรคไม่รุนแรง', en:'Alternative regimen (+, I) — age 3mo\u201316y, weight ≥3kg, non-severe TB only'},
     regHpmNote:{th:'สูตรทางเลือก (+, I) — อายุ ≥12 ปี น้ำหนัก ≥40 กก. ไม่ใช้ในเอชไอวีที่ CD4<100 หรือตั้งครรภ์/ให้นมบุตร', en:'Alternative regimen (+, I) — age ≥12y, weight ≥40kg; avoid if HIV with CD4<100 or pregnant/breastfeeding'},
-    durationNote:{th:'ตารางนี้ครอบคลุมเฉพาะวัณโรคปอด/ต่อมน้ำเหลืองส่วนปลาย ตำแหน่งอื่น เช่น เยื่อหุ้มสมอง กระดูกและข้อ ใช้สูตร 12 เดือน ซึ่งเครื่องมือนี้แสดงแยกไว้ในหน้าผลลัพธ์ของตำแหน่งนั้น ๆ', en:'This table covers pulmonary/peripheral lymph node TB only. Other sites (e.g. meninges, bone/joint) use a 12-month regimen, shown separately on that site\u2019s result page in this tool.'}
+    durationNote:{th:'ตารางนี้ครอบคลุมเฉพาะวัณโรคปอด/ต่อมน้ำเหลืองส่วนปลาย ตำแหน่งอื่น เช่น เยื่อหุ้มสมอง กระดูกและข้อ ใช้สูตร 12 เดือน ซึ่งเครื่องมือนี้แสดงแยกไว้ในหน้าผลลัพธ์ของตำแหน่งนั้น ๆ', en:'This table covers pulmonary/peripheral lymph node TB only. Other sites (e.g. meninges, bone/joint) use a 12-month regimen, shown separately on that site\u2019s result page in this tool.'},
+    steroidPulmNote:{th:'อาจพิจารณาให้สเตียรอยด์เสริมในผู้ป่วยวัณโรคปอดที่มีภาวะแทรกซ้อน เช่น endobronchial TB หรือวัณโรคที่มีน้ำปริมาณมากในช่องเยื่อหุ้มปอด (+/-, IV) ทั้งนี้การให้สเตียรอยด์โดยไม่ได้ยาต้านวัณโรคที่เหมาะสมอาจทำให้อาการของโรคเลวลง (++, IV)', en:'Consider adjunctive steroids in pulmonary TB with complications such as endobronchial TB or a large-volume pleural effusion (+/-, IV). Giving steroids without adequate anti-TB therapy may worsen the disease (++, IV).'}
   }
 };
 
@@ -13624,6 +13639,9 @@ function tbTxResultView(app){
       spSectionCard(wrap, { h:TB.exInfo.steroidHeading, icon:'🧪', prominent:true,
         customHtml: `<p style="margin:0;">${t(meta.steroidNote)}</p>` });
     }
+  } else if(f.site==='pulmonary'){
+    spSectionCard(wrap, { h:TB.exInfo.steroidHeading, icon:'🧪', prominent:true,
+      customHtml: `<p style="margin:0;">${t(TB.txResult.steroidPulmNote)}</p>` });
   }
 
   const dose = tbDose(f.wt);
