@@ -29,6 +29,7 @@
   --white:#FFFFFF;
   --mild-bg:#E5F5E7; --mild-bd:#9FD3A8; --mild-tx:#2E6B3A;
   --purple-bg:#F1E7FA; --purple-bd:#B48CDA; --purple-tx:#5B2E8A;
+  --blue-bg:#E3EEFB; --blue-bd:#8FB6E6; --blue-tx:#2A4E82;
   --mod-bg:#FFF1DA; --mod-bd:#F0BC72; --mod-tx:#8A5A0E;
   --sev-bg:#FDE1E4; --sev-bd:#EF9AA3; --sev-tx:#9C2B37;
   --info-bg:#E9F1FB; --info-bd:#A9C7EC; --info-tx:#2C5480;
@@ -179,6 +180,9 @@ main{flex:1; width:100%; max-width:640px; margin:0 auto; padding:22px 18px 40px;
 .module-card.hub-purple{border-style:solid; border-color:var(--purple-bd);}
 .module-card.hub-purple:hover{border-color:var(--purple-bd);}
 .module-card.hub-purple .icon{background:var(--purple-bg);}
+.module-card.hub-blue{border-style:solid; border-color:var(--blue-bd);}
+.module-card.hub-blue:hover{border-color:var(--blue-bd);}
+.module-card.hub-blue .icon{background:var(--blue-bg);}
 
 .quickcalc-card{
   display:flex; align-items:center; gap:12px; width:100%;
@@ -232,6 +236,7 @@ main{flex:1; width:100%; max-width:640px; margin:0 auto; padding:22px 18px 40px;
 .group-head .dot-common{background:var(--pink-400);}
 .group-head .dot-newborn{background:var(--mild-bd);}
 .group-head .dot-allergy{background:var(--purple-bd);}
+.group-head .dot-picu{background:var(--blue-bd);}
 .group-head .count{
   font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--ink-soft);
   background:var(--pink-100); padding:2px 8px; border-radius:999px; margin-left:auto;
@@ -356,6 +361,8 @@ main{flex:1; width:100%; max-width:640px; margin:0 auto; padding:22px 18px 40px;
 .dose-table caption{text-align:left; font-size:11.5px; font-weight:600; color:var(--pink-600); margin-bottom:6px; caption-side:top;}
 .dose-table th{background:var(--pink-100); color:var(--pink-700); font-weight:700; text-align:left; padding:6px 8px; border:1px solid var(--pink-200); white-space:nowrap; position:sticky; top:0; z-index:2;}
 .dose-table td{padding:6px 8px; border:1px solid var(--pink-200); color:var(--ink); vertical-align:top; background:white;}
+.dose-table.sticky-col1 th:first-child{position:sticky; left:0; z-index:4; background:var(--pink-100);}
+.dose-table.sticky-col1 td:first-child{position:sticky; left:0; z-index:1; background:white; box-shadow:2px 0 4px -2px rgba(0,0,0,0.25);}
 .dose-table tr:nth-child(even) td{background:var(--pink-50);}
 .dose-table .note-row td{background:var(--pink-100); font-size:11px; color:var(--ink-soft); font-style:italic;}
 
@@ -685,12 +692,14 @@ const UI = {
   groupUrgent:{th:'ฉุกเฉิน', en:'Emergency'},
   groupCommon:{th:'อาการที่พบบ่อย', en:'Common presentations'},
   groupNewborn:{th:'ทารกแรกเกิด', en:'Newborn'},
-  newbornSubCount:{th:'3 แนวทางย่อย', en:'3 sub-guidelines'},
+  newbornSubCount:{th:'4 แนวทางย่อย', en:'4 sub-guidelines'},
   newbornHomeEyebrow:{th:'ภาวะในทารกแรกเกิด', en:'NEWBORN CONDITIONS'},
   newbornHomeTitle:{th:'เลือกภาวะที่ต้องการประเมิน', en:'Select a condition to assess'},
   newbornHomeDesc:{th:'เครื่องมือช่วยประเมินและวางแผนการดูแลรักษาทารกแรกเกิด 3 กลุ่มภาวะ', en:'A decision-support suite covering three newborn clinical conditions.'},
   groupAllergy:{th:'แพ้ยาปฏิชีวนะ', en:'Antibiotic Allergy'},
   atbSubCount:{th:'2 เครื่องมือ', en:'2 tools'},
+  groupPicu:{th:'PICU / การช่วยหายใจ', en:'PICU / Respiratory Support'},
+  ventSubCount:{th:'2 โหมด', en:'2 modes'},
   atbHomeEyebrow:{th:'การประเมินและจัดการแพ้ยาปฏิชีวนะ', en:'ANTIBIOTIC ALLERGY EVALUATION'},
   atbHomeTitle:{th:'เลือกเครื่องมือที่ต้องการใช้', en:'Select a tool'},
   atbHomeDesc:{th:'ประเมินความเสี่ยงของประวัติแพ้ยาปฏิชีวนะ และตรวจสอบ cross-reactivity ระหว่าง β-lactam ตามแนวทาง ESCMID 2026', en:'Risk-stratify a reported antibiotic allergy and check β-lactam cross-reactivity, based on the ESCMID 2026 guideline.'},
@@ -6297,7 +6306,9 @@ function spScrollHint(){
 /* Generic scrollable dose-table renderer: cols is an ordered array of {key, label}, rows is an
    array of plain objects keyed the same way. Cell values may be a bilingual {th,en} object or a
    plain string (drug/organism names are kept language-neutral). */
-function spTableHtml(cols, rows, footer){
+function spTableHtml(cols, rows, footer, opts){
+  opts = opts || {};
+  const tableClass = 'dose-table' + (opts.stickyFirst ? ' sticky-col1' : '');
   const headHtml = cols.map(c=>`<th>${t(c.label)}</th>`).join('');
   const bodyHtml = rows.map(r=>{
     const cells = cols.map(c=>{
@@ -6307,9 +6318,16 @@ function spTableHtml(cols, rows, footer){
     }).join('');
     return `<tr>${cells}</tr>`;
   }).join('');
-  let html = `<div class="dose-table-scroll"><table class="dose-table"><thead><tr>${headHtml}</tr></thead><tbody>${bodyHtml}</tbody></table></div>${spScrollHint()}`;
+  let html = `<div class="dose-table-scroll"><table class="${tableClass}"><thead><tr>${headHtml}</tr></thead><tbody>${bodyHtml}</tbody></table></div>${spScrollHint()}`;
   if(footer) html += `<div style="font-size:11px; color:var(--ink-soft); margin-top:6px;">${t(footer)}</div>`;
   return html;
+}
+
+function spApaRefCard(wrap, apaRef){
+  spSectionCard(wrap, {
+    h: {th:'อ้างอิง', en:'Reference'}, icon:'📚', collapsible:true,
+    customHtml: `<p style="font-size:12px; color:var(--ink-soft); margin:0; line-height:1.7;">${t(apaRef)}</p>`
+  });
 }
 
 function spHypotensionTableHtml(hypo){
@@ -13734,12 +13752,13 @@ const CATEGORIES = [
   { id:'uti', icon:'🚽', group:'common', name:{th:'Urinary Tract Infection', en:'Urinary Tract Infection'}, short:{th:'อายุ 2 เดือน–5 ปี · วินิจฉัย · แยก upper/lower · การรักษา', en:'Age 2mo–5y · diagnosis · upper/lower · treatment'}, keywords:'uti urinary tract infection ปัสสาวะ ทางเดินปัสสาวะ กระเพาะปัสสาวะอักเสบ กรวยไตอักเสบ ติดเชื้อทางเดินปัสสาวะ pyelonephritis cystitis' }
 ];
 
-const NEWBORN_HUB = { id:'newborn', icon:'👶', name:{th:'Newborn', en:'Newborn'}, short:{th:'Congenital syphilis · Early-onset sepsis · ตัวเหลืองในทารกแรกเกิด', en:'Congenital syphilis · Early-onset sepsis · Neonatal jaundice'}, keywords:'newborn ทารกแรกเกิด neonate neonatal syphilis ซิฟิลิส ซิฟิลิสแต่กำเนิด eos early onset sepsis ติดเชื้อในกระแสเลือดทารกแรกเกิด jaundice ตัวเหลือง ดีซ่าน bilirubin บิลิรูบิน' };
+const NEWBORN_HUB = { id:'newborn', icon:'👶', name:{th:'Newborn', en:'Newborn'}, short:{th:'Congenital syphilis · Early-onset sepsis · ตัวเหลือง · การช่วยหายใจ', en:'Congenital syphilis · Early-onset sepsis · Jaundice · Ventilation'}, keywords:'newborn ทารกแรกเกิด neonate neonatal syphilis ซิฟิลิส ซิฟิลิสแต่กำเนิด eos early onset sepsis ติดเชื้อในกระแสเลือดทารกแรกเกิด jaundice ตัวเหลือง ดีซ่าน bilirubin บิลิรูบิน ventilation เครื่องช่วยหายใจ hfov cpap niv abg blood gas' };
 
 const NEWBORN_CATEGORIES = [
   { id:'syphilis', icon:'🩸', name:{th:'Congenital Syphilis', en:'Congenital Syphilis'}, short:{th:'ประเมินและรักษาทารกแรกเกิด', en:'Newborn evaluation & treatment'} },
   { id:'eos', icon:'🍼', name:{th:'Early Onset Neonatal Sepsis', en:'Early Onset Neonatal Sepsis'}, short:{th:'ทารกสงสัยติดเชื้อในกระแสเลือดแรกเกิด', en:'Newborn with suspected early-onset sepsis'} },
-  { id:'jaundice', icon:'🟡', name:{th:'Neonatal Jaundice', en:'Neonatal Jaundice'}, short:{th:'ทุกอายุครรภ์ · เกณฑ์ส่องไฟ · เปลี่ยนถ่ายเลือด', en:'All GA · phototherapy · exchange thresholds'} }
+  { id:'jaundice', icon:'🟡', name:{th:'Neonatal Jaundice', en:'Neonatal Jaundice'}, short:{th:'ทุกอายุครรภ์ · เกณฑ์ส่องไฟ · เปลี่ยนถ่ายเลือด', en:'All GA · phototherapy · exchange thresholds'} },
+  { id:'nbvent', icon:'💨', name:{th:'Newborn Ventilation', en:'Newborn Ventilation'}, short:{th:'Conventional MV · HFOV · Non-invasive ventilation', en:'Conventional MV · HFOV · Non-invasive ventilation'} }
 ];
 
 function goNewbornHome(){
@@ -13756,6 +13775,734 @@ function goAtbHome(){
   scrollToTop();
   render();
 }
+
+/* ======================= Ventilation (Conventional MV / HFOV) ======================= */
+const VENT_HUB = { id:'ventilation', icon:'💨', name:{th:'Mechanical Ventilation', en:'Mechanical Ventilation'}, short:{th:'Conventional MV · HFOV', en:'Conventional MV · HFOV'}, keywords:'ventilation ventilator เครื่องช่วยหายใจ conventional mechanical ventilation hfov high frequency oscillatory เครื่องสั่น peep pip vt tidal volume fio2 ards lung recruitment oxygenation ventilation' };
+
+const VT = {
+  refBadge: {th:'Ramathibodi Handbook of PICU & NICU (พ.ศ. 2561)', en:'Ramathibodi Handbook of PICU & NICU (2018)'},
+  home: {
+    eyebrow: {th:'เครื่องช่วยหายใจ', en:'MECHANICAL VENTILATION'},
+    title: {th:'เลือกโหมดที่ต้องการดู', en:'Select a mode'},
+    desc: {th:'หลักการตั้งและปรับเครื่องช่วยหายใจชนิด conventional และ high frequency oscillatory ventilation (HFOV) ในผู้ป่วยเด็ก', en:'Setup and adjustment principles for conventional mechanical ventilation and high-frequency oscillatory ventilation (HFOV) in children.'},
+    convName: {th:'Conventional MV', en:'Conventional MV'},
+    convShort: {th:'จำแนกตาม pathophysiology · ตารางพารามิเตอร์ · Lung recruitment', en:'Classify by pathophysiology · parameter table · lung recruitment'},
+    hfovName: {th:'HFOV', en:'HFOV'},
+    hfovShort: {th:'ข้อบ่งชี้ · การตั้งและปรับค่า · Monitoring', en:'Indications · settings & titration · monitoring'}
+  },
+  conv: {
+    title: {th:'Conventional Mechanical Ventilation', en:'Conventional Mechanical Ventilation'},
+    apaRef: {th:'ณัฐชัย อนันตสิทธิ์. (2561). Conventional Mechanical Ventilation. ใน อนันต์ โฆษิตเศรษฐ, เปรมฤดี ภูมิถาวร, อัญชลี ลิ้มรังสิกุล, พฤหัส พงษ์มี, และ ณัฐชัย อนันตสิทธิ์ (บ.ก.), Ramathibodi Handbook of PICU & NICU (น. 76–78). ภาควิชากุมารเวชศาสตร์ คณะแพทยศาสตร์โรงพยาบาลรามาธิบดี มหาวิทยาลัยมหิดล.', en:'ณัฐชัย อนันตสิทธิ์. (2018). Conventional Mechanical Ventilation. In อนันต์ โฆษิตเศรษฐ, เปรมฤดี ภูมิถาวร, อัญชลี ลิ้มรังสิกุล, พฤหัส พงษ์มี, & ณัฐชัย อนันตสิทธิ์ (Eds.), Ramathibodi Handbook of PICU & NICU (pp. 76–78). Department of Pediatrics, Faculty of Medicine Ramathibodi Hospital, Mahidol University.'},
+    principleHeading: {th:'หลักการตั้งเครื่องช่วยหายใจเบื้องต้น', en:'Basic ventilator setup principles'},
+    principleIntro: {th:'จำแนกตาม pathophysiology ของผู้ป่วยได้ 3 กลุ่ม', en:'Patients are classified by pathophysiology into 3 groups:'},
+    principleList: [
+      {th:'Low lung compliance — ARDS, pulmonary edema, severe pneumonia', en:'Low lung compliance — ARDS, pulmonary edema, severe pneumonia'},
+      {th:'Normal lung (normal compliance and airway resistance) — postoperative surgery, neuromuscular weakness', en:'Normal lung (normal compliance and airway resistance) — postoperative surgery, neuromuscular weakness'},
+      {th:'High airway resistance — asthma, lower airway disease', en:'High airway resistance — asthma, lower airway disease'}
+    ],
+    tableHeading: {th:'ตารางที่ 1 — หลักการตั้งเครื่องช่วยหายใจตาม pathophysiology', en:'Table 1 — Ventilator settings by pathophysiology'},
+    cols: {
+      param: {th:'พารามิเตอร์', en:'Parameter'},
+      low: {th:'Low lung compliance', en:'Low lung compliance'},
+      normal: {th:'Normal lungs', en:'Normal lungs'},
+      high: {th:'High airway resistance', en:'High airway resistance'}
+    },
+    rows: [
+      { param:{th:'Mode', en:'Mode'}, low:{th:'Assist-control (A/C)', en:'Assist-control (A/C)'}, normal:{th:'A/C, SIMV', en:'A/C, SIMV'}, high:{th:'A/C', en:'A/C'} },
+      { param:{th:'ชนิดเครื่อง', en:'Type of ventilator'}, low:{th:'เลือก Pressure controlled (PC) มากกว่า Volume controlled (VC)', en:'Prefer pressure controlled (PC) over volume controlled (VC)'}, normal:{th:'PC หรือ VC', en:'PC or VC'}, high:{th:'PC หรือ VC', en:'PC or VC'} },
+      { param:{th:'FiO₂', en:'FiO₂'}, low:{th:'เริ่ม 1.0 แล้วลดจนต่ำกว่า 0.5 เพื่อลด O₂ toxicity', en:'Start 1.0, then wean to <0.5 to minimize O₂ toxicity'}, normal:{th:'เริ่ม 1.0 แล้วลดจนต่ำกว่า 0.5 เพื่อลด O₂ toxicity', en:'Start 1.0, then wean to <0.5 to minimize O₂ toxicity'}, high:{th:'เริ่ม 1.0 แล้วลดจนต่ำกว่า 0.5 เพื่อลด O₂ toxicity', en:'Start 1.0, then wean to <0.5 to minimize O₂ toxicity'} },
+      { param:{th:'VT (มล./กก.)', en:'VT (mL/kg)'}, low:{th:'4–6', en:'4–6'}, normal:{th:'8–10', en:'8–10'}, high:{th:'8–12', en:'8–12'} },
+      { param:{th:'PIP (cmH₂O)', en:'PIP (cmH₂O)'}, low:{th:'ปรับให้ทรวงอกขยับตามเป้า VT รักษา P plateau <28–32', en:'Titrate to chest rise and target VT; keep P plateau <28–32'}, normal:{th:'ปรับให้ทรวงอกขยับตามเป้า VT', en:'Titrate to chest rise and target VT'}, high:{th:'ปรับให้ทรวงอกขยับตามเป้า VT รักษา P plateau <28', en:'Titrate to chest rise and target VT; keep P plateau <28'} },
+      { param:{th:'PEEP (cmH₂O)', en:'PEEP (cmH₂O)'}, low:{th:'Mild 5–10, moderate–severe 10–15 — หา optimal PEEP', en:'Mild 5–10, moderate–severe 10–15 — find optimal PEEP'}, normal:{th:'3–5', en:'3–5'}, high:{th:'5', en:'5'} },
+      { param:{th:'Rate (ครั้ง/นาที)', en:'Rate (/min)'}, low:{th:'สูงกว่า physiologic rate ตามอายุ', en:'> physiologic rate for age'}, normal:{th:'Physiologic rate ตามอายุ — 1 เดือน–1 ปี: 30–40, 2–5 ปี: 20–30, >5 ปี: 12–20', en:'Physiologic rate for age — 1mo–1y: 30–40, 2–5y: 20–30, >5y: 12–20'}, high:{th:'ต่ำกว่า physiologic rate ตามอายุ', en:'< physiologic rate for age'} },
+      { param:{th:'I:E ratio (Ti)', en:'I:E ratio (Ti)'}, low:{th:'1:1–1:1.5', en:'1:1–1:1.5'}, normal:{th:'1:2–1:3', en:'1:2–1:3'}, high:{th:'1:3–1:5 เพื่อป้องกัน auto-PEEP', en:'1:3–1:5 to prevent auto-PEEP'} },
+      { param:{th:'Trigger sensitivity', en:'Trigger sensitivity'}, low:{th:'เลือก flow triggered มากกว่า pressure triggered ปรับให้ผู้ป่วยหายใจสบายและไม่มี auto-triggering', en:'Prefer flow-triggered over pressure-triggered; adjust for patient comfort without auto-triggering'}, normal:{th:'เลือก flow triggered มากกว่า pressure triggered ปรับให้ผู้ป่วยหายใจสบายและไม่มี auto-triggering', en:'Prefer flow-triggered over pressure-triggered; adjust for patient comfort without auto-triggering'}, high:{th:'เลือก flow triggered มากกว่า pressure triggered ปรับให้ผู้ป่วยหายใจสบายและไม่มี auto-triggering', en:'Prefer flow-triggered over pressure-triggered; adjust for patient comfort without auto-triggering'} },
+      { param:{th:'เป้าหมาย — Oxygenation', en:'Target — Oxygenation'}, low:{th:'Mild: SpO₂ >92–97%, moderate–severe: SpO₂ 88–92%', en:'Mild: SpO₂ >92–97%, moderate–severe: SpO₂ 88–92%'}, normal:{th:'SpO₂ 94–97%', en:'SpO₂ 94–97%'}, high:{th:'SpO₂ 94–97%', en:'SpO₂ 94–97%'} },
+      { param:{th:'เป้าหมาย — Ventilation', en:'Target — Ventilation'}, low:{th:'PaCO₂ ปกติ ถึง permissive hypercapnia', en:'Normal PaCO₂ to permissive hypercapnia'}, normal:{th:'PaCO₂ ปกติ (35–45 mmHg)', en:'Normal PaCO₂ (35–45 mmHg)'}, high:{th:'PaCO₂ ปกติ ถึง permissive hypercapnia', en:'Normal PaCO₂ to permissive hypercapnia'} }
+    ],
+    adjustHeading: {th:'การปรับเครื่องช่วยหายใจ', en:'Ventilator adjustment'},
+    adjustIntro: {th:'ปรับตามค่า PaO₂, PaCO₂ ใน ABG และ SpO₂', en:'Titrate according to PaO₂, PaCO₂ on ABG, and SpO₂.'},
+    oxyLabel: {th:'Oxygenation', en:'Oxygenation'},
+    oxyText: {th:'เมื่อมี hypoxemia ให้เพิ่ม FiO₂ หรือเพิ่ม mean airway pressure (MAP) โดยเพิ่ม PIP, PEEP, Ti หรือ flow ร่วมกับแก้ไขสาเหตุของ hypoxemia', en:'If hypoxemic, increase FiO₂ or mean airway pressure (MAP) by increasing PIP, PEEP, Ti, or flow — together with treating the underlying cause of hypoxemia.'},
+    ventLabel: {th:'Ventilation', en:'Ventilation'},
+    ventText: {th:'เมื่อมี hypercapnia ให้เพิ่ม minute ventilation (MV) โดยเพิ่ม VT หรือ RR และแก้ไขสาเหตุของ hypercapnia', en:'If hypercapnic, increase minute ventilation (MV) by increasing VT or RR — and treat the underlying cause of hypercapnia.'},
+    recruitHeading: {th:'ขั้นตอนการทำ lung recruitment with decremental PEEP titration (ในผู้ป่วย ARDS)', en:'Lung recruitment with decremental PEEP titration (for ARDS)'},
+    recruitList: [
+      {th:'ผู้ป่วยต้องมี HR, BP ปกติ และไม่มีข้อห้าม ได้แก่ increased intracranial pressure, uncorrected hypotension หรือ uncorrected air leak', en:'Patient must have normal HR/BP and no contraindications: increased intracranial pressure, uncorrected hypotension, or uncorrected air leak.'},
+      {th:'ควรมี arterial line เพื่อติดตาม BP และติดตาม SpO₂ ร่วมกับให้ sedative drugs และ neuromuscular blocking agents (NMBA)', en:'An arterial line is recommended to monitor BP, along with SpO₂ monitoring, sedative drugs, and neuromuscular blocking agents (NMBA).'},
+      {th:'เริ่มทำ lung recruitment โดยตั้งเป็น assist-control mode with PC: FiO₂ 1.0, PAP (peak airway pressure above PEEP) 15 cmH₂O หรือ 20 cmH₂O (เด็กโต), PEEP 20 cmH₂O, rate ตามอายุ, I:E ratio 1:1 — รอประมาณ 2 นาที', en:'Start recruitment in assist-control mode with PC: FiO₂ 1.0, PAP (peak airway pressure above PEEP) 15 cmH₂O or 20 cmH₂O (older children), PEEP 20 cmH₂O, age-appropriate rate, I:E ratio 1:1 — wait about 2 minutes.'},
+      {th:'บันทึกค่า VT, SpO₂, HR, BP', en:'Record VT, SpO₂, HR, and BP.'},
+      {th:'หา optimal PEEP แบบ decremental titration — ลด PEEP ครั้งละ 2 cmH₂O ทุก 2 นาที บันทึกค่าทุกครั้งที่ลด', en:'Find optimal PEEP by decremental titration — reduce PEEP by 2 cmH₂O every 2 minutes, recording values at each step.'},
+      {th:'PEEP ที่น้อยที่สุดที่ยังให้ VT มากที่สุด คือ optimal PEEP', en:'The lowest PEEP that still gives the highest VT is the optimal PEEP.'},
+      {th:'หากระหว่างทำมี hypotension หรือ SpO₂ <85% ต้องหยุดทำ lung recruitment ทันที', en:'Stop the recruitment maneuver immediately if hypotension or SpO₂ <85% occurs.'}
+    ]
+  },
+  hfov: {
+    title: {th:'High Frequency Oscillatory Ventilation (HFOV)', en:'High Frequency Oscillatory Ventilation (HFOV)'},
+    apaRef: {th:'จรินทร์ แววพานิช. (2561). High Frequency Oscillatory Ventilation. ใน อนันต์ โฆษิตเศรษฐ, เปรมฤดี ภูมิถาวร, อัญชลี ลิ้มรังสิกุล, พฤหัส พงษ์มี, และ ณัฐชัย อนันตสิทธิ์ (บ.ก.), Ramathibodi Handbook of PICU & NICU (น. 79–80). ภาควิชากุมารเวชศาสตร์ คณะแพทยศาสตร์โรงพยาบาลรามาธิบดี มหาวิทยาลัยมหิดล.', en:'จรินทร์ แววพานิช. (2018). High Frequency Oscillatory Ventilation. In อนันต์ โฆษิตเศรษฐ, เปรมฤดี ภูมิถาวร, อัญชลี ลิ้มรังสิกุล, พฤหัส พงษ์มี, & ณัฐชัย อนันตสิทธิ์ (Eds.), Ramathibodi Handbook of PICU & NICU (pp. 79–80). Department of Pediatrics, Faculty of Medicine Ramathibodi Hospital, Mahidol University.'},
+    indHeading: {th:'ข้อบ่งชี้', en:'Indications'},
+    ind1Heading: {th:'Failed conventional ventilation โดยประเมินจาก', en:'Failed conventional ventilation, assessed from:'},
+    ind1List: [
+      {th:'PIP >28–32 cmH₂O หรือ P plateau >28 cmH₂O', en:'PIP >28–32 cmH₂O or P plateau >28 cmH₂O'},
+      {th:'MAP >15 cmH₂O', en:'MAP >15 cmH₂O'},
+      {th:'FiO₂ >0.6 และไม่สามารถลดลงได้', en:'FiO₂ >0.6 and cannot be weaned down'},
+      {th:'Oxygen index >13', en:'Oxygen index >13'}
+    ],
+    ind2: {th:'Uncontrolled air leak ที่ยังต้องใช้ high ventilator setting', en:'Uncontrolled air leak while still requiring a high ventilator setting'},
+    tableHeading: {th:'แนวทางการตั้งและปรับ HFOV', en:'HFOV setup and titration'},
+    cols: {
+      condition: {th:'Condition', en:'Condition'},
+      map: {th:'MAP', en:'MAP'},
+      amp: {th:'Amplitude (ΔP)', en:'Amplitude (ΔP)'},
+      freq: {th:'Frequency', en:'Frequency'},
+      fio2: {th:'FiO₂', en:'FiO₂'}
+    },
+    rows: [
+      { condition:{th:'Initial setting', en:'Initial setting'}, map:{th:'สูงกว่า MAP เดิมขณะใช้ conventional ventilator 4–6 cmH₂O', en:'Higher than the MAP on conventional ventilator by 4–6 cmH₂O'}, amp:{th:'เริ่มต้น 30–40 cmH₂O ปรับจนเห็นการสั่นถึงขาหนีบ', en:'Start 30–40 cmH₂O; titrate until oscillation is visible to the groin'}, freq:{th:'Neonate 8–10 Hz, Child 6–8 Hz, Adult 5–6 Hz', en:'Neonate 8–10 Hz, Child 6–8 Hz, Adult 5–6 Hz'}, fio2:{th:'เริ่มต้นที่ 1.0 แล้วปรับลดตาม SpO₂', en:'Start at 1.0, then wean per SpO₂'} },
+      { condition:{th:'Hypoxemia', en:'Hypoxemia'}, map:{th:'ปรับเพิ่มครั้งละ 1–2 cmH₂O', en:'Increase by 1–2 cmH₂O per step'}, amp:{th:'—', en:'—'}, freq:{th:'—', en:'—'}, fio2:{th:'ปรับเพิ่ม', en:'Increase'} },
+      { condition:{th:'Hypoventilation (PaCO₂ สูงขึ้น)', en:'Hypoventilation (rising PaCO₂)'}, map:{th:'—', en:'—'}, amp:{th:'ปรับเพิ่ม', en:'Increase'}, freq:{th:'ปรับลด หลังจากปรับ ΔP ให้เหมาะสมแล้ว', en:'Decrease, after ΔP has been optimized'}, fio2:{th:'—', en:'—'} }
+    ],
+    tableFootnote: {th:'ตั้ง Ti 33% ทุกภาวะ', en:'Set Ti at 33% in every condition.'},
+    monitorHeading: {th:'Monitoring', en:'Monitoring'},
+    monitorList: [
+      {th:'Chest X-ray ที่ 1 ชม. หลัง initial setting เพื่อดู aeration ให้ได้ประมาณ 8–10 ช่องซี่โครง ปรับ MAP เพิ่มครั้งละ 1–2 cmH₂O เพื่อให้ได้ adequate aeration และติดตาม CXR ทุก 12–24 ชม. ตามความเหมาะสม', en:'Chest X-ray at 1 h after initial setting to assess aeration (aim ~8–10 posterior rib spaces); adjust MAP by 1–2 cmH₂O increments for adequate aeration; repeat CXR every 12–24 h as appropriate.'},
+      {th:'ABG ที่ 1 ชม. หลัง initial setting และติดตามตามความเหมาะสม', en:'ABG at 1 h after initial setting, then as appropriate.'},
+      {th:'ติดตาม SpO₂ ให้อยู่ 88–92% ใน severe ARDS โดยพยายามลด FiO₂ ให้ต่ำกว่า 0.6', en:'Target SpO₂ 88–92% in severe ARDS, aiming to wean FiO₂ below 0.6.'}
+    ],
+    specialHeading: {th:'Special consideration', en:'Special consideration'},
+    specialText: {th:'ช่วงแรกของการใช้ HFOV ผู้ป่วยอาจมี BP ต่ำ จึงอาจต้องให้สารน้ำหรือ vasoactive agent ผู้ป่วยควรได้รับ sedative drug และ muscle relaxant ขณะใช้ HFOV ร่วมกับติดตาม hemodynamic ตลอดเวลา', en:'Early in HFOV use, patients may develop hypotension and may need fluids or a vasoactive agent. Patients should receive a sedative drug and muscle relaxant during HFOV, with continuous hemodynamic monitoring.'}
+  }
+};
+
+let vtState = { screen:'home' };
+function vtGoTo(s){ vtState.screen = s; scrollToTop(); render(); }
+function goVentHome(){
+  topState = { screen:'ventilation' };
+  vtState = { screen:'home' };
+  scrollToTop();
+  render();
+}
+
+function vtHomeView(app){
+  const backBtn = document.createElement('button');
+  backBtn.className = 'top-back-link';
+  backBtn.textContent = t(UI.backToMainHome);
+  backBtn.onclick = goMainHome;
+  app.appendChild(backBtn);
+
+  const hero = document.createElement('div');
+  hero.innerHTML = `
+    <div class="hero">
+      <span class="eyebrow">${t(VT.home.eyebrow)}</span>
+      <h1>${t(VT.home.title)}</h1>
+      <p>${t(VT.home.desc)}</p>
+    </div>`;
+  app.appendChild(hero);
+
+  const grid = document.createElement('div');
+  grid.className = 'module-grid';
+  grid.appendChild(buildModuleCard(
+    { icon:'🫧', name:VT.home.convName, short:VT.home.convShort },
+    function(){ vtGoTo('conv'); }
+  ));
+  grid.appendChild(buildModuleCard(
+    { icon:'〰️', name:VT.home.hfovName, short:VT.home.hfovShort },
+    function(){ vtGoTo('hfov'); }
+  ));
+  app.appendChild(grid);
+}
+
+function vtSubHead(app, title){
+  const head = document.createElement('div');
+  head.className = 'wizard-head';
+  head.innerHTML = `<button class="back-btn" id="vtSubBack" aria-label="${(LANG==='th'?'กลับไปหน้ารวม':'Back to')} ${t(VENT_HUB.name)}">‹</button><div class="wizard-title">${title}</div>`;
+  app.appendChild(head);
+  document.getElementById('vtSubBack').onclick = function(){ vtGoTo('home'); };
+}
+
+function vtConvView(app){
+  vtSubHead(app, t(VT.conv.title));
+  const wrap = document.createElement('div');
+
+  spSectionCard(wrap, {
+    h: VT.conv.principleHeading, icon:'🧭',
+    customHtml: `<p style="font-size:12.5px; margin:0 0 8px;">${t(VT.conv.principleIntro)}</p><ul>${VT.conv.principleList.map(e=>`<li>${t(e)}</li>`).join('')}</ul>`
+  });
+
+  const convCols = [
+    {key:'param', label:VT.conv.cols.param},
+    {key:'low', label:VT.conv.cols.low},
+    {key:'normal', label:VT.conv.cols.normal},
+    {key:'high', label:VT.conv.cols.high}
+  ];
+  spSectionCard(wrap, { h:VT.conv.tableHeading, icon:'📋', prominent:true, customHtml: spTableHtml(convCols, VT.conv.rows, null, {stickyFirst:true}) });
+
+  spSectionCard(wrap, {
+    h: VT.conv.adjustHeading, icon:'🎛️',
+    customHtml: `<p style="font-size:12.5px; margin:0 0 10px;">${t(VT.conv.adjustIntro)}</p>
+      <div class="drugline"><span class="dname">${t(VT.conv.oxyLabel)}</span></div>
+      <p style="font-size:12.5px; margin:2px 0 10px;">${t(VT.conv.oxyText)}</p>
+      <div class="drugline"><span class="dname">${t(VT.conv.ventLabel)}</span></div>
+      <p style="font-size:12.5px; margin:2px 0 0;">${t(VT.conv.ventText)}</p>`
+  });
+
+  spSectionCard(wrap, {
+    h: VT.conv.recruitHeading, icon:'🫁', collapsible:true,
+    customHtml: `<ol style="padding-left:18px; margin:0;">${VT.conv.recruitList.map(e=>`<li style="margin-bottom:6px;">${t(e)}</li>`).join('')}</ol>`
+  });
+
+  spApaRefCard(wrap, VT.conv.apaRef);
+
+  app.appendChild(wrap);
+}
+
+function vtHfovView(app){
+  vtSubHead(app, t(VT.hfov.title));
+  const wrap = document.createElement('div');
+
+  spSectionCard(wrap, {
+    h: VT.hfov.indHeading, icon:'⚠️',
+    customHtml: `<p style="font-size:12.5px; font-weight:600; margin:0 0 6px;">1. ${t(VT.hfov.ind1Heading)}</p>
+      <ul>${VT.hfov.ind1List.map(e=>`<li>${t(e)}</li>`).join('')}</ul>
+      <p style="font-size:12.5px; margin:10px 0 0;">2. ${t(VT.hfov.ind2)}</p>`
+  });
+
+  const hfovCols = [
+    {key:'condition', label:VT.hfov.cols.condition},
+    {key:'map', label:VT.hfov.cols.map},
+    {key:'amp', label:VT.hfov.cols.amp},
+    {key:'freq', label:VT.hfov.cols.freq},
+    {key:'fio2', label:VT.hfov.cols.fio2}
+  ];
+  spSectionCard(wrap, { h:VT.hfov.tableHeading, icon:'📋', prominent:true, customHtml: spTableHtml(hfovCols, VT.hfov.rows, VT.hfov.tableFootnote, {stickyFirst:true}) });
+
+  spSectionCard(wrap, {
+    h: VT.hfov.monitorHeading, icon:'🩻',
+    customHtml: `<ol style="padding-left:18px; margin:0;">${VT.hfov.monitorList.map(e=>`<li style="margin-bottom:6px;">${t(e)}</li>`).join('')}</ol>`
+  });
+
+  spSectionCard(wrap, {
+    h: VT.hfov.specialHeading, icon:'❗',
+    customHtml: `<p style="font-size:12.5px; margin:0;">${t(VT.hfov.specialText)}</p>`
+  });
+
+  spApaRefCard(wrap, VT.hfov.apaRef);
+
+  app.appendChild(wrap);
+}
+
+function vtRender(){
+  const app = document.getElementById('app');
+  app.innerHTML = '';
+  if(vtState.screen==='home') vtHomeView(app);
+  else if(vtState.screen==='conv') vtConvView(app);
+  else if(vtState.screen==='hfov') vtHfovView(app);
+}
+/* ======================= End Ventilation ======================= */
+
+/* ======================= Newborn Ventilation ======================= */
+const NV = {
+  refBadge: {th:'Ramathibodi Handbook of Neonatology (พ.ศ. 2565)', en:'Ramathibodi Handbook of Neonatology (2022)'},
+  home: {
+    eyebrow: {th:'เครื่องช่วยหายใจในทารกแรกเกิด', en:'NEWBORN VENTILATION'},
+    title: {th:'เลือกโหมดที่ต้องการดู', en:'Select a mode'},
+    desc: {th:'หลักการตั้งและปรับเครื่องช่วยหายใจในทารกแรกเกิด ทั้ง conventional, HFOV และ non-invasive ventilation', en:'Setup and adjustment principles for conventional ventilation, HFOV, and non-invasive ventilation in newborns.'},
+    convName: {th:'Conventional MV', en:'Conventional MV'},
+    convShort: {th:'CMV modes · ตารางตั้งและ weaning · CALMS', en:'CMV modes · setup & weaning table · CALMS'},
+    hfovName: {th:'HFOV', en:'HFOV'},
+    hfovShort: {th:'Indication · MAP strategy · การปรับตามปัญหา', en:'Indications · MAP strategy · troubleshooting'},
+    nivName: {th:'Non-Invasive Ventilation', en:'Non-Invasive Ventilation'},
+    nivShort: {th:'NCPAP · NIPPV · HHHFNC', en:'NCPAP · NIPPV · HHHFNC'},
+    abgName: {th:'ABG Interpretation', en:'ABG Interpretation'},
+    abgShort: {th:'ค่าปกติตามอายุครรภ์ · เป้าหมายตามกลุ่มโรค · ขั้นตอนแปลผล', en:'Normal values by GA · disease targets · interpretation steps'}
+  },
+  conv: {
+    title: {th:'Conventional Mechanical Ventilation (ทารกแรกเกิด)', en:'Conventional Mechanical Ventilation (Newborn)'},
+    apaRef: {th:'พฤหัส พงษ์มี. (2565). Conventional Mechanical Ventilation. ใน คณาจารย์สาขาวิชาทารกแรกเกิด ภาควิชากุมารเวชศาสตร์ คณะแพทยศาสตร์โรงพยาบาลรามาธิบดี (บ.ก.), Ramathibodi Handbook of Neonatology (น. 93–96). ภาควิชากุมารเวชศาสตร์ คณะแพทยศาสตร์โรงพยาบาลรามาธิบดี มหาวิทยาลัยมหิดล.', en:'พฤหัส พงษ์มี. (2022). Conventional Mechanical Ventilation. In Faculty of Neonatology, Department of Pediatrics, Faculty of Medicine Ramathibodi Hospital (Eds.), Ramathibodi Handbook of Neonatology (pp. 93–96). Department of Pediatrics, Faculty of Medicine Ramathibodi Hospital, Mahidol University.'},
+    indHeading: {th:'ข้อบ่งชี้ของการใช้เครื่องช่วยหายใจในทารกแรกเกิด', en:'Indications for mechanical ventilation in the newborn'},
+    indList: [
+      {th:'มีภาวะหยุดหายใจบ่อย (apnea) บ่อย (>6 ครั้ง/ชั่วโมง) หรือหยุดหายใจจนต้องการ positive pressure ventilation (PPV)', en:'Frequent apnea (>6 episodes/hour), or apnea requiring positive pressure ventilation (PPV)'},
+      {th:'หายใจเหนื่อยหอบ เช่น marked retractions หรือ RR >100/นาที', en:'Respiratory distress, e.g. marked retractions or RR >100/min'},
+      {th:'ต้องการ FiO₂ >0.6', en:'Requiring FiO₂ >0.6'},
+      {th:'มี respiratory acidosis รุนแรง หรือ pH <7.2 และ PaCO₂ >65 mmHg', en:'Severe respiratory acidosis, or pH <7.2 with PaCO₂ >65 mmHg'},
+      {th:'หายใจเหนื่อยร่วมกับมีข้อห้ามในการใช้เครื่องช่วยหายใจแบบ non-invasive เช่น intestinal obstruction, perforation', en:'Respiratory distress with a contraindication to non-invasive ventilation, e.g. intestinal obstruction, perforation'},
+      {th:'Postoperative period ที่ยังมีฤทธิ์ของยาดมสลบอยู่', en:'Postoperative period while still under the effect of anesthesia'}
+    ],
+    typesHeading: {th:'Conventional mechanical ventilator (CMV) จำแนกเป็น', en:'Conventional mechanical ventilator (CMV) types'},
+    typesList: [
+      {th:'Pressure-controlled ventilator — เครื่องจ่าย peak inspiratory pressure (PIP) คงที่ แต่ tidal volume (VT) เปลี่ยนแปลงตาม lung compliance', en:'Pressure-controlled ventilator — delivers a fixed peak inspiratory pressure (PIP); tidal volume (VT) varies with lung compliance'},
+      {th:'Volume-controlled ventilator — เครื่องพยายามทำให้ทารกได้ VT ตามที่ตั้งไว้ โดย PIP ที่ใช้จะเปลี่ยนแปลงตาม lung compliance', en:'Volume-controlled ventilator — delivers a set VT; the PIP used varies with lung compliance'}
+    ],
+    modesHeading: {th:'รูปแบบของ CMV ที่ใช้ในทารกแรกเกิด', en:'CMV modes used in the newborn'},
+    modesList: [
+      {th:'Assist/control ventilation (A/C) — เครื่องมี sensor รับสัญญาณเมื่อทารกเริ่มหายใจเข้า และช่วยหายใจให้ทารกทุกครั้งแบบ synchronize (patient trigger) มักใช้เมื่อต้องการ full ventilatory support', en:'Assist/control ventilation (A/C) — a sensor detects the onset of the infant\u2019s breath and synchronizes support on every breath (patient-triggered); typically used when full ventilatory support is needed'},
+      {th:'Synchronized intermittent mandatory ventilation (SIMV) — เครื่องช่วยแบบ synchronize กับการหายใจเข้าของทารกในช่วง trigger window ในอัตราที่ตั้งไว้ หากทารกหายใจเกินอัตราที่ตั้งไว้จะไม่ได้รับการ support', en:'Synchronized intermittent mandatory ventilation (SIMV) — synchronizes with the infant\u2019s breaths within a trigger window at the set rate; breaths above the set rate are unsupported'},
+      {th:'Pressure support ventilation (PSV) — เครื่องช่วยแบบ synchronize กับการหายใจของทารกทั้งช่วงเริ่มและสิ้นสุดการหายใจเข้า (termination เป็นร้อยละของ peak inspiratory flow) อาจใช้ PSV ร่วมกับ SIMV โดย PSV ทำงานในช่วงที่เครื่องไม่ได้ช่วยแบบ SIMV', en:'Pressure support ventilation (PSV) — synchronizes with both the start and end of the infant\u2019s inspiration (termination set as a percentage of peak inspiratory flow); may be combined with SIMV, with PSV supporting breaths not covered by SIMV'}
+    ],
+    vgNote: {th:'ปัจจุบันมีการใช้ volume targeted ventilation เช่น volume guarantee (VG) ซึ่งเครื่องจะวัด VT จาก breath ก่อนหน้าและคำนวณ PIP (working PIP) ที่ใช้ใน breath ถัดไป เพื่อให้ได้ targeted VT — VG ที่เหมาะสมสำหรับโรคปอดในทารกแรกเกิดช่วงแรกคือ 4-6 mL/kg กรณีมีโรคปอดเรื้อรังควรตั้ง VG 6-8 mL/kg และต้องตั้ง pressure limit ไว้เสมอ สามารถใช้ร่วมกับโหมดอื่นได้ เช่น A/C+VG, SIMV+VG, PSV+VG', en:'Volume-targeted ventilation, such as volume guarantee (VG), is now commonly used: the ventilator measures VT from the previous breath and calculates the PIP (working PIP) for the next breath to achieve the targeted VT. A VG of 4–6 mL/kg is appropriate for early newborn lung disease; 6–8 mL/kg for chronic lung disease. A pressure limit must always be set. VG can be combined with other modes, e.g. A/C+VG, SIMV+VG, PSV+VG.'},
+    principlesHeading: {th:'หลักการตั้งเครื่องช่วยหายใจ', en:'Ventilator setup principles'},
+    principles: [
+      { label:{th:'PIP', en:'PIP'}, bullets:[
+        {th:'ตั้งค่าจนเห็น chest rise และได้ VT 4-6 mL/kg', en:'Titrate until chest rise is seen and VT of 4–6 mL/kg is achieved'},
+        {th:'การเพิ่ม PIP ทำให้ VT และการกำจัด CO₂ เพิ่ม แต่ PIP ที่สูงมากทำให้เกิด barotrauma', en:'Increasing PIP raises VT and CO₂ clearance, but excessive PIP causes barotrauma'}
+      ]},
+      { label:{th:'PEEP (positive end expiratory pressure)', en:'PEEP (positive end expiratory pressure)'}, bullets:[
+        {th:'4-7 cmH₂O ขึ้นกับความรุนแรงของพยาธิสภาพของปอด', en:'4–7 cmH₂O, depending on the severity of the lung disease'},
+        {th:'การเพิ่ม PEEP ทำให้ MAP เพิ่มและป้องกัน alveolar collapse แต่ PEEP สูงเกินไปทำให้ intrathoracic pressure เพิ่ม ลด venous return และ cardiac output', en:'Increasing PEEP raises MAP and prevents alveolar collapse, but excessive PEEP increases intrathoracic pressure and reduces venous return and cardiac output'}
+      ]},
+      { label:{th:'Rate', en:'Rate'}, bullets:[
+        {th:'ขึ้นกับ mode ที่ใช้และพยาธิสภาพของปอด โดยทั่วไปตั้ง 20-40/min', en:'Depends on mode and lung disease; typically set at 20–40/min'},
+        {th:'การเพิ่ม rate ทำให้ minute ventilation (MV) เพิ่ม ส่งผลให้การกำจัด CO₂ เพิ่ม', en:'Increasing rate raises minute ventilation (MV) and CO₂ clearance'}
+      ]},
+      { label:{th:'Ti (inspiratory time)', en:'Ti (inspiratory time)'}, bullets:[
+        {th:'0.2-0.5 วินาที', en:'0.2–0.5 sec'},
+        {th:'หาก Ti ยาวเกินไป ทำให้ MAP เพิ่ม เพิ่มความเสี่ยงต่อ pulmonary air leak และ lung injury', en:'Excessively long Ti raises MAP and increases the risk of pulmonary air leak and lung injury'}
+      ]},
+      { label:{th:'FiO₂', en:'FiO₂'}, bullets:[
+        {th:'ขึ้นกับพยาธิสภาพของปอด', en:'Depends on the lung disease'},
+        {th:'หาก FiO₂ >0.6 อาจบ่งชี้ว่ายังไม่ได้ optimized lung volume ควรเพิ่ม MAP และหากลด FiO₂ <0.3-0.4 ได้ ควรลด MAP', en:'FiO₂ >0.6 may indicate the lung volume is not yet optimized — increase MAP. If FiO₂ can be weaned to <0.3–0.4, consider reducing MAP'}
+      ]},
+      { label:{th:'Flow rate', en:'Flow rate'}, bullets:[
+        {th:'6-8 L/min', en:'6–8 L/min'},
+        {th:'หากใช้ flow น้อย จะเพิ่ม work of breathing ของทารก', en:'Too low a flow increases the infant\u2019s work of breathing'}
+      ]}
+    ],
+    bgHeading: {th:'การปรับ setting ตามผล blood gas', en:'Adjusting settings by blood gas'},
+    bgIntro: {th:'พิจารณาจาก PaO₂ (oxygenation) และ PaCO₂ (ventilation)', en:'Based on PaO₂ (oxygenation) and PaCO₂ (ventilation)'},
+    bgCols: { goal:{th:'Goal', en:'Goal'}, pip:{th:'PIP', en:'PIP'}, peep:{th:'PEEP', en:'PEEP'}, rate:{th:'Rate', en:'Rate'}, ie:{th:'I:E ratio', en:'I:E ratio'}, flow:{th:'Flow', en:'Flow'} },
+    bgRows: [
+      { goal:{th:'Decrease PaCO₂', en:'Decrease PaCO₂'}, pip:{th:'เพิ่ม', en:'Increase'}, peep:{th:'ลด', en:'Decrease'}, rate:{th:'เพิ่ม', en:'Increase'}, ie:{th:'—', en:'—'}, flow:{th:'± เพิ่ม', en:'± increase'} },
+      { goal:{th:'Increase PaCO₂', en:'Increase PaCO₂'}, pip:{th:'ลด', en:'Decrease'}, peep:{th:'เพิ่ม', en:'Increase'}, rate:{th:'ลด', en:'Decrease'}, ie:{th:'—', en:'—'}, flow:{th:'± เพิ่ม', en:'± increase'} },
+      { goal:{th:'Decrease PaO₂', en:'Decrease PaO₂'}, pip:{th:'ลด', en:'Decrease'}, peep:{th:'ลด', en:'Decrease'}, rate:{th:'—', en:'—'}, ie:{th:'ลด', en:'Decrease'}, flow:{th:'± เพิ่ม', en:'± increase'} },
+      { goal:{th:'Increase PaO₂', en:'Increase PaO₂'}, pip:{th:'เพิ่ม', en:'Increase'}, peep:{th:'เพิ่ม', en:'Increase'}, rate:{th:'—', en:'—'}, ie:{th:'เพิ่ม', en:'Increase'}, flow:{th:'± เพิ่ม', en:'± increase'} }
+    ],
+    initHeading: {th:'การตั้ง initial setting และการ weaning', en:'Initial setting and weaning'},
+    initCols: { param:{th:'Parameters', en:'Parameters'}, ac:{th:'A/C', en:'A/C'}, simv:{th:'SIMV', en:'SIMV'}, psv:{th:'PSV', en:'PSV'} },
+    initRows: [
+      { param:{th:'Sensitivity', en:'Sensitivity'}, ac:{th:'Minimal sensitivity', en:'Minimal sensitivity'}, simv:{th:'Minimal sensitivity', en:'Minimal sensitivity'}, psv:{th:'Minimal sensitivity', en:'Minimal sensitivity'} },
+      { param:{th:'PIP', en:'PIP'}, ac:{th:'ตั้งจนเห็น chest rise ที่เหมาะสม ให้ได้ VT 4-6 mL/kg', en:'Titrate to appropriate chest rise; target VT 4–6 mL/kg'}, simv:{th:'ตั้งจนเห็น chest rise ที่เหมาะสม ให้ได้ VT 4-6 mL/kg', en:'Titrate to appropriate chest rise; target VT 4–6 mL/kg'}, psv:{th:'ตั้งจนเห็น chest rise ที่เหมาะสม ให้ได้ VT 4-6 mL/kg', en:'Titrate to appropriate chest rise; target VT 4–6 mL/kg'} },
+      { param:{th:'PEEP (cmH₂O)', en:'PEEP (cmH₂O)'}, ac:{th:'4-7', en:'4–7'}, simv:{th:'4-7', en:'4–7'}, psv:{th:'4-7', en:'4–7'} },
+      { param:{th:'Rate (/min)', en:'Rate (/min)'}, ac:{th:'20-40', en:'20–40'}, simv:{th:'20-40', en:'20–40'}, psv:{th:'20-40', en:'20–40'} },
+      { param:{th:'Ti (sec)', en:'Ti (sec)'}, ac:{th:'0.2-0.5', en:'0.2–0.5'}, simv:{th:'0.2-0.5', en:'0.2–0.5'}, psv:{th:'ตั้ง Ti max', en:'Set Ti max'} },
+      { param:{th:'FiO₂', en:'FiO₂'}, ac:{th:'ตามพยาธิสภาพของปอด', en:'Per lung disease'}, simv:{th:'ตามพยาธิสภาพของปอด', en:'Per lung disease'}, psv:{th:'ตามพยาธิสภาพของปอด', en:'Per lung disease'} },
+      { param:{th:'Weaning', en:'Weaning'}, ac:{th:'ลด PIP หรือ ลด VG หากใช้ A/C+VG', en:'Reduce PIP, or reduce VG if using A/C+VG'}, simv:{th:'ลด PIP, ลด rate, ลด VG หากใช้ SIMV+VG', en:'Reduce PIP, reduce rate, or reduce VG if using SIMV+VG'}, psv:{th:'ลด pressure support (PS), ลด VG หากใช้ PSV+VG', en:'Reduce pressure support (PS), or reduce VG if using PSV+VG'} },
+      { param:{th:'Remark', en:'Remark'}, ac:{th:'การปรับ rate ไม่มีผลกับ MV; สามารถ extubation จาก A/C หรือเปลี่ยนเป็น SIMV+PS ก่อนแล้ว wean จน extubation', en:'Adjusting rate has no effect on MV; may extubate directly from A/C, or switch to SIMV+PS first then wean to extubation'}, simv:{th:'ควรใช้ PS เพิ่มเข้าไปใน SIMV เพื่อช่วยลด work of breathing', en:'PS is usually added to SIMV to help reduce work of breathing'}, psv:{th:'เครื่องบางรุ่นใช้ ΔPS หมายถึง pressure support above PEEP หากรวม PS และ PEEP จะได้ PIP ที่ใช้', en:'Some ventilators use ΔPS = pressure support above PEEP; PS + PEEP gives the PIP delivered'} }
+    ],
+    weanHeading: {th:'Weaning to extubation', en:'Weaning to extubation'},
+    weanPrincipleIntro: {th:'หลักการ weaning', en:'Weaning principles'},
+    weanPrincipleList: [
+      {th:'ลด parameter ที่อาจก่อให้เกิดอันตรายก่อน', en:'Reduce the parameter most likely to cause harm first'},
+      {th:'พยายามเปลี่ยนหรือลดเพียง parameter เดียวในแต่ละครั้ง', en:'Change or reduce only one parameter at a time'},
+      {th:'หลีกเลี่ยงการลด parameter ที่ทำให้เกิดการเปลี่ยนแปลงมาก (large magnitude)', en:'Avoid reductions that cause large changes in support'},
+      {th:'สังเกตการเปลี่ยนแปลงของทารกหลังปรับ parameter ทุกครั้ง', en:'Monitor the infant\u2019s response after every parameter change'}
+    ],
+    weanCriteriaIntro: {th:'หากผล blood gas ปกติควรเริ่ม weaning และพิจารณา extubation ในกรณีที่', en:'If blood gas is normal, begin weaning; consider extubation when:'},
+    weanCriteriaList: [
+      {th:'FiO₂ <0.4', en:'FiO₂ <0.4'},
+      {th:'PIP <15 cmH₂O', en:'PIP <15 cmH₂O'},
+      {th:'PEEP 4-5 cmH₂O (กรณีทารกเกิดก่อนกำหนด ไม่จำเป็นต้องลด PEEP จน <5 cmH₂O ก่อน extubation)', en:'PEEP 4–5 cmH₂O (in preterm infants, PEEP need not be reduced below 5 cmH₂O before extubation)'},
+      {th:'Rate 15-20/min', en:'Rate 15–20/min'}
+    ],
+    calmsIntro: {th:'ร่วมกับประเมินอาการทางคลินิกโดยใช้ "CALMS"', en:'Together with clinical assessment using "CALMS":'},
+    calmsList: [
+      { letter:'C', label:{th:'Consciousness', en:'Consciousness'}, desc:{th:'ทารกรู้สึกตัวดี ไม่ได้รับ sedatives', en:'Infant is alert, not receiving sedatives'} },
+      { letter:'A', label:{th:'Airway', en:'Airway'}, desc:{th:'ไม่มีปัญหาทางเดินหายใจ', en:'No airway problems'} },
+      { letter:'L', label:{th:'Lung', en:'Lung'}, desc:{th:'พยาธิสภาพปอดดีขึ้น', en:'Lung disease is improving'} },
+      { letter:'M', label:{th:'Muscle', en:'Muscle'}, desc:{th:'กล้ามเนื้อทรวงอกแข็งแรงพอสำหรับการหายใจ', en:'Chest wall muscles strong enough to sustain breathing'} },
+      { letter:'S', label:{th:'Secretion', en:'Secretion'}, desc:{th:'ไม่มี secretion หรือมีเพียงเล็กน้อยและสามารถ suction ออกได้ง่าย', en:'No secretions, or only minimal secretions that are easy to suction'} }
+    ]
+  },
+  hfov: {
+    title: {th:'High Frequency Oscillatory Ventilation (ทารกแรกเกิด)', en:'High Frequency Oscillatory Ventilation (Newborn)'},
+    apaRef: {th:'ฉัตรฉาย เปรมพันธ์พงษ์. (2565). High Frequency Oscillatory Ventilation. ใน คณาจารย์สาขาวิชาทารกแรกเกิด ภาควิชากุมารเวชศาสตร์ คณะแพทยศาสตร์โรงพยาบาลรามาธิบดี (บ.ก.), Ramathibodi Handbook of Neonatology (น. 97–99). ภาควิชากุมารเวชศาสตร์ คณะแพทยศาสตร์โรงพยาบาลรามาธิบดี มหาวิทยาลัยมหิดล.', en:'ฉัตรฉาย เปรมพันธ์พงษ์. (2022). High Frequency Oscillatory Ventilation. In Faculty of Neonatology, Department of Pediatrics, Faculty of Medicine Ramathibodi Hospital (Eds.), Ramathibodi Handbook of Neonatology (pp. 97–99). Department of Pediatrics, Faculty of Medicine Ramathibodi Hospital, Mahidol University.'},
+    defHeading: {th:'นิยาม', en:'Definition'},
+    defText: {th:'HFOV คือการช่วยหายใจโดยใช้อัตราการช่วยหายใจสูงกว่า physiologic rate (>150 ครั้ง/นาที) และใช้ tidal volume (VT) น้อยกว่า dead space volume', en:'HFOV delivers ventilation at a rate far higher than the physiologic rate (>150/min), using a tidal volume (VT) smaller than the dead space volume.'},
+    indHeading: {th:'ข้อบ่งชี้การใช้ HFOV', en:'Indications for HFOV'},
+    indIntro: {th:'แนะนำให้ใช้แบบ early rescue คือเมื่อเริ่มไม่สามารถช่วยหายใจด้วย CMV ได้ ไม่ควรรอจนอาการไม่คงที่หรือต้องใช้ CMV setting สูงมาก เนื่องจากจะทำให้ผลการรักษาไม่ดี ข้อบ่งชี้มีดังนี้', en:'Early-rescue use is recommended — start as soon as CMV becomes inadequate, rather than waiting until the infant is unstable or CMV settings are very high, as this worsens outcomes. Indications include:'},
+    indList: [
+      {th:'โรคปอดที่มีความผิดปกติแบบ diffuse homogeneous pattern ที่มี low lung volume ไม่สามารถช่วยหายใจด้วย CMV ได้ หรือโรคปอดที่ต้องใช้ CMV setting สูง ซึ่งเสี่ยงต่อภาวะแทรกซ้อนหรือ severe lung injury', en:'Diffuse homogeneous lung disease with low lung volume that cannot be managed on CMV, or lung disease requiring high CMV settings that risk complications or severe lung injury'},
+      {th:'Pulmonary air leak syndrome เช่น pneumothorax, pulmonary interstitial emphysema (PIE)', en:'Pulmonary air leak syndrome, e.g. pneumothorax, pulmonary interstitial emphysema (PIE)'},
+      {th:'Congenital lung hypoplasia — อาจได้ประโยชน์จาก HFOV แต่ไม่ได้เป็น absolute indication', en:'Congenital lung hypoplasia — may benefit from HFOV, though this is not an absolute indication'}
+    ],
+    initHeading: {th:'1. Initial setting', en:'1. Initial setting'},
+    mapHeading: {th:'Mean airway pressure (MAP) — ขึ้นกับพยาธิสภาพของปอด', en:'Mean airway pressure (MAP) — depends on the lung disease'},
+    mapHighLabel: {th:'High lung volume strategy', en:'High lung volume strategy'},
+    mapHighText: {th:'ใช้สำหรับพยาธิสภาพที่มี low lung volume โดยตั้ง MAP สูงกว่า MAP ที่ใช้ใน CMV ประมาณ 1-2 cmH₂O แล้วค่อยๆ เพิ่มจนกว่าจะมี lung recruitment ดี (FiO₂ ลดได้ถึง 0.3-0.4 และ CXR ที่ 1-2 ชม. มี aeration ประมาณช่องซี่โครงที่ 8) จากนั้นลด MAP ลงครั้งละ 1 cmH₂O อย่างช้าๆ เพื่อป้องกันปอดขยายมากเกินไป หากลดแล้วเกิด desaturation ให้ทำ lung recruitment ใหม่แล้วค่อยๆ ลดลงมาจนถึงค่าก่อนเกิด desaturation', en:'Used for low-lung-volume disease: set MAP 1–2 cmH₂O above the MAP used on CMV, then gradually increase until lung recruitment is achieved (FiO₂ weaned to 0.3–0.4, and CXR at 1–2 h shows aeration to about the 8th rib space). Then reduce MAP by 1 cmH₂O at a time, slowly, to avoid overdistension. If desaturation occurs on weaning, re-recruit and then reduce more slowly to just above the desaturation point.'},
+    mapLowLabel: {th:'Low lung volume strategy', en:'Low lung volume strategy'},
+    mapLowText: {th:'ใช้กรณีมี air leak syndrome หรือ air trapping โดยตั้ง MAP ต่ำกว่า MAP ที่ใช้ใน CMV 1-2 cmH₂O (ช่วงเริ่มอาจตั้งใกล้เคียง MAP เดิมก่อน แล้วค่อยๆ ลดลง 1-2 cmH₂O) มักต้องการ FiO₂ สูงขึ้นและยอมรับ PaCO₂ สูงขึ้นได้ (50-60 mmHg) โดยที่ pH >7.25', en:'Used for air leak syndrome or air trapping: set MAP 1–2 cmH₂O below the CMV MAP (initially may start near the CMV MAP, then reduce by 1–2 cmH₂O once stable). Higher FiO₂ is usually needed and permissive hypercapnia (PaCO₂ 50–60 mmHg) is accepted, provided pH >7.25.'},
+    ampText: {th:'Amplitude (ΔP) — เริ่มตั้งประมาณ 2 เท่าของ MAP ที่ใช้ ปรับจนเห็นการสั่นถึงบริเวณขาหนีบ และส่งตรวจ ABG 30-60 นาทีต่อมา', en:'Amplitude (ΔP) — start at about twice the MAP used; titrate until oscillation is visible to the groin, then check ABG 30–60 minutes later.'},
+    freqText: {th:'Frequency — ทารกเกิดก่อนกำหนดใช้ 12-15 Hz (น้ำหนักน้อยกว่าใช้ค่าสูงกว่า) ทารกครบกำหนดตั้ง 8-12 Hz (มักเริ่มด้วย 10 Hz)', en:'Frequency — preterm infants: 12–15 Hz (lower birth weight uses higher frequency); term infants: 8–12 Hz (usually starting at 10 Hz)'},
+    tiText: {th:'Inspired time (Ti) — แนะนำ 33-50% ให้ได้ I:E เท่ากับ 1:2-1:1 ขึ้นกับชนิดเครื่องช่วยหายใจ', en:'Inspired time (Ti) — recommended 33–50%, giving an I:E of 1:2–1:1 depending on the ventilator used'},
+    fio2Text: {th:'FiO₂ — เริ่มต้นใกล้เคียงกับที่ผู้ป่วยต้องการจาก CMV แล้วปรับขึ้นลงตาม SpO₂ เป้าหมาย', en:'FiO₂ — start near the value required on CMV, then titrate to the target SpO₂'},
+    adjustHeading: {th:'2. การปรับ setting ระหว่างการช่วยหายใจ', en:'2. Adjusting settings during ventilation'},
+    adjustIntro: {th:'แก้ไข oxygenation ที่ FiO₂ หรือ MAP · แก้ไข ventilation ที่ ΔP หรือ frequency — ประเมินจาก SpO₂ การสั่นของทรวงอก ABG และ chest X-ray ตัวอย่างการปรับที่ใช้บ่อย:', en:'Oxygenation is adjusted via FiO₂ or MAP; ventilation via ΔP or frequency — guided by SpO₂, chest wall wiggle, ABG, and chest X-ray. Common adjustments:'},
+    adjustCols: { problem:{th:'ปัญหา', en:'Problem'}, action:{th:'การปรับ HFOV', en:'HFOV adjustment'} },
+    adjustRows: [
+      { problem:{th:'Desaturation with hypo-aeration*', en:'Desaturation with hypo-aeration*'}, action:{th:'เพิ่ม MAP ครั้งละ 1-2 cmH₂O', en:'Increase MAP by 1–2 cmH₂O per step'} },
+      { problem:{th:'Desaturation with hyper-aeration*', en:'Desaturation with hyper-aeration*'}, action:{th:'ลด MAP ครั้งละ 1-2 cmH₂O', en:'Decrease MAP by 1–2 cmH₂O per step'} },
+      { problem:{th:'Hypercarbia with normo-aeration*', en:'Hypercarbia with normo-aeration*'}, action:{th:'เพิ่ม ΔP ถ้า ΔP มากกว่า 3 เท่าของ MAP แล้ว ให้ลด frequency ครั้งละ 1 Hz', en:'Increase ΔP; if ΔP exceeds 3× MAP, decrease frequency by 1 Hz per step'} },
+      { problem:{th:'Hypocarbia', en:'Hypocarbia'}, action:{th:'ลด ΔP', en:'Decrease ΔP'} },
+      { problem:{th:'Hyperoxia', en:'Hyperoxia'}, action:{th:'ลด FiO₂ จนถึง 0.4-0.5 หลังจากนั้นพิจารณาลด MAP ครั้งละ 1-2 cmH₂O', en:'Decrease FiO₂ to 0.4–0.5, then consider decreasing MAP by 1–2 cmH₂O per step'} }
+    ],
+    adjustFootnote: {th:'* ดูจาก chest X-ray (ดัดแปลงจาก Lampland AL, Mammel MC. High-frequency ventilation. In: Assisted Ventilation of the Neonate. 5th ed. Elsevier Saunders; 2011.)', en:'* Assessed on chest X-ray (adapted from Lampland AL, Mammel MC. High-frequency ventilation. In: Assisted Ventilation of the Neonate. 5th ed. Elsevier Saunders; 2011.)'},
+    hypercarbiaNote: {th:'กรณี hypercarbia ที่ปรับเพิ่ม ΔP จนมากกว่า 3 เท่าของ MAP ให้นึกถึงสาเหตุอื่นเสมอ เช่น secretion obstruction, air trapping หรือ air leak ซึ่งมักพบว่าทรวงอกสั่นไม่ดี หรือ MAP ไม่พอสำหรับ optimized lung volume ทำให้ต้องใช้ ΔP สูง หากแก้ไข secretion obstruction แล้วไม่ดีขึ้น ควรส่ง CXR ประเมิน air trapping/air leak/aeration', en:'When ΔP must be raised above 3× MAP for hypercarbia, always consider other causes — secretion obstruction, air trapping, or air leak — which often present with poor chest wiggle, or MAP that is insufficient for optimal lung volume. If clearing secretions does not help, obtain a CXR to assess air trapping, air leak, and aeration.'},
+    weanHeading: {th:'3. Weaning to extubation', en:'3. Weaning to extubation'},
+    weanList: [
+      {th:'เริ่มลด MAP หลังลด FiO₂ ได้ถึง 0.4-0.5 หรือเมื่อ CXR มีลักษณะ hyperaeration โดยลดครั้งละ 1-2 cmH₂O จนได้ MAP 8-10 cmH₂O', en:'Begin weaning MAP once FiO₂ is down to 0.4–0.5, or CXR shows hyperaeration; reduce by 1–2 cmH₂O per step to MAP 8–10 cmH₂O'},
+      {th:'ลด ΔP ครั้งละ 2-4 cmH₂O จนต่ำที่สุดที่ยังได้ PaCO₂ ตามต้องการ', en:'Reduce ΔP by 2–4 cmH₂O per step to the lowest level that still achieves the target PaCO₂'},
+      {th:'ไม่ต้องปรับ frequency', en:'Frequency does not need to be adjusted'},
+      {th:'เมื่อ MAP 8-10 cmH₂O และ ΔP ต่ำแล้ว ร่วมกับอาการคงที่และ ABG ยอมรับได้ พิจารณาเปลี่ยนเป็น CMV หรือ extubation', en:'Once MAP is 8–10 cmH₂O with low ΔP, and the infant is stable with acceptable ABG, consider switching to CMV or extubating'}
+    ],
+    careHeading: {th:'4. การดูแลรักษาอื่นๆ', en:'4. Other supportive care'},
+    careList: [
+      {th:'แก้ไข hypotension ที่อาจพบจาก impaired venous return ซึ่งลด cardiac output — พิจารณาให้ NSS 10-20 mL/kg ตามความเหมาะสม', en:'Treat hypotension from impaired venous return reducing cardiac output — consider NSS 10–20 mL/kg as appropriate'},
+      {th:'ให้ sedative drugs โดยเฉพาะรายที่ต้องใช้ setting สูง หรือมี PPHN', en:'Give sedative drugs, especially for infants requiring high settings or with PPHN'},
+      {th:'ควรใช้ in-line suction เพื่อลดการเกิด lung de-recruitment', en:'Use in-line suction to reduce lung de-recruitment'}
+    ],
+    specialHeading: {th:'Special consideration', en:'Special consideration'},
+    specialText: {th:'กรณีใช้ HFOV with volume guarantee (VG) ให้ตั้ง VThf 1.5-2.5 mL/kg ซึ่งจะทำให้ทารกมีค่า PaCO₂ คงที่มากกว่าใช้ HFOV เพียงอย่างเดียว', en:'When using HFOV with volume guarantee (VG), set VThf 1.5–2.5 mL/kg — this keeps PaCO₂ more stable than HFOV alone.'}
+  },
+  niv: {
+    title: {th:'Non-Invasive Ventilation (ทารกแรกเกิด)', en:'Non-Invasive Ventilation (Newborn)'},
+    apaRef: {th:'ประชา นันท์นฤมิต. (2565). Non-Invasive Ventilation. ใน คณาจารย์สาขาวิชาทารกแรกเกิด ภาควิชากุมารเวชศาสตร์ คณะแพทยศาสตร์โรงพยาบาลรามาธิบดี (บ.ก.), Ramathibodi Handbook of Neonatology (น. 103–105). ภาควิชากุมารเวชศาสตร์ คณะแพทยศาสตร์โรงพยาบาลรามาธิบดี มหาวิทยาลัยมหิดล.', en:'ประชา นันท์นฤมิต. (2022). Non-Invasive Ventilation. In Faculty of Neonatology, Department of Pediatrics, Faculty of Medicine Ramathibodi Hospital (Eds.), Ramathibodi Handbook of Neonatology (pp. 103–105). Department of Pediatrics, Faculty of Medicine Ramathibodi Hospital, Mahidol University.'},
+    typesIntro: {th:'ประเภทของ non-invasive ventilation ที่ใช้ในทารกแรกเกิด', en:'Types of non-invasive ventilation used in newborns'},
+    typesList: [
+      {th:'Nasal continuous positive airway pressure (NCPAP) — Ventilator CPAP, Bubble CPAP, Flow generator CPAP', en:'Nasal continuous positive airway pressure (NCPAP) — ventilator CPAP, bubble CPAP, flow generator CPAP'},
+      {th:'Nasal intermittent positive pressure ventilation (NIPPV) — Synchronized และ Non-synchronized NIPPV', en:'Nasal intermittent positive pressure ventilation (NIPPV) — synchronized and non-synchronized NIPPV'},
+      {th:'Nasal cannula (NC) — Low flow NC และ Humidified high flow NC (HHHFNC)', en:'Nasal cannula (NC) — low flow NC and humidified high flow NC (HHHFNC)'}
+    ],
+    ncpapIndHeading: {th:'ข้อบ่งชี้การใช้ NCPAP', en:'Indications for NCPAP'},
+    ncpapIndList: [
+      {th:'CPAP ในห้องคลอด ระหว่างกู้ชีพทารกแรกเกิดที่มีภาวะหายใจลำบากหรือมี persistent cyanosis ทั้งที่ได้ออกซิเจน — สำหรับทารกเกิดก่อนกำหนดมาก พิจารณาใช้ early CPAP เพื่อลดอัตราการใส่ endotracheal tube', en:'CPAP in the delivery room during resuscitation of an infant with respiratory distress or persistent cyanosis despite oxygen — for very preterm infants, consider early CPAP to reduce the rate of intubation'},
+      {th:'ใช้เป็น primary mode ในทารกที่มี respiratory distress ที่ไม่รุนแรง', en:'Used as the primary mode for infants with non-severe respiratory distress'},
+      {th:'Post extubation ในทารกกลุ่ม very low birth weight (VLBW)', en:'Post-extubation in very low birth weight (VLBW) infants'},
+      {th:'Apnea of prematurity (obstructive type)', en:'Apnea of prematurity (obstructive type)'},
+      {th:'ทารกที่มี upper airway obstruction', en:'Infants with upper airway obstruction'},
+      {th:'หลังให้ surfactant โดย INSURE technique หรือระหว่างให้ surfactant โดย LISA technique', en:'After surfactant via the INSURE technique, or during surfactant administration via the LISA technique'}
+    ],
+    cpapTableHeading: {th:'การตั้ง CPAP', en:'CPAP settings'},
+    cpapCols: { condition:{th:'Condition', en:'Condition'}, min:{th:'Pressure min (cmH₂O)', en:'Pressure min (cmH₂O)'}, max:{th:'Pressure max (cmH₂O)', en:'Pressure max (cmH₂O)'} },
+    cpapRows: [
+      { condition:{th:'RD ในห้องคลอด', en:'RD in delivery room'}, min:{th:'5', en:'5'}, max:{th:'8', en:'8'} },
+      { condition:{th:'RDS (primary mode)', en:'RDS (primary mode)'}, min:{th:'6', en:'6'}, max:{th:'8-10', en:'8–10'} },
+      { condition:{th:'Post extubation', en:'Post extubation'}, min:{th:'5', en:'5'}, max:{th:'7-8', en:'7–8'} },
+      { condition:{th:'Apnea of prematurity', en:'Apnea of prematurity'}, min:{th:'4-5', en:'4–5'}, max:{th:'—', en:'—'} }
+    ],
+    cpapFootnote: {th:'RD = respiratory distress; RDS = respiratory distress syndrome', en:'RD = respiratory distress; RDS = respiratory distress syndrome'},
+    cpapAdjustHeading: {th:'ข้อพิจารณาการปรับ CPAP ในทารกเกิดก่อนกำหนด', en:'Considerations for titrating CPAP in preterm infants'},
+    cpapAdjustList: [
+      {th:'ปรับความดัน CPAP ขึ้นจนได้ยินเสียงลมเข้าปอดดี ร่วมกับทารกมี SpO₂ ดีที่สุด (ได้ optimum CPAP)', en:'Increase CPAP pressure until air entry sounds good and SpO₂ is at its best (the optimum CPAP)'},
+      {th:'ปรับอุณหภูมิก๊าซ 34-37°C และ relative humidity อย่างน้อย 80%', en:'Set gas temperature 34–37°C and relative humidity at least 80%'},
+      {th:'กรณีใช้ Bi-level CPAP หรือ DuoPAP (CPAP 2 ระดับ) ให้ตั้ง high และ low pressure ห่างกัน ≤4 cmH₂O เช่น 9 และ 6 cmH₂O, Ti ประมาณ 1-3 วินาที และ rate 10-15/นาที', en:'For Bi-level CPAP or DuoPAP (a two-level CPAP), set the high and low pressures ≤4 cmH₂O apart, e.g. 9 and 6 cmH₂O, with Ti about 1–3 seconds and rate 10–15/min'},
+      {th:'ควรให้ aminophylline loading ก่อน extubation เพื่อลดการเกิด extubation failure จากภาวะ apnea', en:'Give an aminophylline loading dose before extubation to reduce extubation failure from apnea'}
+    ],
+    nippvIndHeading: {th:'ข้อบ่งชี้การใช้ NIPPV', en:'Indications for NIPPV'},
+    nippvIndText: {th:'เหมือนการใช้ NCPAP ในข้อ 2-4 (primary mode ใน respiratory distress ไม่รุนแรง, post extubation ใน VLBW, apnea of prematurity)', en:'Same as NCPAP indications 2–4 (primary mode in non-severe respiratory distress, post-extubation in VLBW infants, apnea of prematurity)'},
+    nippvSettingHeading: {th:'การตั้ง NIPPV', en:'NIPPV settings'},
+    nippvSettingText: {th:'ใช้ mode ในเครื่องช่วยหายใจเป็น IMV โดยตั้ง peak inspiratory pressure (PIP) สูงกว่า PIP ที่ใช้ก่อน extubation ประมาณ 2-4 cmH₂O, rate 10-30/นาที, Ti 0.5 วินาที และตั้ง PEEP เท่ากับก่อน extubation', en:'Use the ventilator\u2019s IMV mode: set PIP about 2–4 cmH₂O above the PIP used before extubation, rate 10–30/min, Ti 0.5 sec, and PEEP the same as before extubation'},
+    hhhfncIndHeading: {th:'ข้อบ่งชี้การใช้ HHHFNC', en:'Indications for HHHFNC'},
+    hhhfncIndList: [
+      {th:'Post extubation', en:'Post extubation'},
+      {th:'Apnea of prematurity (obstructive type)', en:'Apnea of prematurity (obstructive type)'},
+      {th:'Weaning of NCPAP — เมื่อทารกใช้ NCPAP 4-5 cmH₂O สามารถเปลี่ยนเป็น HHHFNC โดย flow rate ขึ้นกับน้ำหนักทารก', en:'Weaning from NCPAP — once an infant is on NCPAP 4–5 cmH₂O, may switch to HHHFNC, with flow rate based on the infant\u2019s weight'}
+    ],
+    hhhfncWeightList: [
+      {th:'น้ำหนัก <1,000 g — flow rate 4-5 L/min', en:'Weight <1,000 g — flow rate 4–5 L/min'},
+      {th:'น้ำหนัก 1,000-1,500 g — flow rate 5-6 L/min', en:'Weight 1,000–1,500 g — flow rate 5–6 L/min'},
+      {th:'น้ำหนัก 1,500-2,000 g — flow rate 6-7 L/min', en:'Weight 1,500–2,000 g — flow rate 6–7 L/min'}
+    ],
+    hhhfncConsiderHeading: {th:'ข้อพิจารณาการใช้ HHHFNC', en:'Considerations for HHHFNC'},
+    hhhfncConsiderList: [
+      {th:'ควรมี pressure release valve ใน circuit เพื่อป้องกันความดันที่สูงเกินไป', en:'The circuit should have a pressure release valve to prevent excessive pressure'},
+      {th:'ขนาดเส้นผ่านศูนย์กลางของ cannula ประมาณ 50-80% ของรูจมูก', en:'Cannula diameter should be about 50–80% of the nostril diameter'},
+      {th:'ปรับอุณหภูมิก๊าซ 34-37°C และ relative humidity อย่างน้อย 80%', en:'Set gas temperature 34–37°C and relative humidity at least 80%'},
+      {th:'หากต้องการ wean ให้ลด flow rate ครั้งละ 1 L/min/day จนต่ำกว่า 2 L/min จึง wean off หรือเปลี่ยนเป็น low flow NC ในทารกที่เป็น BPD ที่ยังต้องการออกซิเจน', en:'To wean, reduce flow rate by 1 L/min/day until below 2 L/min, then wean off — or switch to low-flow NC in infants with BPD who still need oxygen'}
+    ]
+  },
+  abg: {
+    title: {th:'Arterial Blood Gas (ABG) Interpretation', en:'Arterial Blood Gas (ABG) Interpretation'},
+    apaRef: {th:'บูรณี เศวตสุทธิพันธ์. (2565). Arterial Blood Gas Interpretation. ใน คณาจารย์สาขาวิชาทารกแรกเกิด ภาควิชากุมารเวชศาสตร์ คณะแพทยศาสตร์โรงพยาบาลรามาธิบดี (บ.ก.), Ramathibodi Handbook of Neonatology (น. 90–92). ภาควิชากุมารเวชศาสตร์ คณะแพทยศาสตร์โรงพยาบาลรามาธิบดี มหาวิทยาลัยมหิดล.', en:'บูรณี เศวตสุทธิพันธ์. (2022). Arterial Blood Gas Interpretation. In Faculty of Neonatology, Department of Pediatrics, Faculty of Medicine Ramathibodi Hospital (Eds.), Ramathibodi Handbook of Neonatology (pp. 90–92). Department of Pediatrics, Faculty of Medicine Ramathibodi Hospital, Mahidol University.'},
+    normalHeading: {th:'ค่าปกติของ ABG', en:'Normal ABG values'},
+    normalText: {th:'pH 7.35-7.45, PaCO₂ 35-45 mmHg, PaO₂ 80-100 mmHg, HCO₃ 20-24 mmol/L, BE (-4) ถึง (+4) mmol/L', en:'pH 7.35–7.45, PaCO₂ 35–45 mmHg, PaO₂ 80–100 mmHg, HCO₃ 20–24 mmol/L, BE (-4) to (+4) mmol/L'},
+    gaHeading: {th:'ค่าปกติของ ABG ตามอายุครรภ์', en:'Normal ABG values by gestational age'},
+    gaCols: { param:{th:'', en:''}, ga28:{th:'GA <28 wk', en:'GA <28 wk'}, ga2840:{th:'GA 28-40 wk', en:'GA 28–40 wk'}, term:{th:'Term', en:'Term'} },
+    gaRows: [
+      { param:{th:'pH', en:'pH'}, ga28:{th:'≥7.25', en:'≥7.25'}, ga2840:{th:'≥7.25', en:'≥7.25'}, term:{th:'7.30-7.40', en:'7.30–7.40'} },
+      { param:{th:'PaCO₂ (mmHg)', en:'PaCO₂ (mmHg)'}, ga28:{th:'45-55', en:'45–55'}, ga2840:{th:'45-55', en:'45–55'}, term:{th:'35-45', en:'35–45'} },
+      { param:{th:'PaO₂ (mmHg)', en:'PaO₂ (mmHg)'}, ga28:{th:'45-65', en:'45–65'}, ga2840:{th:'50-70', en:'50–70'}, term:{th:'80-100', en:'80–100'} },
+      { param:{th:'HCO₃ (mmol/L)', en:'HCO₃ (mmol/L)'}, ga28:{th:'15-18', en:'15–18'}, ga2840:{th:'18-20', en:'18–20'}, term:{th:'20-22', en:'20–22'} }
+    ],
+    diseaseHeading: {th:'เป้าหมายของ ABG ตามกลุ่มโรค', en:'Target ABG by disease group'},
+    diseaseCols: { param:{th:'', en:''}, rds:{th:'RDS', en:'RDS'}, cdh:{th:'CDH', en:'CDH'}, pphn:{th:'PPHN', en:'PPHN'}, hie:{th:'HIE', en:'HIE'} },
+    diseaseRows: [
+      { param:{th:'pH', en:'pH'}, rds:{th:'7.25-7.35', en:'7.25–7.35'}, cdh:{th:'>7.2', en:'>7.2'}, pphn:{th:'7.35-7.45', en:'7.35–7.45'}, hie:{th:'7.35-7.45', en:'7.35–7.45'} },
+      { param:{th:'PaCO₂ (mmHg)', en:'PaCO₂ (mmHg)'}, rds:{th:'45-65', en:'45–65'}, cdh:{th:'50-70', en:'50–70'}, pphn:{th:'35-45', en:'35–45'}, hie:{th:'35-45', en:'35–45'} },
+      { param:{th:'PaO₂ (mmHg)', en:'PaO₂ (mmHg)'}, rds:{th:'50-70', en:'50–70'}, cdh:{th:'50-70', en:'50–70'}, pphn:{th:'70-100', en:'70–100'}, hie:{th:'60-80', en:'60–80'} }
+    ],
+    diseaseFootnote: {th:'CDH = congenital diaphragmatic hernia; HIE = hypoxic ischemic encephalopathy; PPHN = persistent pulmonary hypertension of the newborn; RDS = respiratory distress syndrome', en:'CDH = congenital diaphragmatic hernia; HIE = hypoxic ischemic encephalopathy; PPHN = persistent pulmonary hypertension of the newborn; RDS = respiratory distress syndrome'},
+    stepsHeading: {th:'ขั้นตอนการแปลผล ABG', en:'Steps to interpret ABG'},
+    stepsList: [
+      {th:'พิจารณาสาเหตุและระยะเวลาของโรค — ถ้า pH มีการเปลี่ยนแปลงแบบเฉียบพลัน ร่างกายยังไม่สามารถ compensate ได้', en:'Consider the cause and duration of the disease — if the pH change is acute, the body has not yet compensated'},
+      {th:'ถ้า pH ต่ำกว่าปกติ แสดงว่ามี acidosis ถ้า pH สูงกว่าปกติ แสดงว่ามี alkalosis — หาก pH อยู่ที่ low normal หรือ high normal อาจแสดงว่าร่างกายกำลัง compensate อยู่', en:'pH below normal indicates acidosis; pH above normal indicates alkalosis. A low-normal or high-normal pH may indicate the body is compensating'},
+      {th:'พิจารณา respiratory function — PaCO₂ ต่ำกว่าปกติแสดงว่ามี hyperventilation, PaCO₂ สูงกว่าปกติแสดงว่ามี hypoventilation', en:'Assess respiratory function — PaCO₂ below normal indicates hyperventilation; PaCO₂ above normal indicates hypoventilation'},
+      {th:'พิจารณาค่า PaO₂ — ต่ำกว่าปกติแสดงว่ามี hypoxemia, สูงกว่าปกติแสดงว่ามี hyperoxemia', en:'Assess PaO₂ — below normal indicates hypoxemia; above normal indicates hyperoxemia'},
+      {th:'พิจารณา metabolic function — HCO₃ ต่ำกว่าปกติหรือ BE ต่ำกว่า -4 แสดงว่ามี metabolic acidosis, HCO₃ สูงกว่าปกติหรือ BE สูงกว่า 4 แสดงว่ามี metabolic alkalosis', en:'Assess metabolic function — HCO₃ below normal or BE below -4 indicates metabolic acidosis; HCO₃ above normal or BE above 4 indicates metabolic alkalosis'},
+      {th:'ดูทิศทางการเปลี่ยนแปลงของ PaCO₂ กับ HCO₃ — PaCO₂ สะท้อนปัญหาของทางเดินหายใจ/ปอดเป็นหลัก ส่วน HCO₃ สะท้อนปัญหาของไต/metabolic เป็นหลัก เมื่อร่างกาย compensate ค่าทั้งสองจะเปลี่ยนไปในทิศทางเดียวกันเสมอ (เพิ่มด้วยกันหรือลดด้วยกัน) หากเปลี่ยนสวนทางกัน แสดงว่ามีความผิดปกติทั้ง respiratory และ metabolic ร่วมกัน', en:'Look at the direction of change of PaCO₂ vs HCO₃ — PaCO₂ mainly reflects airway/lung problems, HCO₃ mainly reflects renal/metabolic problems. When the body compensates, both values always move in the same direction (both rise or both fall). If they move in opposite directions, a combined respiratory and metabolic disorder is present.'}
+    ],
+    causesHeading: {th:'สาเหตุที่ทำให้เกิด acidosis หรือ alkalosis', en:'Causes of acidosis or alkalosis'},
+    causesList: [
+      { label:{th:'Respiratory acidosis', en:'Respiratory acidosis'}, examples:{th:'พยาธิสภาพของสมอง, การได้รับยาที่กดการหายใจ, โรคปอดหรือทางเดินหายใจ', en:'Brain pathology, respiratory-depressant drugs, lung or airway disease'} },
+      { label:{th:'Respiratory alkalosis', en:'Respiratory alkalosis'}, examples:{th:'ตั้งเครื่องช่วยหายใจมากเกินไป, urea cycle defect', en:'Excessive ventilator settings, urea cycle defect'} },
+      { label:{th:'Metabolic acidosis', en:'Metabolic acidosis'}, examples:{th:'ภาวะติดเชื้อ, ช็อก, inborn errors of metabolism', en:'Infection, shock, inborn errors of metabolism'} },
+      { label:{th:'Metabolic alkalosis', en:'Metabolic alkalosis'}, examples:{th:'อาเจียน, การได้รับยาขับปัสสาวะ', en:'Vomiting, diuretic use'} }
+    ]
+  }
+};
+
+let nvState = { screen:'home' };
+function nvGoTo(s){ nvState.screen = s; scrollToTop(); render(); }
+function nvResetAll(){ nvState = { screen:'home' }; }
+
+function nvHomeView(app){
+  const head = document.createElement('div');
+  head.className = 'wizard-head';
+  head.innerHTML = `<button class="back-btn" id="nvHomeBack" aria-label="${(LANG==='th'?'กลับไปหน้ารวม':'Back to')} ${t(UI.groupNewborn)}">‹</button><div class="wizard-title">${t(NV.home.title)}</div>`;
+  app.appendChild(head);
+  document.getElementById('nvHomeBack').onclick = goNewbornHome;
+
+  const hero = document.createElement('div');
+  hero.innerHTML = `
+    <div class="hero">
+      <span class="eyebrow">${t(NV.home.eyebrow)}</span>
+      <h1>${t(NV.home.title)}</h1>
+      <p>${t(NV.home.desc)}</p>
+    </div>`;
+  app.appendChild(hero);
+
+  const grid = document.createElement('div');
+  grid.className = 'module-grid';
+  grid.appendChild(buildModuleCard(
+    { icon:'🫧', name:NV.home.convName, short:NV.home.convShort },
+    function(){ nvGoTo('conv'); }
+  ));
+  grid.appendChild(buildModuleCard(
+    { icon:'〰️', name:NV.home.hfovName, short:NV.home.hfovShort },
+    function(){ nvGoTo('hfov'); }
+  ));
+  grid.appendChild(buildModuleCard(
+    { icon:'😷', name:NV.home.nivName, short:NV.home.nivShort },
+    function(){ nvGoTo('niv'); }
+  ));
+  grid.appendChild(buildModuleCard(
+    { icon:'🩸', name:NV.home.abgName, short:NV.home.abgShort },
+    function(){ nvGoTo('abg'); }
+  ));
+  app.appendChild(grid);
+}
+
+function nvSubHead(app, title){
+  const topHome = document.createElement('button');
+  topHome.className = 'top-back-link';
+  topHome.textContent = (LANG==='th'?'กลับไปหน้ารวม':'Back to') + ' ' + t(UI.groupNewborn);
+  topHome.onclick = goNewbornHome;
+  app.appendChild(topHome);
+
+  const head = document.createElement('div');
+  head.className = 'wizard-head';
+  head.innerHTML = `<button class="back-btn" id="nvSubBack" aria-label="${(LANG==='th'?'กลับไปหน้ารวม':'Back to')} Newborn Ventilation">‹</button><div class="wizard-title">${title}</div>`;
+  app.appendChild(head);
+  document.getElementById('nvSubBack').onclick = function(){ nvGoTo('home'); };
+}
+
+function nvBulletList(items){
+  return `<ul>${items.map(e=>`<li>${t(e)}</li>`).join('')}</ul>`;
+}
+
+function nvConvView(app){
+  nvSubHead(app, t(NV.conv.title));
+  const wrap = document.createElement('div');
+
+  spSectionCard(wrap, { h:NV.conv.indHeading, icon:'⚠️', customHtml: nvBulletList(NV.conv.indList) });
+
+  spSectionCard(wrap, {
+    h: NV.conv.typesHeading, icon:'🔧', collapsible:true,
+    customHtml: nvBulletList(NV.conv.typesList) +
+      `<div style="margin-top:10px; padding-top:10px; border-top:1px solid var(--pink-200);">
+        <div style="font-size:12.5px; font-weight:600; margin-bottom:6px;">${t(NV.conv.modesHeading)}</div>
+        ${nvBulletList(NV.conv.modesList)}
+        <p style="font-size:12.5px; margin:10px 0 0;">${t(NV.conv.vgNote)}</p>
+      </div>`
+  });
+
+  const principlesHtml = NV.conv.principles.map(p=>`
+    <div style="margin-bottom:10px;">
+      <div class="drugline"><span class="dname">${t(p.label)}</span></div>
+      <ul style="margin-top:2px;">${p.bullets.map(b=>`<li>${t(b)}</li>`).join('')}</ul>
+    </div>`).join('');
+  spSectionCard(wrap, { h:NV.conv.principlesHeading, icon:'🎛️', prominent:true, collapsible:true, customHtml: principlesHtml });
+
+  const bgCols = [
+    {key:'goal', label:NV.conv.bgCols.goal},
+    {key:'pip', label:NV.conv.bgCols.pip},
+    {key:'peep', label:NV.conv.bgCols.peep},
+    {key:'rate', label:NV.conv.bgCols.rate},
+    {key:'ie', label:NV.conv.bgCols.ie},
+    {key:'flow', label:NV.conv.bgCols.flow}
+  ];
+  spSectionCard(wrap, {
+    h: NV.conv.bgHeading, icon:'🩸',
+    customHtml: `<p style="font-size:12.5px; margin:0 0 8px;">${t(NV.conv.bgIntro)}</p>${spTableHtml(bgCols, NV.conv.bgRows, null, {stickyFirst:true})}`
+  });
+
+  const initCols = [
+    {key:'param', label:NV.conv.initCols.param},
+    {key:'ac', label:NV.conv.initCols.ac},
+    {key:'simv', label:NV.conv.initCols.simv},
+    {key:'psv', label:NV.conv.initCols.psv}
+  ];
+  spSectionCard(wrap, { h:NV.conv.initHeading, icon:'📋', prominent:true, customHtml: spTableHtml(initCols, NV.conv.initRows, null, {stickyFirst:true}) });
+
+  const weanHtml = `
+    <p style="font-size:12.5px; font-weight:600; margin:0 0 6px;">${t(NV.conv.weanPrincipleIntro)}</p>
+    ${nvBulletList(NV.conv.weanPrincipleList)}
+    <p style="font-size:12.5px; margin:12px 0 6px;">${t(NV.conv.weanCriteriaIntro)}</p>
+    ${nvBulletList(NV.conv.weanCriteriaList)}
+    <p style="font-size:12.5px; margin:12px 0 6px;">${t(NV.conv.calmsIntro)}</p>
+    <table class="dose-table"><tbody>
+      ${NV.conv.calmsList.map(c=>`<tr><td style="font-weight:700; width:28px;">${c.letter}</td><td style="font-weight:600;">${t(c.label)}</td><td>${t(c.desc)}</td></tr>`).join('')}
+    </tbody></table>`;
+  spSectionCard(wrap, { h:NV.conv.weanHeading, icon:'📉', collapsible:true, customHtml: weanHtml });
+
+  spApaRefCard(wrap, NV.conv.apaRef);
+
+  app.appendChild(wrap);
+}
+
+function nvHfovView(app){
+  nvSubHead(app, t(NV.hfov.title));
+  const wrap = document.createElement('div');
+
+  spSectionCard(wrap, { h:NV.hfov.defHeading, icon:'📖', customHtml: `<p style="font-size:12.5px; margin:0;">${t(NV.hfov.defText)}</p>` });
+
+  spSectionCard(wrap, {
+    h: NV.hfov.indHeading, icon:'⚠️',
+    customHtml: `<p style="font-size:12.5px; margin:0 0 8px;">${t(NV.hfov.indIntro)}</p>${nvBulletList(NV.hfov.indList)}`
+  });
+
+  const initHtml = `
+    <p style="font-size:12.5px; font-weight:600; margin:0 0 6px;">${t(NV.hfov.mapHeading)}</p>
+    <div class="drugline"><span class="dname">${t(NV.hfov.mapHighLabel)}</span></div>
+    <p style="font-size:12.5px; margin:2px 0 10px;">${t(NV.hfov.mapHighText)}</p>
+    <div class="drugline"><span class="dname">${t(NV.hfov.mapLowLabel)}</span></div>
+    <p style="font-size:12.5px; margin:2px 0 12px;">${t(NV.hfov.mapLowText)}</p>
+    <p style="font-size:12.5px; margin:0 0 6px;">${t(NV.hfov.ampText)}</p>
+    <p style="font-size:12.5px; margin:0 0 6px;">${t(NV.hfov.freqText)}</p>
+    <p style="font-size:12.5px; margin:0 0 6px;">${t(NV.hfov.tiText)}</p>
+    <p style="font-size:12.5px; margin:0;">${t(NV.hfov.fio2Text)}</p>`;
+  spSectionCard(wrap, { h:NV.hfov.initHeading, icon:'🎛️', prominent:true, customHtml: initHtml });
+
+  const adjustCols = [
+    {key:'problem', label:NV.hfov.adjustCols.problem},
+    {key:'action', label:NV.hfov.adjustCols.action}
+  ];
+  spSectionCard(wrap, {
+    h: NV.hfov.adjustHeading, icon:'📋', prominent:true,
+    customHtml: `<p style="font-size:12.5px; margin:0 0 8px;">${t(NV.hfov.adjustIntro)}</p>${spTableHtml(adjustCols, NV.hfov.adjustRows, NV.hfov.adjustFootnote)}<p style="font-size:12.5px; margin:10px 0 0;">${t(NV.hfov.hypercarbiaNote)}</p>`
+  });
+
+  spSectionCard(wrap, { h:NV.hfov.weanHeading, icon:'📉', collapsible:true, customHtml: nvBulletList(NV.hfov.weanList) });
+  spSectionCard(wrap, { h:NV.hfov.careHeading, icon:'🩹', collapsible:true, customHtml: nvBulletList(NV.hfov.careList) });
+  spSectionCard(wrap, { h:NV.hfov.specialHeading, icon:'❗', customHtml: `<p style="font-size:12.5px; margin:0;">${t(NV.hfov.specialText)}</p>` });
+
+  spApaRefCard(wrap, NV.hfov.apaRef);
+
+  app.appendChild(wrap);
+}
+
+function nvNivView(app){
+  nvSubHead(app, t(NV.niv.title));
+  const wrap = document.createElement('div');
+
+  spSectionCard(wrap, { h:NV.niv.typesIntro, icon:'😷', customHtml: nvBulletList(NV.niv.typesList) });
+
+  spSectionCard(wrap, { h:NV.niv.ncpapIndHeading, icon:'⚠️', customHtml: nvBulletList(NV.niv.ncpapIndList) });
+
+  const cpapCols = [
+    {key:'condition', label:NV.niv.cpapCols.condition},
+    {key:'min', label:NV.niv.cpapCols.min},
+    {key:'max', label:NV.niv.cpapCols.max}
+  ];
+  spSectionCard(wrap, {
+    h: NV.niv.cpapTableHeading, icon:'📋', prominent:true,
+    customHtml: spTableHtml(cpapCols, NV.niv.cpapRows, NV.niv.cpapFootnote, {stickyFirst:true})
+  });
+
+  spSectionCard(wrap, { h:NV.niv.cpapAdjustHeading, icon:'🎛️', customHtml: nvBulletList(NV.niv.cpapAdjustList) });
+
+  spSectionCard(wrap, {
+    h: NV.niv.nippvIndHeading, icon:'⚠️',
+    customHtml: `<p style="font-size:12.5px; margin:0 0 10px;">${t(NV.niv.nippvIndText)}</p>
+      <div class="drugline"><span class="dname">${t(NV.niv.nippvSettingHeading)}</span></div>
+      <p style="font-size:12.5px; margin:2px 0 0;">${t(NV.niv.nippvSettingText)}</p>`
+  });
+
+  spSectionCard(wrap, {
+    h: NV.niv.hhhfncIndHeading, icon:'⚠️',
+    customHtml: nvBulletList(NV.niv.hhhfncIndList) + `<div style="margin-top:8px;">${nvBulletList(NV.niv.hhhfncWeightList)}</div>`
+  });
+
+  spSectionCard(wrap, { h:NV.niv.hhhfncConsiderHeading, icon:'🎛️', collapsible:true, customHtml: nvBulletList(NV.niv.hhhfncConsiderList) });
+
+  spApaRefCard(wrap, NV.niv.apaRef);
+
+  app.appendChild(wrap);
+}
+
+function nvAbgView(app){
+  nvSubHead(app, t(NV.abg.title));
+  const wrap = document.createElement('div');
+
+  spSectionCard(wrap, { h:NV.abg.normalHeading, icon:'📖', customHtml: `<p style="font-size:12.5px; margin:0;">${t(NV.abg.normalText)}</p>` });
+
+  const gaCols = [
+    {key:'param', label:NV.abg.gaCols.param},
+    {key:'ga28', label:NV.abg.gaCols.ga28},
+    {key:'ga2840', label:NV.abg.gaCols.ga2840},
+    {key:'term', label:NV.abg.gaCols.term}
+  ];
+  spSectionCard(wrap, { h:NV.abg.gaHeading, icon:'📋', prominent:true, customHtml: spTableHtml(gaCols, NV.abg.gaRows, null, {stickyFirst:true}) });
+
+  const diseaseCols = [
+    {key:'param', label:NV.abg.diseaseCols.param},
+    {key:'rds', label:NV.abg.diseaseCols.rds},
+    {key:'cdh', label:NV.abg.diseaseCols.cdh},
+    {key:'pphn', label:NV.abg.diseaseCols.pphn},
+    {key:'hie', label:NV.abg.diseaseCols.hie}
+  ];
+  spSectionCard(wrap, { h:NV.abg.diseaseHeading, icon:'🎯', prominent:true, customHtml: spTableHtml(diseaseCols, NV.abg.diseaseRows, NV.abg.diseaseFootnote, {stickyFirst:true}) });
+
+  spSectionCard(wrap, { h:NV.abg.stepsHeading, icon:'🧭', collapsible:true, customHtml: `<ol style="padding-left:18px; margin:0;">${NV.abg.stepsList.map(e=>`<li style="margin-bottom:6px;">${t(e)}</li>`).join('')}</ol>` });
+
+  const causesHtml = NV.abg.causesList.map(c=>`
+    <div class="drugline"><span class="dname">${t(c.label)}</span></div>
+    <p style="font-size:12.5px; margin:2px 0 10px;">${t(c.examples)}</p>`).join('');
+  spSectionCard(wrap, { h:NV.abg.causesHeading, icon:'🔍', collapsible:true, customHtml: causesHtml });
+
+  spApaRefCard(wrap, NV.abg.apaRef);
+
+  app.appendChild(wrap);
+}
+
+function nvRender(){
+  const app = document.getElementById('app');
+  app.innerHTML = '';
+  if(nvState.screen==='home') nvHomeView(app);
+  else if(nvState.screen==='conv') nvConvView(app);
+  else if(nvState.screen==='hfov') nvHfovView(app);
+  else if(nvState.screen==='niv') nvNivView(app);
+  else if(nvState.screen==='abg') nvAbgView(app);
+}
+/* ======================= End Newborn Ventilation ======================= */
 
 /* ======================= Sidebar Navigation Drawer ======================= */
 let sidebarOpen = false;
@@ -13785,6 +14532,18 @@ function sbOpenAtbXr(){
   topState = { screen:'atbAllergy' };
   atState.screen = 'xr';
   atState.xr.returnTo = 'home';
+  scrollToTop();
+  render();
+}
+function sbOpenVentConv(){
+  topState = { screen:'ventilation' };
+  vtState = { screen:'conv' };
+  scrollToTop();
+  render();
+}
+function sbOpenVentHfov(){
+  topState = { screen:'ventilation' };
+  vtState = { screen:'hfov' };
   scrollToTop();
   render();
 }
@@ -13820,8 +14579,9 @@ function renderSidebar(){
   const common = CATEGORIES.filter(c => c.group==='common' && homeMatches(c, q));
   const newbornShown = homeMatches(NEWBORN_HUB, q);
   const atbShown = homeMatches(ATB_HUB, q);
+  const ventShown = homeMatches(VENT_HUB, q);
   const crxShown = homeMatches({name:CRX.title, short:CRX.short, keywords:CRX.keywords}, q);
-  const nothing = !urgent.length && !common.length && !newbornShown && !atbShown && !crxShown;
+  const nothing = !urgent.length && !common.length && !newbornShown && !atbShown && !ventShown && !crxShown;
 
   let html = '';
   html += `<div class="sb-header">
@@ -13866,6 +14626,14 @@ function renderSidebar(){
     html += sbItemRow('allergy', 'var(--purple-bg)', t(AT.home.xrName), 'atbxr');
     html += `</div>`;
   }
+  if(ventShown){
+    const openV = sbGroupsExpanded.vent || !!q;
+    html += sbGroupHeaderRow('picu', 'var(--blue-bg)', 'var(--blue-tx)', t(VENT_HUB.name), 2, 'vent', true, openV);
+    html += `<div class="sb-group-body${openV?' expanded':''}" id="sbGroupBody-vent">`;
+    html += sbItemRow('picu', 'var(--blue-bg)', t(VT.home.convName), 'ventconv');
+    html += sbItemRow('picu', 'var(--blue-bg)', t(VT.home.hfovName), 'venthfov');
+    html += `</div>`;
+  }
 
   html += `</div>
   <div class="sb-footer">
@@ -13891,6 +14659,8 @@ function renderSidebar(){
       else if(key.indexOf('nb:')===0){ sbNavigate(function(){ nbOpenModule(key.slice(3)); }); }
       else if(key==='atbrisk'){ sbNavigate(sbOpenAtbRisk); }
       else if(key==='atbxr'){ sbNavigate(sbOpenAtbXr); }
+      else if(key==='ventconv'){ sbNavigate(sbOpenVentConv); }
+      else if(key==='venthfov'){ sbNavigate(sbOpenVentHfov); }
     };
   });
   panel.querySelectorAll('.sb-group-header').forEach(function(el){
@@ -13918,6 +14688,7 @@ function nbOpenModule(id){
   if(id==='syphilis'){ syResetAll(); }
   else if(id==='eos'){ eoResetAll(); }
   else if(id==='jaundice'){ jaResetAll(); }
+  else if(id==='nbvent'){ nvResetAll(); }
   logModuleView(id);
   scrollToTop();
   render();
@@ -13994,6 +14765,7 @@ function renderHomeResults(area){
   const common = CATEGORIES.filter(c => c.group==='common' && homeMatches(c, q));
   const newbornShown = homeMatches(NEWBORN_HUB, q);
   const atbShown = homeMatches(ATB_HUB, q);
+  const ventShown = homeMatches(VENT_HUB, q);
   const crxShown = homeMatches({name:CRX.title, short:CRX.short, keywords:CRX.keywords}, q);
 
   if(crxShown){
@@ -14049,7 +14821,17 @@ function renderHomeResults(area){
     grid.appendChild(buildModuleCard(ATB_HUB, ()=>goAtbHome(), {hub:true, hubClass:'hub-purple', hubSubLabel:UI.atbSubCount}));
     area.appendChild(grid);
   }
-  if(!urgent.length && !common.length && !newbornShown && !atbShown && !crxShown){
+  if(ventShown){
+    const head = document.createElement('div');
+    head.className = 'group-head';
+    head.innerHTML = `<span class="dot dot-picu"></span><h2>${t(UI.groupPicu)}</h2>`;
+    area.appendChild(head);
+    const grid = document.createElement('div');
+    grid.className = 'module-grid';
+    grid.appendChild(buildModuleCard(VENT_HUB, ()=>goVentHome(), {hub:true, hubClass:'hub-blue', hubSubLabel:UI.ventSubCount}));
+    area.appendChild(grid);
+  }
+  if(!urgent.length && !common.length && !newbornShown && !atbShown && !ventShown && !crxShown){
     const empty = document.createElement('div');
     empty.className = 'search-empty';
     empty.textContent = t(UI.searchEmpty);
@@ -14088,6 +14870,7 @@ function render(){
   if(topState.screen==='home'){ renderMainHome(app); return; }
   if(topState.screen==='newborn'){ nbRenderHome(app); return; }
   if(topState.screen==='atbAllergy'){ atRender(); return; }
+  if(topState.screen==='ventilation'){ vtRender(); return; }
   if(topState.screen==='respiratory'){ rsRender(); return; }
   if(topState.screen==='fever'){ fvRender(); return; }
   if(topState.screen==='syphilis'){ syRender(); return; }
@@ -14100,6 +14883,7 @@ function render(){
   if(topState.screen==='anaphylaxis'){ anRender(); return; }
   if(topState.screen==='statusepilepticus'){ seRender(); return; }
   if(topState.screen==='jaundice'){ jaRender(); return; }
+  if(topState.screen==='nbvent'){ nvRender(); return; }
   if(topState.screen==='dka'){ dkaRender(); return; }
   if(topState.screen==='asthma'){ asRender(); return; }
   if(topState.screen==='coderx'){ crxRender(); return; }
