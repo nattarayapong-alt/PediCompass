@@ -2958,6 +2958,8 @@ const EO = {
 
   iapHeading:{th:'ได้รับ GBS intrapartum antibiotic prophylaxis (IAP) อย่างเพียงพอหรือไม่', en:'Was GBS intrapartum antibiotic prophylaxis (IAP) adequate?'},
   iapHint:{th:'เพียงพอ = ได้รับ Penicillin G, Ampicillin หรือ Cefazolin ทางหลอดเลือดดำ อย่างน้อย 4 ชั่วโมงก่อนคลอด', en:'Adequate = IV penicillin G, ampicillin, or cefazolin, given ≥4 hours before delivery'},
+  iapRefTitle:{th:'ข้อบ่งชี้สำหรับ IAP และเกณฑ์ IAP เพียงพอ', en:'IAP indications & adequacy criteria'},
+  iapRefIndicationsLabel:{th:'ข้อบ่งชี้สำหรับ GBS IAP', en:'Indications for GBS IAP'},
 
   /* ---- GA ≤34 6/7 wk pathway — 4-step sequence per AAP algorithm ---- */
   qAHeading:{th:'ทารกคลอดจากภาวะต่อไปนี้ข้อใดข้อหนึ่งหรือไม่', en:'Was the infant born because of any of the following?'},
@@ -3119,13 +3121,14 @@ function eoSelectedLabels(sel, bullets, lang){
   return bullets.filter(b=>sel.includes(b.val)).map(b=>b[lang]);
 }
 
-function eoMultiCard(app, heading, hint, bullets, noneLabel, sel, onChange){
+function eoMultiCard(app, heading, hint, bullets, noneLabel, sel, onChange, extraHtml=''){
   eoHeader(app, t(EO.refBadge));
   const card = document.createElement('div');
   card.className='q-card';
   card.innerHTML = `
     <div class="q-text">${t(heading)}</div>
     <div class="q-hint">${hint ? t(hint)+' · ' : ''}${t(UI.selectMulti)}</div>
+    ${extraHtml}
     <div class="opt-list">
       ${bullets.map(b=>{
         const isSel = sel.includes(b.val);
@@ -3208,9 +3211,20 @@ function eoQCView(app){
 
 function eoQDView(app){
   const f = eoState.form;
+  const iapRefHtml = `<details class="mini-note" style="cursor:pointer;">
+      <summary style="cursor:pointer; font-weight:600; color:var(--pink-600); list-style:none; display:flex; align-items:center; gap:7px;">${t(EO.iapRefTitle)} <span style="margin-left:auto; font-size:11px; color:var(--ink-soft); font-weight:400;">${LANG==='th'?'แตะเพื่อดูรายละเอียด':'tap for details'}</span></summary>
+      <div style="margin-top:8px;">
+        <strong style="display:block; margin-bottom:4px; font-size:12px;">${t(EO.iapRefIndicationsLabel)}</strong>
+        <ul style="margin:0 0 10px 18px; padding:0; font-size:11.5px; color:var(--ink-soft); line-height:1.6;">
+          ${EO.riskFactorOptions.find(o=>o.val==='gbsIap').bullets.map(b=>`<li>${t(b)}</li>`).join('')}
+        </ul>
+        <strong style="display:block; margin-bottom:4px; font-size:12px;">${t(EO.iapHeading)}</strong>
+        <p style="font-size:11.5px; color:var(--ink-soft); margin:0; line-height:1.6;">${t(EO.iapHint)}</p>
+      </div>
+    </details>`;
   eoMultiCard(app, EO.qDHeading, EO.qDHint, EO.qDBullets, EO.qDNoneLabel, f.qDSel, (arr)=>{
     f.qDSel = arr;
-  });
+  }, iapRefHtml);
   const backTarget = f.qB===true ? 'qB' : 'qC';
   const qdVal = eoMultiValue(f.qDSel);
   eoNav(app, {
@@ -3458,7 +3472,8 @@ function eoCompute(){
           {th:'เฝ้าระวังอาการทางคลินิก โดยไม่ต้องตรวจ lab หรือให้ยาปฏิชีวนะ', en:'Clinical monitoring only — no laboratory testing or antibiotics'},
           {th:'ส่งตรวจ CBC และ Blood culture โดยยังไม่เริ่มยาปฏิชีวนะ', en:'Send CBC and blood culture, without starting antibiotics'},
           {th:'ส่งตรวจ CBC, Blood culture พร้อมเริ่มยาปฏิชีวนะแบบครอบคลุม', en:'Send CBC and blood culture, and start empiric antibiotics'}
-        ]}
+        ]},
+        eoDoseTableBlock()
       ]
     };
   }
