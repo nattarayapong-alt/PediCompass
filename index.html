@@ -699,7 +699,7 @@ const UI = {
   groupAllergy:{th:'แพ้ยาปฏิชีวนะ', en:'Antibiotic Allergy'},
   atbSubCount:{th:'2 เครื่องมือ', en:'2 tools'},
   groupPicu:{th:'PICU / การช่วยหายใจ', en:'PICU / Respiratory Support'},
-  ventSubCount:{th:'2 โหมด', en:'2 modes'},
+  ventSubCount:{th:'3 โหมด', en:'3 modes'},
   atbHomeEyebrow:{th:'การประเมินและจัดการแพ้ยาปฏิชีวนะ', en:'ANTIBIOTIC ALLERGY EVALUATION'},
   atbHomeTitle:{th:'เลือกเครื่องมือที่ต้องการใช้', en:'Select a tool'},
   atbHomeDesc:{th:'ประเมินความเสี่ยงของประวัติแพ้ยาปฏิชีวนะ และตรวจสอบ cross-reactivity ระหว่าง β-lactam ตามแนวทาง ESCMID 2026', en:'Risk-stratify a reported antibiotic allergy and check β-lactam cross-reactivity, based on the ESCMID 2026 guideline.'},
@@ -13792,18 +13792,20 @@ function goAtbHome(){
 }
 
 /* ======================= Ventilation (Conventional MV / HFOV) ======================= */
-const VENT_HUB = { id:'ventilation', icon:'💨', name:{th:'Mechanical Ventilation', en:'Mechanical Ventilation'}, short:{th:'Conventional MV · HFOV', en:'Conventional MV · HFOV'}, keywords:'ventilation ventilator เครื่องช่วยหายใจ conventional mechanical ventilation hfov high frequency oscillatory เครื่องสั่น peep pip vt tidal volume fio2 ards lung recruitment oxygenation ventilation' };
+const VENT_HUB = { id:'ventilation', icon:'💨', name:{th:'Mechanical Ventilation', en:'Mechanical Ventilation'}, short:{th:'Conventional MV · HFOV · HFNC', en:'Conventional MV · HFOV · HFNC'}, keywords:'ventilation ventilator เครื่องช่วยหายใจ conventional mechanical ventilation hfov high frequency oscillatory เครื่องสั่น peep pip vt tidal volume fio2 ards lung recruitment oxygenation ventilation hfnc high flow nasal cannula high-flow แคนนูลา คานูลา niv non-invasive ventilation' };
 
 const VT = {
   refBadge: {th:'Ramathibodi Handbook of PICU & NICU (พ.ศ. 2561)', en:'Ramathibodi Handbook of PICU & NICU (2018)'},
   home: {
     eyebrow: {th:'เครื่องช่วยหายใจ', en:'MECHANICAL VENTILATION'},
     title: {th:'เลือกโหมดที่ต้องการดู', en:'Select a mode'},
-    desc: {th:'หลักการตั้งและปรับเครื่องช่วยหายใจชนิด conventional และ high frequency oscillatory ventilation (HFOV) ในผู้ป่วยเด็ก', en:'Setup and adjustment principles for conventional mechanical ventilation and high-frequency oscillatory ventilation (HFOV) in children.'},
+    desc: {th:'หลักการตั้งและปรับเครื่องช่วยหายใจชนิด conventional, high frequency oscillatory ventilation (HFOV) และ high-flow nasal cannula (HFNC) ในผู้ป่วยเด็ก', en:'Setup and adjustment principles for conventional mechanical ventilation, high-frequency oscillatory ventilation (HFOV), and high-flow nasal cannula (HFNC) in children.'},
     convName: {th:'Conventional MV', en:'Conventional MV'},
     convShort: {th:'จำแนกตาม pathophysiology · ตารางพารามิเตอร์ · Lung recruitment', en:'Classify by pathophysiology · parameter table · lung recruitment'},
     hfovName: {th:'HFOV', en:'HFOV'},
-    hfovShort: {th:'ข้อบ่งชี้ · การตั้งและปรับค่า · Monitoring', en:'Indications · settings & titration · monitoring'}
+    hfovShort: {th:'ข้อบ่งชี้ · การตั้งและปรับค่า · Monitoring', en:'Indications · settings & titration · monitoring'},
+    hfncName: {th:'HFNC', en:'HFNC'},
+    hfncShort: {th:'ข้อบ่งชี้ · ขนาด cannula ตามน้ำหนัก · Setting & weaning', en:'Indications · cannula sizing by weight · settings & weaning'}
   },
   conv: {
     title: {th:'Conventional Mechanical Ventilation', en:'Conventional Mechanical Ventilation'},
@@ -13886,6 +13888,137 @@ const VT = {
     ],
     specialHeading: {th:'Special consideration', en:'Special consideration'},
     specialText: {th:'ช่วงแรกของการใช้ HFOV ผู้ป่วยอาจมี BP ต่ำ จึงอาจต้องให้สารน้ำหรือ vasoactive agent ผู้ป่วยควรได้รับ sedative drug และ muscle relaxant ขณะใช้ HFOV ร่วมกับติดตาม hemodynamic ตลอดเวลา', en:'Early in HFOV use, patients may develop hypotension and may need fluids or a vasoactive agent. Patients should receive a sedative drug and muscle relaxant during HFOV, with continuous hemodynamic monitoring.'}
+  },
+  hfnc: {
+    title: {th:'High-Flow Nasal Cannula (HFNC)', en:'High-Flow Nasal Cannula (HFNC)'},
+    apaRef: {th:'Perkar, S., Maniya, N., Ohri, A., Chawla, A., Sharma, R., & Khilnani, P. (2015). High flow nasal cannula: The new mode of NIV in pediatrics: A working protocol. Journal of Pediatric Critical Care, 2(2), 59–62. https://doi.org/10.21304/2015.0202.00068', en:'Perkar, S., Maniya, N., Ohri, A., Chawla, A., Sharma, R., & Khilnani, P. (2015). High flow nasal cannula: The new mode of NIV in pediatrics: A working protocol. Journal of Pediatric Critical Care, 2(2), 59–62. https://doi.org/10.21304/2015.0202.00068'},
+    indHeading: {th:'ข้อบ่งชี้', en:'Indications'},
+    indIntro: {th:'ใช้ข้อบ่งชี้เดียวกับการทำ CPAP แบบ nasopharyngeal tube ดั้งเดิม', en:'HFNC is used for the same indications as traditional nasopharyngeal-tube CPAP:'},
+    indList: [
+      {th:'ภาวะหายใจลำบากจาก bronchiolitis, pneumonia, congestive heart failure', en:'Respiratory distress from bronchiolitis, pneumonia, or congestive heart failure'},
+      {th:'Support การหายใจหลังถอดท่อช่วยหายใจและหลังใช้เครื่องช่วยหายใจ', en:'Respiratory support post-extubation and post mechanical ventilation'},
+      {th:'Weaning จาก mask CPAP หรือ BIPAP', en:'Weaning therapy from mask CPAP or BIPAP'},
+      {th:'Support การหายใจในเด็กที่มีโรคทางระบบประสาทและกล้ามเนื้อ (neuromuscular disease)', en:'Respiratory support in children with neuromuscular disease'}
+    ],
+    apneaNote: {th:'Apnea of prematurity — อาจใช้ high flow ได้หากมี hypoxemia (SpO₂ <90%) ร่วมกับอาการหายใจลำบากระดับปานกลางถึงรุนแรง แม้ได้ standard flow oxygen แล้ว', en:'Apnea of prematurity — high flow may be used if there is hypoxemia (SpO₂ <90%) with signs of moderate-to-severe respiratory distress despite standard-flow oxygen.'},
+    contraHeading: {th:'ข้อห้าม', en:'Contraindications'},
+    contraList: [
+      {th:'ทางเดินหายใจส่วนจมูกอุดตัน / choanal atresia', en:'Blocked nasal passages / choanal atresia'},
+      {th:'มีการบาดเจ็บหรือเพิ่งผ่าตัดบริเวณ nasopharynx', en:'Trauma or recent surgery to the nasopharynx'}
+    ],
+    equipHeading: {th:'อุปกรณ์', en:'Equipment'},
+    equipList: [
+      {th:'แหล่งจ่ายออกซิเจนและอากาศ (air source)', en:'Oxygen and air source'},
+      {th:'Blender', en:'Blender'},
+      {th:'Flow meter — น้ำหนัก <7 กก. ใช้ flow meter มาตรฐาน 0–15 ลิตร/นาที, น้ำหนัก >7 กก. ใช้ high-flow oxygen flow meter ที่จ่ายได้ถึง 50 ลิตร/นาที', en:'Flow meter — <7 kg use a standard 0–15 L/min flow meter; >7 kg use a high-flow oxygen flow meter delivering up to 50 L/min'},
+      {th:'Humidifier (เช่น Fisher & Paykel® MR850)', en:'Humidifier (e.g. Fisher & Paykel® MR850)'},
+      {th:'Circuit tubing ต่อกับ humidifier — น้ำหนัก <12.5 กก. ใช้ small-volume circuit tubing, น้ำหนัก ≥12.5 กก. ใช้ adult oxygen-therapy circuit tubing ร่วมกับ 22mmF oxygen stem connector', en:'Circuit tubing to the humidifier — <12.5 kg use small-volume circuit tubing; ≥12.5 kg use adult oxygen-therapy circuit tubing with a 22 mmF oxygen stem connector'},
+      {th:'Nasal cannula (prongs) ขนาดพอดีกับรูจมูก — เลือกตามน้ำหนักผู้ป่วย (ดูตารางที่ 1)', en:'Nasal cannula (prongs) sized to fit the nares comfortably — chosen by patient weight (see Table 1)'},
+      {th:'Water bag สำหรับ humidifier', en:'Water bag for the humidifier'},
+      {th:'สายให้อาหารทางจมูก (nasogastric tube)', en:'Nasogastric tube'}
+    ],
+    sizeTableHeading: {th:'ตารางที่ 1 — ขนาด cannula และ flow rate สูงสุดตามน้ำหนัก/อายุ', en:'Table 1 — Cannula size and maximum flow rate by weight/age'},
+    sizeCols: { group:{th:'', en:''}, premature:{th:'Premature', en:'Premature'}, neonatal:{th:'Neonatal', en:'Neonatal'}, infant:{th:'Infant', en:'Infant'}, pediatric:{th:'Pediatric', en:'Pediatric'} },
+    sizeRows: [
+      { group:{th:'รุ่น cannula (Fisher & Paykle)', en:'Cannula (Fisher & Paykle)'}, premature:'OPT312', neonatal:'OPT314', infant:'OPT316', pediatric:'OPT318' },
+      { group:{th:'Max flow rate (ลิตร/นาที)', en:'Max flow rate (L/min)'}, premature:'8', neonatal:'8', infant:'20', pediatric:'25' },
+      { group:{th:'น้ำหนัก cannula', en:'Cannula weight'}, premature:'9 g', neonatal:'9 g', infant:'13 g', pediatric:'13 g' },
+      { group:{th:'ช่วงอายุโดยประมาณ', en:'Approximate age range'}, premature:{th:'<32 สัปดาห์', en:'<32 wk'}, neonatal:{th:'27 สัปดาห์–6 เดือน', en:'27 wk–6 mo'}, infant:{th:'37 สัปดาห์–3.5 ปี', en:'37 wk–3.5 y'}, pediatric:{th:'1–6 ปี', en:'1–6 y'} },
+      { group:{th:'ช่วงน้ำหนักโดยประมาณ', en:'Approximate weight range'}, premature:{th:'<2 กก.', en:'<2 kg'}, neonatal:{th:'1–8 กก.', en:'1–8 kg'}, infant:{th:'3–15 กก.', en:'3–15 kg'}, pediatric:{th:'12–22 กก.', en:'12–22 kg'} }
+    ],
+    sizeFootnote: {th:'น้ำหนัก >10 กก. ใช้ adult cannula ขนาด S (OPT542), M (OPT544) หรือ L (OPT546) ตามความเหมาะสม', en:'For weight >10 kg, use adult cannula size S (OPT542), M (OPT544), or L (OPT546) as appropriate.'},
+    setupHeading: {th:'การเตรียมอุปกรณ์', en:'Equipment setup'},
+    setupList: [
+      {th:'เลือกขนาด nasal cannula และ circuit tubing ให้เหมาะกับขนาดผู้ป่วย', en:'Select appropriately sized nasal cannula and circuit tubing for the patient'},
+      {th:'ต่อ nasal cannula เข้ากับ adaptor บน circuit tubing และต่อ circuit tubing เข้ากับ humidifier', en:'Connect the nasal cannula to the adaptor on the circuit tubing, and connect the circuit tubing to the humidifier'},
+      {th:'ต่อสาย air และ oxygen จาก blender เข้ากับแหล่งจ่าย air และ oxygen', en:'Attach air and oxygen hoses from the blender to the air and oxygen supply'},
+      {th:'ต่อสาย oxygen จาก blender เข้ากับ humidifier', en:'Connect the oxygen tubing from the blender to the humidifier'},
+      {th:'ใช้ 22mmF oxygen stem connector ต่อสาย oxygen เข้ากับ humidifier chamber เมื่อใช้ adult circuit', en:'Use a 22 mmF oxygen stem connector to attach the oxygen tubing to the humidifier chamber when using the adult circuit'},
+      {th:'ต่อ water bag เข้ากับ humidifier และตั้งอุณหภูมิ 37°C — วาง water bag ให้สูงกว่า humidifier เพื่อให้น้ำไหลเข้า chamber ได้อย่างต่อเนื่อง จากนั้นระบบพร้อมใช้งาน', en:'Attach the water bag to the humidifier and set to 37°C — the water bag must run freely and be positioned as high as possible above the humidifier so water flows into the chamber; the system is then ready for use'}
+    ],
+    settingsHeading: {th:'การตั้งค่าเริ่มต้น', en:'Initial settings'},
+    flowCalcHint: {th:'กรอกน้ำหนักผู้ป่วยเพื่อคำนวณ goal flow rate', en:'Enter patient weight to calculate the goal flow rate'},
+    flowCalcWeightLabel: {th:'น้ำหนักผู้ป่วย (กก.)', en:'Patient weight (kg)'},
+    flowCalcWeightPlaceholder: {th:'เช่น 12', en:'e.g. 12'},
+    flowCalcPlaceholderResult: {th:'กรอกน้ำหนักเพื่อดูผลลัพธ์', en:'Enter weight to see result'},
+    flowCalcResultPrefix: {th:'Goal flow rate ≈', en:'Goal flow rate ≈'},
+    flowCalcResultSuffix: {th:'ลิตร/นาที — เริ่มที่ 6 ลิตร/นาทีแล้วค่อยๆ เพิ่มให้ถึงค่านี้ภายในไม่กี่นาที', en:'L/min — start at 6 L/min and titrate up to this goal over a few minutes'},
+    flowCalcMaxNote: {th:'ชนเพดาน flow สูงสุด 50 ลิตร/นาที', en:'capped at the maximum flow of 50 L/min'},
+    patientSecureText: {th:'ยึด nasal cannula ด้วย "wiggle pads™" ที่มากับชุดอุปกรณ์ ให้ prong วางในรูจมูกพอดี โดย prong ไม่ควรอุดรูจมูกจนสนิท', en:'Secure the nasal cannula using the supplied \u201Cwiggle pads™\u201D, ensuring the prongs sit well into the nares — prongs should not totally occlude the nares.'},
+    flowLabel: {th:'Flow rate', en:'Flow rate'},
+    flowList: [
+      {th:'น้ำหนัก ≤10 กก. — 2 ลิตร/กก./นาที', en:'≤10 kg — 2 L/kg/min'},
+      {th:'น้ำหนัก >10 กก. — 2 ลิตร/กก./นาที สำหรับ 10 กก.แรก บวก 0.5 ลิตร/กก./นาที สำหรับแต่ละกิโลกรัมที่เกิน (flow สูงสุด 50 ลิตร/นาที) — เช่น 16 กก. = 20 ลิตร (2×10 กก.แรก) + 3 ลิตร (0.5×6 กก.) = 23 ลิตร/นาที; 40 กก. = 20 ลิตร (2×10 กก.แรก) + 15 ลิตร (0.5×30 กก.) = 35 ลิตร/นาที', en:'>10 kg — 2 L/kg/min for the first 10 kg + 0.5 L/kg/min for each kg above that (max flow 50 L/min). e.g. 16 kg = 20 L (2 × first 10 kg) + 3 L (0.5 × 6 kg) = 23 L/min; 40 kg = 20 L (2 × first 10 kg) + 15 L (0.5 × 30 kg) = 35 L/min'},
+      {th:'เริ่มที่ 6 ลิตร/นาที แล้วค่อยๆ เพิ่มจนถึง goal flow rate ภายในไม่กี่นาที เพื่อให้ผู้ป่วยปรับตัวกับ high flow', en:'Start at 6 L/min and increase up to the goal flow rate over a few minutes to allow the patient to adjust to high flow'},
+      {th:'ปัดค่า flow ลงให้ตรงกับค่าที่ flow meter มีให้เลือกใกล้เคียงที่สุด (บาง flow meter เลือกได้เฉพาะบางค่า)', en:'Round the flow down to the nearest flow available on the meter (only certain flows are selectable on some meters)'}
+    ],
+    fio2Label: {th:'FiO₂', en:'FiO₂'},
+    fio2List: [
+      {th:'ใช้ blender เสมอ ห้ามใช้ flow meter จากผนังที่จ่าย FiO₂ 100% โดยตรง', en:'Always use a blender — never use a wall flow meter delivering FiO₂ 100% directly'},
+      {th:'เริ่มที่ 50–60% สำหรับ bronchiolitis และภาวะหายใจลำบาก', en:'Start at 50–60% for bronchiolitis and respiratory distress'},
+      {th:'FiO₂ ต่ำกว่านี้ (เช่น 21–25%) อาจจำเป็นในโรคหัวใจพิการแต่กำเนิดชนิด cyanotic ที่มี balanced circulation', en:'Lower FiO₂ (e.g. 21–25%) may be needed in cyanotic congenital heart disease with balanced circulation'},
+      {th:'เป้าหมาย SpO₂ 94–98% (75–85% ในโรคหัวใจพิการแต่กำเนิดชนิด cyanotic ที่มี balanced circulation)', en:'Target SpO₂ range 94–98% (75–85% in cyanotic congenital heart disease with balanced circulation)'}
+    ],
+    humidLabel: {th:'Humidification', en:'Humidification'},
+    humidText: {th:'เนื่องจากใช้ flow สูง จำเป็นต้อง heated water humidification เพื่อป้องกันสารคัดหลั่งแห้งและรักษาการทำงานของ nasal cilia ให้ตั้ง humidifier ที่ invasive setting 37°C (ระยะห่างจาก temperature probe ถึงรูจมูกจะทำให้อุณหภูมิลดลงมาอยู่ในระดับที่สบายโดยยังคงความชื้นที่เหมาะสม)', en:'Because the flows used are high, heated water humidification is necessary to avoid drying respiratory secretions and to maintain nasal cilia function. Set the humidifier to the invasive setting at 37°C — the distance from the temperature probe to the nares results in a comfortable temperature drop while maintaining optimal humidity.'},
+    monitorHeading: {th:'การติดตามผู้ป่วย', en:'Patient monitoring'},
+    monitorList: [
+      {th:'Respiratory rate', en:'Respiratory rate'},
+      {th:'Heart rate', en:'Heart rate'},
+      {th:'ระดับ chest in-drawing', en:'Degree of chest in-drawing'},
+      {th:'SpO₂', en:'SpO₂'}
+    ],
+    monitorExpectHeading: {th:'ภายใน 2 ชั่วโมง ควรเห็นการตอบสนอง', en:'Within 2 hours, expect'},
+    monitorExpectList: [
+      {th:'FiO₂ ที่ต้องใช้เพื่อรักษา SpO₂ ในเป้าหมายลดลงเหลือ <40%', en:'The FiO₂ required to maintain SpO₂ in the target range should decrease to <40%'},
+      {th:'Heart rate และ respiratory rate ลดลงประมาณ 20%', en:'Heart rate and respiratory rate should reduce by about 20%'},
+      {th:'Chest in-drawing และอาการหายใจลำบากอื่นๆ ดีขึ้น', en:'Chest in-drawing and other signs of respiratory distress should improve'}
+    ],
+    escalateHeading: {th:'ควรปรึกษาแพทย์/ทีมทันทีหาก', en:'Seek medical review if'},
+    escalateList: [
+      {th:'อาการไม่ดีขึ้นตามที่คาดหวังข้างต้น', en:'The patient is not stabilizing as described above'},
+      {th:'อาการหายใจลำบากแย่ลง', en:'The degree of respiratory distress worsens'},
+      {th:'ยังคง hypoxemia แม้ใช้ high flow แล้ว', en:'Hypoxemia persists despite high gas flow'},
+      {th:'ต้องการ FiO₂ >50%', en:'Requirement for >50% oxygen'}
+    ],
+    cautionHeading: {th:'ข้อควรระวัง', en:'Cautions'},
+    cautionList: [
+      {th:'หากใช้ high flow ร่วมกับ FiO₂ สูง SpO₂ อาจดูปกติได้แม้ผู้ป่วยกำลังเข้าสู่ hypercarbic respiratory failure — อย่าใช้ SpO₂ เพียงอย่างเดียวในการประเมิน ventilation', en:'On high flow with high FiO₂, oxygen saturation may be maintained despite the development of hypercarbic respiratory failure — do not rely on SpO₂ alone to assess ventilation'},
+      {th:'หาก SpO₂ ลดลงเฉียบพลันหรือมี work of breathing เพิ่มขึ้นมาก ให้ทำ chest X-ray เพื่อแยกภาวะ pneumothorax', en:'If there is rapid deterioration of oxygen saturation or markedly increased work of breathing, obtain a chest X-ray to exclude pneumothorax'},
+      {th:'ควรเตรียมพร้อมสำหรับการใส่ท่อช่วยหายใจ (invasive mechanical ventilation) ไว้เสมอ เช่นเดียวกับการใช้ non-invasive ventilation ทุกรูปแบบ', en:'A setup for invasive mechanical ventilation should always be ready, as with any non-invasive ventilation modality'}
+    ],
+    nursingHeading: {th:'การพยาบาลผู้ป่วย', en:'Patient nursing care'},
+    nursingList: [
+      {th:'ทารกทุกรายที่ใช้ high flow ควรใส่สายให้อาหารทางจมูก (NG tube) — เมื่ออาการคงที่ให้ประเมินว่ากินได้หรือไม่ บางรายยังดูดนมแม่ได้ แต่ส่วนใหญ่ต้องให้อาหารทาง NG tube และ aspirate ลมออกทุก 2–4 ชั่วโมง', en:'All infants on high flow should have an NG tube — once stable, assess feeding ability; some can continue breastfeeding, but most require NG feeding, and the NG tube should be aspirated for air every 2–4 hours'},
+      {th:'ดูแลช่องปากและจมูกทุก 2–4 ชั่วโมง', en:'Perform oral and nasal care every 2–4 hours'},
+      {th:'ตรวจตำแหน่ง prong ให้ถูกต้องและไม่มี pressure area ที่รูจมูก — เตรียม wiggle pads™ สำรองไว้เปลี่ยนตามความจำเป็น', en:'Check that prongs are correctly positioned with no pressure areas on the nares — keep spare wiggle pads™ available to change as needed'},
+      {th:'ดูด secretion เบาๆ ตามความจำเป็นเพื่อให้รูจมูกโล่ง', en:'Perform gentle suction as required to keep the nares clear'},
+      {th:'ตรวจระดับน้ำใน humidifier ทุกชั่วโมง', en:'Check the humidifier water level hourly'}
+    ],
+    documentHeading: {th:'การบันทึก', en:'Documentation'},
+    documentList: [
+      {th:'บันทึก flow rate, FiO₂ และอุณหภูมิ humidifier ทุกชั่วโมง', en:'Document flow rate, FiO₂, and humidifier temperature hourly'},
+      {th:'บันทึก RR, HR, SpO₂ และ work of breathing (WOB)', en:'Document RR, HR, SpO₂, and work of breathing (WOB)'}
+    ],
+    weanHeading: {th:'การ Wean High-Flow Nasal Cannula', en:'Weaning high-flow nasal cannula'},
+    weanIntro: {th:'เริ่ม wean เมื่ออาการทางคลินิกดีขึ้น ได้แก่ work of breathing ลดลง, respiratory rate ปกติหรือดีขึ้น และ cardiovascular parameters กลับสู่ปกติ', en:'Begin weaning when the child\u2019s clinical condition is improving, indicated by decreased work of breathing, normal or improved respiratory rate, and return to normal cardiovascular parameters.'},
+    weanUnderHeading: {th:'น้ำหนัก <10 กก.', en:'For infants <10 kg'},
+    weanUnderList: [
+      {th:'ขั้นแรกให้ wean FiO₂ ลงจนต่ำกว่า 40% (มักทำได้ภายใน 1–2 ชั่วโมงแรก)', en:'The first step is to wean FiO₂ to <40% (usually within the first 1–2 hours)'},
+      {th:'ลด flow ลงเหลือ 5 ลิตร/นาที แล้วเปลี่ยนเป็น standard low-flow oxygen 100% (1–2 ลิตร/นาที) หรือหยุดให้ oxygen หากอาการคงที่', en:'Reduce flow to 5 L/min, then change to standard low-flow 100% oxygen (1–2 L/min) or cease oxygen therapy if stable'}
+    ],
+    weanOverHeading: {th:'น้ำหนัก >10 กก.', en:'For children >10 kg'},
+    weanOverList: [
+      {th:'Wean FiO₂ ลงเหลือ 40%', en:'Wean FiO₂ to 40%'},
+      {th:'เมื่อข้อบ่งชี้สำหรับการใช้ high flow หมดไปและผู้ป่วยคงที่ใน FiO₂ 40% แล้ว สามารถลด flow ลงเหลือ 1–2 ลิตร/นาทีโดยใช้ unblended (100%) oxygen ผ่าน standard nasal prong หรือหยุด oxygen therapy — โดยทั่วไปไม่จำเป็นต้อง wean แบบค่อยเป็นค่อยไปนาน มักดีกว่าหากอยู่บน high flow, low flow หรือหยุด oxygen ไปเลย', en:'Once the indication for high flow has resolved and the patient is stable on 40% oxygen, flow can be weaned to 1–2 L/min with unblended (100%) oxygen via standard nasal prong, or oxygen therapy ceased. There is generally no need for a prolonged weaning process — it is usually better to be on high flow, standard low flow, or off oxygen therapy.'}
+    ],
+    complicationsHeading: {th:'ภาวะแทรกซ้อน', en:'Complications'},
+    complicationsList: [
+      {th:'Gastric distension', en:'Gastric distension'},
+      {th:'Pressure area', en:'Pressure areas'},
+      {th:'Cannula อุดตันจากสารคัดหลั่ง', en:'Blocked HFNC due to secretions'},
+      {th:'Pneumothorax', en:'Pneumothorax'}
+    ]
   }
 };
 
@@ -13923,6 +14056,10 @@ function vtHomeView(app){
   grid.appendChild(buildModuleCard(
     { icon:'〰️', name:VT.home.hfovName, short:VT.home.hfovShort },
     function(){ vtGoTo('hfov'); }
+  ));
+  grid.appendChild(buildModuleCard(
+    { icon:'🌬️', name:VT.home.hfncName, short:VT.home.hfncShort },
+    function(){ vtGoTo('hfnc'); }
   ));
   app.appendChild(grid);
 }
@@ -14006,12 +14143,141 @@ function vtHfovView(app){
   app.appendChild(wrap);
 }
 
+function vtHfncSettingsCard(wrap){
+  const sc = document.createElement('div');
+  sc.className = 'section-card prominent';
+  sc.innerHTML = `
+    <h3 style="font-size:15px;">🎛️ ${t(VT.hfnc.settingsHeading)}</h3>
+    <p style="font-size:12.5px; margin:0 0 12px; line-height:1.6;">${t(VT.hfnc.patientSecureText)}</p>
+    <div class="drugline"><span class="dname">${t(VT.hfnc.flowLabel)}</span></div>
+    <p style="font-size:12px; color:var(--ink-soft); margin:4px 0 8px; line-height:1.6;">${t(VT.hfnc.flowCalcHint)}</p>
+    <label style="font-size:12.5px; font-weight:600; display:block; margin-bottom:5px;">${t(VT.hfnc.flowCalcWeightLabel)}</label>
+    <input class="num-input" id="hfncFlowWeight" type="number" inputmode="decimal" min="0" step="0.1" placeholder="${t(VT.hfnc.flowCalcWeightPlaceholder)}">
+    <div id="hfncFlowResult" style="margin-top:12px; padding:10px 14px; border-radius:12px; background:var(--pink-100); font-weight:600; text-align:center; font-size:13.5px; line-height:1.5;">${t(VT.hfnc.flowCalcPlaceholderResult)}</div>
+    <ul style="margin-top:12px;">${VT.hfnc.flowList.map(e=>`<li>${t(e)}</li>`).join('')}</ul>
+    <div class="drugline"><span class="dname">${t(VT.hfnc.fio2Label)}</span></div>
+    <ul>${VT.hfnc.fio2List.map(e=>`<li>${t(e)}</li>`).join('')}</ul>
+    <div class="drugline"><span class="dname">${t(VT.hfnc.humidLabel)}</span></div>
+    <p style="font-size:12.5px; margin:2px 0 0; line-height:1.6;">${t(VT.hfnc.humidText)}</p>
+  `;
+  wrap.appendChild(sc);
+
+  const wInput = sc.querySelector('#hfncFlowWeight');
+  const resultDiv = sc.querySelector('#hfncFlowResult');
+  const fmtNum = n => { const r = Math.round(n*100)/100; return Number.isInteger(r) ? String(r) : String(r); };
+  wInput.oninput = ()=>{
+    const w = parseFloat(wInput.value);
+    if(w>0){
+      let flowRaw, breakdown;
+      if(w<=10){
+        flowRaw = 2*w;
+        breakdown = LANG==='th'
+          ? `2 × ${fmtNum(w)} กก. = ${fmtNum(flowRaw)} ลิตร/นาที`
+          : `2 × ${fmtNum(w)} kg = ${fmtNum(flowRaw)} L/min`;
+      } else {
+        const extraKg = w-10;
+        const extraFlow = 0.5*extraKg;
+        flowRaw = 20 + extraFlow;
+        breakdown = LANG==='th'
+          ? `20 ลิตร (2×10 กก.แรก) + ${fmtNum(extraFlow)} ลิตร (0.5×${fmtNum(extraKg)} กก.) = ${fmtNum(flowRaw)} ลิตร/นาที`
+          : `20 L (2×first 10 kg) + ${fmtNum(extraFlow)} L (0.5×${fmtNum(extraKg)} kg) = ${fmtNum(flowRaw)} L/min`;
+      }
+      const capped = flowRaw>50;
+      const flow = Math.floor(Math.min(flowRaw, 50));
+      resultDiv.innerHTML = `<div>${t(VT.hfnc.flowCalcResultPrefix)} ${flow} ${t(VT.hfnc.flowCalcResultSuffix)}${capped ? ` — ${t(VT.hfnc.flowCalcMaxNote)}` : ''}</div><div style="font-size:11px; font-weight:400; color:var(--ink-soft); margin-top:6px;">${breakdown}</div>`;
+    } else {
+      resultDiv.textContent = t(VT.hfnc.flowCalcPlaceholderResult);
+    }
+  };
+}
+
+function vtHfncView(app){
+  vtSubHead(app, t(VT.hfnc.title));
+  const wrap = document.createElement('div');
+
+  spSectionCard(wrap, {
+    h: VT.hfnc.indHeading, icon:'⚠️',
+    customHtml: `<p style="font-size:12.5px; margin:0 0 6px;">${t(VT.hfnc.indIntro)}</p>
+      <ul>${VT.hfnc.indList.map(e=>`<li>${t(e)}</li>`).join('')}</ul>
+      <p style="font-size:12.5px; margin:10px 0 0;">${t(VT.hfnc.apneaNote)}</p>`
+  });
+
+  spSectionCard(wrap, {
+    h: VT.hfnc.contraHeading, icon:'🚫',
+    customHtml: `<ul>${VT.hfnc.contraList.map(e=>`<li>${t(e)}</li>`).join('')}</ul>`
+  });
+
+  spSectionCard(wrap, {
+    h: VT.hfnc.equipHeading, icon:'🧰', collapsible:true,
+    customHtml: `<ul>${VT.hfnc.equipList.map(e=>`<li>${t(e)}</li>`).join('')}</ul>`
+  });
+
+  const sizeCols = [
+    {key:'group', label:VT.hfnc.sizeCols.group},
+    {key:'premature', label:VT.hfnc.sizeCols.premature},
+    {key:'neonatal', label:VT.hfnc.sizeCols.neonatal},
+    {key:'infant', label:VT.hfnc.sizeCols.infant},
+    {key:'pediatric', label:VT.hfnc.sizeCols.pediatric}
+  ];
+  spSectionCard(wrap, { h:VT.hfnc.sizeTableHeading, icon:'📋', prominent:true, customHtml: spTableHtml(sizeCols, VT.hfnc.sizeRows, VT.hfnc.sizeFootnote, {stickyFirst:true}) });
+
+  spSectionCard(wrap, {
+    h: VT.hfnc.setupHeading, icon:'🛠️', collapsible:true,
+    customHtml: `<ol style="padding-left:18px; margin:0;">${VT.hfnc.setupList.map(e=>`<li style="margin-bottom:6px;">${t(e)}</li>`).join('')}</ol>`
+  });
+
+  vtHfncSettingsCard(wrap);
+
+  spSectionCard(wrap, {
+    h: VT.hfnc.monitorHeading, icon:'🩺',
+    customHtml: `<ul>${VT.hfnc.monitorList.map(e=>`<li>${t(e)}</li>`).join('')}</ul>
+      <p style="font-size:12.5px; font-weight:600; margin:10px 0 4px;">${t(VT.hfnc.monitorExpectHeading)}</p>
+      <ul>${VT.hfnc.monitorExpectList.map(e=>`<li>${t(e)}</li>`).join('')}</ul>`
+  });
+
+  spSectionCard(wrap, {
+    h: VT.hfnc.escalateHeading, icon:'❗', collapsible:true,
+    customHtml: `<ul>${VT.hfnc.escalateList.map(e=>`<li>${t(e)}</li>`).join('')}</ul>
+      <p style="font-size:12.5px; font-weight:600; margin:10px 0 4px;">${t(VT.hfnc.cautionHeading)}</p>
+      <ul>${VT.hfnc.cautionList.map(e=>`<li>${t(e)}</li>`).join('')}</ul>`
+  });
+
+  spSectionCard(wrap, {
+    h: VT.hfnc.nursingHeading, icon:'🧑‍⚕️', collapsible:true,
+    customHtml: `<ul>${VT.hfnc.nursingList.map(e=>`<li>${t(e)}</li>`).join('')}</ul>`
+  });
+
+  spSectionCard(wrap, {
+    h: VT.hfnc.documentHeading, icon:'📝', collapsible:true,
+    customHtml: `<ul>${VT.hfnc.documentList.map(e=>`<li>${t(e)}</li>`).join('')}</ul>`
+  });
+
+  spSectionCard(wrap, {
+    h: VT.hfnc.weanHeading, icon:'📉', collapsible:true,
+    customHtml: `<p style="font-size:12.5px; margin:0 0 10px; line-height:1.6;">${t(VT.hfnc.weanIntro)}</p>
+      <div class="drugline"><span class="dname">${t(VT.hfnc.weanUnderHeading)}</span></div>
+      <ul>${VT.hfnc.weanUnderList.map(e=>`<li>${t(e)}</li>`).join('')}</ul>
+      <div class="drugline"><span class="dname">${t(VT.hfnc.weanOverHeading)}</span></div>
+      <ul>${VT.hfnc.weanOverList.map(e=>`<li>${t(e)}</li>`).join('')}</ul>`
+  });
+
+  spSectionCard(wrap, {
+    h: VT.hfnc.complicationsHeading, icon:'⚠️',
+    customHtml: `<ul>${VT.hfnc.complicationsList.map(e=>`<li>${t(e)}</li>`).join('')}</ul>`
+  });
+
+  spApaRefCard(wrap, VT.hfnc.apaRef);
+
+  app.appendChild(wrap);
+}
+
 function vtRender(){
   const app = document.getElementById('app');
   app.innerHTML = '';
   if(vtState.screen==='home') vtHomeView(app);
   else if(vtState.screen==='conv') vtConvView(app);
   else if(vtState.screen==='hfov') vtHfovView(app);
+  else if(vtState.screen==='hfnc') vtHfncView(app);
 }
 /* ======================= End Ventilation ======================= */
 
@@ -14562,6 +14828,12 @@ function sbOpenVentHfov(){
   scrollToTop();
   render();
 }
+function sbOpenVentHfnc(){
+  topState = { screen:'ventilation' };
+  vtState = { screen:'hfnc' };
+  scrollToTop();
+  render();
+}
 
 function sbBadge(iconKey, bg){
   return `<div class="sb-item-badge" style="background:${bg};"><img src="${SB_ICONS[iconKey]}" alt=""></div>`;
@@ -14643,10 +14915,11 @@ function renderSidebar(){
   }
   if(ventShown){
     const openV = sbGroupsExpanded.vent || !!q;
-    html += sbGroupHeaderRow('picu', 'var(--blue-bg)', 'var(--blue-tx)', t(VENT_HUB.name), 2, 'vent', true, openV);
+    html += sbGroupHeaderRow('picu', 'var(--blue-bg)', 'var(--blue-tx)', t(VENT_HUB.name), 3, 'vent', true, openV);
     html += `<div class="sb-group-body${openV?' expanded':''}" id="sbGroupBody-vent">`;
     html += sbItemRow('picu', 'var(--blue-bg)', t(VT.home.convName), 'ventconv');
     html += sbItemRow('picu', 'var(--blue-bg)', t(VT.home.hfovName), 'venthfov');
+    html += sbItemRow('picu', 'var(--blue-bg)', t(VT.home.hfncName), 'venthfnc');
     html += `</div>`;
   }
 
@@ -14676,6 +14949,7 @@ function renderSidebar(){
       else if(key==='atbxr'){ sbNavigate(sbOpenAtbXr); }
       else if(key==='ventconv'){ sbNavigate(sbOpenVentConv); }
       else if(key==='venthfov'){ sbNavigate(sbOpenVentHfov); }
+      else if(key==='venthfnc'){ sbNavigate(sbOpenVentHfnc); }
     };
   });
   panel.querySelectorAll('.sb-group-header').forEach(function(el){
