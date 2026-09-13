@@ -13944,6 +13944,16 @@ const VT = {
     flowCalcResultPrefix: {th:'Goal flow rate ≈', en:'Goal flow rate ≈'},
     flowCalcResultSuffix: {th:'ลิตร/นาที — เริ่มที่ 6 ลิตร/นาทีแล้วค่อยๆ เพิ่มให้ถึงค่านี้ภายในไม่กี่นาที', en:'L/min — start at 6 L/min and titrate up to this goal over a few minutes'},
     flowCalcMaxNote: {th:'ชนเพดาน flow สูงสุด 50 ลิตร/นาที', en:'capped at the maximum flow of 50 L/min'},
+    flowTableHeading: {th:'หรือดูตามตารางน้ำหนัก', en:'Or look up by weight'},
+    flowTableCols: { weight:{th:'น้ำหนัก (กก.)', en:'Weight (kg)'}, start:{th:'Starting flow (L/min)', en:'Starting flow (L/min)'}, max:{th:'Max flow (L/min)', en:'Max flow (L/min)'} },
+    flowTableRows: [
+      { weight:'<5', start:'6', max:'8' },
+      { weight:'5–10', start:'8', max:'15' },
+      { weight:'10–20', start:'15–20', max:'20' },
+      { weight:'20–40', start:'25–30', max:'40' },
+      { weight:'>40', start:'25–30', max:'40–60' }
+    ],
+    flowTableSource: {th:'ที่มา: UpToDate, Inc. (2026). Oxygen flow settings for high-flow nasal cannula use in infants and children [Graphic 122857, Version 1.0]. © 2026 UpToDate, Inc. สงวนลิขสิทธิ์', en:'Source: UpToDate, Inc. (2026). Oxygen flow settings for high-flow nasal cannula use in infants and children [Graphic 122857, Version 1.0]. © 2026 UpToDate, Inc. All rights reserved.'},
     patientSecureText: {th:'ยึด nasal cannula ด้วย "wiggle pads™" ที่มากับชุดอุปกรณ์ ให้ prong วางในรูจมูกพอดี โดย prong ไม่ควรอุดรูจมูกจนสนิท', en:'Secure the nasal cannula using the supplied \u201Cwiggle pads™\u201D, ensuring the prongs sit well into the nares — prongs should not totally occlude the nares.'},
     flowLabel: {th:'Flow rate', en:'Flow rate'},
     flowList: [
@@ -14154,6 +14164,12 @@ function vtHfncSettingsCard(wrap){
     <label style="font-size:12.5px; font-weight:600; display:block; margin-bottom:5px;">${t(VT.hfnc.flowCalcWeightLabel)}</label>
     <input class="num-input" id="hfncFlowWeight" type="number" inputmode="decimal" min="0" step="0.1" placeholder="${t(VT.hfnc.flowCalcWeightPlaceholder)}">
     <div id="hfncFlowResult" style="margin-top:12px; padding:10px 14px; border-radius:12px; background:var(--pink-100); font-weight:600; text-align:center; font-size:13.5px; line-height:1.5;">${t(VT.hfnc.flowCalcPlaceholderResult)}</div>
+    <p style="font-size:12.5px; font-weight:600; margin:14px 0 6px;">${t(VT.hfnc.flowTableHeading)}</p>
+    ${spTableHtml([
+      {key:'weight', label:VT.hfnc.flowTableCols.weight},
+      {key:'start', label:VT.hfnc.flowTableCols.start},
+      {key:'max', label:VT.hfnc.flowTableCols.max}
+    ], VT.hfnc.flowTableRows, VT.hfnc.flowTableSource)}
     <ul style="margin-top:12px;">${VT.hfnc.flowList.map(e=>`<li>${t(e)}</li>`).join('')}</ul>
     <div class="drugline"><span class="dname">${t(VT.hfnc.fio2Label)}</span></div>
     <ul>${VT.hfnc.fio2List.map(e=>`<li>${t(e)}</li>`).join('')}</ul>
