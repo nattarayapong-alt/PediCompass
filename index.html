@@ -16184,9 +16184,17 @@ const DRUG_DB = [
     name: {th:'Dopamine', en:'Dopamine'},
     category: 'cardiovascular',
     route: 'IV/IO',
+    vialConc: '250 mg/10 mL',
+    notes: [{th:'ความเข้มข้นยา 250 มก./10 มล.', en:'Vial concentration 250mg/10mL'}],
     regimens: [
-      { label:{th:'β-adrenergic effect', en:'β-adrenergic effect'}, mcgPerKgPerMin:[5,15] },
-      { label:{th:'α-adrenergic effect', en:'α-adrenergic effect'}, mcgPerKgPerMin:[15,20] }
+      { label:{th:'β-adrenergic effect', en:'β-adrenergic effect'}, mcgPerKgPerMin:[5,15], infusionMix:{ lines:[
+        { label:{th:'Peripheral line', en:'Peripheral line'}, mgPerKgMultiplier:6, diluteToMl:20, mlPerHrPerMcgKgMin:0.2, refMlPerHr:1, refMcgKgMin:5 },
+        { label:{th:'Central line', en:'Central line'}, mgPerKgMultiplier:6, diluteToMl:10, mlPerHrPerMcgKgMin:0.1, refMlPerHr:0.5, refMcgKgMin:5 }
+      ]}},
+      { label:{th:'α-adrenergic effect', en:'α-adrenergic effect'}, mcgPerKgPerMin:[15,20], infusionMix:{ lines:[
+        { label:{th:'Peripheral line', en:'Peripheral line'}, mgPerKgMultiplier:6, diluteToMl:20, mlPerHrPerMcgKgMin:0.2, refMlPerHr:1, refMcgKgMin:5 },
+        { label:{th:'Central line', en:'Central line'}, mgPerKgMultiplier:6, diluteToMl:10, mlPerHrPerMcgKgMin:0.1, refMlPerHr:0.5, refMcgKgMin:5 }
+      ]}}
     ]
   },
   {
@@ -16194,8 +16202,31 @@ const DRUG_DB = [
     name: {th:'Dobutamine', en:'Dobutamine'},
     category: 'cardiovascular',
     route: 'IV/IO',
+    vialConc: '250 mg/10 mL',
+    notes: [{th:'ความเข้มข้นยา 250 มก./10 มล.', en:'Vial concentration 250mg/10mL'}],
     regimens: [
-      { label:{th:'ขนาดทั่วไป', en:'General dose'}, mcgPerKgPerMin:[2,20] }
+      { label:{th:'ขนาดทั่วไป', en:'General dose'}, mcgPerKgPerMin:[2,20], infusionMix:{ lines:[
+        { label:{th:'Peripheral line', en:'Peripheral line'}, mgPerKgMultiplier:6, diluteToMl:20, mlPerHrPerMcgKgMin:0.2, refMlPerHr:1, refMcgKgMin:5 },
+        { label:{th:'Central line', en:'Central line'}, mgPerKgMultiplier:6, diluteToMl:10, mlPerHrPerMcgKgMin:0.1, refMlPerHr:0.5, refMcgKgMin:5 }
+      ]}}
+    ]
+  },
+  {
+    id: 'epinephrine',
+    name: {th:'Epinephrine (Adrenaline)', en:'Epinephrine (Adrenaline)'},
+    aliases: ['Adrenaline'],
+    category: 'cardiovascular',
+    route: 'IV/IO/IM/ET',
+    vialConc: '1 mg/mL',
+    notes: [{th:'ความเข้มข้นยา 1 มก./มล. (1:1,000)', en:'Vial concentration 1mg/mL (1:1,000)'}],
+    regimens: [
+      { label:{th:'Asystole/PEA/Bradycardia — IV/IO', en:'Asystole/PEA/Bradycardia — IV/IO'}, mgPerKgPerDay:null, mgPerKgPerDose:[0.01,0.01], freq:1, maxDoseMg:1, notes:{th:'0.1มล./กก. ของ 1:10,000 solution ให้ซ้ำได้ทุก 3-5 นาที', en:'0.1mL/kg of 1:10,000 solution, may repeat q3-5min'} },
+      { label:{th:'Asystole/PEA/Bradycardia — ET', en:'Asystole/PEA/Bradycardia — ET'}, mgPerKgPerDay:null, mgPerKgPerDose:[0.1,0.1], freq:1, maxDoseMg:2.5, notes:{th:'0.1มล./กก. ของ 1:1,000 solution ทาง endotracheal tube ให้ซ้ำได้ทุก 3-5 นาที', en:'0.1mL/kg of 1:1,000 solution via endotracheal tube, may repeat q3-5min'} },
+      { label:{th:'Hypotension/shock — continuous infusion', en:'Hypotension/shock — continuous infusion'}, mcgPerKgPerMin:[0.05,1], notes:{th:'ปรับขนาดยาจนได้ฤทธิ์ที่ต้องการ', en:'titrate to desired effect'}, infusionMix:{ lines:[
+        { label:{th:'Peripheral line', en:'Peripheral line'}, mgPerKgMultiplier:0.15, diluteToMl:100, mlPerHrPerMcgKgMin:40, refMlPerHr:4, refMcgKgMin:0.1 },
+        { label:{th:'Central line', en:'Central line'}, mgPerKgMultiplier:0.15, diluteToMl:25, mlPerHrPerMcgKgMin:10, refMlPerHr:1, refMcgKgMin:0.1 }
+      ]}},
+      { label:{th:'Anaphylaxis — IM', en:'Anaphylaxis — IM'}, mgPerKgPerDay:null, mgPerKgPerDose:[0.01,0.01], freq:1, maxDoseMg:0.3, notes:{th:'0.01มล./กก. ของ 1:1,000 solution — สูงสุด 0.3มก./ครั้งในเด็ก หรือ 0.5มก./ครั้งในวัยรุ่น ให้ซ้ำได้ทุก 5-15 นาที', en:'0.01mL/kg of 1:1,000 solution — max 0.3mg/dose in children or 0.5mg/dose in adolescents, may repeat q5-15min'} }
     ]
   },
   {
@@ -16203,8 +16234,13 @@ const DRUG_DB = [
     name: {th:'Norepinephrine', en:'Norepinephrine'},
     category: 'cardiovascular',
     route: 'IV',
+    vialConc: '1 mg/mL',
+    notes: [{th:'ความเข้มข้นยา 1 มก./มล.', en:'Vial concentration 1mg/mL'}],
     regimens: [
-      { label:{th:'Distributive shock', en:'Distributive shock'}, mcgPerKgPerMin:[0.1,2] }
+      { label:{th:'Distributive shock', en:'Distributive shock'}, mcgPerKgPerMin:[0.1,2], infusionMix:{ lines:[
+        { label:{th:'Peripheral line', en:'Peripheral line'}, mgPerKgMultiplier:0.15, diluteToMl:100, mlPerHrPerMcgKgMin:40, refMlPerHr:4, refMcgKgMin:0.1 },
+        { label:{th:'Central line', en:'Central line'}, mgPerKgMultiplier:0.15, diluteToMl:25, mlPerHrPerMcgKgMin:10, refMlPerHr:1, refMcgKgMin:0.1 }
+      ]}}
     ]
   },
   {
@@ -16221,9 +16257,13 @@ const DRUG_DB = [
     name: {th:'Milrinone', en:'Milrinone'},
     category: 'cardiovascular',
     route: 'IV',
+    vialConc: '1 mg/mL',
+    notes: [{th:'ความเข้มข้นยา 1 มก./มล.', en:'Vial concentration 1mg/mL'}],
     regimens: [
       { label:{th:'Loading', en:'Loading'}, mcgPerKgPerDose:[50,50], notes:{th:'IV over 10-60min', en:'IV over 10-60min'} },
-      { label:{th:'Maintenance', en:'Maintenance'}, mcgPerKgPerMin:[0.25,0.75] }
+      { label:{th:'Maintenance', en:'Maintenance'}, mcgPerKgPerMin:[0.25,0.75], infusionMix:{ lines:[
+        { label:{th:'ขนาดผสมมาตรฐาน', en:'Standard recipe'}, mgPerKgMultiplier:0.3, diluteToMl:25, mlPerHrPerMcgKgMin:5, refMlPerHr:1, refMcgKgMin:0.2 }
+      ]}}
     ]
   },
   {
@@ -16250,9 +16290,12 @@ const DRUG_DB = [
     name: {th:'Nicardipine', en:'Nicardipine'},
     category: 'cardiovascular',
     route: 'IV',
+    vialConc: '10 mg/10 mL',
     regimens: [
       { label:{th:'HTN — bolus (optional)', en:'HTN — bolus (optional)'}, mcgPerKgPerDose:[30,30], maxDoseMg:2, notes:{th:'IV', en:'IV'} },
-      { label:{th:'HTN — continuous infusion', en:'HTN — continuous infusion'}, mcgPerKgPerMin:[0.5,1], maxMcgPerKgPerMin:5, notes:{th:'เริ่มแล้วปรับทุก15-30นาที', en:'start then titrate q15-30min'} }
+      { label:{th:'HTN — continuous infusion', en:'HTN — continuous infusion'}, mcgPerKgPerMin:[0.5,1], maxMcgPerKgPerMin:5, notes:{th:'เริ่มแล้วปรับทุก15-30นาที', en:'start then titrate q15-30min'}, infusionMix:{ lines:[
+        { label:{th:'ขนาดผสมมาตรฐาน', en:'Standard recipe'}, mgPerKgMultiplier:1.5, diluteToMl:25, mlPerHrPerMcgKgMin:1, refMlPerHr:0.5, refMcgKgMin:0.5 }
+      ]}}
     ]
   },
   {
@@ -16852,8 +16895,22 @@ function calcRegimenDose(reg, weightKg) {
 
   // ---------- Infusion / rate-based (not discrete doses — report rate, not per-dose amount) ----------
   if (reg.mcgPerKgPerMin) {
-    return { kind: 'rate', unit: 'mcg/kg/min', lo: reg.mcgPerKgPerMin[0], hi: reg.mcgPerKgPerMin[1],
+    const result = { kind: 'rate', unit: 'mcg/kg/min', lo: reg.mcgPerKgPerMin[0], hi: reg.mcgPerKgPerMin[1],
              totalMcgPerMinLo: reg.mcgPerKgPerMin[0] * weightKg, totalMcgPerMinHi: reg.mcgPerKgPerMin[1] * weightKg };
+    if (reg.infusionMix && reg.infusionMix.lines) {
+      result.infusionMix = reg.infusionMix.lines.map(function(line){
+        return {
+          label: line.label,
+          multiplier: line.mgPerKgMultiplier,
+          weightKg: weightKg,
+          mgToAdd: line.mgPerKgMultiplier * weightKg,
+          diluteToMl: line.diluteToMl,
+          refMlPerHr: line.refMlPerHr,
+          refMcgKgMin: line.refMcgKgMin
+        };
+      });
+    }
+    return result;
   }
   if (reg.mcgPerKgPerHr) {
     let lo = reg.mcgPerKgPerHr[0], hi = reg.mcgPerKgPerHr[1];
@@ -16954,6 +17011,11 @@ const DD = {
   totalPerDay: {th:'รวม', en:'Total'},
   perDay: {th:'/วัน', en:'/day'},
   rateNotice: {th:'⚠ นี่คืออัตราการให้ยาต่อเนื่อง (ไม่ใช่ขนาดต่อครั้ง) — ต้องให้ผ่าน infusion pump และปรับตามการตอบสนอง', en:'⚠ This is a continuous infusion rate (not a per-dose amount) — administer via infusion pump and titrate to response'},
+  mixFormulaLabel: {th:'สูตรคำนวณ', en:'Formula'},
+  mixWeightWord: {th:'น้ำหนัก กก.', en:'kg weight'},
+  mixPrepLabel: {th:'ผสมยา', en:'Add'},
+  mixDiluteLabel: {th:'ปรับปริมาตรรวมเป็น', en:'diluted to a total volume of'},
+  mixRateLabel: {th:'อัตราให้', en:'Infusion rate'},
   fixedNotice: {th:'ขนาดคงที่ ไม่ขึ้นกับน้ำหนักตัว', en:'Fixed dose, not weight-based'},
   unsupportedKind: {th:'ยังไม่รองรับการแสดงผลรูปแบบนี้', en:'Display format not yet supported'},
   mlHeading: {th:'ปริมาตรยาน้ำ', en:'Liquid volume'},
@@ -17128,7 +17190,7 @@ function ddDetailView(app){
   const drug = DRUG_DB.find(d => d.id === ddState.drugId);
   if (!drug){ ddGoTo('home'); return; }
 
-  ddHeader(app, t(drug.name));
+  ddHeader(app, drug.vialConc ? `${t(drug.name)} (${drug.vialConc})` : t(drug.name));
 
   if (drug.warnings && drug.warnings.length){
     const warn = document.createElement('div');
@@ -17184,7 +17246,7 @@ function ddCalcView(app){
     (DRUG_TABLETS[drug.id] || []).forEach(tb => combinedForms.push({ type:'tablet', data:tb }));
   }
 
-  ddHeader(app, t(drug.name));
+  ddHeader(app, drug.vialConc ? `${t(drug.name)} (${drug.vialConc})` : t(drug.name));
 
   const regCard = document.createElement('div');
   regCard.className = 'dd-indication-banner';
@@ -17389,8 +17451,18 @@ function ddFormatResult(r, reg, route){
             <p style="font-size:13px; color:var(--ink-soft);">${t(DD.totalPerDay)} ${dailyTxt}${t(DD.perDay)}</p>${mlLine}${tabLine}${notes}`;
   }
   if (r.kind === 'rate'){
+    const mixHtml = (r.infusionMix && r.infusionMix.length) ? r.infusionMix.map(function(line){
+      return `<div style="margin-top:10px; padding:10px; background:var(--pink-50); border-radius:8px;">
+        <div style="font-size:12.5px; font-weight:700; color:var(--pink-600); margin-bottom:4px;">${t(line.label)}</div>
+        <div style="font-size:13px; color:var(--ink); line-height:1.7;">
+          ${t(DD.mixFormulaLabel)}: ${ddNum(line.multiplier)} × ${ddNum(line.weightKg)} (${t(DD.mixWeightWord)}) = <b>${ddNum(line.mgToAdd)} mg</b><br>
+          ${t(DD.mixPrepLabel)}: <b>${ddNum(line.mgToAdd)} mg</b> + D5W/NSS ${t(DD.mixDiluteLabel)} <b>${ddNum(line.diluteToMl)} mL</b><br>
+          ${t(DD.mixRateLabel)}: <b>${ddNum(line.refMlPerHr)} mL/hr = ${ddNum(line.refMcgKgMin)} mcg/kg/min</b>
+        </div>
+      </div>`;
+    }).join('') : '';
     return `${perKgLine}<p style="font-size:16px; font-weight:600;">${ddNum(r.lo)}–${ddNum(r.hi)} ${r.unit}</p>
-            <p style="font-size:12.5px; color:#b45309; margin-top:6px;">${t(DD.rateNotice)}</p>${notes}`;
+            <p style="font-size:12.5px; color:#b45309; margin-top:6px;">${t(DD.rateNotice)}</p>${mixHtml}${notes}`;
   }
   if (r.kind === 'fixed'){
     return `<p style="font-size:16px; font-weight:600;">${ddNum(r.value)} ${r.unit}</p>
