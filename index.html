@@ -15264,6 +15264,20 @@ const DRUG_DB = [
         notes: {th:'clavulanate 6.4 มก./กก./วัน ร่วมด้วย (สัดส่วน 14:1)', en:'plus clavulanate 6.4 mg/kg/day (14:1 ratio)'}
       },
       {
+        label: {th:'ขนาดมาตรฐาน (7:1 ratio)', en:'Standard-dose (7:1 ratio)'},
+        mgPerKgPerDay: [20, 45], // ของ amoxicillin component
+        freq: 2,
+        maxDailyMg: 1750,
+        notes: {th:'q8-12h', en:'q8-12h'}
+      },
+      {
+        label: {th:'Pneumonia — Empiric therapy (14:1 ratio)', en:'Pneumonia — Empiric therapy (14:1 ratio)'},
+        mgPerKgPerDay: [90, 90], // ของ amoxicillin component
+        freq: 2,
+        maxDailyMg: 4000,
+        notes: {th:'q12h — นาน 5 วันในโรคไม่ซับซ้อนที่ตอบสนองต่อการรักษา (7-10วันถ้าตอบสนองช้าหรือมีโรคร่วม)', en:'q12h — 5 days for uncomplicated disease responding to therapy (7-10 days if slow response or comorbidities)'}
+      },
+      {
         label: {th:'UTI', en:'UTI'},
         mgPerKgPerDay: [40, 50], // ของ amoxicillin component
         freq: 2,
@@ -15313,12 +15327,28 @@ const DRUG_DB = [
     aliases: [],
     category: 'antibiotic',
     route: 'IV/IM',
+    notes: [{th:'ที่มาขนาดยาทารกแรกเกิด: Micromedex NeoFax Neonatal Drug Monograph — ทารกน้ำหนักแรกเกิด <2 กก. พิจารณาลดขนาดยาและยืดช่วงเวลาให้ยา', en:'Neonatal dosing source: Micromedex NeoFax Neonatal Drug Monograph — for very low-birth weight neonates (<2kg), consider smaller doses and longer intervals'}],
+    neonatalGroups: [
+      { label:{th:'Sepsis', en:'Sepsis'}, brackets: [
+        { gaLabel:{th:'ทุก GA', en:'All GA'}, pnaLabel:{th:'<7 วัน', en:'<7 days'}, gaMin:null, gaMax:null, pnaMin:0, pnaMax:6, regimenIdx:0 },
+        { gaLabel:{th:'GA <32 สัปดาห์', en:'GA <32 weeks'}, pnaLabel:{th:'≥7 วัน', en:'≥7 days'}, gaMin:null, gaMax:31.9, pnaMin:7, pnaMax:null, regimenIdx:1 },
+        { gaLabel:{th:'GA ≥32 สัปดาห์', en:'GA ≥32 weeks'}, pnaLabel:{th:'≥7 วัน', en:'≥7 days'}, gaMin:32, gaMax:null, pnaMin:7, pnaMax:null, regimenIdx:2 }
+      ]},
+      { label:{th:'Meningitis', en:'Meningitis'}, brackets: [
+        { gaLabel:{th:'ทุก GA', en:'All GA'}, pnaLabel:{th:'0-7 วัน', en:'0-7 days'}, gaMin:null, gaMax:null, pnaMin:0, pnaMax:7, regimenIdx:3 },
+        { gaLabel:{th:'ทุก GA', en:'All GA'}, pnaLabel:{th:'≥8 วัน', en:'≥8 days'}, gaMin:null, gaMax:null, pnaMin:8, pnaMax:null, regimenIdx:4 }
+      ]}
+    ],
     regimens: [
-      { label:{th:'ทารกแรกเกิด 0-7 วัน', en:'Neonate, age 0-7 days'}, mgPerKgPerDay:[100,150], freq:2, maxDailyMg:null, notes:{th:'q8-12h', en:'q8-12h'} },
-      { label:{th:'ทารกแรกเกิด 8-28 วัน', en:'Neonate, age 8-28 days'}, mgPerKgPerDay:[150,200], freq:3, maxDailyMg:null, notes:{th:'q6-8h', en:'q6-8h'} },
-      { label:{th:'ขนาดทั่วไป', en:'General dose'}, mgPerKgPerDay:[150,180], freq:3, maxDailyMg:8000 },
-      { label:{th:'การติดเชื้อรุนแรง', en:'Severe infection'}, mgPerKgPerDay:[100,200], freq:3, maxDailyMg:null, maxDoseMg:2000, notes:{th:'max 2000 มก./ครั้ง', en:'max 2000 mg/dose'} },
-      { label:{th:'Meningitis (เด็ก)', en:'Meningitis (child)'}, mgPerKgPerDay:[225,300], freq:4, maxDailyMg:12000, maxDoseMg:2000, notes:{th:'q4-6h', en:'q4-6h'} }
+      { label:{th:'ทารกแรกเกิด Sepsis — ทุก GA, อายุหลังคลอด <7 วัน', en:'Neonatal sepsis — all GA, postnatal age <7 days'}, mgPerKgPerDay:null, mgPerKgPerDose:[50,50], freq:2, maxDailyMg:null, notes:{th:'IV q12h', en:'IV q12h'} },
+      { label:{th:'ทารกแรกเกิด Sepsis — GA <32 สัปดาห์, อายุหลังคลอด ≥7 วัน', en:'Neonatal sepsis — GA <32 weeks, postnatal age ≥7 days'}, mgPerKgPerDay:null, mgPerKgPerDose:[50,50], freq:3, maxDailyMg:null, notes:{th:'IV q8h', en:'IV q8h'} },
+      { label:{th:'ทารกแรกเกิด Sepsis — GA ≥32 สัปดาห์, อายุหลังคลอด ≥7 วัน', en:'Neonatal sepsis — GA ≥32 weeks, postnatal age ≥7 days'}, mgPerKgPerDay:null, mgPerKgPerDose:[50,50], freq:4, maxDailyMg:null, notes:{th:'IV q6h', en:'IV q6h'} },
+      { label:{th:'ทารกแรกเกิด Meningitis — อายุหลังคลอด 0-7 วัน', en:'Neonatal meningitis — postnatal age 0-7 days'}, mgPerKgPerDay:[100,150], freq:3, maxDailyMg:null, notes:{th:'IV q8-12h', en:'IV q8-12h'} },
+      { label:{th:'ทารกแรกเกิด Meningitis — อายุหลังคลอด ≥8 วัน', en:'Neonatal meningitis — postnatal age ≥8 days'}, mgPerKgPerDay:[150,200], freq:4, maxDailyMg:null, notes:{th:'IV q6-8h', en:'IV q6-8h'} },
+      { label:{th:'Disseminated gonococcal infection / gonococcal scalp abscess (ทารกแรกเกิด)', en:'Disseminated gonococcal infection / gonococcal scalp abscess (neonate)'}, mgPerKgPerDay:null, mgPerKgPerDose:[25,25], freq:2, maxDailyMg:null, notes:{th:'IV/IM q12h นาน 7 วัน (10-14วันถ้ามี meningitis ร่วมด้วย)', en:'IV/IM q12h for 7 days (10-14 days if meningitis documented)'} },
+      { label:{th:'ขนาดทั่วไป (เด็ก)', en:'General dose (children)'}, mgPerKgPerDay:[150,180], freq:3, maxDailyMg:8000 },
+      { label:{th:'การติดเชื้อรุนแรง (เด็ก)', en:'Severe infection (children)'}, mgPerKgPerDay:[100,200], freq:3, maxDailyMg:null, maxDoseMg:2000, notes:{th:'max 2000 มก./ครั้ง', en:'max 2000 mg/dose'} },
+      { label:{th:'Meningitis (เด็ก)', en:'Meningitis (children)'}, mgPerKgPerDay:[225,300], freq:4, maxDailyMg:12000, maxDoseMg:2000, notes:{th:'q4-6h', en:'q4-6h'} }
     ]
   },
   {
@@ -15405,11 +15435,27 @@ const DRUG_DB = [
     aliases: [],
     category: 'antibiotic',
     route: 'IV/IM',
-    notes: [{th:'เด็กอ้วนให้คิดน้ำหนักแบบ adjusted body weight = ideal body weight + 0.4 x (total body weight - ideal body weight)', en:'For obese children, use adjusted body weight = ideal body weight + 0.4 x (total body weight - ideal body weight)'}],
+    notes: [{th:'เด็กอ้วนให้คิดน้ำหนักแบบ adjusted body weight = ideal body weight + 0.4 x (total body weight - ideal body weight) · ที่มาขนาดยาทารกแรกเกิด: Micromedex NeoFax Neonatal Drug Monograph', en:'For obese children, use adjusted body weight = ideal body weight + 0.4 x (total body weight - ideal body weight) · Neonatal dosing source: Micromedex NeoFax Neonatal Drug Monograph'}],
+    neonatalGroups: [
+      { label:null, brackets: [
+        { gaLabel:{th:'PMA ≤29 สัปดาห์', en:'PMA ≤29 weeks'}, pnaLabel:{th:'0-7 วัน', en:'0-7 days'}, gaMin:null, gaMax:29, pnaMin:0, pnaMax:7, regimenIdx:0 },
+        { gaLabel:{th:'PMA ≤29 สัปดาห์', en:'PMA ≤29 weeks'}, pnaLabel:{th:'8-28 วัน', en:'8-28 days'}, gaMin:null, gaMax:29, pnaMin:8, pnaMax:28, regimenIdx:1 },
+        { gaLabel:{th:'PMA ≤29 สัปดาห์', en:'PMA ≤29 weeks'}, pnaLabel:{th:'≥29 วัน', en:'≥29 days'}, gaMin:null, gaMax:29, pnaMin:29, pnaMax:null, regimenIdx:2 },
+        { gaLabel:{th:'PMA 30-34 สัปดาห์', en:'PMA 30-34 weeks'}, pnaLabel:{th:'0-7 วัน', en:'0-7 days'}, gaMin:30, gaMax:34, pnaMin:0, pnaMax:7, regimenIdx:3 },
+        { gaLabel:{th:'PMA 30-34 สัปดาห์', en:'PMA 30-34 weeks'}, pnaLabel:{th:'≥8 วัน', en:'≥8 days'}, gaMin:30, gaMax:34, pnaMin:8, pnaMax:null, regimenIdx:4 },
+        { gaLabel:{th:'PMA ≥35 สัปดาห์', en:'PMA ≥35 weeks'}, pnaLabel:{th:'ทุกช่วงอายุ', en:'All ages'}, gaMin:35, gaMax:null, pnaMin:null, pnaMax:null, regimenIdx:5 }
+      ]}
+    ],
     regimens: [
-      { label:{th:'Extended-interval dosing (แนะนำเป็นหลัก)', en:'Extended-interval dosing (typically preferred)'}, mgPerKgPerDay:null, mgPerKgPerDose:[15,30], freq:1, maxDoseMg:null, notes:{th:'IV/IM q24h — ขนาดสูงพิจารณาในผู้ป่วยวิกฤต/มะเร็ง/cystic fibrosis/แผลไฟไหม้ หรือเชื้อ MIC≥4mg/L', en:'IV/IM q24h — higher end for critical illness/malignancy/cystic fibrosis/burns or MIC≥4mg/L pathogens'} },
-      { label:{th:'Conventional dosing', en:'Conventional dosing'}, mgPerKgPerDay:[15,22.5], freq:2, maxDailyMg:null, notes:{th:'IV/IM แบ่งให้ q8-12h', en:'IV/IM divided q8-12h'} },
-      { label:{th:'CNS infection / Meningitis', en:'CNS infection / Meningitis'}, mgPerKgPerDay:[20,30], freq:3, maxDailyMg:null, notes:{th:'IV แบ่งให้ q8h', en:'IV divided q8h'} }
+      { label:{th:'ทารกแรกเกิด PMA ≤29 สัปดาห์ — อายุหลังคลอด 0-7 วัน', en:'Neonate PMA ≤29 weeks — postnatal age 0-7 days'}, mgPerKgPerDay:null, mgPerKgPerDose:[14,14], freq:0.5, maxDailyMg:null, notes:{th:'q48h', en:'q48h'} },
+      { label:{th:'ทารกแรกเกิด PMA ≤29 สัปดาห์ — อายุหลังคลอด 8-28 วัน', en:'Neonate PMA ≤29 weeks — postnatal age 8-28 days'}, mgPerKgPerDay:null, mgPerKgPerDose:[12,12], freq:0.6667, maxDailyMg:null, notes:{th:'q36h', en:'q36h'} },
+      { label:{th:'ทารกแรกเกิด PMA ≤29 สัปดาห์ — อายุหลังคลอด ≥29 วัน', en:'Neonate PMA ≤29 weeks — postnatal age ≥29 days'}, mgPerKgPerDay:null, mgPerKgPerDose:[12,12], freq:1, maxDailyMg:null, notes:{th:'q24h', en:'q24h'} },
+      { label:{th:'ทารกแรกเกิด PMA 30-34 สัปดาห์ — อายุหลังคลอด 0-7 วัน', en:'Neonate PMA 30-34 weeks — postnatal age 0-7 days'}, mgPerKgPerDay:null, mgPerKgPerDose:[12,12], freq:0.6667, maxDailyMg:null, notes:{th:'q36h', en:'q36h'} },
+      { label:{th:'ทารกแรกเกิด PMA 30-34 สัปดาห์ — อายุหลังคลอด ≥8 วัน', en:'Neonate PMA 30-34 weeks — postnatal age ≥8 days'}, mgPerKgPerDay:null, mgPerKgPerDose:[12,12], freq:1, maxDailyMg:null, notes:{th:'q24h', en:'q24h'} },
+      { label:{th:'ทารกแรกเกิด PMA ≥35 สัปดาห์ — ทุกช่วงอายุ', en:'Neonate PMA ≥35 weeks — all ages'}, mgPerKgPerDay:null, mgPerKgPerDose:[12,12], freq:1, maxDailyMg:null, notes:{th:'q24h', en:'q24h'} },
+      { label:{th:'Extended-interval dosing (เด็ก, แนะนำเป็นหลัก)', en:'Extended-interval dosing (children, typically preferred)'}, mgPerKgPerDay:null, mgPerKgPerDose:[15,30], freq:1, maxDoseMg:null, notes:{th:'IV/IM q24h — ขนาดสูงพิจารณาในผู้ป่วยวิกฤต/มะเร็ง/cystic fibrosis/แผลไฟไหม้ หรือเชื้อ MIC≥4mg/L', en:'IV/IM q24h — higher end for critical illness/malignancy/cystic fibrosis/burns or MIC≥4mg/L pathogens'} },
+      { label:{th:'Conventional dosing (เด็ก)', en:'Conventional dosing (children)'}, mgPerKgPerDay:[15,22.5], freq:2, maxDailyMg:null, notes:{th:'IV/IM แบ่งให้ q8-12h', en:'IV/IM divided q8-12h'} },
+      { label:{th:'CNS infection / Meningitis (เด็ก)', en:'CNS infection / Meningitis (children)'}, mgPerKgPerDay:[20,30], freq:3, maxDailyMg:null, notes:{th:'IV แบ่งให้ q8h', en:'IV divided q8h'} }
     ]
   },
   {
@@ -15418,9 +15464,26 @@ const DRUG_DB = [
     aliases: [],
     category: 'antibiotic',
     route: 'IV/IM',
+    notes: [{th:'ที่มาขนาดยาทารกแรกเกิด: Micromedex NeoFax Neonatal Drug Monograph (ใช้ร่วมกับโมดูล EOS)', en:'Neonatal dosing source: Micromedex NeoFax Neonatal Drug Monograph (used with the EOS module)'}],
+    neonatalGroups: [
+      { label:null, brackets: [
+        { gaLabel:{th:'PMA ≤29 สัปดาห์*', en:'PMA ≤29 weeks*'}, pnaLabel:{th:'0-7 วัน', en:'0-7 days'}, gaMin:null, gaMax:29, pnaMin:0, pnaMax:7, regimenIdx:0 },
+        { gaLabel:{th:'PMA ≤29 สัปดาห์*', en:'PMA ≤29 weeks*'}, pnaLabel:{th:'8-28 วัน', en:'8-28 days'}, gaMin:null, gaMax:29, pnaMin:8, pnaMax:28, regimenIdx:1 },
+        { gaLabel:{th:'PMA ≤29 สัปดาห์*', en:'PMA ≤29 weeks*'}, pnaLabel:{th:'≥29 วัน', en:'≥29 days'}, gaMin:null, gaMax:29, pnaMin:29, pnaMax:null, regimenIdx:2 },
+        { gaLabel:{th:'PMA 30-34 สัปดาห์', en:'PMA 30-34 weeks'}, pnaLabel:{th:'0-7 วัน', en:'0-7 days'}, gaMin:30, gaMax:34, pnaMin:0, pnaMax:7, regimenIdx:3 },
+        { gaLabel:{th:'PMA 30-34 สัปดาห์', en:'PMA 30-34 weeks'}, pnaLabel:{th:'≥8 วัน', en:'≥8 days'}, gaMin:30, gaMax:34, pnaMin:8, pnaMax:null, regimenIdx:4 },
+        { gaLabel:{th:'PMA ≥35 สัปดาห์', en:'PMA ≥35 weeks'}, pnaLabel:{th:'ทุกช่วงอายุ', en:'All ages'}, gaMin:35, gaMax:null, pnaMin:null, pnaMax:null, regimenIdx:5 }
+      ]}
+    ],
     regimens: [
-      { label:{th:'ขนาดทั่วไป (conventional)', en:'General dose (conventional)'}, mgPerKgPerDay:[6,7.5], freq:3, maxDailyMg:null, notes:{th:'q8h', en:'q8h'} },
-      { label:{th:'ขนาดทั่วไป (extended-interval)', en:'General dose (extended-interval)'}, mgPerKgPerDay:[5,7.5], freq:1, maxDailyMg:null, notes:{th:'q24h', en:'q24h'} }
+      { label:{th:'ทารกแรกเกิด PMA ≤29 สัปดาห์* — อายุหลังคลอด 0-7 วัน', en:'Neonate PMA ≤29 weeks* — postnatal age 0-7 days'}, mgPerKgPerDay:null, mgPerKgPerDose:[5,5], freq:0.5, maxDailyMg:null, notes:{th:'q48h', en:'q48h'} },
+      { label:{th:'ทารกแรกเกิด PMA ≤29 สัปดาห์* — อายุหลังคลอด 8-28 วัน', en:'Neonate PMA ≤29 weeks* — postnatal age 8-28 days'}, mgPerKgPerDay:null, mgPerKgPerDose:[4,4], freq:0.6667, maxDailyMg:null, notes:{th:'q36h', en:'q36h'} },
+      { label:{th:'ทารกแรกเกิด PMA ≤29 สัปดาห์* — อายุหลังคลอด ≥29 วัน', en:'Neonate PMA ≤29 weeks* — postnatal age ≥29 days'}, mgPerKgPerDay:null, mgPerKgPerDose:[4,4], freq:1, maxDailyMg:null, notes:{th:'q24h', en:'q24h'} },
+      { label:{th:'ทารกแรกเกิด PMA 30-34 สัปดาห์ — อายุหลังคลอด 0-7 วัน', en:'Neonate PMA 30-34 weeks — postnatal age 0-7 days'}, mgPerKgPerDay:null, mgPerKgPerDose:[4.5,4.5], freq:0.6667, maxDailyMg:null, notes:{th:'q36h', en:'q36h'} },
+      { label:{th:'ทารกแรกเกิด PMA 30-34 สัปดาห์ — อายุหลังคลอด ≥8 วัน', en:'Neonate PMA 30-34 weeks — postnatal age ≥8 days'}, mgPerKgPerDay:null, mgPerKgPerDose:[4,4], freq:1, maxDailyMg:null, notes:{th:'q24h', en:'q24h'} },
+      { label:{th:'ทารกแรกเกิด PMA ≥35 สัปดาห์ — ทุกช่วงอายุ', en:'Neonate PMA ≥35 weeks — all ages'}, mgPerKgPerDay:null, mgPerKgPerDose:[4,4], freq:1, maxDailyMg:null, notes:{th:'q24h · *หรือมีภาวะ significant asphyxia, PDA หรือได้รับการรักษาด้วย indomethacin', en:'q24h · *or significant asphyxia, PDA, or treatment with indomethacin'} },
+      { label:{th:'ขนาดทั่วไป (conventional) — เด็ก', en:'General dose (conventional) — children'}, mgPerKgPerDay:[6,7.5], freq:3, maxDailyMg:null, notes:{th:'q8h', en:'q8h'} },
+      { label:{th:'ขนาดทั่วไป (extended-interval) — เด็ก', en:'General dose (extended-interval) — children'}, mgPerKgPerDay:[5,7.5], freq:1, maxDailyMg:null, notes:{th:'q24h', en:'q24h'} }
     ]
   },
   {
@@ -15441,10 +15504,20 @@ const DRUG_DB = [
     aliases: [],
     category: 'antibiotic',
     route: 'IV',
-    notes: [{th:'ทารกแรกเกิด: ใช้ตาราง NeoFax แยกตาม GA/PNA แทนสูตร mg/kg/day นี้', en:'Neonates: use the NeoFax GA/PNA-based table instead of this mg/kg/day formula'}],
+    notes: [{th:'ที่มาขนาดยาทารกแรกเกิด: Micromedex NeoFax Neonatal Drug Monograph (ใช้ร่วมกับโมดูล EOS)', en:'Neonatal dosing source: Micromedex NeoFax Neonatal Drug Monograph (used with the EOS module)'}],
+    neonatalGroups: [
+      { label:null, brackets: [
+        { gaLabel:{th:'GA ≤34 สัปดาห์', en:'GA ≤34 weeks'}, pnaLabel:{th:'≤7 วัน', en:'≤7 days'}, gaMin:null, gaMax:34, pnaMin:0, pnaMax:7, regimenIdx:0 },
+        { gaLabel:{th:'GA ≤34 สัปดาห์', en:'GA ≤34 weeks'}, pnaLabel:{th:'8-27 วัน', en:'8-27 days'}, gaMin:null, gaMax:34, pnaMin:8, pnaMax:27, regimenIdx:1 },
+        { gaLabel:{th:'GA >34 สัปดาห์ (รวมครบกำหนด)', en:'GA >34 weeks (incl. term)'}, pnaLabel:{th:'≤28 วัน', en:'≤28 days'}, gaMin:34.01, gaMax:null, pnaMin:0, pnaMax:28, regimenIdx:2 }
+      ]}
+    ],
     regimens: [
-      { label:{th:'Community-acquired pneumonia', en:'Community-acquired pneumonia'}, mgPerKgPerDay:[150,200], freq:4, maxDailyMg:12000, notes:{th:'200 หากสงสัย Group A Streptococcus', en:'200 if Group A Streptococcus suspected'} },
-      { label:{th:'การติดเชื้อรุนแรง / Meningitis', en:'Severe infection / Meningitis'}, mgPerKgPerDay:[300,400], freq:4, maxDailyMg:12000, notes:{th:'q4-6h', en:'q4-6h'} }
+      { label:{th:'ทารกแรกเกิด GA ≤34 สัปดาห์ — อายุหลังคลอด ≤7 วัน', en:'Neonate GA ≤34 weeks — postnatal age ≤7 days'}, mgPerKgPerDay:null, mgPerKgPerDose:[50,50], freq:2, maxDailyMg:null, notes:{th:'IV q12h', en:'IV q12h'} },
+      { label:{th:'ทารกแรกเกิด GA ≤34 สัปดาห์ — อายุหลังคลอด 8-27 วัน', en:'Neonate GA ≤34 weeks — postnatal age 8-27 days'}, mgPerKgPerDay:null, mgPerKgPerDose:[75,75], freq:2, maxDailyMg:null, notes:{th:'IV q12h', en:'IV q12h'} },
+      { label:{th:'ทารกแรกเกิด GA >34 สัปดาห์ (รวมครบกำหนด) — อายุหลังคลอด ≤28 วัน', en:'Neonate GA >34 weeks (incl. term) — postnatal age ≤28 days'}, mgPerKgPerDay:null, mgPerKgPerDose:[50,50], freq:3, maxDailyMg:null, notes:{th:'IV q8h', en:'IV q8h'} },
+      { label:{th:'Community-acquired pneumonia (เด็ก)', en:'Community-acquired pneumonia (children)'}, mgPerKgPerDay:[150,200], freq:4, maxDailyMg:12000, notes:{th:'200 หากสงสัย Group A Streptococcus', en:'200 if Group A Streptococcus suspected'} },
+      { label:{th:'การติดเชื้อรุนแรง / Meningitis (เด็ก)', en:'Severe infection / Meningitis (children)'}, mgPerKgPerDay:[300,400], freq:4, maxDailyMg:12000, notes:{th:'q4-6h', en:'q4-6h'} }
     ]
   },
   {
@@ -15490,8 +15563,18 @@ const DRUG_DB = [
     route: 'IV',
     unit: 'units',
     regimens: [
-      { label:{th:'ขนาดทั่วไป', en:'General dose'}, mgPerKgPerDay:[100000,300000], freq:4, maxDailyMg:24000000, notes:{th:'units/kg/day, q4-6h', en:'units/kg/day, q4-6h'} },
-      { label:{th:'Meningitis', en:'Meningitis'}, mgPerKgPerDay:[300000,400000], freq:4, maxDailyMg:24000000, maxDoseMg:4000000, notes:{th:'units/kg/day, q4-6h', en:'units/kg/day, q4-6h'} }
+      { label:{th:'ขนาดทั่วไป', en:'General dose'}, unitsPerKgPerDay:[100000,300000], freq:4, maxDailyUnits:24000000, notes:{th:'units/kg/day, q4-6h', en:'units/kg/day, q4-6h'} },
+      { label:{th:'Meningitis', en:'Meningitis'}, unitsPerKgPerDay:[300000,400000], freq:4, maxDailyUnits:24000000, maxDoseUnits:4000000, notes:{th:'units/kg/day, q4-6h', en:'units/kg/day, q4-6h'} }
+    ]
+  },
+  {
+    id: 'doxycycline',
+    name: {th:'Doxycycline', en:'Doxycycline'},
+    aliases: [],
+    category: 'antibiotic',
+    route: 'PO/IV',
+    regimens: [
+      { label:{th:'ขนาดทั่วไป', en:'General dose'}, mgPerKgPerDay:null, mgPerKgPerDose:[2.2,2.2], freq:2, maxDoseMg:100, notes:{th:'PO, IV q12h', en:'PO, IV q12h'} }
     ]
   },
   {
@@ -15516,6 +15599,101 @@ const DRUG_DB = [
     regimens: [
       { label:{th:'ขนาดทั่วไป', en:'General dose'}, mgPerKgPerDay:null, mgPerKgPerDose:[20,20], freq:3, maxDoseMg:1000, notes:{th:'q8h', en:'q8h'} },
       { label:{th:'การติดเชื้อรุนแรง / Meningitis', en:'Severe infection / Meningitis'}, mgPerKgPerDay:null, mgPerKgPerDose:[40,40], freq:3, maxDoseMg:2000, notes:{th:'q8h', en:'q8h'} }
+    ]
+  },
+  {
+    id: 'sulbactam',
+    name: {th:'Sulbactam', en:'Sulbactam'},
+    aliases: [],
+    category: 'antibiotic',
+    route: 'IV',
+    notes: [{th:'ขนาดยาสำหรับการติดเชื้อ Acinetobacter baumannii ที่ดื้อยาหลายขนานชนิดรุนแรง (XDR)', en:'Dosing for extensively drug-resistant (XDR) Acinetobacter baumannii infection'},
+      {th:'ให้เดี่ยว (ไม่ผสมกับ ampicillin/cefoperazone) — ถ้าใช้รูปแบบผสม ต้องไม่เกินขนาดยาสูงสุดของยาคู่ผสมนั้นด้วย (ampicillin ≤12 ก./วัน หรือ cefoperazone ≤8 ก./วัน)', en:'As a standalone agent — if using a combination product, must also not exceed the max dose of the partner drug (ampicillin ≤12 g/day or cefoperazone ≤8 g/day)'}],
+    regimens: [
+      { label:{th:'ทารกแรกเกิด (Preterm)', en:'Neonate (Preterm)'}, mgPerKgPerDay:[100,100], freq:2, maxDailyMg:null, notes:{th:'แบ่งให้ q12h', en:'divided q12h'} },
+      { label:{th:'ทารกแรกเกิด (Term)', en:'Neonate (Term)'}, mgPerKgPerDay:[100,100], freq:3, maxDailyMg:null, notes:{th:'แบ่งให้ q8h', en:'divided q8h'} },
+      { label:{th:'ทารก/เด็ก', en:'Infant/Children'}, mgPerKgPerDay:[200,200], freq:4, maxDailyMg:12000, notes:{th:'IV แบ่ง 3-4 ครั้ง/วัน — extended infusion นาน 4 ชม. แนะนำในรายรุนแรง (max sulbactam 12ก./วัน — ข้อมูลผู้ใหญ่)', en:'IV in 3-4 divided doses — extended infusion over 4h preferred in severe cases (max sulbactam 12g/day — adult data)'} }
+    ]
+  },
+  {
+    id: 'cefoperazone-sulbactam',
+    name: {th:'Cefoperazone-sulbactam', en:'Cefoperazone-sulbactam'},
+    aliases: ['Cefo/sulbactam'],
+    category: 'antibiotic',
+    route: 'IV',
+    notes: [{th:'ความแรง cefoperazone 0.5ก./sulbactam 0.5ก. ต่อ vial (1:1) — ขนาดยาคำนวณจาก cefoperazone component — สำหรับการติดเชื้อ Acinetobacter baumannii ที่ดื้อยาหลายขนานชนิดรุนแรง (XDR)', en:'Vial strength cefoperazone 0.5g/sulbactam 0.5g (1:1) — dose calculated from the cefoperazone component — for extensively drug-resistant (XDR) Acinetobacter baumannii infection'}],
+    regimens: [
+      { label:{th:'A. baumannii XDR', en:'A. baumannii XDR'}, mgPerKgPerDay:[160,160], freq:3, maxDailyMg:8000, maxDoseMg:2000, notes:{th:'ของ cefoperazone component, q8-12h', en:'cefoperazone component, q8-12h'} }
+    ]
+  },
+  {
+    id: 'ceftazidime-avibactam',
+    name: {th:'Ceftazidime-avibactam', en:'Ceftazidime-avibactam'},
+    aliases: [],
+    category: 'antibiotic',
+    route: 'IV',
+    notes: [{th:'ความแรง 2ก./0.5ก. ต่อ vial — ขนาดยาคำนวณจาก ceftazidime component', en:'2g/0.5g per vial — dose calculated from the ceftazidime component'}],
+    warnings: [{th:'ยังไม่รับรองให้ใช้ในทารกอายุ <3 เดือน', en:'Not approved for infants <3 months'}],
+    regimens: [
+      { label:{th:'อายุ 3–<6 เดือน', en:'Age 3–<6 months'}, mgPerKgPerDay:null, mgPerKgPerDose:[40,40], freq:3, maxDoseMg:2000, notes:{th:'IV q8h, infuse นาน 2 ชม.', en:'IV q8h, infuse over 2h'} },
+      { label:{th:'อายุ ≥6 เดือน', en:'Age ≥6 months'}, mgPerKgPerDay:null, mgPerKgPerDose:[50,50], freq:3, maxDoseMg:2000, notes:{th:'IV q8h, infuse นาน 2 ชม.', en:'IV q8h, infuse over 2h'} }
+    ]
+  },
+  {
+    id: 'ceftolozane-tazobactam',
+    name: {th:'Ceftolozane-tazobactam', en:'Ceftolozane-tazobactam'},
+    aliases: [],
+    category: 'antibiotic',
+    route: 'IV',
+    notes: [{th:'ความแรง 1ก./0.5ก. ต่อ vial — ขนาดยาคำนวณจาก ceftolozane component — ไม่แนะนำในผู้ป่วยไตวาย (CrCl ต่ำ)', en:'1g/0.5g per vial — dose calculated from the ceftolozane component — not recommended in renal impairment (low CrCl)'}],
+    regimens: [
+      { label:{th:'ขนาดทั่วไป', en:'General dose'}, mgPerKgPerDay:null, mgPerKgPerDose:[20,20], freq:3, maxDoseMg:1000, notes:{th:'IV q8h', en:'IV q8h'} }
+    ]
+  },
+  {
+    id: 'tigecycline',
+    name: {th:'Tigecycline', en:'Tigecycline'},
+    aliases: [],
+    category: 'antibiotic',
+    route: 'IV',
+    warnings: [{th:'US FDA ไม่อนุมัติให้ใช้ในเด็กอายุ <8 ปี — เสี่ยงฟันเปลี่ยนสีถาวรและ enamel hypoplasia — ใช้เฉพาะเมื่อไม่มีทางเลือกอื่นในการรักษาการติดเชื้อแบคทีเรียดื้อยาหลายขนาน', en:'US FDA does not approve use in children <8 years — risk of permanent tooth discoloration and enamel hypoplasia — use only when no alternative exists for MDR bacterial infection'}],
+    regimens: [
+      { label:{th:'อายุ <8 ปี — ขนาดทั่วไป', en:'Age <8 years — usual dose'}, multiPhase:true, phases:[
+        { phaseLabel:{th:'ขนาดแรก (Loading)', en:'Loading dose'}, mgPerKgPerDose:[1.5,3], freq:1 },
+        { phaseLabel:{th:'ขนาดต่อเนื่อง (Maintenance)', en:'Maintenance'}, mgPerKgPerDose:[1,2], freq:2, maxDoseMg:50, notes:{th:'IV q12h', en:'IV q12h'} }
+      ]},
+      { label:{th:'อายุ 8–11 ปี — ขนาดทั่วไป', en:'Age 8–11 years — usual dose'}, multiPhase:true, phases:[
+        { phaseLabel:{th:'ขนาดแรก (Loading)', en:'Loading dose'}, mgPerKgPerDose:[2,2], freq:1 },
+        { phaseLabel:{th:'ขนาดต่อเนื่อง (Maintenance)', en:'Maintenance'}, mgPerKgPerDose:[1.2,1.2], freq:2, maxDoseMg:50, notes:{th:'IV q12h', en:'IV q12h'} }
+      ]},
+      { label:{th:'อายุ 8–11 ปี — ขนาดสูง (HAP/VAP, cUTI, BSI, shock)', en:'Age 8–11 years — high dose (HAP/VAP, cUTI, BSI, shock)'}, multiPhase:true, phases:[
+        { phaseLabel:{th:'ขนาดแรก (Loading)', en:'Loading dose'}, mgPerKgPerDose:[3,4], freq:1 },
+        { phaseLabel:{th:'ขนาดต่อเนื่อง (Maintenance)', en:'Maintenance'}, mgPerKgPerDose:[2,3.2], freq:2, maxDoseMg:100, notes:{th:'IV q12h', en:'IV q12h'} }
+      ]},
+      { label:{th:'อายุ ≥12 ปี — ขนาดทั่วไป', en:'Age ≥12 years — usual dose'}, multiPhase:true, phases:[
+        { phaseLabel:{th:'ขนาดแรก (Loading)', en:'Loading dose'}, fixedDoseMg:100, freq:1 },
+        { phaseLabel:{th:'ขนาดต่อเนื่อง (Maintenance)', en:'Maintenance'}, fixedDoseMg:50, freq:2, notes:{th:'IV q12h', en:'IV q12h'} }
+      ]},
+      { label:{th:'อายุ ≥12 ปี — ขนาดสูง (HAP/VAP, cUTI, BSI, shock)', en:'Age ≥12 years — high dose (HAP/VAP, cUTI, BSI, shock)'}, multiPhase:true, phases:[
+        { phaseLabel:{th:'ขนาดแรก (Loading)', en:'Loading dose'}, fixedDoseMg:200, freq:1 },
+        { phaseLabel:{th:'ขนาดต่อเนื่อง (Maintenance)', en:'Maintenance'}, fixedDoseMg:100, freq:2, notes:{th:'IV q12h', en:'IV q12h'} }
+      ]}
+    ]
+  },
+  {
+    id: 'fosfomycin',
+    name: {th:'Fosfomycin', en:'Fosfomycin'},
+    aliases: [],
+    category: 'antibiotic',
+    route: 'IV',
+    notes: [{th:'ปรับขนาดยาในผู้ป่วย CrCl ≤40 มล./นาที', en:'Adjust dose if CrCl ≤40 mL/min'}],
+    regimens: [
+      { label:{th:'ทารกแรกเกิด PMA <40 สัปดาห์', en:'Neonate PMA <40 weeks'}, mgPerKgPerDay:[100,100], freq:2, maxDailyMg:null, notes:{th:'IV แบ่ง 2 ครั้ง/วัน', en:'IV in 2 divided doses'} },
+      { label:{th:'ทารกแรกเกิด PMA 40-44 สัปดาห์', en:'Neonate PMA 40-44 weeks'}, mgPerKgPerDay:[200,200], freq:3, maxDailyMg:null, notes:{th:'IV แบ่ง 3 ครั้ง/วัน', en:'IV in 3 divided doses'} },
+      { label:{th:'น้ำหนัก <10 กก.', en:'Weight <10 kg'}, mgPerKgPerDay:[200,300], freq:3, maxDailyMg:24000, maxDoseMg:8000, notes:{th:'IV แบ่ง 3 ครั้ง/วัน', en:'IV in 3 divided doses'} },
+      { label:{th:'น้ำหนัก 10-40 กก.', en:'Weight 10-40 kg'}, mgPerKgPerDay:[200,400], freq:4, maxDailyMg:24000, maxDoseMg:8000, notes:{th:'IV แบ่ง 3-4 ครั้ง/วัน', en:'IV in 3-4 divided doses'} },
+      { label:{th:'น้ำหนัก >40 กก. — ทั่วไป', en:'Weight >40 kg — general'}, mgPerKgPerDay:null, fixedDailyRangeMg:[12000,24000], freq:4, maxDailyMg:24000, maxDoseMg:8000, notes:{th:'g/day แบ่ง 3-4 ครั้ง/วัน', en:'g/day in 3-4 divided doses'} },
+      { label:{th:'น้ำหนัก >40 กก. — Bacterial meningitis', en:'Weight >40 kg — Bacterial meningitis'}, mgPerKgPerDay:null, fixedDailyRangeMg:[16000,24000], freq:4, maxDailyMg:24000, maxDoseMg:8000, notes:{th:'g/day แบ่ง 3-4 ครั้ง/วัน', en:'g/day in 3-4 divided doses'} }
     ]
   },
 
@@ -15628,10 +15806,13 @@ const DRUG_DB = [
     aliases: [],
     category: 'antibiotic',
     route: 'IV',
-    notes: [{th:'สำหรับเชื้อดื้อยาหลายขนาน (MDR) — ปรึกษาผู้เชี่ยวชาญด้านโรคติดเชื้อ', en:'For multidrug-resistant organisms — consult infectious disease specialist'}],
+    notes: [{th:'ขนาดยาเป็น Colistin Base Activity (CBA) ไม่ใช่ colistimethate salt — สำหรับเชื้อดื้อยาหลายขนาน (MDR) ปรึกษาผู้เชี่ยวชาญด้านโรคติดเชื้อ — ปรับขนาดยาในผู้ป่วย CrCl <50 มล./นาที/1.73ตร.ม.', en:'Dose expressed as Colistin Base Activity (CBA), not colistimethate salt — for multidrug-resistant organisms, consult infectious disease specialist — adjust dose if CrCl <50 mL/min/1.73m²'}],
     regimens: [
-      { label:{th:'Loading dose', en:'Loading dose'}, mgPerKgPerDay:null, mgPerKgPerDose:[5,5], freq:1, maxDoseMg:300, notes:{th:'ครั้งเดียว', en:'once'} },
-      { label:{th:'Maintenance', en:'Maintenance'}, mgPerKgPerDay:[2.5,5], freq:2, maxDailyMg:300, notes:{th:'q6-12h', en:'q6-12h'} }
+      { label:{th:'ทารกแรกเกิด (Neonates)', en:'Neonates'}, mgPerKgPerDay:[2.5,5], freq:2, maxDailyMg:null, notes:{th:'IV แบ่งให้ 2 หรือ 4 ครั้ง/วัน (CBA)', en:'IV in 2 or 4 divided doses (CBA)'} },
+      { label:{th:'ทารก/เด็ก (Loading + Maintenance)', en:'Infant/Children (Loading + Maintenance)'}, multiPhase:true, phases:[
+        { phaseLabel:{th:'ขนาดแรก (Loading)', en:'Loading dose'}, mgPerKgPerDose:[4,5], freq:1, maxDoseMg:300, notes:{th:'ครั้งเดียว (CBA)', en:'once (CBA)'} },
+        { phaseLabel:{th:'ขนาดต่อเนื่อง (Maintenance)', en:'Maintenance'}, mgPerKgPerDose:[2.5,2.5], freq:2, maxDoseMg:150, maxDailyMg:300, notes:{th:'q12h (CBA) — หากมีภาวะ SIRS หรือ augmented renal clearance (เช่น eGFR>130 มล./นาที/1.73ตร.ม.) อาจพิจารณาเพิ่มเป็น 10 มก. CBA/กก./วัน (สูงสุดไม่เกิน 360 มก. CBA/วัน)', en:'q12h (CBA) — if SIRS or augmented renal clearance present (e.g. eGFR>130 mL/min/1.73m²), consider increasing to 10mg CBA/kg/day (max 360mg CBA/day)'} }
+      ]}
     ]
   },
 
@@ -16083,6 +16264,86 @@ const DRUG_DB = [
       { label:{th:'Dispersible — น้ำหนัก 14–<20 กก.', en:'Dispersible — weight 14–<20 kg'}, fixedDoseMg:25, freq:1 },
       { label:{th:'Dispersible — น้ำหนัก ≥20 กก.', en:'Dispersible — weight ≥20 kg'}, fixedDoseMg:30, freq:1 },
       { label:{th:'Film-coated — น้ำหนัก ≥20 กก. (อายุ≥6ปี)', en:'Film-coated — weight ≥20 kg (age≥6y)'}, fixedDoseMg:50, freq:1 }
+    ]
+  },
+
+// --- Antituberculosis — source: PediCompass TB module (มาตรฐานการรักษาวัณโรคในเด็ก) ---
+  {
+    id: 'isoniazid',
+    name: {th:'Isoniazid (INH, H)', en:'Isoniazid (INH, H)'},
+    aliases: ['INH', 'H'],
+    category: 'antituberculosis',
+    route: 'PO',
+    warnings: [{th:'อาการข้างเคียง: GI disturbance, hepatic enzyme elevation, hepatitis, peripheral neuritis', en:'Side effects: GI disturbance, hepatic enzyme elevation, hepatitis, peripheral neuritis'}],
+    regimens: [
+      { label:{th:'รักษาวัณโรคระยะดำเนิน (active TB)', en:'Active TB treatment'}, mgPerKgPerDay:[7,15], freq:1, maxDailyMg:300, notes:{th:'เป้าหมาย 10 มก./กก./วัน ให้ทุกวัน', en:'target 10mg/kg/day, daily'} },
+      { label:{th:'ขนาดสูง (High-dose) — สูตรดื้อยาบางสูตร', en:'High-dose — for select drug-resistant regimens'}, mgPerKgPerDay:[15,20], freq:1, maxDailyMg:900, notes:{th:'ให้ทุกวัน', en:'daily'} },
+      { label:{th:'LTBI — สูตร 3HR, อายุ <10 ปี (ร่วม Rifampicin)', en:'LTBI — 3HR, age <10y (with Rifampicin)'}, mgPerKgPerDay:[7,15], freq:1, maxDailyMg:300, notes:{th:'เป้าหมาย 10 มก./กก./วัน ทุกวัน นาน 3 เดือน', en:'target 10mg/kg/day, daily for 3 months'} },
+      { label:{th:'LTBI — สูตร 3HR, อายุ ≥10 ปี (ร่วม Rifampicin)', en:'LTBI — 3HR, age ≥10y (with Rifampicin)'}, mgPerKgPerDay:[5,5], freq:1, maxDailyMg:300, notes:{th:'ทุกวัน นาน 3 เดือน', en:'daily for 3 months'} },
+      { label:{th:'LTBI — สูตร 6-9H เดี่ยว, อายุ <10 ปี', en:'LTBI — 6-9H monotherapy, age <10y'}, mgPerKgPerDay:[7,15], freq:1, maxDailyMg:300, notes:{th:'เป้าหมาย 10 มก./กก./วัน ทุกวัน นาน 6-9 เดือน', en:'target 10mg/kg/day, daily for 6-9 months'} },
+      { label:{th:'LTBI — สูตร 6-9H เดี่ยว, อายุ ≥10 ปี', en:'LTBI — 6-9H monotherapy, age ≥10y'}, mgPerKgPerDay:[5,5], freq:1, maxDailyMg:300, notes:{th:'ทุกวัน นาน 6-9 เดือน', en:'daily for 6-9 months'} },
+      { label:{th:'LTBI — สูตร 1HP รายวัน, อายุ ≥13 ปี (ร่วม Rifapentine)', en:'LTBI — 1HP daily, age ≥13y (with Rifapentine)'}, fixedDoseMg:300, freq:1, notes:{th:'ขนาดคงที่ 300มก. ทุกวัน นาน 1 เดือน', en:'fixed 300mg daily for 1 month'} },
+      { label:{th:'LTBI — สูตร 3HP รายสัปดาห์ อายุ 2-14 ปี — น้ำหนัก 10-15กก.', en:'LTBI — 3HP weekly age 2-14y — weight 10-15kg'}, fixedDoseMg:300, freq:1, notes:{th:'สัปดาห์ละครั้ง นาน 3 เดือน (12 สัปดาห์)', en:'once weekly for 3 months (12 weeks)'} },
+      { label:{th:'LTBI — สูตร 3HP รายสัปดาห์ อายุ 2-14 ปี — น้ำหนัก 16-23กก.', en:'LTBI — 3HP weekly age 2-14y — weight 16-23kg'}, fixedDoseMg:500, freq:1, notes:{th:'สัปดาห์ละครั้ง นาน 3 เดือน (12 สัปดาห์)', en:'once weekly for 3 months (12 weeks)'} },
+      { label:{th:'LTBI — สูตร 3HP รายสัปดาห์ อายุ 2-14 ปี — น้ำหนัก 24-30กก.', en:'LTBI — 3HP weekly age 2-14y — weight 24-30kg'}, fixedDoseMg:600, freq:1, notes:{th:'สัปดาห์ละครั้ง นาน 3 เดือน (12 สัปดาห์)', en:'once weekly for 3 months (12 weeks)'} },
+      { label:{th:'LTBI — สูตร 3HP รายสัปดาห์ อายุ 2-14 ปี — น้ำหนัก >30กก.', en:'LTBI — 3HP weekly age 2-14y — weight >30kg'}, fixedDoseMg:700, freq:1, notes:{th:'สัปดาห์ละครั้ง นาน 3 เดือน (12 สัปดาห์)', en:'once weekly for 3 months (12 weeks)'} },
+      { label:{th:'LTBI — สูตร 3HP รายสัปดาห์ อายุ >14 ปี', en:'LTBI — 3HP weekly age >14y'}, mgPerKgPerDay:[15,15], freq:1, maxDailyMg:900, notes:{th:'ถ้าคำนวณมีเศษให้ปรับขึ้นให้เต็ม 100 มก. (ขนาดสูงสุด 900 มก.) สัปดาห์ละครั้ง นาน 3 เดือน (12 สัปดาห์)', en:'if calculation has a remainder, round up to the nearest 100mg (max 900mg), once weekly for 3 months (12 weeks)'} }
+    ]
+  },
+  {
+    id: 'rifampicin',
+    name: {th:'Rifampicin (RIF, R)', en:'Rifampicin (RIF, R)'},
+    aliases: ['RIF', 'R'],
+    category: 'antituberculosis',
+    route: 'PO',
+    warnings: [{th:'อาการข้างเคียง: GI disturbance, ปัสสาวะ/น้ำตา/เหงื่อสีส้ม, hepatitis, jaundice, influenza-like reaction, thrombocytopenia, คัน', en:'Side effects: GI disturbance, orange-color discoloration of body fluids, hepatitis, jaundice, influenza-like reaction, thrombocytopenia, pruritus'}],
+    regimens: [
+      { label:{th:'รักษาวัณโรคระยะดำเนิน (active TB)', en:'Active TB treatment'}, mgPerKgPerDay:[10,20], freq:1, maxDailyMg:600, notes:{th:'เป้าหมาย 15 มก./กก./วัน ให้ทุกวัน', en:'target 15mg/kg/day, daily'} },
+      { label:{th:'LTBI — สูตร 3HR, อายุ <10 ปี (ร่วม Isoniazid)', en:'LTBI — 3HR, age <10y (with Isoniazid)'}, mgPerKgPerDay:[10,20], freq:1, maxDailyMg:600, notes:{th:'เป้าหมาย 15 มก./กก./วัน ทุกวัน นาน 3 เดือน', en:'target 15mg/kg/day, daily for 3 months'} },
+      { label:{th:'LTBI — สูตร 3HR, อายุ ≥10 ปี (ร่วม Isoniazid)', en:'LTBI — 3HR, age ≥10y (with Isoniazid)'}, mgPerKgPerDay:[10,10], freq:1, maxDailyMg:600, notes:{th:'ทุกวัน นาน 3 เดือน', en:'daily for 3 months'} },
+      { label:{th:'LTBI — สูตร 4R เดี่ยว, อายุ <10 ปี', en:'LTBI — 4R monotherapy, age <10y'}, mgPerKgPerDay:[10,20], freq:1, maxDailyMg:600, notes:{th:'เป้าหมาย 15 มก./กก./วัน ทุกวัน นาน 4 เดือน', en:'target 15mg/kg/day, daily for 4 months'} },
+      { label:{th:'LTBI — สูตร 4R เดี่ยว, อายุ ≥10 ปี', en:'LTBI — 4R monotherapy, age ≥10y'}, mgPerKgPerDay:[10,10], freq:1, maxDailyMg:600, notes:{th:'ทุกวัน นาน 4 เดือน', en:'daily for 4 months'} }
+    ]
+  },
+  {
+    id: 'pyrazinamide',
+    name: {th:'Pyrazinamide (PZA, Z)', en:'Pyrazinamide (PZA, Z)'},
+    aliases: ['PZA', 'Z'],
+    category: 'antituberculosis',
+    route: 'PO',
+    warnings: [{th:'อาการข้างเคียง: GI disturbance, hepatitis, hyperuricemia, arthralgia, myalgia', en:'Side effects: GI disturbance, hepatitis, hyperuricemia, arthralgia, myalgia'}],
+    regimens: [
+      { label:{th:'รักษาวัณโรคระยะดำเนิน (active TB)', en:'Active TB treatment'}, mgPerKgPerDay:[30,40], freq:1, maxDailyMg:2000, notes:{th:'เป้าหมาย 35 มก./กก./วัน ให้ทุกวัน', en:'target 35mg/kg/day, daily'} }
+    ]
+  },
+  {
+    id: 'ethambutol',
+    name: {th:'Ethambutol (EMB, E)', en:'Ethambutol (EMB, E)'},
+    aliases: ['EMB', 'E'],
+    category: 'antituberculosis',
+    route: 'PO',
+    warnings: [{th:'อาการข้างเคียง: GI disturbance, optic neuritis (การมองเห็นลดลง, ตาบอดสี, visual defects) — ติดตามการมองเห็น/สีเป็นระยะ', en:'Side effects: GI disturbance, optic neuritis (decreased acuity, color blindness, visual defects) — monitor vision/color perception periodically'}],
+    regimens: [
+      { label:{th:'รักษาวัณโรคระยะดำเนิน (active TB)', en:'Active TB treatment'}, mgPerKgPerDay:[15,25], freq:1, maxDailyMg:1200, notes:{th:'เป้าหมาย 20 มก./กก./วัน ให้ทุกวัน', en:'target 20mg/kg/day, daily'} }
+    ]
+  },
+  {
+    id: 'rifapentine',
+    name: {th:'Rifapentine (RPT, P)', en:'Rifapentine (RPT, P)'},
+    aliases: ['RPT', 'P'],
+    category: 'antituberculosis',
+    route: 'PO',
+    notes: [{th:'ใช้เฉพาะในสูตร LTBI ร่วมกับ Isoniazid (3HP หรือ 1HP) — ขนาดคงที่ตามน้ำหนัก/อายุ ไม่ใช่ mg/kg', en:'Used only in LTBI regimens with Isoniazid (3HP or 1HP) — fixed dose by weight/age band, not mg/kg'}],
+    regimens: [
+      { label:{th:'3HP รายสัปดาห์ อายุ 2-14 ปี — น้ำหนัก 10-15กก.', en:'3HP weekly age 2-14y — weight 10-15kg'}, fixedDoseMg:300, freq:1, notes:{th:'สัปดาห์ละครั้ง นาน 12 สัปดาห์', en:'once weekly for 12 weeks'} },
+      { label:{th:'3HP รายสัปดาห์ อายุ 2-14 ปี — น้ำหนัก 16-23กก.', en:'3HP weekly age 2-14y — weight 16-23kg'}, fixedDoseMg:450, freq:1, notes:{th:'สัปดาห์ละครั้ง นาน 12 สัปดาห์', en:'once weekly for 12 weeks'} },
+      { label:{th:'3HP รายสัปดาห์ อายุ 2-14 ปี — น้ำหนัก 24-30กก.', en:'3HP weekly age 2-14y — weight 24-30kg'}, fixedDoseMg:600, freq:1, notes:{th:'สัปดาห์ละครั้ง นาน 12 สัปดาห์', en:'once weekly for 12 weeks'} },
+      { label:{th:'3HP รายสัปดาห์ อายุ 2-14 ปี — น้ำหนัก >30กก.', en:'3HP weekly age 2-14y — weight >30kg'}, fixedDoseMg:750, freq:1, notes:{th:'สัปดาห์ละครั้ง นาน 12 สัปดาห์', en:'once weekly for 12 weeks'} },
+      { label:{th:'3HP รายสัปดาห์ อายุ >14 ปี — น้ำหนัก ≤50กก.', en:'3HP weekly age >14y — weight ≤50kg'}, fixedDoseMg:750, freq:1, notes:{th:'สัปดาห์ละครั้ง นาน 12 สัปดาห์', en:'once weekly for 12 weeks'} },
+      { label:{th:'3HP รายสัปดาห์ อายุ >14 ปี — น้ำหนัก >50กก.', en:'3HP weekly age >14y — weight >50kg'}, fixedDoseMg:900, freq:1, notes:{th:'สัปดาห์ละครั้ง นาน 12 สัปดาห์', en:'once weekly for 12 weeks'} },
+      { label:{th:'1HP รายวัน อายุ ≥13 ปี — น้ำหนัก <35กก.', en:'1HP daily age ≥13y — weight <35kg'}, fixedDoseMg:300, freq:1 },
+      { label:{th:'1HP รายวัน อายุ ≥13 ปี — น้ำหนัก 35-45กก.', en:'1HP daily age ≥13y — weight 35-45kg'}, fixedDoseMg:450, freq:1 },
+      { label:{th:'1HP รายวัน อายุ ≥13 ปี — น้ำหนัก >45กก.', en:'1HP daily age ≥13y — weight >45kg'}, fixedDoseMg:600, freq:1 }
     ]
   },
 
@@ -16635,9 +16896,9 @@ const DRUG_DB = [
     category: 'immunology',
     route: 'IV',
     regimens: [
-      { label:{th:'Kawasaki disease', en:'Kawasaki disease'}, mgPerKgPerDay:null, gPerKgPerDose:[2,2], freq:1, notes:{th:'IV over10-12ชม. ภายใน10วันแรกที่มีอาการ', en:'IV over 10-12h, within first 10 days of illness'} },
+      { label:{th:'Kawasaki disease', en:'Kawasaki disease'}, mgPerKgPerDay:null, gPerKgPerDose:[2,2], freq:1, notes:{th:'ให้แบบ continuous drip: เริ่ม 0.6 มล./กก./ชม. เพิ่มอัตราเป็น 2 เท่าทุก 30 นาที (สูงสุดไม่เกิน 4.8 มล./กก./ชม.) จนให้ยาได้หมดภายใน 10-12 ชม. — ภายใน 10 วันแรกที่มีอาการ', en:'Continuous drip: start at 0.6 mL/kg/hr, double the rate every 30 minutes (max 4.8 mL/kg/hr), until the full dose is infused within 10-12 hours — within the first 10 days of illness'} },
       { label:{th:'Guillain-Barré syndrome', en:'Guillain-Barré syndrome'}, mgPerKgPerDay:null, gPerKgPerDose:[1,1], freq:1, notes:{th:'OD x2วัน หรือ 0.4ก./กก./วัน x5วัน', en:'OD x2 days, or 0.4g/kg/day x5 days'} },
-      { label:{th:'MIS-C', en:'MIS-C'}, mgPerKgPerDay:null, gPerKgPerDose:[2,2], freq:1, maxDoseGm:100, notes:{th:'over12ชม. หรือ 1ก./กก./วัน x2วันถ้ามี fluid overload', en:'over 12h, or 1g/kg/day x2days if fluid overload'} },
+      { label:{th:'MIS-C', en:'MIS-C'}, mgPerKgPerDay:null, gPerKgPerDose:[2,2], freq:1, maxDoseGm:100, notes:{th:'ให้แบบ continuous drip: เริ่ม 0.6 มล./กก./ชม. เพิ่มอัตราเป็น 2 เท่าทุก 30 นาที (สูงสุดไม่เกิน 4.8 มล./กก./ชม.) จนให้ยาได้หมดภายใน 10-12 ชม. หรือให้ 1ก./กก./วัน x2วันถ้ามี fluid overload', en:'Continuous drip: start at 0.6 mL/kg/hr, double the rate every 30 minutes (max 4.8 mL/kg/hr), until the full dose is infused within 10-12 hours; or 1g/kg/day x2 days if fluid overload'} },
       { label:{th:'Acute myocarditis', en:'Acute myocarditis'}, mgPerKgPerDay:null, gPerKgPerDose:[2,2], freq:1, notes:{th:'ครั้งเดียว', en:'once'} }
     ]
   },
@@ -16892,6 +17153,15 @@ function calcRegimenDose(reg, weightKg) {
   if (reg.fixedDoseRangeUnits) {
     return { kind: 'fixed-range', unit: 'units', lo: reg.fixedDoseRangeUnits[0], hi: reg.fixedDoseRangeUnits[1] };
   }
+  // Fixed DAILY total (not weight-based, but still needs dividing by freq to get per-dose) — e.g. flat g/day bands
+  if (reg.fixedDailyRangeMg) {
+    let [dailyLo, dailyHi] = reg.fixedDailyRangeMg;
+    const freq = reg.freq || 1;
+    if (reg.maxDailyMg != null) { dailyLo = Math.min(dailyLo, reg.maxDailyMg); dailyHi = Math.min(dailyHi, reg.maxDailyMg); }
+    let doseLo = dailyLo / freq, doseHi = dailyHi / freq;
+    if (reg.maxDoseMg != null) { doseLo = Math.min(doseLo, reg.maxDoseMg); doseHi = Math.min(doseHi, reg.maxDoseMg); }
+    return { kind: 'day+dose', unit: 'mg', freq, dailyLo, dailyHi, doseLo, doseHi };
+  }
 
   // ---------- Infusion / rate-based (not discrete doses — report rate, not per-dose amount) ----------
   if (reg.mcgPerKgPerMin) {
@@ -16943,7 +17213,9 @@ function calcRegimenDose(reg, weightKg) {
     { field: 'gPerKgPerDay',   unit: 'g',  basis: 'day'  },
     { field: 'mLPerKgPerDose', unit: 'mL', basis: 'dose' },
     { field: 'mEqPerKgPerDay', unit: 'mEq',basis: 'day'  },
-    { field: 'mEqPerKgPerDose',unit: 'mEq',basis: 'dose' }
+    { field: 'mEqPerKgPerDose',unit: 'mEq',basis: 'dose' },
+    { field: 'unitsPerKgPerDay',unit: 'units', basis: 'day' },
+    { field: 'unitsPerKgPerDose',unit: 'units', basis: 'dose' }
   ];
 
   for (const u of unitMap) {
@@ -16957,9 +17229,9 @@ function calcRegimenDose(reg, weightKg) {
       }
       let loAmt = lo * weightKg, hiAmt = hi * weightKg; // amount per "basis" (day or dose) before caps
 
-      // per-dose cap (name varies: maxDoseMg / maxDoseGm / maxDoseMl / maxDoseMEq)
-      const maxDoseKey = { mg:'maxDoseMg', mcg:'maxDoseMcg', g:'maxDoseGm', mL:'maxDoseMl', mEq:'maxDoseMEq' }[u.unit];
-      const maxDailyKey = { mg:'maxDailyMg', g:'maxDailyGm' }[u.unit];
+      // per-dose cap (name varies: maxDoseMg / maxDoseGm / maxDoseMl / maxDoseMEq / maxDoseUnits)
+      const maxDoseKey = { mg:'maxDoseMg', mcg:'maxDoseMcg', g:'maxDoseGm', mL:'maxDoseMl', mEq:'maxDoseMEq', units:'maxDoseUnits' }[u.unit];
+      const maxDailyKey = { mg:'maxDailyMg', g:'maxDailyGm', units:'maxDailyUnits' }[u.unit];
 
       if (u.basis === 'day') {
         // loAmt/hiAmt are per-day totals
@@ -17004,6 +17276,14 @@ const DD = {
   resultHeading: {th:'ผลการคำนวณ', en:'Calculated dose'},
   perKgLabel: {th:'ขนาดยาที่ใช้คำนวณ', en:'Dose used for calculation'},
   doseReference: {th:'ขนาดยาอ้างอิง', en:'Dosing reference'},
+  newbornMode: {th:'ทารกแรกเกิด (Newborn)', en:'Newborn'},
+  neoGaLabel: {th:'อายุครรภ์ GA (สัปดาห์)', en:'Gestational age, GA (weeks)'},
+  neoPnaLabel: {th:'อายุหลังคลอด (วัน)', en:'Postnatal age (days)'},
+  neoBwLabel: {th:'น้ำหนักตัว BW (กรัม)', en:'Birth/current weight, BW (grams)'},
+  neoTableHeading: {th:'ตารางขนาดยาอ้างอิง', en:'Dosing reference table'},
+  neoEnterAll: {th:'กรอก GA, อายุหลังคลอด และน้ำหนักตัวให้ครบเพื่อคำนวณ', en:'Enter GA, postnatal age, and weight to calculate'},
+  neoNoMatch: {th:'ไม่พบช่วงที่ตรงกับ GA/อายุหลังคลอดที่กรอก — โปรดตรวจสอบค่าที่กรอกอีกครั้ง', en:'No matching bracket found for the entered GA/postnatal age — please check your entries'},
+  neoMatchedBracket: {th:'ช่วงที่ตรงกัน', en:'Matched bracket'},
   frequencyLabel: {th:'ความถี่', en:'Frequency'},
   maxDoseLabel: {th:'ขนาดสูงสุด', en:'Maximum dose'},
   perDose: {th:'ต่อครั้ง', en:'per dose'},
@@ -17030,6 +17310,7 @@ const DD_CATEGORY_LABELS = {
   antibiotic:    {th:'ยาปฏิชีวนะ', en:'Antibiotics'},
   antiviral:     {th:'ยาต้านไวรัส', en:'Antivirals'},
   antiretroviral:{th:'ยาต้านไวรัสเอชไอวี (ART)', en:'Antiretrovirals (ART)'},
+  antituberculosis:{th:'ยารักษาวัณโรค', en:'Antituberculosis'},
   antipyretic:   {th:'ยาลดไข้/แก้ปวด', en:'Antipyretics/Analgesics'},
   anticonvulsant:{th:'ยากันชัก', en:'Anticonvulsants'},
   sedation:      {th:'ยาระงับความรู้สึก', en:'Sedation'},
@@ -17051,7 +17332,25 @@ const DD_CATEGORY_LABELS = {
   misc:          {th:'อื่นๆ', en:'Miscellaneous'}
 };
 
-let ddState = { screen:'home', searchQuery:'', activeCategory:null, drugId:null, regimenIdx:0, weight:null, formChoiceIdx:0 };
+const DD_CATEGORY_KEYWORDS = {
+  antibiotic: 'atb abx',
+  antiretroviral: 'hiv art',
+  antituberculosis: 'tb',
+  anticonvulsant: 'aed seizure epilepsy',
+  cardiovascular: 'cvs cardiac heart',
+  antidote: 'tox toxicology poison',
+  electrolyte: 'lytes fluid',
+  antihistamine: 'allergy',
+  antiemetic: 'nausea vomit',
+  bronchodilator: 'asthma copd',
+  endocrine: 'thyroid hormone',
+  psychiatric: 'psych mental mood',
+  immunology: 'ivig ig immune',
+  hematology: 'heme blood coag',
+  nutritional: 'vitamin'
+};
+
+let ddState = { screen:'home', searchQuery:'', activeCategory:null, drugId:null, regimenIdx:0, weight:null, formChoiceIdx:0, neoGroupIdx:0, neoGA:'', neoPNA:'', neoBW:'' };
 
 function ddGoTo(screen, patch){
   ddState = Object.assign({}, ddState, {screen}, patch||{});
@@ -17071,16 +17370,21 @@ function ddRender(){
   if (ddState.screen === 'home') ddHomeView(app);
   else if (ddState.screen === 'detail') ddDetailView(app);
   else if (ddState.screen === 'calc') ddCalcView(app);
+  else if (ddState.screen === 'neonatal') ddNeonatalView(app);
 }
 
 /* ---------- Matching helper (same pattern as homeMatches) ---------- */
 function ddMatches(drug, q){
   if (!q) return true;
+  const catLabel = DD_CATEGORY_LABELS[drug.category] || {th:drug.category, en:drug.category};
   const hay = (
     (drug.name.th||'') + ' ' + (drug.name.en||'') + ' ' +
-    (drug.aliases||[]).join(' ')
+    (drug.aliases||[]).join(' ') + ' ' +
+    (catLabel.th||'') + ' ' + (catLabel.en||'')
   ).toLowerCase();
-  return hay.includes(q);
+  if (hay.includes(q)) return true;
+  const catKeywords = (DD_CATEGORY_KEYWORDS[drug.category] || '').split(' ');
+  return catKeywords.includes(q);
 }
 
 /* ---------- Home: search + category chips + result list ---------- */
@@ -17199,10 +17503,21 @@ function ddDetailView(app){
     app.appendChild(warn);
   }
 
-  if (drug.regimens.length === 1){
-    ddGoTo('calc', {regimenIdx: 0, formChoiceIdx: 0});
+  // Regimens already reachable via the Newborn (GA/PNA) mode are hidden from this flat list
+  const neonatalIdxSet = new Set();
+  if (drug.neonatalGroups){
+    drug.neonatalGroups.forEach(g => g.brackets.forEach(b => neonatalIdxSet.add(b.regimenIdx)));
+  }
+  const visibleRegimens = drug.regimens
+    .map((reg, idx) => ({reg, idx}))
+    .filter(x => !neonatalIdxSet.has(x.idx));
+
+  if (visibleRegimens.length === 1 && !drug.neonatalGroups){
+    ddGoTo('calc', {regimenIdx: visibleRegimens[0].idx, formChoiceIdx: 0});
     return;
   }
+
+  if (visibleRegimens.length === 0 && !drug.neonatalGroups) return;
 
   const card = document.createElement('div');
   card.className = 'q-card';
@@ -17211,21 +17526,160 @@ function ddDetailView(app){
 
   const list = document.createElement('div');
   list.className = 'opt-list';
-  drug.regimens.forEach((reg, idx) => {
+  visibleRegimens.forEach(({reg, idx}) => {
     const btn = document.createElement('button');
     btn.className = 'opt-btn';
     btn.textContent = t(reg.label);
     btn.onclick = () => ddGoTo('calc', {regimenIdx: idx, formChoiceIdx: 0});
     list.appendChild(btn);
   });
+  if (drug.neonatalGroups){
+    const nbBtn = document.createElement('button');
+    nbBtn.className = 'opt-btn';
+    nbBtn.textContent = `👶 ${t(DD.newbornMode)}`;
+    nbBtn.onclick = () => ddGoTo('neonatal', {neoGroupIdx:0, neoGA:'', neoPNA:'', neoBW:''});
+    list.appendChild(nbBtn);
+  }
   app.appendChild(list);
+}
+
+/* ---------- Newborn mode: GA/PNA bracket table + auto-match calculator ---------- */
+function ddFindNeonatalBracket(brackets, gaWeeks, pnaDays){
+  return brackets.find(function(b){
+    return (b.gaMin == null || gaWeeks >= b.gaMin) && (b.gaMax == null || gaWeeks <= b.gaMax) &&
+           (b.pnaMin == null || pnaDays >= b.pnaMin) && (b.pnaMax == null || pnaDays <= b.pnaMax);
+  });
+}
+
+function ddNeonatalView(app){
+  const drug = DRUG_DB.find(d => d.id === ddState.drugId);
+  if (!drug || !drug.neonatalGroups){ ddGoTo('home'); return; }
+
+  ddHeader(app, `👶 ${t(drug.name)} — ${t(DD.newbornMode)}`);
+
+  const groups = drug.neonatalGroups;
+  let groupSelect = null;
+  if (groups.length > 1){
+    const groupCard = document.createElement('div');
+    groupCard.className = 'q-card';
+    groupCard.innerHTML = `<div class="q-text">${t(DD.selectRegimen)}</div>`;
+    const sel = document.createElement('select');
+    sel.id = 'ddNeoGroupSelect';
+    sel.style.cssText = 'width:100%; padding:10px; font-size:15px; border-radius:8px; border:1px solid var(--pink-200); margin-top:8px;';
+    groups.forEach((g, idx) => {
+      const opt = document.createElement('option');
+      opt.value = idx;
+      opt.textContent = t(g.label);
+      if (idx === ddState.neoGroupIdx) opt.selected = true;
+      sel.appendChild(opt);
+    });
+    groupCard.appendChild(sel);
+    app.appendChild(groupCard);
+    groupSelect = sel;
+  }
+
+  const tableArea = document.createElement('div');
+  app.appendChild(tableArea);
+
+  const inputCard = document.createElement('div');
+  inputCard.className = 'q-card';
+  inputCard.innerHTML = `
+    <div class="q-text">${t(DD.neoGaLabel)}</div>
+    <input type="number" id="ddNeoGA" inputmode="decimal" placeholder="${LANG==='th'?'เช่น 32':'e.g. 32'}"
+           style="width:100%; padding:10px; font-size:16px; border-radius:8px; border:1px solid var(--pink-200); margin-top:6px; margin-bottom:12px;"
+           value="${ddState.neoGA}">
+    <div class="q-text">${t(DD.neoPnaLabel)}</div>
+    <input type="number" id="ddNeoPNA" inputmode="decimal" placeholder="${LANG==='th'?'เช่น 3':'e.g. 3'}"
+           style="width:100%; padding:10px; font-size:16px; border-radius:8px; border:1px solid var(--pink-200); margin-top:6px; margin-bottom:12px;"
+           value="${ddState.neoPNA}">
+    <div class="q-text">${t(DD.neoBwLabel)}</div>
+    <input type="number" id="ddNeoBW" inputmode="decimal" placeholder="${LANG==='th'?'เช่น 1500':'e.g. 1500'}"
+           style="width:100%; padding:10px; font-size:16px; border-radius:8px; border:1px solid var(--pink-200); margin-top:6px;"
+           value="${ddState.neoBW}">
+  `;
+  app.appendChild(inputCard);
+
+  const resultArea = document.createElement('div');
+  app.appendChild(resultArea);
+
+  function currentGroup(){
+    const idx = groupSelect ? parseInt(groupSelect.value, 10) : 0;
+    return groups[idx];
+  }
+
+  function renderTable(){
+    const group = currentGroup();
+    const gaTxt = LANG==='th' ? 'GA/PMA' : 'GA/PMA';
+    const pnaTxt = t(DD.neoPnaLabel);
+    const doseTxt = t(DD.doseReference);
+    const rows = group.brackets.map(function(b){
+      const reg = drug.regimens[b.regimenIdx];
+      return `<tr><td>${t(b.gaLabel)}</td><td>${t(b.pnaLabel)}</td><td style="font-family:'IBM Plex Mono',monospace; font-size:12.5px;">${ddSpecText(reg, drug.route)}</td></tr>`;
+    }).join('');
+    tableArea.innerHTML = `<div class="q-card" style="margin-bottom:12px;">
+      <div class="q-text" style="margin-bottom:8px;">${t(DD.neoTableHeading)}</div>
+      <div class="dose-table-scroll"><table class="dose-table"><thead><tr><th>${gaTxt}</th><th>${pnaTxt}</th><th>${doseTxt}</th></tr></thead><tbody>${rows}</tbody></table></div>
+    </div>`;
+  }
+
+  function renderResult(){
+    resultArea.innerHTML = '';
+    const ga = parseFloat(document.getElementById('ddNeoGA').value);
+    const pna = parseFloat(document.getElementById('ddNeoPNA').value);
+    const bwG = parseFloat(document.getElementById('ddNeoBW').value);
+    if (!ga || isNaN(pna) || !bwG){
+      const hint = document.createElement('div');
+      hint.className = 'q-hint';
+      hint.style.padding = '16px 0';
+      hint.textContent = t(DD.neoEnterAll);
+      resultArea.appendChild(hint);
+      return;
+    }
+    const group = currentGroup();
+    const bracket = ddFindNeonatalBracket(group.brackets, ga, pna);
+    if (!bracket){
+      const warn = document.createElement('div');
+      warn.className = 'result-banner moderate';
+      warn.innerHTML = `<p>⚠ ${t(DD.neoNoMatch)}</p>`;
+      resultArea.appendChild(warn);
+      return;
+    }
+    const reg = drug.regimens[bracket.regimenIdx];
+    const weightKg = bwG / 1000;
+    const result = calcRegimenDose(reg, weightKg);
+    const matchLabel = `<div style="font-size:12px; color:var(--pink-600); font-weight:700; margin-bottom:6px;">${t(DD.neoMatchedBracket)}: ${t(bracket.gaLabel)} · ${t(bracket.pnaLabel)}</div>`;
+    spSectionCard(resultArea, {
+      h: DD.resultHeading, icon:'👶', prominent:true,
+      customHtml: matchLabel + ddFormatResult(result, reg, drug.route)
+    });
+    const disclaimer = document.createElement('div');
+    disclaimer.style.cssText = 'font-size:11.5px; color:var(--ink-soft); margin-top:8px; line-height:1.6;';
+    disclaimer.textContent = t(DD.disclaimer);
+    resultArea.appendChild(disclaimer);
+  }
+
+  if (groupSelect){
+    groupSelect.onchange = function(){ ddState.neoGroupIdx = parseInt(this.value, 10); renderTable(); renderResult(); };
+  }
+  ['ddNeoGA','ddNeoPNA','ddNeoBW'].forEach(function(id){
+    document.getElementById(id).oninput = function(){
+      if (id==='ddNeoGA') ddState.neoGA = this.value;
+      if (id==='ddNeoPNA') ddState.neoPNA = this.value;
+      if (id==='ddNeoBW') ddState.neoBW = this.value;
+      renderResult();
+    };
+  });
+
+  renderTable();
+  renderResult();
 }
 
 /* ---------- Calc: weight input + result display ---------- */
 function ddIsFixedRegimen(reg){
   function regIsFixed(r){
     return r.fixedDoseMg !== undefined || r.fixedDoseRangeMg !== undefined ||
-           r.fixedDoseUnits !== undefined || r.fixedDoseRangeUnits !== undefined;
+           r.fixedDoseUnits !== undefined || r.fixedDoseRangeUnits !== undefined ||
+           r.fixedDailyRangeMg !== undefined;
   }
   if (reg.multiPhase && reg.phases) return reg.phases.every(regIsFixed);
   return regIsFixed(reg);
@@ -17369,7 +17823,8 @@ function ddPerKgLine(reg){
     ['mEqPerKgPerDay', 'mEq/kg/day'], ['mEqPerKgPerDose', 'mEq/kg/dose'],
     ['mcgPerKgPerMin', 'mcg/kg/min'], ['mcgPerKgPerHr', 'mcg/kg/hr'],
     ['mgPerKgPerHr', 'mg/kg/hr'], ['milliunitsPerKgPerMin', 'milliunits/kg/min'],
-    ['unitsPerKgPerHr', 'units/kg/hr']
+    ['unitsPerKgPerHr', 'units/kg/hr'], ['unitsPerKgPerDay', 'units/kg/day'],
+    ['unitsPerKgPerDose', 'units/kg/dose']
   ];
   for (const [field, label] of specs){
     if (reg[field]){
@@ -17417,6 +17872,8 @@ function ddSpecText(reg, route){
     lines.push(`${ddNum(reg.fixedDoseMg)} mg${reg.freq ? ` \u00d7 ${ddFreqText(reg.freq, route)}` : ''}`);
   } else if (reg.fixedDoseRangeMg){
     lines.push(`${ddNum(reg.fixedDoseRangeMg[0])}\u2013${ddNum(reg.fixedDoseRangeMg[1])} mg${reg.freq ? ` \u00d7 ${ddFreqText(reg.freq, route)}` : ''}`);
+  } else if (reg.fixedDailyRangeMg){
+    lines.push(`${ddNum(reg.fixedDailyRangeMg[0])}\u2013${ddNum(reg.fixedDailyRangeMg[1])} mg${t(DD.perDay)}${reg.freq ? ` (${ddFreqText(reg.freq, route)})` : ''}`);
   } else {
     const perKg = ddPerKgLine(reg);
     if (perKg) lines.push(perKg.replace(/<\/?p[^>]*>/g, ''));
@@ -17428,6 +17885,8 @@ function ddSpecText(reg, route){
   if (reg.maxDoseGm != null) maxParts.push(`${ddNum(reg.maxDoseGm)} g/${t(DD.perDose)}`);
   if (reg.maxDoseMEq != null) maxParts.push(`${ddNum(reg.maxDoseMEq)} mEq/${t(DD.perDose)}`);
   if (reg.maxDoseMl != null) maxParts.push(`${ddNum(reg.maxDoseMl)} mL/${t(DD.perDose)}`);
+  if (reg.maxDoseUnits != null) maxParts.push(`${ddNum(reg.maxDoseUnits)} units/${t(DD.perDose)}`);
+  if (reg.maxDailyUnits != null) maxParts.push(`${ddNum(reg.maxDailyUnits)} units${t(DD.perDay)}`);
   if (maxParts.length) lines.push(`${t(DD.maxDoseLabel)}: ${maxParts.join(', ')}`);
   const notes = reg.notes ? t(reg.notes) : '';
   return `<div style="font-size:13px; color:var(--ink); line-height:1.7;">${lines.join('<br>')}</div>` +
@@ -17488,7 +17947,7 @@ const DD_META = {
 
 function ddOpen(){
   topState = { screen:'drugdosage' };
-  ddState = { screen:'home', searchQuery:'', activeCategory:null, drugId:null, regimenIdx:0, weight:null, formChoiceIdx:0 };
+  ddState = { screen:'home', searchQuery:'', activeCategory:null, drugId:null, regimenIdx:0, weight:null, formChoiceIdx:0, neoGroupIdx:0, neoGA:'', neoPNA:'', neoBW:'' };
   logModuleView('drugdosage');
   scrollToTop();
   render();
