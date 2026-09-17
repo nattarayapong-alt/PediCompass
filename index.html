@@ -15978,9 +15978,10 @@ const DRUG_DB = [
     name: {th:'Chlorpheniramine', en:'Chlorpheniramine'},
     aliases: [],
     category: 'antihistamine',
-    route: 'IV/IM',
+    route: 'PO/IV/IM',
     regimens: [
-      { label:{th:'Anaphylaxis', en:'Anaphylaxis'}, mgPerKgPerDay:null, mgPerKgPerDose:[0.25,0.25], freq:4, maxDoseMg:5, notes:{th:'IV/IM q6h', en:'IV/IM q6h'} }
+      { label:{th:'Anaphylaxis', en:'Anaphylaxis'}, route:'IV/IM', mgPerKgPerDay:null, mgPerKgPerDose:[0.25,0.25], freq:4, maxDoseMg:5, notes:{th:'IV/IM q6h', en:'IV/IM q6h'} },
+      { label:{th:'ภูมิแพ้ทั่วไป (กิน)', en:'General allergy (oral)'}, route:'PO', mgPerKgPerDay:[0.35,0.35], freq:4, maxDailyMg:null, notes:{th:'แบ่งให้ 3-4 มื้อ/วัน', en:'divided 3-4 doses/day'} }
     ]
   },
   {
@@ -16040,9 +16041,10 @@ const DRUG_DB = [
     name: {th:'Salbutamol', en:'Salbutamol'},
     aliases: ['Albuterol'],
     category: 'bronchodilator',
-    route: 'Nebulized/MDI',
+    route: 'PO/Nebulized/MDI',
     regimens: [
-      { label:{th:'Nebulized solution (0.5%, 5mg/mL)', en:'Nebulized solution (0.5%, 5mg/mL)'}, mgPerKgPerDay:null, mgPerKgPerDose:[0.15,0.15], freq:1, maxDoseMg:5, notes:{th:'0.03มล./กก./ครั้ง (min0.5, max1มล.) ผสม NSS ให้ได้ 4มล. q20min x3ครั้งแรก แล้ว q1-6ชม.', en:'0.03mL/kg/dose (min0.5, max1mL) dilute to 4mL total, q20min x3 then q1-6h'} }
+      { label:{th:'Nebulized solution (0.5%, 5mg/mL)', en:'Nebulized solution (0.5%, 5mg/mL)'}, route:'Nebulized', mgPerKgPerDay:null, mgPerKgPerDose:[0.15,0.15], freq:1, maxDoseMg:5, notes:{th:'0.03มล./กก./ครั้ง (min0.5, max1มล.) ผสม NSS ให้ได้ 4มล. q20min x3ครั้งแรก แล้ว q1-6ชม.', en:'0.03mL/kg/dose (min0.5, max1mL) dilute to 4mL total, q20min x3 then q1-6h'} },
+      { label:{th:'ยาน้ำเชื่อม (กิน)', en:'Syrup (oral)'}, route:'PO', mgPerKgPerDay:null, mgPerKgPerDose:[0.1,0.1], freq:4, maxDoseMg:null, notes:{th:'ทุก 6 ชั่วโมง', en:'every 6 hours'} }
     ]
   },
   {
@@ -16085,6 +16087,192 @@ const DRUG_DB = [
     regimens: [
       { label:{th:'Asthma, acute refractory exacerbation', en:'Asthma, acute refractory exacerbation'}, mgPerKgPerDay:null, mgPerKgPerDose:[25,50], freq:1, maxDoseMg:2000, notes:{th:'IV over 15-30min', en:'IV over 15-30min'} },
       { label:{th:'Torsade de pointes', en:'Torsade de pointes'}, mgPerKgPerDay:null, mgPerKgPerDose:[25,50], freq:1, maxDoseMg:2000, notes:{th:'IV over 10-20min, bolus ได้ถ้าไม่มีชีพจร', en:'IV over 10-20min, may bolus if pulseless'} }
+    ]
+  },
+  {
+    id: 'procaterol',
+    name: {th:'Procaterol HCl (Meptin)', en:'Procaterol HCl (Meptin)'},
+    aliases: ['Meptin'],
+    category: 'bronchodilator',
+    route: 'PO',
+    regimens: [
+      { label:{th:'ขนาดทั่วไป', en:'General dose'}, mgPerKgPerDay:null, mcgPerKgPerDose:[1.25,1.25], freq:2, notes:{th:'วันละ 2 ครั้ง', en:'twice daily'} }
+    ]
+  },
+  {
+    id: 'hydroxyzine',
+    name: {th:'Hydroxyzine', en:'Hydroxyzine'},
+    aliases: [],
+    category: 'antihistamine',
+    route: 'PO',
+    regimens: [
+      { label:{th:'ขนาดทั่วไป', en:'General dose'}, mgPerKgPerDay:[2,2], freq:4, maxDailyMg:null, notes:{th:'แบ่งให้ 3-4 ครั้ง/วัน', en:'divided 3-4 doses/day'} }
+    ]
+  },
+  {
+    id: 'cetirizine',
+    name: {th:'Cetirizine', en:'Cetirizine'},
+    aliases: [],
+    category: 'antihistamine',
+    route: 'PO',
+    regimens: [
+      { label:{th:'ทารกอายุ ≥6 เดือน', en:'Infants ≥6 months'}, fixedDoseMg:2.5, freq:1 },
+      { label:{th:'เด็กอายุ <2 ปี', en:'Children <2 years'}, fixedDoseMg:2.5, freq:1, notes:{th:'อาจเพิ่มเป็น 2.5มก. วันละ 2 ครั้ง', en:'may increase to 2.5mg twice daily'} },
+      { label:{th:'เด็กอายุ 2 ถึง <6 ปี', en:'Children 2 to <6 years'}, fixedDoseRangeMg:[2.5,5], freq:1, notes:{th:'หรือให้ 2.5มก. วันละ 2 ครั้ง', en:'or may give 2.5mg twice daily'} },
+      { label:{th:'เด็กอายุ ≥6 ปี และวัยรุ่น', en:'Children ≥6 years and Adolescents'}, fixedDoseRangeMg:[5,10], freq:1 }
+    ]
+  },
+  {
+    id: 'loratadine',
+    name: {th:'Loratadine', en:'Loratadine'},
+    aliases: [],
+    category: 'antihistamine',
+    route: 'PO',
+    regimens: [
+      { label:{th:'เด็กอายุ ≥2 ถึง <6 ปี', en:'Children ≥2 to <6 years'}, fixedDoseMg:5, freq:1 },
+      { label:{th:'เด็กอายุ ≥6 ปี และวัยรุ่น — วันละครั้ง', en:'Children ≥6 years and Adolescents — once daily'}, fixedDoseMg:10, freq:1 },
+      { label:{th:'เด็กอายุ ≥6 ปี และวัยรุ่น — วันละ 2 ครั้ง', en:'Children ≥6 years and Adolescents — twice daily'}, fixedDoseMg:5, freq:2 }
+    ]
+  },
+  {
+    id: 'desloratadine',
+    name: {th:'Desloratadine', en:'Desloratadine'},
+    aliases: [],
+    category: 'antihistamine',
+    route: 'PO',
+    regimens: [
+      { label:{th:'ทารกอายุ 6 ถึง ≤11 เดือน', en:'Infants 6 to ≤11 months'}, fixedDoseMg:1, freq:1 },
+      { label:{th:'เด็กอายุ ≤5 ปี', en:'Children ≤5 years'}, fixedDoseMg:1.25, freq:1 },
+      { label:{th:'เด็กอายุ 6 ถึง ≤11 ปี', en:'Children 6 to ≤11 years'}, fixedDoseMg:2.5, freq:1 },
+      { label:{th:'เด็กอายุ ≥12 ปี และวัยรุ่น', en:'Children ≥12 years and Adolescents'}, fixedDoseMg:5, freq:1 }
+    ]
+  },
+  {
+    id: 'bromhexine',
+    name: {th:'Bromhexine HCl', en:'Bromhexine HCl'},
+    aliases: [],
+    category: 'respiratory',
+    route: 'PO',
+    regimens: [
+      { label:{th:'อายุ <2 ปี', en:'Age <2 years'}, fixedDoseMg:1, freq:4, notes:{th:'(1.25 มล.) วันละ 3-4 ครั้ง', en:'(1.25 mL) 3-4 times daily'} },
+      { label:{th:'อายุ 2-5 ปี', en:'Age 2-5 years'}, fixedDoseMg:2, freq:4, notes:{th:'(2.5 มล.) วันละ 3-4 ครั้ง', en:'(2.5 mL) 3-4 times daily'} },
+      { label:{th:'อายุ 6-10 ปี', en:'Age 6-10 years'}, fixedDoseMg:4, freq:4, notes:{th:'(5 มล.) วันละ 3-4 ครั้ง', en:'(5 mL) 3-4 times daily'} },
+      { label:{th:'อายุ >10 ปี', en:'Age >10 years'}, fixedDoseMg:8, freq:4, notes:{th:'(10 มล. หรือ 1 เม็ด) วันละ 3-4 ครั้ง', en:'(10 mL or 1 tablet) 3-4 times daily'} }
+    ]
+  },
+  {
+    id: 'glyceryl-guaiacolate',
+    name: {th:'Glyceryl guaiacolate (GG)', en:'Glyceryl guaiacolate (GG)'},
+    aliases: ['GG', 'Guaifenesin'],
+    category: 'respiratory',
+    route: 'PO',
+    regimens: [
+      { label:{th:'อายุ <2 ปี', en:'Age <2 years'}, mgPerKgPerDay:[12,12], freq:4, maxDailyMg:null, notes:{th:'แบ่งให้ 3-4 ครั้ง/วัน', en:'divided 3-4 doses/day'} },
+      { label:{th:'อายุ 2-5 ปี', en:'Age 2-5 years'}, fixedDoseRangeMg:[50,100], freq:4, notes:{th:'(2.5-5 มล.) วันละ 3-4 ครั้ง', en:'(2.5-5 mL) 3-4 times daily'} },
+      { label:{th:'อายุ 6-11 ปี', en:'Age 6-11 years'}, fixedDoseRangeMg:[100,200], freq:4, notes:{th:'(5-10 มล.) วันละ 3-4 ครั้ง', en:'(5-10 mL) 3-4 times daily'} }
+    ]
+  },
+  {
+    id: 'pseudoephedrine',
+    name: {th:'Pseudoephedrine HCl', en:'Pseudoephedrine HCl'},
+    aliases: [],
+    category: 'respiratory',
+    route: 'PO',
+    warnings: [{th:'ไม่ควรใช้ในเด็กอายุน้อยกว่า 2 ปี', en:'Not recommended for children younger than 2 years'}],
+    regimens: [
+      { label:{th:'ขนาดทั่วไป (อายุ ≥2 ปี)', en:'General dose (age ≥2 years)'}, mgPerKgPerDay:[4,4], freq:4, maxDailyMg:null, notes:{th:'แบ่งให้วันละ 3-4 ครั้ง', en:'divided 3-4 doses/day'} }
+    ]
+  },
+  {
+    id: 'actifed',
+    name: {th:'Actifed syrup', en:'Actifed syrup'},
+    aliases: [],
+    category: 'respiratory',
+    route: 'PO',
+    notes: [{th:'ยาน้ำเชื่อม Pseudoephedrine 30 มก. + Triprolidine 1.25 มก./5 มล. — ขนาดยาคำนวณจาก pseudoephedrine component', en:'Syrup Pseudoephedrine 30mg + Triprolidine 1.25mg/5mL — dose calculated from the pseudoephedrine component'}],
+    regimens: [
+      { label:{th:'อายุ 2-12 ปี', en:'Age 2-12 years'}, mgPerKgPerDay:[4,4], freq:4, maxDailyMg:null, notes:{th:'แบ่งให้ 3-4 ครั้ง/วัน (ตามขนาด pseudoephedrine)', en:'divided 3-4 doses/day (based on pseudoephedrine)'} }
+    ]
+  },
+  {
+    id: 'aluminium-hydroxide',
+    name: {th:'Aluminium hydroxide', en:'Aluminium hydroxide'},
+    aliases: [],
+    category: 'gi',
+    route: 'PO',
+    regimens: [
+      { label:{th:'Antacid', en:'Antacid'}, fixedDoseRangeMl:[5,15], freq:4, notes:{th:'วันละ 3-4 ครั้ง', en:'3-4 times daily'} }
+    ]
+  },
+  {
+    id: 'hyoscine-butylbromide',
+    name: {th:'Hyoscine-N-butylbromide', en:'Hyoscine-N-butylbromide'},
+    aliases: ['Buscopan'],
+    category: 'gi',
+    route: 'PO',
+    regimens: [
+      { label:{th:'อายุ 1-3 ปี', en:'Age 1-3 years'}, fixedDoseMg:5, freq:3, notes:{th:'(5 มล.) วันละ 3 ครั้ง', en:'(5 mL) 3 times daily'} },
+      { label:{th:'อายุ 4-6 ปี', en:'Age 4-6 years'}, fixedDoseRangeMg:[5,10], freq:4, notes:{th:'(5-10 มล.) วันละ 3-4 ครั้ง', en:'(5-10 mL) 3-4 times daily'} },
+      { label:{th:'อายุ >6 ปี', en:'Age >6 years'}, fixedDoseRangeMg:[10,20], freq:3, notes:{th:'(10-20 มล.) วันละ 3 ครั้ง', en:'(10-20 mL) 3 times daily'} }
+    ]
+  },
+  {
+    id: 'racecadotril',
+    name: {th:'Racecadotril', en:'Racecadotril'},
+    aliases: [],
+    category: 'gi',
+    route: 'PO',
+    warnings: [{th:'ใช้ในเด็กอายุ >3 เดือน', en:'For use in children >3 months of age'}],
+    regimens: [
+      { label:{th:'ถ่ายเป็นน้ำ (Watery diarrhea)', en:'Watery diarrhea'}, mgPerKgPerDay:null, mgPerKgPerDose:[1.5,1.5], freq:3, notes:{th:'วันละ 3 ครั้ง นาน 3-5 วัน', en:'3 times daily for 3-5 days'} }
+    ]
+  },
+  {
+    id: 'diosmectite',
+    name: {th:'Diosmectite', en:'Diosmectite'},
+    aliases: [],
+    category: 'gi',
+    route: 'PO',
+    warnings: [{th:'ใช้ในเด็กอายุ >2 ปี — ให้ห่างจากยาอื่น ≥60-90 นาที', en:'For use in children >2 years — separate from other medications by ≥60-90 minutes'}],
+    regimens: [
+      { label:{th:'ขนาดทั่วไป', en:'General dose'}, mgPerKgPerDay:null, fixedDailyRangeMg:[6000,9000], freq:3, notes:{th:'แบ่งให้ 2-3 ครั้ง/วัน นาน 3-5 วัน', en:'divided 2-3 doses/day for 3-5 days'} }
+    ]
+  },
+  {
+    id: 'milk-of-magnesia',
+    name: {th:'Milk of Magnesia (MOM)', en:'Milk of Magnesia (MOM)'},
+    aliases: ['MOM'],
+    category: 'gi',
+    route: 'PO',
+    regimens: [
+      { label:{th:'Laxative — อายุ <2 ปี', en:'Laxative — age <2 years'}, mgPerKgPerDay:null, mgPerKgPerDose:[40,40], freq:1, notes:{th:'(0.5 มล./กก./ครั้ง)', en:'(0.5 mL/kg/dose)'} },
+      { label:{th:'Laxative — อายุ 2-5 ปี', en:'Laxative — age 2-5 years'}, fixedDailyRangeMg:[400,1200], freq:1, notes:{th:'(5-15 มล./วัน) อาจแบ่งให้เป็นมื้อ', en:'(5-15 mL/day) may be divided into doses'} },
+      { label:{th:'Laxative — อายุ 6-12 ปี', en:'Laxative — age 6-12 years'}, fixedDailyRangeMg:[1200,2400], freq:1, notes:{th:'(15-30 มล./วัน) อาจแบ่งให้เป็นมื้อ', en:'(15-30 mL/day) may be divided into doses'} },
+      { label:{th:'Laxative — อายุ ≥12 ปี', en:'Laxative — age ≥12 years'}, fixedDailyRangeMg:[2400,4800], freq:1, notes:{th:'(30-60 มล./วัน) อาจแบ่งให้เป็นมื้อ', en:'(30-60 mL/day) may be divided into doses'} },
+      { label:{th:'Antacid', en:'Antacid'}, fixedDoseRangeMg:[200,400], freq:4, notes:{th:'(2.5-5 มล./ครั้ง) ตามต้องการ สูงสุด 4 ครั้ง/วัน', en:'(2.5-5 mL/dose) as needed, up to 4 times/day'} }
+    ]
+  },
+  {
+    id: 'simethicone',
+    name: {th:'Simethicone', en:'Simethicone'},
+    aliases: [],
+    category: 'gi',
+    route: 'PO',
+    regimens: [
+      { label:{th:'อายุ <2 ปี', en:'Age <2 years'}, fixedDoseMg:20, freq:4, notes:{th:'(0.3 มล.) วันละ 3-4 ครั้ง', en:'(0.3 mL) 3-4 times daily'} },
+      { label:{th:'อายุ 2-12 ปี', en:'Age 2-12 years'}, fixedDoseMg:40, freq:4, notes:{th:'(0.6 มล.) วันละ 3-4 ครั้ง', en:'(0.6 mL) 3-4 times daily'} }
+    ]
+  },
+  {
+    id: 'ferrous-fumarate',
+    name: {th:'Ferrous fumarate', en:'Ferrous fumarate'},
+    aliases: [],
+    category: 'nutritional',
+    route: 'PO',
+    notes: [{th:'ขนาดยาคำนวณจากธาตุเหล็ก (elemental Fe)', en:'Dose calculated as elemental iron (Fe)'}],
+    regimens: [
+      { label:{th:'Prophylaxis', en:'Prophylaxis'}, mgPerKgPerDay:[1,2], freq:1, maxDailyMg:null, notes:{th:'ของธาตุเหล็ก มก./กก./วัน', en:'mg elemental Fe/kg/day'} },
+      { label:{th:'Iron deficiency anemia (treatment)', en:'Iron deficiency anemia (treatment)'}, mgPerKgPerDay:[4,6], freq:3, maxDailyMg:null, notes:{th:'ของธาตุเหล็ก มก./กก./วัน แบ่งให้ 2-3 ครั้ง', en:'mg elemental Fe/kg/day, divided 2-3 doses'} }
     ]
   },
   {
@@ -16244,10 +16432,10 @@ const DRUG_DB = [
     aliases: ['LPV/r', 'Kaletra'],
     category: 'antiretroviral',
     route: 'PO',
-    warnings: [{th:'ขนาดยาคำนวณตาม BSA (พื้นที่ผิวกาย) ไม่ใช่น้ำหนักตัวอย่างเดียว — เครื่องคำนวณนี้ไม่รองรับ BSA ต้องคำนวณแยกโดยใช้ส่วนสูง+น้ำหนัก ตัวเลขด้านล่างเป็นข้อมูลอ้างอิงเท่านั้น', en:'Dosing is BSA-based, not weight-only — this calculator does not compute BSA; calculate separately using height+weight. Figures below are reference only'}],
-    notes: [{th:'2สัปดาห์–1ปี: LPV/RTV 300/75 มก./ตร.ม. q12h · 1–18ปี: 230/57.5 มก./ตร.ม. q12h (สูงสุด 400/100 มก. q12h) · เก็บยาน้ำในตู้เย็น หรือที่อุณหภูมิห้อง≤25°C ได้นาน 2 เดือน กินพร้อมอาหาร', en:'2wks–1yr: LPV/RTV 300/75 mg/m² q12h · 1–18yrs: 230/57.5 mg/m² q12h (max 400/100mg q12h) · refrigerate solution, or stable 2 months at room temp ≤25°C, take with food'}],
+    notes: [{th:'เก็บยาน้ำในตู้เย็น หรือที่อุณหภูมิห้อง≤25°C ได้นาน 2 เดือน กินพร้อมอาหาร', en:'Refrigerate solution, or stable 2 months at room temp ≤25°C, take with food'}],
     regimens: [
-      { label:{th:'ขนาดสูงสุด (อ้างอิง — ผู้ที่น้ำหนัก/BSA มาก)', en:'Maximum dose (reference — larger weight/BSA)'}, fixedDoseMg:400, freq:2, notes:{th:'LPV 400มก. + RTV 100มก. q12h', en:'LPV 400mg + RTV 100mg q12h'} }
+      { label:{th:'อายุ 2 สัปดาห์–1 ปี', en:'Age 2 weeks–1 year'}, bsaMgPerM2PerDose:[300,300], freq:2, maxDoseMg:null, notes:{th:'LPV component (RTV ร่วมด้วย 75มก./ตร.ม.) q12h', en:'LPV component (with RTV 75mg/m²) q12h'} },
+      { label:{th:'อายุ 1–18 ปี', en:'Age 1–18 years'}, bsaMgPerM2PerDose:[230,230], freq:2, maxDoseMg:400, notes:{th:'LPV component (RTV ร่วมด้วย 57.5มก./ตร.ม.) q12h — สูงสุด LPV 400มก./RTV 100มก. ต่อครั้ง', en:'LPV component (with RTV 57.5mg/m²) q12h — max LPV 400mg/RTV 100mg per dose'} }
     ]
   },
   {
@@ -16258,12 +16446,14 @@ const DRUG_DB = [
     route: 'PO',
     warnings: [{th:'ห้ามใช้ dispersible กับ film-coated แทนกันแบบ มก. ต่อ มก. — bioavailability ต่างกัน', en:'Do not substitute dispersible vs film-coated tablets on a mg-to-mg basis — different bioavailability'}],
     regimens: [
-      { label:{th:'Dispersible — น้ำหนัก 3–<6 กก. (อายุ≥4สัปดาห์)', en:'Dispersible — weight 3–<6 kg (age≥4wks)'}, fixedDoseMg:5, freq:1 },
-      { label:{th:'Dispersible — น้ำหนัก 6–<10 กก.', en:'Dispersible — weight 6–<10 kg'}, fixedDoseMg:15, freq:1 },
-      { label:{th:'Dispersible — น้ำหนัก 10–<14 กก.', en:'Dispersible — weight 10–<14 kg'}, fixedDoseMg:20, freq:1 },
-      { label:{th:'Dispersible — น้ำหนัก 14–<20 กก.', en:'Dispersible — weight 14–<20 kg'}, fixedDoseMg:25, freq:1 },
-      { label:{th:'Dispersible — น้ำหนัก ≥20 กก.', en:'Dispersible — weight ≥20 kg'}, fixedDoseMg:30, freq:1 },
-      { label:{th:'Film-coated — น้ำหนัก ≥20 กก. (อายุ≥6ปี)', en:'Film-coated — weight ≥20 kg (age≥6y)'}, fixedDoseMg:50, freq:1 }
+      { label:{th:'Dispersible — น้ำหนัก 3–<6 กก. (อายุ≥4สัปดาห์)', en:'Dispersible — weight 3–<6 kg (age≥4wks)'}, formTag:'dispersible', fixedDoseMg:5, freq:1 },
+      { label:{th:'Dispersible — น้ำหนัก 6–<10 กก.', en:'Dispersible — weight 6–<10 kg'}, formTag:'dispersible', fixedDoseMg:15, freq:1 },
+      { label:{th:'Dispersible — น้ำหนัก 10–<14 กก.', en:'Dispersible — weight 10–<14 kg'}, formTag:'dispersible', fixedDoseMg:20, freq:1 },
+      { label:{th:'Dispersible — น้ำหนัก 14–<20 กก.', en:'Dispersible — weight 14–<20 kg'}, formTag:'dispersible', fixedDoseMg:25, freq:1 },
+      { label:{th:'Dispersible — น้ำหนัก ≥20 กก.', en:'Dispersible — weight ≥20 kg'}, formTag:'dispersible', fixedDoseMg:30, freq:1 },
+      { label:{th:'Film-coated — น้ำหนัก 10–<14 กก.', en:'Film-coated — weight 10–<14 kg'}, formTag:'film-coated', fixedDoseMg:20, freq:1 },
+      { label:{th:'Film-coated — น้ำหนัก 14–<20 กก.', en:'Film-coated — weight 14–<20 kg'}, formTag:'film-coated', fixedDoseMg:25, freq:1 },
+      { label:{th:'Film-coated — น้ำหนัก ≥20 กก. (อายุ≥6ปี)', en:'Film-coated — weight ≥20 kg (age≥6y)'}, formTag:'film-coated', fixedDoseMg:50, freq:1 }
     ]
   },
 
@@ -17044,6 +17234,66 @@ const DRUG_FORMULATIONS = {
   ],
   'furosemide': [
     { form:{th:'ยาน้ำ 10 มก./มล.', en:'Solution 10 mg/mL'}, concMgPerMl: 10 }
+  ],
+  'dicloxacillin': [
+    { form:{th:'ยาน้ำแขวนตะกอน 62.5 มก./5 มล.', en:'Suspension 62.5 mg/5 mL'}, concMgPerMl: 12.5 }
+  ],
+  'chlorpheniramine': [
+    { form:{th:'ยาน้ำเชื่อม 2 มก./5 มล.', en:'Syrup 2 mg/5 mL'}, concMgPerMl: 0.4 }
+  ],
+  'salbutamol': [
+    { form:{th:'ยาน้ำเชื่อม 2 มก./5 มล.', en:'Syrup 2 mg/5 mL'}, concMgPerMl: 0.4 }
+  ],
+  'hydroxyzine': [
+    { form:{th:'ยาน้ำเชื่อม 10 มก./5 มล.', en:'Syrup 10 mg/5 mL'}, concMgPerMl: 2 }
+  ],
+  'bromhexine': [
+    { form:{th:'ยาน้ำเชื่อม 4 มก./5 มล.', en:'Syrup 4 mg/5 mL'}, concMgPerMl: 0.8 }
+  ],
+  'glyceryl-guaiacolate': [
+    { form:{th:'ยาน้ำเชื่อม 100 มก./5 มล.', en:'Syrup 100 mg/5 mL'}, concMgPerMl: 20 }
+  ],
+  'pseudoephedrine': [
+    { form:{th:'ยาน้ำเชื่อม 30 มก./5 มล.', en:'Syrup 30 mg/5 mL'}, concMgPerMl: 6 }
+  ],
+  'actifed': [
+    { form:{th:'ยาน้ำเชื่อม (Pseudoephedrine 30มก./5มล.)', en:'Syrup (Pseudoephedrine 30mg/5mL)'}, concMgPerMl: 6 }
+  ],
+  'hyoscine-butylbromide': [
+    { form:{th:'ยาน้ำเชื่อม 5 มก./5 มล.', en:'Syrup 5 mg/5 mL'}, concMgPerMl: 1 }
+  ],
+  'milk-of-magnesia': [
+    { form:{th:'ยาน้ำแขวนตะกอน 400 มก./5 มล.', en:'Suspension 400 mg/5 mL'}, concMgPerMl: 80 }
+  ],
+  'simethicone': [
+    { form:{th:'ยาหยอด (drop) 40 มก./0.6 มล.', en:'Drops 40 mg/0.6 mL'}, concMgPerMl: 66.67 }
+  ],
+  'ferrous-fumarate': [
+    { form:{th:'ยาน้ำแขวนตะกอน 15 มก.ธาตุเหล็ก/0.6 มล.', en:'Suspension 15 mg elemental Fe/0.6 mL'}, concMgPerMl: 25 }
+  ],
+  'procaterol': [
+    { form:{th:'ยาน้ำ 5 ไมโครกรัม/มล.', en:'Solution 5 mcg/mL'}, concMgPerMl: 5 }
+  ],
+  'abacavir': [
+    { form:{th:'ยาน้ำ 20 มก./มล.', en:'Solution 20 mg/mL'}, concMgPerMl: 20 }
+  ],
+  'zidovudine': [
+    { form:{th:'ยาน้ำ 10 มก./มล.', en:'Solution 10 mg/mL'}, concMgPerMl: 10 }
+  ],
+  'lamivudine': [
+    { form:{th:'ยาน้ำ 10 มก./มล.', en:'Solution 10 mg/mL'}, concMgPerMl: 10 }
+  ],
+  'lopinavir-ritonavir': [
+    { form:{th:'ยาน้ำ (LPV 80มก.+RTV 20มก.)/มล.', en:'Solution (LPV 80mg+RTV 20mg)/mL'}, concMgPerMl: 80 }
+  ],
+  'cetirizine': [
+    { form:{th:'ยาน้ำเชื่อม 5 มก./5 มล.', en:'Syrup 5 mg/5 mL'}, concMgPerMl: 1 }
+  ],
+  'loratadine': [
+    { form:{th:'ยาน้ำเชื่อม 5 มก./5 มล.', en:'Syrup 5 mg/5 mL'}, concMgPerMl: 1 }
+  ],
+  'desloratadine': [
+    { form:{th:'ยาน้ำเชื่อม 2.5 มก./5 มล.', en:'Syrup 2.5 mg/5 mL'}, concMgPerMl: 0.5 }
   ]
 };
 
@@ -17084,7 +17334,21 @@ const DRUG_TABLETS = {
   'sertraline': [ { form:{th:'เม็ด 50 มก.', en:'Tablet 50 mg'}, mgPerTab:50 } ],
   'fluoxetine': [ { form:{th:'แคปซูล 20 มก.', en:'Capsule 20 mg'}, mgPerTab:20 } ],
   'methimazole': [ { form:{th:'เม็ด 5 มก.', en:'Tablet 5 mg'}, mgPerTab:5 } ],
-  'propylthiouracil': [ { form:{th:'เม็ด 50 มก.', en:'Tablet 50 mg'}, mgPerTab:50 } ]
+  'propylthiouracil': [ { form:{th:'เม็ด 50 มก.', en:'Tablet 50 mg'}, mgPerTab:50 } ],
+  'dicloxacillin': [ { form:{th:'แคปซูล 250 มก.', en:'Capsule 250 mg'}, mgPerTab:250 } ],
+  'chlorpheniramine': [ { form:{th:'เม็ด 4 มก.', en:'Tablet 4 mg'}, mgPerTab:4 } ],
+  'bromhexine': [ { form:{th:'เม็ด 8 มก.', en:'Tablet 8 mg'}, mgPerTab:8 } ],
+  'racecadotril': [ { form:{th:'ซอง 10 มก.', en:'Sachet 10 mg'}, mgPerTab:10 }, { form:{th:'ซอง 30 มก.', en:'Sachet 30 mg'}, mgPerTab:30 } ],
+  'diosmectite': [ { form:{th:'ซอง 3 กรัม', en:'Sachet 3 g'}, mgPerTab:3000 } ],
+  'abacavir': [ { form:{th:'เม็ด 300 มก.', en:'Tablet 300 mg'}, mgPerTab:300 } ],
+  'zidovudine': [ { form:{th:'แคปซูล 100 มก.', en:'Capsule 100 mg'}, mgPerTab:100 } ],
+  'lamivudine': [ { form:{th:'เม็ด 150 มก.', en:'Tablet 150 mg'}, mgPerTab:150 }, { form:{th:'เม็ด 300 มก.', en:'Tablet 300 mg'}, mgPerTab:300 } ],
+  'tenofovir': [ { form:{th:'เม็ด 300 มก.', en:'Tablet 300 mg'}, mgPerTab:300 } ],
+  'lopinavir-ritonavir': [ { form:{th:'เม็ด (LPV 200มก.+RTV 50มก.)', en:'Tablet (LPV 200mg+RTV 50mg)'}, mgPerTab:200 } ],
+  'dolutegravir': [ { form:{th:'เม็ด dispersible 10 มก.', en:'Dispersible tablet 10 mg'}, mgPerTab:10, tag:'dispersible' }, { form:{th:'เม็ด film-coated 50 มก.', en:'Film-coated tablet 50 mg'}, mgPerTab:50, tag:'film-coated' } ],
+  'cetirizine': [ { form:{th:'เม็ด 10 มก.', en:'Tablet 10 mg'}, mgPerTab:10 } ],
+  'loratadine': [ { form:{th:'เม็ด 10 มก.', en:'Tablet 10 mg'}, mgPerTab:10 } ],
+  'desloratadine': [ { form:{th:'เม็ด 5 มก.', en:'Tablet 5 mg'}, mgPerTab:5 } ]
 };
 
 /* ---------- Extend calcRegimenDose result with mL, given a chosen formulation ---------- */
@@ -17134,6 +17398,20 @@ function attachTabsToResult(result, tablet){
    Field naming convention: <unit>Per<basis>  where basis = KgPerDay / KgPerDose / KgPerMin / KgPerHr
    Fixed (non-weight-based) fields are prefixed "fixed". */
 
+/* ---------- BSA (Body Surface Area) helper + dose calculator — Mosteller formula ---------- */
+function calcBSA(weightKg, heightCm){
+  return Math.sqrt((heightCm * weightKg) / 3600);
+}
+
+function calcBsaDose(reg, weightKg, heightCm){
+  const bsa = calcBSA(weightKg, heightCm);
+  const [lo, hi] = reg.bsaMgPerM2PerDose;
+  const freq = reg.freq || 1;
+  let doseLo = lo * bsa, doseHi = hi * bsa;
+  if (reg.maxDoseMg != null) { doseLo = Math.min(doseLo, reg.maxDoseMg); doseHi = Math.min(doseHi, reg.maxDoseMg); }
+  return { kind: 'dose', unit: 'mg', freq, doseLo, doseHi, dailyLo: doseLo * freq, dailyHi: doseHi * freq, bsa };
+}
+
 function calcRegimenDose(reg, weightKg) {
   const out = { kind: null, unit: null };
 
@@ -17152,6 +17430,9 @@ function calcRegimenDose(reg, weightKg) {
   }
   if (reg.fixedDoseRangeUnits) {
     return { kind: 'fixed-range', unit: 'units', lo: reg.fixedDoseRangeUnits[0], hi: reg.fixedDoseRangeUnits[1] };
+  }
+  if (reg.fixedDoseRangeMl) {
+    return { kind: 'fixed-range', unit: 'mL', lo: reg.fixedDoseRangeMl[0], hi: reg.fixedDoseRangeMl[1] };
   }
   // Fixed DAILY total (not weight-based, but still needs dividing by freq to get per-dose) — e.g. flat g/day bands
   if (reg.fixedDailyRangeMg) {
@@ -17273,6 +17554,9 @@ const DD = {
   indicationLabel: {th:'ข้อบ่งใช้ที่เลือก', en:'Selected indication'},
   weightLabel: {th:'น้ำหนักตัว (กก.)', en:'Weight (kg)'},
   weightPlaceholder: {th:'เช่น 12.5', en:'e.g. 12.5'},
+  heightLabel: {th:'ส่วนสูง (ซม.)', en:'Height (cm)'},
+  heightPlaceholder: {th:'เช่น 90', en:'e.g. 90'},
+  enterWeightHeight: {th:'กรอกน้ำหนักและส่วนสูงเพื่อคำนวณ BSA และขนาดยา', en:'Enter weight and height to calculate BSA and dose'},
   resultHeading: {th:'ผลการคำนวณ', en:'Calculated dose'},
   perKgLabel: {th:'ขนาดยาที่ใช้คำนวณ', en:'Dose used for calculation'},
   doseReference: {th:'ขนาดยาอ้างอิง', en:'Dosing reference'},
@@ -17329,6 +17613,7 @@ const DD_CATEGORY_LABELS = {
   hematology:    {th:'ยาโลหิตวิทยา', en:'Hematology'},
   nutritional:   {th:'วิตามิน/โภชนาการ', en:'Nutritional'},
   gi:            {th:'ระบบทางเดินอาหาร', en:'Gastrointestinal'},
+  respiratory:   {th:'ยาระบบทางเดินหายใจ', en:'Respiratory'},
   misc:          {th:'อื่นๆ', en:'Miscellaneous'}
 };
 
@@ -17350,7 +17635,7 @@ const DD_CATEGORY_KEYWORDS = {
   nutritional: 'vitamin'
 };
 
-let ddState = { screen:'home', searchQuery:'', activeCategory:null, drugId:null, regimenIdx:0, weight:null, formChoiceIdx:0, neoGroupIdx:0, neoGA:'', neoPNA:'', neoBW:'' };
+let ddState = { screen:'home', searchQuery:'', activeCategory:null, drugId:null, regimenIdx:0, weight:null, height:null, formChoiceIdx:0, neoGroupIdx:0, neoGA:'', neoPNA:'', neoBW:'' };
 
 function ddGoTo(screen, patch){
   ddState = Object.assign({}, ddState, {screen}, patch||{});
@@ -17679,7 +17964,7 @@ function ddIsFixedRegimen(reg){
   function regIsFixed(r){
     return r.fixedDoseMg !== undefined || r.fixedDoseRangeMg !== undefined ||
            r.fixedDoseUnits !== undefined || r.fixedDoseRangeUnits !== undefined ||
-           r.fixedDailyRangeMg !== undefined;
+           r.fixedDailyRangeMg !== undefined || r.fixedDoseRangeMl !== undefined;
   }
   if (reg.multiPhase && reg.phases) return reg.phases.every(regIsFixed);
   return regIsFixed(reg);
@@ -17692,12 +17977,16 @@ function ddCalcView(app){
   const effectiveRoute = reg.route || drug.route;
   const isOralRegimen = /\bPO\b/.test(effectiveRoute);
   const isFixed = ddIsFixedRegimen(reg);
+  const isBsa = !!reg.bsaMgPerM2PerDose;
 
-  // Combine liquid + tablet formulations into ONE list, oral regimens only
+  // Combine liquid + tablet formulations into ONE list, oral regimens only.
+  // If the regimen specifies a formTag (e.g. Dolutegravir's dispersible vs film-coated —
+  // distinct, non-interchangeable products), only offer forms matching that tag.
   const combinedForms = [];
   if (isOralRegimen){
-    (DRUG_FORMULATIONS[drug.id] || []).forEach(f => combinedForms.push({ type:'liquid', data:f }));
-    (DRUG_TABLETS[drug.id] || []).forEach(tb => combinedForms.push({ type:'tablet', data:tb }));
+    const tagFilter = f => !reg.formTag || f.tag === reg.formTag;
+    (DRUG_FORMULATIONS[drug.id] || []).filter(tagFilter).forEach(f => combinedForms.push({ type:'liquid', data:f }));
+    (DRUG_TABLETS[drug.id] || []).filter(tagFilter).forEach(tb => combinedForms.push({ type:'tablet', data:tb }));
   }
 
   ddHeader(app, drug.vialConc ? `${t(drug.name)} (${drug.vialConc})` : t(drug.name));
@@ -17721,15 +18010,19 @@ function ddCalcView(app){
   }
   app.appendChild(specCard);
 
-  // Weight input — skipped entirely for fixed-dose (weight-independent) regimens
+  // Weight (+ height, for BSA-based regimens) input — skipped entirely for fixed-dose regimens
   if (!isFixed){
     const inputWrap = document.createElement('div');
     inputWrap.className = 'q-card';
     inputWrap.innerHTML = `
       <div class="q-text">${t(DD.weightLabel)}</div>
       <input type="number" id="ddWeightInput" inputmode="decimal" placeholder="${t(DD.weightPlaceholder)}"
-             style="width:100%; padding:10px; font-size:16px; border-radius:8px; border:1px solid var(--pink-200); margin-top:8px;"
+             style="width:100%; padding:10px; font-size:16px; border-radius:8px; border:1px solid var(--pink-200); margin-top:8px; margin-bottom:${isBsa?'12px':'0'};"
              value="${ddState.weight || ''}">
+      ${isBsa ? `<div class="q-text">${t(DD.heightLabel)}</div>
+      <input type="number" id="ddHeightInput" inputmode="decimal" placeholder="${t(DD.heightPlaceholder)}"
+             style="width:100%; padding:10px; font-size:16px; border-radius:8px; border:1px solid var(--pink-200); margin-top:8px;"
+             value="${ddState.height || ''}">` : ''}
     `;
     app.appendChild(inputWrap);
   }
@@ -17768,20 +18061,26 @@ function ddCalcView(app){
 
   function renderResult(){
     resultArea.innerHTML = '';
-    let w = 0;
+    let w = 0, h = 0;
     if (!isFixed){
       w = parseFloat(document.getElementById('ddWeightInput').value);
-      if (!w || w <= 0){
+      if (isBsa) h = parseFloat(document.getElementById('ddHeightInput').value);
+      const missing = !w || w <= 0 || (isBsa && (!h || h <= 0));
+      if (missing){
         const hint = document.createElement('div');
         hint.className = 'q-hint';
         hint.style.padding = '16px 0';
-        hint.textContent = t(DD.enterWeight);
+        hint.textContent = t(isBsa ? DD.enterWeightHeight : DD.enterWeight);
         resultArea.appendChild(hint);
         return;
       }
     }
     let html;
-    if (reg.multiPhase && reg.phases){
+    if (isBsa){
+      const result = applyFormsAndTabs(calcBsaDose(reg, w, h));
+      const bsaLine = `<div style="font-size:12px; color:var(--pink-600); font-weight:700; margin-bottom:6px;">BSA (Mosteller) = ${ddNum(result.bsa)} m²</div>`;
+      html = bsaLine + ddFormatResult(result, reg, effectiveRoute);
+    } else if (reg.multiPhase && reg.phases){
       html = reg.phases.map(function(phase){
         const phaseResult = applyFormsAndTabs(calcRegimenDose(phase, w));
         return `<div style="margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid var(--pink-100);">
@@ -17808,6 +18107,12 @@ function ddCalcView(app){
       ddState.weight = this.value;
       renderResult();
     };
+    if (isBsa){
+      document.getElementById('ddHeightInput').oninput = function(){
+        ddState.height = this.value;
+        renderResult();
+      };
+    }
   }
   if (formSelect){
     formSelect.onchange = function(){ ddState.formChoiceIdx = this.value; renderResult(); };
@@ -17874,6 +18179,12 @@ function ddSpecText(reg, route){
     lines.push(`${ddNum(reg.fixedDoseRangeMg[0])}\u2013${ddNum(reg.fixedDoseRangeMg[1])} mg${reg.freq ? ` \u00d7 ${ddFreqText(reg.freq, route)}` : ''}`);
   } else if (reg.fixedDailyRangeMg){
     lines.push(`${ddNum(reg.fixedDailyRangeMg[0])}\u2013${ddNum(reg.fixedDailyRangeMg[1])} mg${t(DD.perDay)}${reg.freq ? ` (${ddFreqText(reg.freq, route)})` : ''}`);
+  } else if (reg.fixedDoseRangeMl){
+    lines.push(`${ddNum(reg.fixedDoseRangeMl[0])}\u2013${ddNum(reg.fixedDoseRangeMl[1])} mL${reg.freq ? ` \u00d7 ${ddFreqText(reg.freq, route)}` : ''}`);
+  } else if (reg.bsaMgPerM2PerDose){
+    const [lo, hi] = reg.bsaMgPerM2PerDose;
+    const bsaTxt = lo === hi ? `${ddNum(lo)} mg/m\u00b2` : `${ddNum(lo)}\u2013${ddNum(hi)} mg/m\u00b2`;
+    lines.push(`${bsaTxt} (BSA)${reg.freq ? ` \u00d7 ${ddFreqText(reg.freq, route)}` : ''}`);
   } else {
     const perKg = ddPerKgLine(reg);
     if (perKg) lines.push(perKg.replace(/<\/?p[^>]*>/g, ''));
@@ -17947,7 +18258,7 @@ const DD_META = {
 
 function ddOpen(){
   topState = { screen:'drugdosage' };
-  ddState = { screen:'home', searchQuery:'', activeCategory:null, drugId:null, regimenIdx:0, weight:null, formChoiceIdx:0, neoGroupIdx:0, neoGA:'', neoPNA:'', neoBW:'' };
+  ddState = { screen:'home', searchQuery:'', activeCategory:null, drugId:null, regimenIdx:0, weight:null, height:null, formChoiceIdx:0, neoGroupIdx:0, neoGA:'', neoPNA:'', neoBW:'' };
   logModuleView('drugdosage');
   scrollToTop();
   render();
