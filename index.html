@@ -16515,16 +16515,40 @@ const DRUG_DB = [
     aliases: [],
     category: 'antibiotic',
     route: 'IV/IM',
-    notes: [{th:'เด็กอ้วนให้คิดน้ำหนักแบบ adjusted body weight = ideal body weight + 0.4 x (total body weight - ideal body weight) · ที่มาขนาดยาทารกแรกเกิด: Micromedex NeoFax Neonatal Drug Monograph', en:'For obese children, use adjusted body weight = ideal body weight + 0.4 x (total body weight - ideal body weight) · Neonatal dosing source: Micromedex NeoFax Neonatal Drug Monograph'}],
+    notes: [{th:'เด็กอ้วนให้คิดน้ำหนักแบบ adjusted body weight = ideal body weight + 0.4 x (total body weight - ideal body weight) · ที่มาขนาดยาทารกแรกเกิด (ขนาดทั่วไป): Micromedex NeoFax Neonatal Drug Monograph · ขนาดยาทารกแรกเกิดสำหรับการติดเชื้อแบคทีเรียกรัมลบดื้อยา และการปรับขนาดยาไตบกพร่อง อ้างอิง CPG การให้ยาปฏิชีวนะรักษาการติดเชื้อแบคทีเรียกรัมลบดื้อยาในเด็ก', en:'For obese children, use adjusted body weight = ideal body weight + 0.4 x (total body weight - ideal body weight) · Neonatal dosing (usual) source: Micromedex NeoFax Neonatal Drug Monograph · Neonatal dosing for MDR gram-negative infection and renal-impairment adjustment sourced from the Thai pediatric CPG on antibiotic therapy for drug-resistant Gram-negative infections'}],
     neonatalGroups: [
-      { label:null, brackets: [
+      { label:{th:'ขนาดทั่วไป (NeoFax)', en:'Usual dose (NeoFax)'}, brackets: [
         { gaLabel:{th:'PMA ≤29 สัปดาห์', en:'PMA ≤29 weeks'}, pnaLabel:{th:'0-7 วัน', en:'0-7 days'}, gaMin:null, gaMax:29, pnaMin:0, pnaMax:7, regimenIdx:0 },
         { gaLabel:{th:'PMA ≤29 สัปดาห์', en:'PMA ≤29 weeks'}, pnaLabel:{th:'8-28 วัน', en:'8-28 days'}, gaMin:null, gaMax:29, pnaMin:8, pnaMax:28, regimenIdx:1 },
         { gaLabel:{th:'PMA ≤29 สัปดาห์', en:'PMA ≤29 weeks'}, pnaLabel:{th:'≥29 วัน', en:'≥29 days'}, gaMin:null, gaMax:29, pnaMin:29, pnaMax:null, regimenIdx:2 },
         { gaLabel:{th:'PMA 30-34 สัปดาห์', en:'PMA 30-34 weeks'}, pnaLabel:{th:'0-7 วัน', en:'0-7 days'}, gaMin:30, gaMax:34, pnaMin:0, pnaMax:7, regimenIdx:3 },
         { gaLabel:{th:'PMA 30-34 สัปดาห์', en:'PMA 30-34 weeks'}, pnaLabel:{th:'≥8 วัน', en:'≥8 days'}, gaMin:30, gaMax:34, pnaMin:8, pnaMax:null, regimenIdx:4 },
         { gaLabel:{th:'PMA ≥35 สัปดาห์', en:'PMA ≥35 weeks'}, pnaLabel:{th:'ทุกช่วงอายุ', en:'All ages'}, gaMin:35, gaMax:null, pnaMin:null, pnaMax:null, regimenIdx:5 }
+      ]},
+      { label:{th:'การติดเชื้อแบคทีเรียกรัมลบดื้อยา (MDR)', en:'MDR gram-negative infection'}, brackets: [
+        { gaLabel:{th:'GA <30 สัปดาห์', en:'GA <30 weeks'}, pnaLabel:{th:'≤14 วัน', en:'≤14 days'}, gaMin:null, gaMax:29.99, pnaMin:0, pnaMax:14, regimenIdx:9 },
+        { gaLabel:{th:'GA <30 สัปดาห์', en:'GA <30 weeks'}, pnaLabel:{th:'>14 วัน', en:'>14 days'}, gaMin:null, gaMax:29.99, pnaMin:14.01, pnaMax:null, regimenIdx:10 },
+        { gaLabel:{th:'GA 30-34 สัปดาห์', en:'GA 30-34 weeks'}, pnaLabel:{th:'≤14 วัน', en:'≤14 days'}, gaMin:30, gaMax:34, pnaMin:0, pnaMax:14, regimenIdx:11 },
+        { gaLabel:{th:'GA 30-34 สัปดาห์', en:'GA 30-34 weeks'}, pnaLabel:{th:'>14 วัน', en:'>14 days'}, gaMin:30, gaMax:34, pnaMin:14.01, pnaMax:null, regimenIdx:12 },
+        { gaLabel:{th:'GA ≥35 สัปดาห์', en:'GA ≥35 weeks'}, pnaLabel:{th:'≤7 วัน', en:'≤7 days'}, gaMin:35, gaMax:null, pnaMin:0, pnaMax:7, regimenIdx:13 },
+        { gaLabel:{th:'GA ≥35 สัปดาห์', en:'GA ≥35 weeks'}, pnaLabel:{th:'>7 วัน', en:'>7 days'}, gaMin:35, gaMax:null, pnaMin:7.01, pnaMax:null, regimenIdx:14 }
       ]}
+    ],
+    renalGroups: [
+      { label:null,
+        crclBrackets: [
+          { label:{th:'CrCl >60 มล./นาที/1.73ตร.ม.', en:'CrCl >60 mL/min/1.73m²'}, min:60, max:null, regimenIdx:15 },
+          { label:{th:'CrCl 40-59 มล./นาที/1.73ตร.ม.', en:'CrCl 40-59 mL/min/1.73m²'}, min:40, max:60, maxExclusive:true, regimenIdx:16 },
+          { label:{th:'CrCl 20-39 มล./นาที/1.73ตร.ม.', en:'CrCl 20-39 mL/min/1.73m²'}, min:20, max:40, maxExclusive:true, regimenIdx:17 },
+          { label:{th:'CrCl <20 มล./นาที/1.73ตร.ม.', en:'CrCl <20 mL/min/1.73m²'}, min:null, max:20, maxExclusive:true, regimenIdx:18 }
+        ],
+        dialysisOptions: [
+          { label:{th:'Peritoneal dialysis (PD)', en:'Peritoneal dialysis (PD)'}, regimenIdx:19 },
+          { label:{th:'Intermittent hemodialysis (IHD)', en:'Intermittent hemodialysis (IHD)'}, regimenIdx:20 },
+          { label:{th:'CRRT', en:'CRRT'}, regimenIdx:21 },
+          { label:{th:'ECMO', en:'ECMO'}, regimenIdx:22 }
+        ]
+      }
     ],
     regimens: [
       { label:{th:'ทารกแรกเกิด PMA ≤29 สัปดาห์ — อายุหลังคลอด 0-7 วัน', en:'Neonate PMA ≤29 weeks — postnatal age 0-7 days'}, mgPerKgPerDay:null, mgPerKgPerDose:[14,14], freq:0.5, maxDailyMg:null, notes:{th:'q48h', en:'q48h'} },
@@ -16535,7 +16559,21 @@ const DRUG_DB = [
       { label:{th:'ทารกแรกเกิด PMA ≥35 สัปดาห์ — ทุกช่วงอายุ', en:'Neonate PMA ≥35 weeks — all ages'}, mgPerKgPerDay:null, mgPerKgPerDose:[12,12], freq:1, maxDailyMg:null, notes:{th:'q24h', en:'q24h'} },
       { label:{th:'Extended-interval dosing (เด็ก, แนะนำเป็นหลัก)', en:'Extended-interval dosing (children, typically preferred)'}, mgPerKgPerDay:null, mgPerKgPerDose:[15,30], freq:1, maxDoseMg:null, notes:{th:'IV/IM q24h — ขนาดสูงพิจารณาในผู้ป่วยวิกฤต/มะเร็ง/cystic fibrosis/แผลไฟไหม้ หรือเชื้อ MIC≥4mg/L', en:'IV/IM q24h — higher end for critical illness/malignancy/cystic fibrosis/burns or MIC≥4mg/L pathogens'} },
       { label:{th:'Conventional dosing (เด็ก)', en:'Conventional dosing (children)'}, mgPerKgPerDay:[15,22.5], freq:2, maxDailyMg:null, notes:{th:'IV/IM แบ่งให้ q8-12h', en:'IV/IM divided q8-12h'} },
-      { label:{th:'CNS infection / Meningitis (เด็ก)', en:'CNS infection / Meningitis (children)'}, mgPerKgPerDay:[20,30], freq:3, maxDailyMg:null, notes:{th:'IV แบ่งให้ q8h', en:'IV divided q8h'} }
+      { label:{th:'CNS infection / Meningitis (เด็ก)', en:'CNS infection / Meningitis (children)'}, mgPerKgPerDay:[20,30], freq:3, maxDailyMg:null, notes:{th:'IV แบ่งให้ q8h', en:'IV divided q8h'} },
+      { label:{th:'MDR — ทารกแรกเกิด GA <30 สัปดาห์ — อายุหลังคลอด ≤14 วัน', en:'MDR — Neonate GA <30 weeks — postnatal age ≤14 days'}, mgPerKgPerDay:null, mgPerKgPerDose:[15,15], freq:0.5, maxDoseMg:null, notes:{th:'IV q48h', en:'IV q48h'} },
+      { label:{th:'MDR — ทารกแรกเกิด GA <30 สัปดาห์ — อายุหลังคลอด >14 วัน', en:'MDR — Neonate GA <30 weeks — postnatal age >14 days'}, mgPerKgPerDay:null, mgPerKgPerDose:[15,15], freq:1, maxDoseMg:null, notes:{th:'IV q24h', en:'IV q24h'} },
+      { label:{th:'MDR — ทารกแรกเกิด GA 30-34 สัปดาห์ — อายุหลังคลอด ≤14 วัน', en:'MDR — Neonate GA 30-34 weeks — postnatal age ≤14 days'}, mgPerKgPerDay:null, mgPerKgPerDose:[15,15], freq:0.6667, maxDoseMg:null, notes:{th:'IV q36h', en:'IV q36h'} },
+      { label:{th:'MDR — ทารกแรกเกิด GA 30-34 สัปดาห์ — อายุหลังคลอด >14 วัน', en:'MDR — Neonate GA 30-34 weeks — postnatal age >14 days'}, mgPerKgPerDay:null, mgPerKgPerDose:[15,15], freq:1, maxDoseMg:null, notes:{th:'IV q24h', en:'IV q24h'} },
+      { label:{th:'MDR — ทารกแรกเกิด GA ≥35 สัปดาห์ — อายุหลังคลอด ≤7 วัน', en:'MDR — Neonate GA ≥35 weeks — postnatal age ≤7 days'}, mgPerKgPerDay:null, mgPerKgPerDose:[15,15], freq:1, maxDoseMg:null, notes:{th:'IV q24h', en:'IV q24h'} },
+      { label:{th:'MDR — ทารกแรกเกิด GA ≥35 สัปดาห์ — อายุหลังคลอด >7 วัน', en:'MDR — Neonate GA ≥35 weeks — postnatal age >7 days'}, mgPerKgPerDay:null, mgPerKgPerDose:[18,18], freq:1, maxDoseMg:null, notes:{th:'IV q24h', en:'IV q24h'} },
+      { label:{th:'CrCl >60 มล./นาที/1.73ตร.ม.', en:'CrCl >60 mL/min/1.73m²'}, mgPerKgPerDay:null, mgPerKgPerDose:[15,30], freq:1, maxDoseMg:null, notes:{th:'IV q24h', en:'IV q24h'} },
+      { label:{th:'CrCl 40-59 มล./นาที/1.73ตร.ม.', en:'CrCl 40-59 mL/min/1.73m²'}, mgPerKgPerDay:null, mgPerKgPerDose:[15,30], freq:0.6667, maxDoseMg:null, notes:{th:'q36h', en:'q36h'} },
+      { label:{th:'CrCl 20-39 มล./นาที/1.73ตร.ม.', en:'CrCl 20-39 mL/min/1.73m²'}, mgPerKgPerDay:null, mgPerKgPerDose:[15,30], freq:0.5, maxDoseMg:null, notes:{th:'q48h', en:'q48h'} },
+      { label:{th:'CrCl <20 มล./นาที/1.73ตร.ม.', en:'CrCl <20 mL/min/1.73m²'}, mgPerKgPerDay:null, mgPerKgPerDose:[5,7.5], freq:1, maxDoseMg:null, notes:{th:'ให้ครั้งเดียวก่อน แล้วติดตามระดับยา (drug level) เพื่อกำหนดโดสถัดไป', en:'Give once, then follow up drug levels to guide the next dose'} },
+      { label:{th:'Peritoneal dialysis (PD)', en:'Peritoneal dialysis (PD)'}, mgPerKgPerDay:null, mgPerKgPerDose:[5,7.5], freq:1, maxDoseMg:null, notes:{th:'ให้ครั้งเดียวก่อน แล้วติดตามระดับยา (drug level) เพื่อกำหนดโดสถัดไป', en:'Give once, then follow up drug levels to guide the next dose'} },
+      { label:{th:'Intermittent hemodialysis (IHD)', en:'Intermittent hemodialysis (IHD)'}, mgPerKgPerDay:null, mgPerKgPerDose:[5,5], freq:1, maxDoseMg:null, notes:{th:'ให้หลังล้างไต แล้วติดตามระดับยา (drug level) เพื่อกำหนดโดสถัดไป', en:'Give after dialysis, then follow up drug levels to guide the next dose'} },
+      { label:{th:'CRRT', en:'CRRT'}, mgPerKgPerDay:null, mgPerKgPerDose:[15,15], freq:1, maxDoseMg:null, notes:{th:'IV q24h หรือ 7.5 มก./กก./โดส q12h', en:'IV q24h, or 7.5 mg/kg/dose q12h'} },
+      { label:{th:'ECMO', en:'ECMO'}, mgPerKgPerDay:null, mgPerKgPerDose:[15,15], freq:1, maxDoseMg:null, notes:{th:'IV q24h', en:'IV q24h'} }
     ]
   },
   {
@@ -16663,11 +16701,39 @@ const DRUG_DB = [
     aliases: [],
     category: 'antibiotic',
     route: 'IV',
-    notes: [{th:'ของ piperacillin component ทั้งหมด — ค่าอ้างอิง Lexicomp Pediatric Dosing', en:'All values are for the piperacillin component — reference: Lexicomp Pediatric Dosing'}],
+    notes: [{th:'ของ piperacillin component ทั้งหมด — ค่าอ้างอิง Lexicomp Pediatric Dosing · ขนาดยาทารกแรกเกิดและการปรับขนาดยาไตบกพร่อง (สำหรับการติดเชื้อแบคทีเรียกรัมลบดื้อยา) อ้างอิง CPG การให้ยาปฏิชีวนะรักษาการติดเชื้อแบคทีเรียกรัมลบดื้อยาในเด็ก', en:'All values are for the piperacillin component — reference: Lexicomp Pediatric Dosing · Neonatal dosing and renal-impairment adjustment (for MDR gram-negative infection) sourced from the Thai pediatric CPG on antibiotic therapy for drug-resistant Gram-negative infections'}],
+    neonatalGroups: [
+      { label:null, brackets: [
+        { gaLabel:{th:'Postmenstrual age ≤30 สัปดาห์', en:'Postmenstrual age ≤30 weeks'}, pnaLabel:{th:'ทุกช่วงอายุ', en:'All ages'}, gaMin:null, gaMax:30, pnaMin:null, pnaMax:null, regimenIdx:3 },
+        { gaLabel:{th:'Postmenstrual age >30 สัปดาห์', en:'Postmenstrual age >30 weeks'}, pnaLabel:{th:'ทุกช่วงอายุ', en:'All ages'}, gaMin:30.01, gaMax:null, pnaMin:null, pnaMax:null, regimenIdx:4 }
+      ]}
+    ],
+    renalGroups: [
+      { label:null,
+        crclBrackets: [
+          { label:{th:'CrCl >40 มล./นาที/1.73ตร.ม.', en:'CrCl >40 mL/min/1.73m²'}, min:40, minExclusive:true, max:null, regimenIdx:5 },
+          { label:{th:'CrCl 20-40 มล./นาที/1.73ตร.ม.', en:'CrCl 20-40 mL/min/1.73m²'}, min:20, max:40, regimenIdx:6 },
+          { label:{th:'CrCl <20 มล./นาที/1.73ตร.ม.', en:'CrCl <20 mL/min/1.73m²'}, min:null, max:20, maxExclusive:true, regimenIdx:7 }
+        ],
+        dialysisOptions: [
+          { label:{th:'Peritoneal dialysis (PD)', en:'Peritoneal dialysis (PD)'}, regimenIdx:8 },
+          { label:{th:'Intermittent hemodialysis (IHD)', en:'Intermittent hemodialysis (IHD)'}, regimenIdx:9 },
+          { label:{th:'CRRT (eGFR >50 mL/min)', en:'CRRT (eGFR >50 mL/min)'}, regimenIdx:10 }
+        ]
+      }
+    ],
     regimens: [
       { label:{th:'ขนาดทั่วไป (Intermittent infusion, เช่น 30 นาที)', en:'General dosing (intermittent infusion, e.g. 30 min)'}, mgPerKgPerDay:[240,300], freq:4, maxDailyMg:16000, maxDoseMg:4000, notes:{th:'q6-8h (แบ่ง 3-4 ครั้ง/วัน)', en:'q6-8h (3-4 divided doses/day)'} },
       { label:{th:'ขนาดสูง — ปอดบวม/neutropenic fever/วิกฤต/สงสัย Pseudomonas', en:'Higher dose — pneumonia/neutropenic fever/critical illness/suspected Pseudomonas'}, mgPerKgPerDay:[300,400], freq:4, maxDailyMg:16000, maxDoseMg:4000, notes:{th:'q6-8h — พิจารณาในกรณีที่ MIC เชื้อสูง', en:'q6-8h — consider for pathogens with higher MICs'} },
-      { label:{th:'Extended infusion (เช่น infuse นาน 3-4 ชม.)', en:'Extended infusion (e.g. infused over 3-4h)'}, mgPerKgPerDay:null, mgPerKgPerDose:[100,100], freq:4, maxDailyMg:16000, maxDoseMg:4000, notes:{th:'q6-8h, infuse นาน 3-4 ชม./ครั้ง — ข้อมูลจำกัด', en:'q6-8h, infused over 3-4h/dose — limited data'} }
+      { label:{th:'Extended infusion (เช่น infuse นาน 3-4 ชม.)', en:'Extended infusion (e.g. infused over 3-4h)'}, mgPerKgPerDay:null, mgPerKgPerDose:[100,100], freq:4, maxDailyMg:16000, maxDoseMg:4000, notes:{th:'q6-8h, infuse นาน 3-4 ชม./ครั้ง — ข้อมูลจำกัด', en:'q6-8h, infused over 3-4h/dose — limited data'} },
+      { label:{th:'ทารกแรกเกิด PMA ≤30 สัปดาห์', en:'Neonate PMA ≤30 weeks'}, mgPerKgPerDay:null, mgPerKgPerDose:[100,100], freq:3, maxDailyMg:null, notes:{th:'q8h', en:'q8h'} },
+      { label:{th:'ทารกแรกเกิด PMA >30 สัปดาห์', en:'Neonate PMA >30 weeks'}, mgPerKgPerDay:null, mgPerKgPerDose:[80,80], freq:4, maxDailyMg:null, notes:{th:'q6h', en:'q6h'} },
+      { label:{th:'CrCl >40 มล./นาที/1.73ตร.ม.', en:'CrCl >40 mL/min/1.73m²'}, mgPerKgPerDay:null, mgPerKgPerDose:[100,100], freq:4, maxDoseMg:null, notes:{th:'q6-8h (ยกเว้นผู้ป่วยล้างไต ไม่ต้องบริหารแบบ extended infusion)', en:'q6-8h (except in hemodialysis patients, do not use extended infusion)'} },
+      { label:{th:'CrCl 20-40 มล./นาที/1.73ตร.ม.', en:'CrCl 20-40 mL/min/1.73m²'}, mgPerKgPerDay:null, mgPerKgPerDose:[70,70], freq:3, maxDoseMg:null, notes:{th:'q8h', en:'q8h'} },
+      { label:{th:'CrCl <20 มล./นาที/1.73ตร.ม.', en:'CrCl <20 mL/min/1.73m²'}, mgPerKgPerDay:null, mgPerKgPerDose:[70,70], freq:2, maxDoseMg:null, notes:{th:'q12h', en:'q12h'} },
+      { label:{th:'Peritoneal dialysis (PD)', en:'Peritoneal dialysis (PD)'}, mgPerKgPerDay:null, mgPerKgPerDose:[50,100], freq:2, maxDoseMg:null, notes:{th:'q12h', en:'q12h'} },
+      { label:{th:'Intermittent hemodialysis (IHD)', en:'Intermittent hemodialysis (IHD)'}, mgPerKgPerDay:null, mgPerKgPerDose:[50,100], freq:2, maxDoseMg:null, notes:{th:'q12h — ให้ยาหลังล้างไตในวันที่ล้างไต', en:'q12h — give after dialysis on hemodialysis days'} },
+      { label:{th:'CRRT (eGFR >50 mL/min)', en:'CRRT (eGFR >50 mL/min)'}, mgPerKgPerDay:null, mgPerKgPerDose:[100,100], freq:3, maxDoseMg:null, notes:{th:'q8h', en:'q8h'} }
     ]
   },
   {
@@ -16676,9 +16742,66 @@ const DRUG_DB = [
     aliases: [],
     category: 'antibiotic',
     route: 'IV',
+    notes: [{th:'ขนาดยาทารกแรกเกิดและการปรับขนาดยาไตบกพร่อง (สำหรับการติดเชื้อแบคทีเรียกรัมลบดื้อยา) อ้างอิง CPG การให้ยาปฏิชีวนะรักษาการติดเชื้อแบคทีเรียกรัมลบดื้อยาในเด็ก', en:'Neonatal dosing and renal-impairment adjustment (for MDR gram-negative infection) sourced from the Thai pediatric CPG on antibiotic therapy for drug-resistant Gram-negative infections'}],
+    neonatalGroups: [
+      { label:{th:'ขนาดทั่วไป', en:'Usual dose'}, brackets: [
+        { gaLabel:{th:'GA <32 สัปดาห์', en:'GA <32 weeks'}, pnaLabel:{th:'<14 วัน', en:'<14 days'}, gaMin:null, gaMax:31.99, pnaMin:0, pnaMax:13.99, regimenIdx:2 },
+        { gaLabel:{th:'GA <32 สัปดาห์', en:'GA <32 weeks'}, pnaLabel:{th:'≥14 วัน', en:'≥14 days'}, gaMin:null, gaMax:31.99, pnaMin:14, pnaMax:null, regimenIdx:3 },
+        { gaLabel:{th:'GA ≥32 สัปดาห์', en:'GA ≥32 weeks'}, pnaLabel:{th:'<14 วัน', en:'<14 days'}, gaMin:32, gaMax:null, pnaMin:0, pnaMax:13.99, regimenIdx:4 },
+        { gaLabel:{th:'GA ≥32 สัปดาห์', en:'GA ≥32 weeks'}, pnaLabel:{th:'≥14 วัน', en:'≥14 days'}, gaMin:32, gaMax:null, pnaMin:14, pnaMax:null, regimenIdx:5 }
+      ]},
+      { label:{th:'CNS infection / การติดเชื้อรุนแรง / MDR pathogens', en:'CNS infection / severe infection / MDR pathogens'}, brackets: [
+        { gaLabel:{th:'GA <32 สัปดาห์', en:'GA <32 weeks'}, pnaLabel:{th:'<14 วัน', en:'<14 days'}, gaMin:null, gaMax:31.99, pnaMin:0, pnaMax:13.99, regimenIdx:6 },
+        { gaLabel:{th:'GA <32 สัปดาห์', en:'GA <32 weeks'}, pnaLabel:{th:'≥14 วัน', en:'≥14 days'}, gaMin:null, gaMax:31.99, pnaMin:14, pnaMax:null, regimenIdx:7 },
+        { gaLabel:{th:'GA ≥32 สัปดาห์', en:'GA ≥32 weeks'}, pnaLabel:{th:'<14 วัน', en:'<14 days'}, gaMin:32, gaMax:null, pnaMin:0, pnaMax:13.99, regimenIdx:8 },
+        { gaLabel:{th:'GA ≥32 สัปดาห์', en:'GA ≥32 weeks'}, pnaLabel:{th:'≥14 วัน', en:'≥14 days'}, gaMin:32, gaMax:null, pnaMin:14, pnaMax:null, regimenIdx:9 }
+      ]}
+    ],
+    renalGroups: [
+      { label:{th:'ขนาดทั่วไป (Usual dose)', en:'Usual dose'},
+        crclBrackets: [
+          { label:{th:'CrCl >50 มล./นาที/1.73ตร.ม.', en:'CrCl >50 mL/min/1.73m²'}, min:50, minExclusive:true, max:null, regimenIdx:10 },
+          { label:{th:'CrCl >25 ถึง ≤50 มล./นาที/1.73ตร.ม.', en:'CrCl >25 to ≤50 mL/min/1.73m²'}, min:25, minExclusive:true, max:50, regimenIdx:11 },
+          { label:{th:'CrCl >10 ถึง ≤25 มล./นาที/1.73ตร.ม.', en:'CrCl >10 to ≤25 mL/min/1.73m²'}, min:10, max:25, regimenIdx:12 },
+          { label:{th:'CrCl <10 มล./นาที/1.73ตร.ม.', en:'CrCl <10 mL/min/1.73m²'}, min:null, max:10, maxExclusive:true, regimenIdx:13 }
+        ],
+        dialysisOptions: [
+          { label:{th:'Peritoneal dialysis (PD)', en:'Peritoneal dialysis (PD)'}, regimenIdx:14 },
+          { label:{th:'Intermittent hemodialysis (IHD)', en:'Intermittent hemodialysis (IHD)'}, regimenIdx:15 },
+          { label:{th:'CRRT (eGFR >50 mL/min)', en:'CRRT (eGFR >50 mL/min)'}, regimenIdx:16 }
+        ]
+      },
+      { label:{th:'ขนาดสูง (High dose)', en:'High dose'},
+        crclBrackets: [
+          { label:{th:'CrCl >50 มล./นาที/1.73ตร.ม.', en:'CrCl >50 mL/min/1.73m²'}, min:50, minExclusive:true, max:null, regimenIdx:17 },
+          { label:{th:'CrCl >25 ถึง ≤50 มล./นาที/1.73ตร.ม.', en:'CrCl >25 to ≤50 mL/min/1.73m²'}, min:25, minExclusive:true, max:50, regimenIdx:18 },
+          { label:{th:'CrCl >10 ถึง ≤25 มล./นาที/1.73ตร.ม.', en:'CrCl >10 to ≤25 mL/min/1.73m²'}, min:10, max:25, regimenIdx:19 },
+          { label:{th:'CrCl <10 มล./นาที/1.73ตร.ม.', en:'CrCl <10 mL/min/1.73m²'}, min:null, max:10, maxExclusive:true, regimenIdx:20 }
+        ]
+      }
+    ],
     regimens: [
       { label:{th:'ขนาดทั่วไป', en:'General dose'}, mgPerKgPerDay:null, mgPerKgPerDose:[20,20], freq:3, maxDoseMg:1000, notes:{th:'q8h', en:'q8h'} },
-      { label:{th:'การติดเชื้อรุนแรง / Meningitis', en:'Severe infection / Meningitis'}, mgPerKgPerDay:null, mgPerKgPerDose:[40,40], freq:3, maxDoseMg:2000, notes:{th:'q8h', en:'q8h'} }
+      { label:{th:'การติดเชื้อรุนแรง / Meningitis', en:'Severe infection / Meningitis'}, mgPerKgPerDay:null, mgPerKgPerDose:[40,40], freq:3, maxDoseMg:2000, notes:{th:'q8h', en:'q8h'} },
+      { label:{th:'ทารกแรกเกิด GA <32 สัปดาห์ — อายุหลังคลอด <14 วัน', en:'Neonate GA <32 weeks — postnatal age <14 days'}, mgPerKgPerDay:null, mgPerKgPerDose:[20,20], freq:2, maxDoseMg:null, notes:{th:'IV q12h', en:'IV q12h'} },
+      { label:{th:'ทารกแรกเกิด GA <32 สัปดาห์ — อายุหลังคลอด ≥14 วัน', en:'Neonate GA <32 weeks — postnatal age ≥14 days'}, mgPerKgPerDay:null, mgPerKgPerDose:[20,20], freq:3, maxDoseMg:null, notes:{th:'IV q8h', en:'IV q8h'} },
+      { label:{th:'ทารกแรกเกิด GA ≥32 สัปดาห์ — อายุหลังคลอด <14 วัน', en:'Neonate GA ≥32 weeks — postnatal age <14 days'}, mgPerKgPerDay:null, mgPerKgPerDose:[20,20], freq:3, maxDoseMg:null, notes:{th:'IV q8h', en:'IV q8h'} },
+      { label:{th:'ทารกแรกเกิด GA ≥32 สัปดาห์ — อายุหลังคลอด ≥14 วัน', en:'Neonate GA ≥32 weeks — postnatal age ≥14 days'}, mgPerKgPerDay:null, mgPerKgPerDose:[30,30], freq:3, maxDoseMg:null, notes:{th:'IV q8h', en:'IV q8h'} },
+      { label:{th:'CNS/รุนแรง/MDR — GA <32 สัปดาห์ — อายุหลังคลอด <14 วัน', en:'CNS/severe/MDR — GA <32 weeks — postnatal age <14 days'}, mgPerKgPerDay:null, mgPerKgPerDose:[40,40], freq:2, maxDoseMg:null, notes:{th:'IV q12h', en:'IV q12h'} },
+      { label:{th:'CNS/รุนแรง/MDR — GA <32 สัปดาห์ — อายุหลังคลอด ≥14 วัน', en:'CNS/severe/MDR — GA <32 weeks — postnatal age ≥14 days'}, mgPerKgPerDay:null, mgPerKgPerDose:[40,40], freq:3, maxDoseMg:null, notes:{th:'IV q8h', en:'IV q8h'} },
+      { label:{th:'CNS/รุนแรง/MDR — GA ≥32 สัปดาห์ — อายุหลังคลอด <14 วัน', en:'CNS/severe/MDR — GA ≥32 weeks — postnatal age <14 days'}, mgPerKgPerDay:null, mgPerKgPerDose:[40,40], freq:3, maxDoseMg:null, notes:{th:'IV q8h', en:'IV q8h'} },
+      { label:{th:'CNS/รุนแรง/MDR — GA ≥32 สัปดาห์ — อายุหลังคลอด ≥14 วัน', en:'CNS/severe/MDR — GA ≥32 weeks — postnatal age ≥14 days'}, mgPerKgPerDay:null, mgPerKgPerDose:[40,40], freq:3, maxDoseMg:null, notes:{th:'IV q8h', en:'IV q8h'} },
+      { label:{th:'Usual — CrCl >50', en:'Usual — CrCl >50'}, mgPerKgPerDay:null, mgPerKgPerDose:[20,20], freq:3, maxDoseMg:2000, notes:{th:'q8h', en:'q8h'} },
+      { label:{th:'Usual — CrCl >25 ถึง ≤50', en:'Usual — CrCl >25 to ≤50'}, mgPerKgPerDay:null, mgPerKgPerDose:[20,20], freq:2, maxDoseMg:2000, notes:{th:'q12h', en:'q12h'} },
+      { label:{th:'Usual — CrCl >10 ถึง ≤25', en:'Usual — CrCl >10 to ≤25'}, mgPerKgPerDay:null, mgPerKgPerDose:[10,10], freq:2, maxDoseMg:1000, notes:{th:'q12h', en:'q12h'} },
+      { label:{th:'Usual — CrCl <10', en:'Usual — CrCl <10'}, mgPerKgPerDay:null, mgPerKgPerDose:[10,10], freq:1, maxDoseMg:1000, notes:{th:'q24h', en:'q24h'} },
+      { label:{th:'Usual — Peritoneal dialysis (PD)', en:'Usual — Peritoneal dialysis (PD)'}, mgPerKgPerDay:null, mgPerKgPerDose:[10,20], freq:1, maxDoseMg:1000, notes:{th:'q24h', en:'q24h'} },
+      { label:{th:'Usual — Intermittent hemodialysis (IHD)', en:'Usual — Intermittent hemodialysis (IHD)'}, mgPerKgPerDay:null, mgPerKgPerDose:[25,25], freq:0.5, maxDoseMg:2000, notes:{th:'q24h หรือ 40 มก./กก./โดส q48h — ให้หลังล้างไต', en:'q24h, or 40 mg/kg/dose q48h — give after dialysis'} },
+      { label:{th:'Usual — CRRT (eGFR >50 mL/min)', en:'Usual — CRRT (eGFR >50 mL/min)'}, mgPerKgPerDay:null, mgPerKgPerDose:[20,40], freq:3, maxDoseMg:2000, notes:{th:'q8h', en:'q8h'} },
+      { label:{th:'High dose — CrCl >50', en:'High dose — CrCl >50'}, mgPerKgPerDay:null, mgPerKgPerDose:[40,40], freq:3, maxDoseMg:2000, notes:{th:'q8h', en:'q8h'} },
+      { label:{th:'High dose — CrCl >25 ถึง ≤50', en:'High dose — CrCl >25 to ≤50'}, mgPerKgPerDay:null, mgPerKgPerDose:[40,40], freq:2, maxDoseMg:2000, notes:{th:'q12h', en:'q12h'} },
+      { label:{th:'High dose — CrCl >10 ถึง ≤25', en:'High dose — CrCl >10 to ≤25'}, mgPerKgPerDay:null, mgPerKgPerDose:[20,20], freq:2, maxDoseMg:1000, notes:{th:'q12h', en:'q12h'} },
+      { label:{th:'High dose — CrCl <10', en:'High dose — CrCl <10'}, mgPerKgPerDay:null, mgPerKgPerDose:[20,20], freq:1, maxDoseMg:1000, notes:{th:'q24h', en:'q24h'} }
     ]
   },
   {
@@ -16688,11 +16811,27 @@ const DRUG_DB = [
     category: 'antibiotic',
     route: 'IV',
     notes: [{th:'ขนาดยาสำหรับการติดเชื้อ Acinetobacter baumannii ที่ดื้อยาหลายขนานชนิดรุนแรง (XDR)', en:'Dosing for extensively drug-resistant (XDR) Acinetobacter baumannii infection'},
-      {th:'ให้เดี่ยว (ไม่ผสมกับ ampicillin/cefoperazone) — ถ้าใช้รูปแบบผสม ต้องไม่เกินขนาดยาสูงสุดของยาคู่ผสมนั้นด้วย (ampicillin ≤12 ก./วัน หรือ cefoperazone ≤8 ก./วัน)', en:'As a standalone agent — if using a combination product, must also not exceed the max dose of the partner drug (ampicillin ≤12 g/day or cefoperazone ≤8 g/day)'}],
+      {th:'ให้เดี่ยว (ไม่ผสมกับ ampicillin/cefoperazone) — ถ้าใช้รูปแบบผสม ต้องไม่เกินขนาดยาสูงสุดของยาคู่ผสมนั้นด้วย (ampicillin ≤12 ก./วัน หรือ cefoperazone ≤8 ก./วัน)', en:'As a standalone agent — if using a combination product, must also not exceed the max dose of the partner drug (ampicillin ≤12 g/day or cefoperazone ≤8 g/day)'},
+      {th:'การปรับขนาดยาไตบกพร่อง อ้างอิง CPG การให้ยาปฏิชีวนะรักษาการติดเชื้อแบคทีเรียกรัมลบดื้อยาในเด็ก', en:'Renal-impairment adjustment sourced from the Thai pediatric CPG on antibiotic therapy for drug-resistant Gram-negative infections'}],
+    renalGroups: [
+      { label:null,
+        crclBrackets: [
+          { label:{th:'CrCl >30 มล./นาที/1.73ตร.ม. — ไม่ต้องปรับขนาดยา', en:'CrCl >30 mL/min/1.73m² — no adjustment needed'}, min:30, max:null, regimenIdx:3 },
+          { label:{th:'CrCl 15-<30 มล./นาที/1.73ตร.ม. (eGFR 15-29.9)', en:'CrCl 15-<30 mL/min/1.73m² (eGFR 15-29.9)'}, min:15, max:30, maxExclusive:true, regimenIdx:4 },
+          { label:{th:'CrCl <15 มล./นาที/1.73ตร.ม.', en:'CrCl <15 mL/min/1.73m²'}, min:null, max:15, maxExclusive:true, regimenIdx:5 }
+        ],
+        dialysisOptions: [
+          { label:{th:'Intermittent hemodialysis (IHD)', en:'Intermittent hemodialysis (IHD)'}, regimenIdx:5 }
+        ]
+      }
+    ],
     regimens: [
       { label:{th:'ทารกแรกเกิด (Preterm)', en:'Neonate (Preterm)'}, mgPerKgPerDay:[100,100], freq:2, maxDailyMg:null, notes:{th:'แบ่งให้ q12h', en:'divided q12h'} },
       { label:{th:'ทารกแรกเกิด (Term)', en:'Neonate (Term)'}, mgPerKgPerDay:[100,100], freq:3, maxDailyMg:null, notes:{th:'แบ่งให้ q8h', en:'divided q8h'} },
-      { label:{th:'ทารก/เด็ก', en:'Infant/Children'}, mgPerKgPerDay:[200,200], freq:4, maxDailyMg:12000, notes:{th:'IV แบ่ง 3-4 ครั้ง/วัน — extended infusion นาน 4 ชม. แนะนำในรายรุนแรง (max sulbactam 12ก./วัน — ข้อมูลผู้ใหญ่)', en:'IV in 3-4 divided doses — extended infusion over 4h preferred in severe cases (max sulbactam 12g/day — adult data)'} }
+      { label:{th:'ทารก/เด็ก', en:'Infant/Children'}, mgPerKgPerDay:[200,200], freq:4, maxDailyMg:12000, notes:{th:'IV แบ่ง 3-4 ครั้ง/วัน — extended infusion นาน 4 ชม. แนะนำในรายรุนแรง (max sulbactam 12ก./วัน — ข้อมูลผู้ใหญ่)', en:'IV in 3-4 divided doses — extended infusion over 4h preferred in severe cases (max sulbactam 12g/day — adult data)'} },
+      { label:{th:'CrCl >30 มล./นาที/1.73ตร.ม. — ไม่ต้องปรับขนาดยา', en:'CrCl >30 mL/min/1.73m² — no adjustment needed'}, mgPerKgPerDay:[200,200], freq:4, maxDailyMg:12000, notes:{th:'IV q6-8h', en:'IV q6-8h'} },
+      { label:{th:'CrCl 15-<30 มล./นาที/1.73ตร.ม. (eGFR 15-29.9)', en:'CrCl 15-<30 mL/min/1.73m² (eGFR 15-29.9)'}, mgPerKgPerDay:[150,150], freq:3, maxDailyMg:null, notes:{th:'แบ่งให้ทุก 8-12 ชั่วโมง (q8-12h) ให้หยดเข้าทางหลอดเลือดดำใน 60 นาที/โดส (ไม่จำเป็นต้องให้แบบ extended infusion)', en:'Divided every 8-12h (q8-12h), infused over 60 min/dose (extended infusion not required)'} },
+      { label:{th:'CrCl <15 มล./นาที/1.73ตร.ม. / Intermittent hemodialysis (IHD)', en:'CrCl <15 mL/min/1.73m² / Intermittent hemodialysis (IHD)'}, mgPerKgPerDay:[75,100], freq:1, maxDailyMg:null, notes:{th:'วันละครั้ง infuse นาน 60 นาที/โดส (ไม่จำเป็นต้อง extended infusion) — กรณี IHD ให้ยาซ้ำหลังทำ dialysis', en:'Once daily, infused over 60 min/dose (extended infusion not required) — for IHD, repeat the dose after dialysis'} }
     ]
   },
   {
@@ -16712,7 +16851,7 @@ const DRUG_DB = [
     aliases: [],
     category: 'antibiotic',
     route: 'IV',
-    notes: [{th:'ความแรง 2ก./0.5ก. ต่อ vial — ขนาดยาคำนวณจาก ceftazidime component', en:'2g/0.5g per vial — dose calculated from the ceftazidime component'}],
+    notes: [{th:'ความแรง 2ก./0.5ก. ต่อ vial — ขนาดยาคำนวณจาก ceftazidime component · ปรับขนาดยาเมื่อ CrCl ≤50 มล./นาที/1.73ตร.ม. — ไม่มีตารางปรับขนาดยาไตบกพร่องเฉพาะสำหรับเด็กในเอกสารอ้างอิง ควรปรึกษากุมารแพทย์โรคติดเชื้อ (CPG การให้ยาปฏิชีวนะรักษาการติดเชื้อแบคทีเรียกรัมลบดื้อยาในเด็ก)', en:'2g/0.5g per vial — dose calculated from the ceftazidime component · Adjust dose if CrCl ≤50 mL/min/1.73m² — no pediatric-specific renal-adjustment table is given in the source; consult a pediatric infectious disease specialist (per the Thai pediatric CPG on antibiotic therapy for drug-resistant Gram-negative infections)'}],
     warnings: [{th:'ยังไม่รับรองให้ใช้ในทารกอายุ <3 เดือน', en:'Not approved for infants <3 months'}],
     regimens: [
       { label:{th:'อายุ 3–<6 เดือน', en:'Age 3–<6 months'}, mgPerKgPerDay:null, mgPerKgPerDose:[40,40], freq:3, maxDoseMg:2000, notes:{th:'IV q8h, infuse นาน 2 ชม.', en:'IV q8h, infuse over 2h'} },
@@ -16725,9 +16864,9 @@ const DRUG_DB = [
     aliases: [],
     category: 'antibiotic',
     route: 'IV',
-    notes: [{th:'ความแรง 1ก./0.5ก. ต่อ vial — ขนาดยาคำนวณจาก ceftolozane component — ไม่แนะนำในผู้ป่วยไตวาย (CrCl ต่ำ)', en:'1g/0.5g per vial — dose calculated from the ceftolozane component — not recommended in renal impairment (low CrCl)'}],
+    notes: [{th:'ความแรง 1ก./0.5ก. ต่อ vial — ขนาดยาคำนวณจาก ceftolozane component — ไม่แนะนำในผู้ป่วยไตวาย (CrCl ≤50 มล./นาที/1.73ตร.ม.) — ไม่มีตารางปรับขนาดยาไตบกพร่องเฉพาะสำหรับเด็กในเอกสารอ้างอิง ควรปรึกษากุมารแพทย์โรคติดเชื้อ · ขนาดยาทารกแรกเกิดเท่ากับขนาดยาในเด็ก (ตาม CPG การให้ยาปฏิชีวนะรักษาการติดเชื้อแบคทีเรียกรัมลบดื้อยาในเด็ก)', en:'1g/0.5g per vial — dose calculated from the ceftolozane component — not recommended in renal impairment (CrCl ≤50 mL/min/1.73m²) — no pediatric-specific renal-adjustment table is given in the source; consult a pediatric infectious disease specialist · The neonatal dose is the same as the pediatric dose (per the Thai pediatric CPG on antibiotic therapy for drug-resistant Gram-negative infections)'}],
     regimens: [
-      { label:{th:'ขนาดทั่วไป', en:'General dose'}, mgPerKgPerDay:null, mgPerKgPerDose:[20,20], freq:3, maxDoseMg:1000, notes:{th:'IV q8h', en:'IV q8h'} }
+      { label:{th:'ขนาดทั่วไป (รวมทารกแรกเกิด)', en:'General dose (including neonates)'}, mgPerKgPerDay:null, mgPerKgPerDose:[20,20], freq:3, maxDoseMg:1000, notes:{th:'IV q8h', en:'IV q8h'} }
     ]
   },
   {
@@ -16737,6 +16876,7 @@ const DRUG_DB = [
     category: 'antibiotic',
     route: 'IV',
     warnings: [{th:'US FDA ไม่อนุมัติให้ใช้ในเด็กอายุ <8 ปี — เสี่ยงฟันเปลี่ยนสีถาวรและ enamel hypoplasia — ใช้เฉพาะเมื่อไม่มีทางเลือกอื่นในการรักษาการติดเชื้อแบคทีเรียดื้อยาหลายขนาน', en:'US FDA does not approve use in children <8 years — risk of permanent tooth discoloration and enamel hypoplasia — use only when no alternative exists for MDR bacterial infection'}],
+    notes: [{th:'ไม่มีขนาดยาที่กำหนดไว้สำหรับทารกแรกเกิด — ไม่ต้องปรับขนาดยาในผู้ป่วยไตบกพร่อง (อ้างอิงจากการศึกษาในผู้ใหญ่) ตาม CPG การให้ยาปฏิชีวนะรักษาการติดเชื้อแบคทีเรียกรัมลบดื้อยาในเด็ก', en:'No established neonatal dose — no dose adjustment required for impaired kidney function (based on adult study), per the Thai pediatric CPG on antibiotic therapy for drug-resistant Gram-negative infections'}],
     regimens: [
       { label:{th:'อายุ <8 ปี — ขนาดทั่วไป', en:'Age <8 years — usual dose'}, multiPhase:true, phases:[
         { phaseLabel:{th:'ขนาดแรก (Loading)', en:'Loading dose'}, mgPerKgPerDose:[1.5,3], freq:1 },
@@ -16766,14 +16906,36 @@ const DRUG_DB = [
     aliases: [],
     category: 'antibiotic',
     route: 'IV',
-    notes: [{th:'ปรับขนาดยาในผู้ป่วย CrCl ≤40 มล./นาที', en:'Adjust dose if CrCl ≤40 mL/min'}],
+    notes: [{th:'ปรับขนาดยาในผู้ป่วย CrCl ≤40 มล./นาที · ในผู้ป่วยไตบกพร่อง (CrCl ≤40) โดสแรกให้ขนาดยาสองเท่าของ maintenance dose (ไม่เกิน 8 ก.) การปรับขนาดยาไตบกพร่องอ้างอิง CPG การให้ยาปฏิชีวนะรักษาการติดเชื้อแบคทีเรียกรัมลบดื้อยาในเด็ก (ขนาดยาที่ปรับเป็นสัดส่วน % ของ maintenance dose เดิมของผู้ป่วย)', en:"Adjust dose if CrCl ≤40 mL/min · In renal impairment (CrCl ≤40), the first dose is double the maintenance dose (max 8g) — renal adjustment sourced from the Thai pediatric CPG on antibiotic therapy for drug-resistant Gram-negative infections (adjusted doses are expressed as a % of the patient's own baseline maintenance dose)"}],
+    renalGroups: [
+      { label:null,
+        crclBrackets: [
+          { label:{th:'CrCl >40 มล./นาที — ไม่ต้องปรับขนาดยา', en:'CrCl >40 mL/min — no adjustment needed'}, min:40, minExclusive:true, max:null, regimenIdx:6 },
+          { label:{th:'CrCl 31-40 มล./นาที', en:'CrCl 31-40 mL/min'}, min:30, minExclusive:true, max:40, regimenIdx:7 },
+          { label:{th:'CrCl 21-30 มล./นาที', en:'CrCl 21-30 mL/min'}, min:20, minExclusive:true, max:30, regimenIdx:8 },
+          { label:{th:'CrCl 11-20 มล./นาที', en:'CrCl 11-20 mL/min'}, min:10, minExclusive:true, max:20, regimenIdx:9 },
+          { label:{th:'CrCl ≤10 มล./นาที', en:'CrCl ≤10 mL/min'}, min:null, max:10, regimenIdx:10 }
+        ],
+        dialysisOptions: [
+          { label:{th:'Intermittent hemodialysis (IHD)', en:'Intermittent hemodialysis (IHD)'}, regimenIdx:11 },
+          { label:{th:'CVVH (post dilution)', en:'CVVH (post dilution)'}, regimenIdx:12 }
+        ]
+      }
+    ],
     regimens: [
       { label:{th:'ทารกแรกเกิด PMA <40 สัปดาห์', en:'Neonate PMA <40 weeks'}, mgPerKgPerDay:[100,100], freq:2, maxDailyMg:null, notes:{th:'IV แบ่ง 2 ครั้ง/วัน', en:'IV in 2 divided doses'} },
       { label:{th:'ทารกแรกเกิด PMA 40-44 สัปดาห์', en:'Neonate PMA 40-44 weeks'}, mgPerKgPerDay:[200,200], freq:3, maxDailyMg:null, notes:{th:'IV แบ่ง 3 ครั้ง/วัน', en:'IV in 3 divided doses'} },
       { label:{th:'น้ำหนัก <10 กก.', en:'Weight <10 kg'}, mgPerKgPerDay:[200,300], freq:3, maxDailyMg:24000, maxDoseMg:8000, notes:{th:'IV แบ่ง 3 ครั้ง/วัน', en:'IV in 3 divided doses'} },
       { label:{th:'น้ำหนัก 10-40 กก.', en:'Weight 10-40 kg'}, mgPerKgPerDay:[200,400], freq:4, maxDailyMg:24000, maxDoseMg:8000, notes:{th:'IV แบ่ง 3-4 ครั้ง/วัน', en:'IV in 3-4 divided doses'} },
       { label:{th:'น้ำหนัก >40 กก. — ทั่วไป', en:'Weight >40 kg — general'}, mgPerKgPerDay:null, fixedDailyRangeMg:[12000,24000], freq:4, maxDailyMg:24000, maxDoseMg:8000, notes:{th:'g/day แบ่ง 3-4 ครั้ง/วัน', en:'g/day in 3-4 divided doses'} },
-      { label:{th:'น้ำหนัก >40 กก. — Bacterial meningitis', en:'Weight >40 kg — Bacterial meningitis'}, mgPerKgPerDay:null, fixedDailyRangeMg:[16000,24000], freq:4, maxDailyMg:24000, maxDoseMg:8000, notes:{th:'g/day แบ่ง 3-4 ครั้ง/วัน', en:'g/day in 3-4 divided doses'} }
+      { label:{th:'น้ำหนัก >40 กก. — Bacterial meningitis', en:'Weight >40 kg — Bacterial meningitis'}, mgPerKgPerDay:null, fixedDailyRangeMg:[16000,24000], freq:4, maxDailyMg:24000, maxDoseMg:8000, notes:{th:'g/day แบ่ง 3-4 ครั้ง/วัน', en:'g/day in 3-4 divided doses'} },
+      { label:{th:'CrCl >40 มล./นาที — ไม่ต้องปรับขนาดยา', en:'CrCl >40 mL/min — no adjustment needed'}, notes:{th:'ใช้ maintenance dose ตามช่วงน้ำหนักตัวปกติ (ดูรายการด้านบน)', en:"Use the patient's usual weight-based maintenance dose (see options above)"} },
+      { label:{th:'CrCl 31-40 มล./นาที', en:'CrCl 31-40 mL/min'}, notes:{th:'70% ของ maintenance dose ต่อวัน แบ่งให้ 2-3 ครั้ง/วัน', en:"70% of the patient's daily maintenance dose, in 2-3 divided doses"} },
+      { label:{th:'CrCl 21-30 มล./นาที', en:'CrCl 21-30 mL/min'}, notes:{th:'60% ของ maintenance dose ต่อวัน แบ่งให้ 2-3 ครั้ง/วัน', en:"60% of the patient's daily maintenance dose, in 2-3 divided doses"} },
+      { label:{th:'CrCl 11-20 มล./นาที', en:'CrCl 11-20 mL/min'}, notes:{th:'40% ของ maintenance dose ต่อวัน แบ่งให้ 2-3 ครั้ง/วัน', en:"40% of the patient's daily maintenance dose, in 2-3 divided doses"} },
+      { label:{th:'CrCl ≤10 มล./นาที', en:'CrCl ≤10 mL/min'}, notes:{th:'20% ของ maintenance dose ต่อวัน แบ่งให้ 1-2 ครั้ง/วัน', en:"20% of the patient's daily maintenance dose, in 1-2 divided doses"} },
+      { label:{th:'Intermittent hemodialysis (IHD)', en:'Intermittent hemodialysis (IHD)'}, notes:{th:'ให้ maintenance dose ตามปกติ เมื่อสิ้นสุดการล้างไต', en:'Give the usual maintenance dose at the end of dialysis'} },
+      { label:{th:'CVVH (post dilution)', en:'CVVH (post dilution)'}, notes:{th:'ไม่ต้องปรับขนาดยา', en:'No dose adjustment required'} }
     ]
   },
 
@@ -16886,13 +17048,35 @@ const DRUG_DB = [
     aliases: [],
     category: 'antibiotic',
     route: 'IV',
-    notes: [{th:'ขนาดยาเป็น Colistin Base Activity (CBA) ไม่ใช่ colistimethate salt — สำหรับเชื้อดื้อยาหลายขนาน (MDR) ปรึกษาผู้เชี่ยวชาญด้านโรคติดเชื้อ — ปรับขนาดยาในผู้ป่วย CrCl <50 มล./นาที/1.73ตร.ม.', en:'Dose expressed as Colistin Base Activity (CBA), not colistimethate salt — for multidrug-resistant organisms, consult infectious disease specialist — adjust dose if CrCl <50 mL/min/1.73m²'}],
+    notes: [{th:'ขนาดยาเป็น Colistin Base Activity (CBA) ไม่ใช่ colistimethate salt — สำหรับเชื้อดื้อยาหลายขนาน (MDR) ปรึกษาผู้เชี่ยวชาญด้านโรคติดเชื้อ — ปรับขนาดยาในผู้ป่วย CrCl <50 มล./นาที/1.73ตร.ม. · การปรับขนาดยาไตบกพร่อง อ้างอิง CPG การให้ยาปฏิชีวนะรักษาการติดเชื้อแบคทีเรียกรัมลบดื้อยาในเด็ก (ข้อมูลผู้ใหญ่)', en:'Dose expressed as Colistin Base Activity (CBA), not colistimethate salt — for multidrug-resistant organisms, consult infectious disease specialist — adjust dose if CrCl <50 mL/min/1.73m² · Renal-impairment adjustment sourced from the Thai pediatric CPG on antibiotic therapy for drug-resistant Gram-negative infections (adult data)'}],
+    renalGroups: [
+      { label:null,
+        crclBrackets: [
+          { label:{th:'CrCl >50 มล./นาที/1.73ตร.ม.', en:'CrCl >50 mL/min/1.73m²'}, min:50, minExclusive:true, max:null, regimenIdx:2 },
+          { label:{th:'CrCl >25 ถึง ≤50 มล./นาที/1.73ตร.ม.', en:'CrCl >25 to ≤50 mL/min/1.73m²'}, min:25, minExclusive:true, max:50, regimenIdx:3 },
+          { label:{th:'CrCl >10 ถึง ≤25 มล./นาที/1.73ตร.ม.', en:'CrCl >10 to ≤25 mL/min/1.73m²'}, min:10, max:25, regimenIdx:4 },
+          { label:{th:'CrCl <10 มล./นาที/1.73ตร.ม.', en:'CrCl <10 mL/min/1.73m²'}, min:null, max:10, maxExclusive:true, regimenIdx:5 }
+        ],
+        dialysisOptions: [
+          { label:{th:'วันที่ไม่ได้ล้างไต (IHD)', en:'Non-dialysis day (IHD)'}, regimenIdx:6 },
+          { label:{th:'วันที่ล้างไต (IHD)', en:'Dialysis day (IHD)'}, regimenIdx:7 },
+          { label:{th:'CRRT (eGFR >50 mL/min)', en:'CRRT (eGFR >50 mL/min)'}, regimenIdx:8 }
+        ]
+      }
+    ],
     regimens: [
       { label:{th:'ทารกแรกเกิด (Neonates)', en:'Neonates'}, mgPerKgPerDay:[2.5,5], freq:2, maxDailyMg:null, notes:{th:'IV แบ่งให้ 2 หรือ 4 ครั้ง/วัน (CBA)', en:'IV in 2 or 4 divided doses (CBA)'} },
       { label:{th:'ทารก/เด็ก (Loading + Maintenance)', en:'Infant/Children (Loading + Maintenance)'}, multiPhase:true, phases:[
         { phaseLabel:{th:'ขนาดแรก (Loading)', en:'Loading dose'}, mgPerKgPerDose:[4,5], freq:1, maxDoseMg:300, notes:{th:'ครั้งเดียว (CBA)', en:'once (CBA)'} },
         { phaseLabel:{th:'ขนาดต่อเนื่อง (Maintenance)', en:'Maintenance'}, mgPerKgPerDose:[2.5,2.5], freq:2, maxDoseMg:150, maxDailyMg:300, notes:{th:'q12h (CBA) — หากมีภาวะ SIRS หรือ augmented renal clearance (เช่น eGFR>130 มล./นาที/1.73ตร.ม.) อาจพิจารณาเพิ่มเป็น 10 มก. CBA/กก./วัน (สูงสุดไม่เกิน 360 มก. CBA/วัน)', en:'q12h (CBA) — if SIRS or augmented renal clearance present (e.g. eGFR>130 mL/min/1.73m²), consider increasing to 10mg CBA/kg/day (max 360mg CBA/day)'} }
-      ]}
+      ]},
+      { label:{th:'CrCl >50 มล./นาที/1.73ตร.ม.', en:'CrCl >50 mL/min/1.73m²'}, mgPerKgPerDay:[5,5], freq:2, maxDailyMg:null, notes:{th:'q12h (CBA, ข้อมูลผู้ใหญ่)', en:'q12h (CBA, adult data)'} },
+      { label:{th:'CrCl >25 ถึง ≤50 มล./นาที/1.73ตร.ม.', en:'CrCl >25 to ≤50 mL/min/1.73m²'}, mgPerKgPerDay:[3.5,3.5], freq:2, maxDailyMg:null, notes:{th:'q12h (CBA, ข้อมูลผู้ใหญ่)', en:'q12h (CBA, adult data)'} },
+      { label:{th:'CrCl >10 ถึง ≤25 มล./นาที/1.73ตร.ม.', en:'CrCl >10 to ≤25 mL/min/1.73m²'}, mgPerKgPerDay:[2.5,2.5], freq:2, maxDailyMg:null, notes:{th:'q12h (CBA, ข้อมูลผู้ใหญ่)', en:'q12h (CBA, adult data)'} },
+      { label:{th:'CrCl <10 มล./นาที/1.73ตร.ม.', en:'CrCl <10 mL/min/1.73m²'}, mgPerKgPerDay:[1.5,1.5], freq:2, maxDailyMg:null, notes:{th:'q12h (CBA, ข้อมูลผู้ใหญ่)', en:'q12h (CBA, adult data)'} },
+      { label:{th:'วันที่ไม่ได้ล้างไต (IHD)', en:'Non-dialysis day (IHD)'}, mgPerKgPerDay:[1.5,1.5], freq:2, maxDailyMg:null, notes:{th:'q12h (CBA)', en:'q12h (CBA)'} },
+      { label:{th:'วันที่ล้างไต (IHD)', en:'Dialysis day (IHD)'}, mgPerKgPerDay:null, mgPerKgPerDose:[1.5,1.5], freq:2, maxDoseMg:null, notes:{th:'CBA — ให้ก่อนล้างไต 1 โดส และหลังล้างไต 1 โดส', en:'CBA — one dose before and one dose after dialysis'} },
+      { label:{th:'CRRT (eGFR >50 mL/min)', en:'CRRT (eGFR >50 mL/min)'}, mgPerKgPerDay:[6,6], freq:2, maxDailyMg:null, notes:{th:'q12h (CBA, ข้อมูลผู้ใหญ่)', en:'q12h (CBA, adult data)'} }
     ]
   },
 
@@ -18648,6 +18832,16 @@ const DD = {
   neoEnterAll: {th:'กรอก GA, อายุหลังคลอด และน้ำหนักตัวให้ครบเพื่อคำนวณ', en:'Enter GA, postnatal age, and weight to calculate'},
   neoNoMatch: {th:'ไม่พบช่วงที่ตรงกับ GA/อายุหลังคลอดที่กรอก — โปรดตรวจสอบค่าที่กรอกอีกครั้ง', en:'No matching bracket found for the entered GA/postnatal age — please check your entries'},
   neoMatchedBracket: {th:'ช่วงที่ตรงกัน', en:'Matched bracket'},
+  renalMode: {th:'ปรับขนาดยาตามการทำงานของไต (Renal)', en:'Renal dose adjustment'},
+  renalHeightLabel: {th:'ส่วนสูง (ซม.)', en:'Height (cm)'},
+  renalScrLabel: {th:'Serum creatinine (มก./ดล.)', en:'Serum creatinine (mg/dL)'},
+  renalCalcCrCl: {th:'CrCl ที่คำนวณได้ (Schwartz)', en:'Calculated CrCl (Schwartz)'},
+  renalEnterAll: {th:'กรอกส่วนสูงและ Serum creatinine เพื่อคำนวณ CrCl', en:'Enter height and serum creatinine to calculate CrCl'},
+  renalNoMatch: {th:'ไม่พบช่วง CrCl ที่ตรงกัน — โปรดตรวจสอบค่าที่กรอก', en:'No matching CrCl bracket found — please check your entries'},
+  renalMatchedBracket: {th:'ช่วง CrCl ที่ตรงกัน', en:'Matched CrCl bracket'},
+  renalTableHeading: {th:'ตารางปรับขนาดยาตาม CrCl / Dialysis', en:'Dose adjustment table by CrCl / dialysis'},
+  renalDialysisHeading: {th:'ขนาดยาในผู้ป่วยล้างไต (เลือกวิธีล้างไต)', en:'Dosing in dialysis (select modality)'},
+  renalSchwartzFormula: {th:'สูตร Schwartz: CrCl (มล./นาที/1.73ตร.ม.) = 0.413 × ส่วนสูง (ซม.) ÷ Serum creatinine (มก./ดล.)', en:'Schwartz formula: CrCl (mL/min/1.73m²) = 0.413 × height (cm) ÷ serum creatinine (mg/dL)'},
   frequencyLabel: {th:'ความถี่', en:'Frequency'},
   maxDoseLabel: {th:'ขนาดสูงสุด', en:'Maximum dose'},
   perDose: {th:'ต่อครั้ง', en:'per dose'},
@@ -18715,7 +18909,7 @@ const DD_CATEGORY_KEYWORDS = {
   nutritional: 'vitamin'
 };
 
-let ddState = { screen:'home', searchQuery:'', activeCategory:null, drugId:null, regimenIdx:0, weight:null, height:null, formChoiceIdx:0, neoGroupIdx:0, neoGA:'', neoPNA:'', neoBW:'' };
+let ddState = { screen:'home', searchQuery:'', activeCategory:null, drugId:null, regimenIdx:0, weight:null, height:null, formChoiceIdx:0, neoGroupIdx:0, neoGA:'', neoPNA:'', neoBW:'', renalGroupIdx:0, renalHeight:'', renalScr:'', renalWeight:'' };
 
 function ddGoTo(screen, patch){
   ddState = Object.assign({}, ddState, {screen}, patch||{});
@@ -18736,6 +18930,7 @@ function ddRender(){
   else if (ddState.screen === 'detail') ddDetailView(app);
   else if (ddState.screen === 'calc') ddCalcView(app);
   else if (ddState.screen === 'neonatal') ddNeonatalView(app);
+  else if (ddState.screen === 'renal') ddRenalView(app);
 }
 
 /* ---------- Matching helper (same pattern as homeMatches) ---------- */
@@ -18873,16 +19068,22 @@ function ddDetailView(app){
   if (drug.neonatalGroups){
     drug.neonatalGroups.forEach(g => g.brackets.forEach(b => neonatalIdxSet.add(b.regimenIdx)));
   }
+  if (drug.renalGroups){
+    drug.renalGroups.forEach(g => {
+      g.crclBrackets.forEach(b => neonatalIdxSet.add(b.regimenIdx));
+      (g.dialysisOptions||[]).forEach(o => neonatalIdxSet.add(o.regimenIdx));
+    });
+  }
   const visibleRegimens = drug.regimens
     .map((reg, idx) => ({reg, idx}))
     .filter(x => !neonatalIdxSet.has(x.idx));
 
-  if (visibleRegimens.length === 1 && !drug.neonatalGroups){
+  if (visibleRegimens.length === 1 && !drug.neonatalGroups && !drug.renalGroups){
     ddGoTo('calc', {regimenIdx: visibleRegimens[0].idx, formChoiceIdx: 0});
     return;
   }
 
-  if (visibleRegimens.length === 0 && !drug.neonatalGroups) return;
+  if (visibleRegimens.length === 0 && !drug.neonatalGroups && !drug.renalGroups) return;
 
   const card = document.createElement('div');
   card.className = 'q-card';
@@ -18904,6 +19105,13 @@ function ddDetailView(app){
     nbBtn.textContent = `👶 ${t(DD.newbornMode)}`;
     nbBtn.onclick = () => ddGoTo('neonatal', {neoGroupIdx:0, neoGA:'', neoPNA:'', neoBW:''});
     list.appendChild(nbBtn);
+  }
+  if (drug.renalGroups){
+    const renalBtn = document.createElement('button');
+    renalBtn.className = 'opt-btn';
+    renalBtn.textContent = `🧪 ${t(DD.renalMode)}`;
+    renalBtn.onclick = () => ddGoTo('renal', {renalGroupIdx:0, renalHeight:'', renalScr:'', renalWeight:''});
+    list.appendChild(renalBtn);
   }
   app.appendChild(list);
 }
@@ -19036,6 +19244,177 @@ function ddNeonatalView(app){
   });
 
   renderTable();
+  renderResult();
+}
+
+/* ---------- Renal adjustment mode: Schwartz CrCl calculator + bracket table ---------- */
+function ddSchwartzCrCl(heightCm, scr){
+  if (!heightCm || !scr) return null;
+  return Math.round((0.413 * heightCm / scr) * 10) / 10;
+}
+function ddFindRenalBracket(brackets, crcl){
+  return brackets.find(function(b){
+    const loOk = b.min == null || (b.minExclusive ? crcl > b.min : crcl >= b.min);
+    const hiOk = b.max == null || (b.maxExclusive ? crcl < b.max : crcl <= b.max);
+    return loOk && hiOk;
+  });
+}
+
+function ddRenalView(app){
+  const drug = DRUG_DB.find(d => d.id === ddState.drugId);
+  if (!drug || !drug.renalGroups){ ddGoTo('home'); return; }
+
+  ddHeader(app, `🧪 ${t(drug.name)} — ${t(DD.renalMode)}`);
+
+  const formulaNote = document.createElement('div');
+  formulaNote.style.cssText = 'font-size:11.5px; color:var(--ink-soft); margin-bottom:10px; line-height:1.6;';
+  formulaNote.textContent = t(DD.renalSchwartzFormula);
+  app.appendChild(formulaNote);
+
+  const groups = drug.renalGroups;
+  let groupSelect = null;
+  if (groups.length > 1){
+    const groupCard = document.createElement('div');
+    groupCard.className = 'q-card';
+    groupCard.innerHTML = `<div class="q-text">${t(DD.selectRegimen)}</div>`;
+    const sel = document.createElement('select');
+    sel.id = 'ddRenalGroupSelect';
+    sel.style.cssText = 'width:100%; padding:10px; font-size:15px; border-radius:8px; border:1px solid var(--pink-200); margin-top:8px;';
+    groups.forEach((g, idx) => {
+      const opt = document.createElement('option');
+      opt.value = idx;
+      opt.textContent = t(g.label);
+      if (idx === (ddState.renalGroupIdx||0)) opt.selected = true;
+      sel.appendChild(opt);
+    });
+    groupCard.appendChild(sel);
+    app.appendChild(groupCard);
+    groupSelect = sel;
+  }
+
+  const tableArea = document.createElement('div');
+  app.appendChild(tableArea);
+
+  const inputCard = document.createElement('div');
+  inputCard.className = 'q-card';
+  inputCard.innerHTML = `
+    <div class="q-text">${t(DD.renalHeightLabel)}</div>
+    <input type="number" id="ddRenalHeight" inputmode="decimal" placeholder="${LANG==='th'?'เช่น 90':'e.g. 90'}"
+           style="width:100%; padding:10px; font-size:16px; border-radius:8px; border:1px solid var(--pink-200); margin-top:6px; margin-bottom:12px;"
+           value="${ddState.renalHeight||''}">
+    <div class="q-text">${t(DD.renalScrLabel)}</div>
+    <input type="number" id="ddRenalScr" inputmode="decimal" step="0.01" placeholder="${LANG==='th'?'เช่น 0.5':'e.g. 0.5'}"
+           style="width:100%; padding:10px; font-size:16px; border-radius:8px; border:1px solid var(--pink-200); margin-top:6px; margin-bottom:12px;"
+           value="${ddState.renalScr||''}">
+    <div class="q-text">${t(DD.weightLabel)}</div>
+    <input type="number" id="ddRenalWeight" inputmode="decimal" placeholder="${t(DD.weightPlaceholder)}"
+           style="width:100%; padding:10px; font-size:16px; border-radius:8px; border:1px solid var(--pink-200); margin-top:6px;"
+           value="${ddState.renalWeight||''}">
+  `;
+  app.appendChild(inputCard);
+
+  const resultArea = document.createElement('div');
+  app.appendChild(resultArea);
+
+  const dialysisArea = document.createElement('div');
+  app.appendChild(dialysisArea);
+
+  function currentGroup(){
+    const idx = groupSelect ? parseInt(groupSelect.value, 10) : 0;
+    return groups[idx];
+  }
+
+  function renderTable(){
+    const group = currentGroup();
+    const rows = group.crclBrackets.map(function(b){
+      const reg = drug.regimens[b.regimenIdx];
+      return `<tr><td>${t(b.label)}</td><td style="font-family:'IBM Plex Mono',monospace; font-size:12.5px;">${ddSpecText(reg, drug.route)}</td></tr>`;
+    }).join('');
+    tableArea.innerHTML = `<div class="q-card" style="margin-bottom:12px;">
+      <div class="q-text" style="margin-bottom:8px;">${t(DD.renalTableHeading)}</div>
+      <div class="dose-table-scroll"><table class="dose-table"><thead><tr><th>CrCl (mL/min/1.73m²)</th><th>${t(DD.doseReference)}</th></tr></thead><tbody>${rows}</tbody></table></div>
+    </div>`;
+  }
+
+  function renderDialysis(){
+    const group = currentGroup();
+    if (!group.dialysisOptions || !group.dialysisOptions.length){ dialysisArea.innerHTML=''; return; }
+    const weightKg = parseFloat(document.getElementById('ddRenalWeight').value);
+    const list = group.dialysisOptions.map(function(opt){
+      const reg = drug.regimens[opt.regimenIdx];
+      let body;
+      if (weightKg > 0){
+        const calcResult = calcRegimenDose(reg, weightKg);
+        body = calcResult.kind === 'unknown' ? ddSpecText(reg, drug.route) : ddFormatResult(calcResult, reg, drug.route);
+      } else {
+        body = ddSpecText(reg, drug.route);
+      }
+      return `<div style="margin-bottom:10px;"><div style="font-weight:700; font-size:13px; color:var(--pink-600); margin-bottom:2px;">${t(opt.label)}</div><div style="font-family:'IBM Plex Mono',monospace; font-size:12.5px;">${body}</div></div>`;
+    }).join('');
+    dialysisArea.innerHTML = `<div class="q-card" style="margin-top:12px;">
+      <div class="q-text" style="margin-bottom:8px;">${t(DD.renalDialysisHeading)}</div>
+      ${list}
+    </div>`;
+  }
+
+  function renderResult(){
+    resultArea.innerHTML = '';
+    const height = parseFloat(document.getElementById('ddRenalHeight').value);
+    const scr = parseFloat(document.getElementById('ddRenalScr').value);
+    if (!height || !scr){
+      const hint = document.createElement('div');
+      hint.className = 'q-hint';
+      hint.style.padding = '16px 0';
+      hint.textContent = t(DD.renalEnterAll);
+      resultArea.appendChild(hint);
+      return;
+    }
+    const crcl = ddSchwartzCrCl(height, scr);
+    const group = currentGroup();
+    const bracket = ddFindRenalBracket(group.crclBrackets, crcl);
+    const crclLine = `<div style="font-size:12px; color:var(--pink-600); font-weight:700; margin-bottom:6px;">${t(DD.renalCalcCrCl)}: ${crcl} mL/min/1.73m²</div>`;
+    if (!bracket){
+      const warn = document.createElement('div');
+      warn.className = 'result-banner moderate';
+      warn.innerHTML = crclLine + `<p>⚠ ${t(DD.renalNoMatch)}</p>`;
+      resultArea.appendChild(warn);
+      return;
+    }
+    const reg = drug.regimens[bracket.regimenIdx];
+    const matchLabel = crclLine + `<div style="font-size:12px; color:var(--pink-600); font-weight:700; margin-bottom:6px;">${t(DD.renalMatchedBracket)}: ${t(bracket.label)}</div>`;
+    const weightKg = parseFloat(document.getElementById('ddRenalWeight').value);
+    let bodyHtml;
+    if (weightKg > 0){
+      const calcResult = calcRegimenDose(reg, weightKg);
+      bodyHtml = calcResult.kind === 'unknown' ? ddSpecText(reg, drug.route) : ddFormatResult(calcResult, reg, drug.route);
+    } else {
+      bodyHtml = ddSpecText(reg, drug.route);
+    }
+    spSectionCard(resultArea, {
+      h: DD.resultHeading, icon:'🧪', prominent:true,
+      customHtml: matchLabel + bodyHtml
+    });
+    const disclaimer = document.createElement('div');
+    disclaimer.style.cssText = 'font-size:11.5px; color:var(--ink-soft); margin-top:8px; line-height:1.6;';
+    disclaimer.textContent = t(DD.disclaimer);
+    resultArea.appendChild(disclaimer);
+  }
+
+  if (groupSelect){
+    groupSelect.onchange = function(){ ddState.renalGroupIdx = parseInt(this.value, 10); renderTable(); renderDialysis(); renderResult(); };
+  }
+  ['ddRenalHeight','ddRenalScr','ddRenalWeight'].forEach(function(id){
+    document.getElementById(id).oninput = function(){
+      if (id==='ddRenalHeight') ddState.renalHeight = this.value;
+      if (id==='ddRenalScr') ddState.renalScr = this.value;
+      if (id==='ddRenalWeight') ddState.renalWeight = this.value;
+      renderDialysis();
+      renderResult();
+    };
+  });
+
+  renderTable();
+  renderDialysis();
   renderResult();
 }
 
