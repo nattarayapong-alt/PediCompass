@@ -6985,11 +6985,12 @@ function jaClassify(f){
   return 'below';
 }
 function jaGap(f){ const th = jaThresholds(f); return Math.round((th.pt - f.tsb)*10)/10; }
-/* below-threshold follow-up bracket: 0 = gap 2.5–5.4, 1 = gap >=5.5 with neurotoxicity risk, 2 = gap >=5.5 without */
-function jaBelowBracketIdx(f){
-  const gap = jaGap(f);
-  if(gap < 5.5) return 0;
-  return jaThresholds(f).risk ? 1 : 2;
+/* below-threshold follow-up bracket: gap 2.5–5.4 -> belowItems[0] only; gap >=5.5 -> belowItems[1] and [2]
+   (both shown together, since the ≥5.5 split is by significant-hyperbilirubinemia risk factors — a
+   different risk set than the neurotoxicity-risk flag used elsewhere on this screen — and the app has
+   no separate input for it; the clinician picks the applicable line using JA.res.sigRiskItems below) */
+function jaBelowItems(f){
+  return jaGap(f) < 5.5 ? [JA.res.belowItems[0]] : [JA.res.belowItems[1], JA.res.belowItems[2]];
 }
 
 const JA = {
@@ -7182,7 +7183,7 @@ const JA = {
       {th:'ให้ทารกอยู่โรงพยาบาลต่อ', en:'Keep the infant in hospital.'},
       {th:'ส่งตรวจยืนยันระดับ TSB', en:'Confirm the level with TSB.'},
       {th:'ตรวจหาสาเหตุของภาวะตัวเหลือง', en:'Investigate the cause of the jaundice.'},
-      {th:'ติดตามระดับ MB/TSB/TcB ทุก 6–12 ชั่วโมง', en:'Monitor MB/TSB/TcB every 6–12 hours.'},
+      {th:'ติดตามระดับ MB/TSB/TcB — ทุก 6–12 ชั่วโมงหากมีปัจจัยเสี่ยงต่อ significant hyperbilirubinemia หรือทุก 12–24 ชั่วโมงหากไม่มี', en:'Monitor MB/TSB/TcB — every 6–12 hours with risk factors for significant hyperbilirubinemia, or every 12–24 hours without.'},
       {th:'อาจพิจารณาให้การรักษาด้วยการส่องไฟ โดยเฉพาะหากทารกไม่สามารถมาตามนัดติดตามภายใน 24 ชั่วโมงหลังกลับบ้าน', en:'Phototherapy may be considered, particularly if the infant cannot return for follow-up within 24 hours of discharge.'}
     ],
 
@@ -7706,8 +7707,7 @@ function jaResultView(app){
     spSectionCard(wrap, { h:JA.res.nearHeading, icon:'👀', prominent:true, list:JA.res.nearItems });
     spSectionCard(wrap, { h:JA.res.sigRiskHeading, icon:'📋', collapsible:true, list:JA.res.sigRiskItems });
   } else {
-    const belowIdx = jaBelowBracketIdx(f);
-    spSectionCard(wrap, { h:JA.res.belowHeading, icon:'📅', prominent:true, list:[JA.res.belowItems[belowIdx]] });
+    spSectionCard(wrap, { h:JA.res.belowHeading, icon:'📅', prominent:true, list:jaBelowItems(f) });
     spSectionCard(wrap, { h:JA.res.sigRiskHeading, icon:'📋', collapsible:true, list:JA.res.sigRiskItems });
   }
 
