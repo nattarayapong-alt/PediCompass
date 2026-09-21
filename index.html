@@ -527,6 +527,23 @@ footer .disclaimer-warning{
 }
 .mini-note ul{margin:4px 0 0; padding-left:16px;}
 .mini-note li{margin-bottom:3px;}
+
+/* th-card / th-box — larger, more visually distinct cards used by the Thalassemia module
+   (drug cards with a name badge, and colour-coded info/warn/crit boxes) */
+.th-card{background:#fff; border:1px solid var(--pink-200); border-radius:16px; padding:16px 18px; margin-bottom:14px; box-shadow:var(--shadow);}
+.th-card h4{margin:0 0 8px; font-family:'Taviraj',serif; font-weight:600; font-size:17px; color:var(--ink); display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+.th-badge{font-size:12px; font-weight:700; background:var(--pink-600); color:#fff; padding:4px 13px; border-radius:20px; white-space:nowrap;}
+.th-card p{font-size:13.5px; line-height:1.7; margin:6px 0;}
+.th-box{border-radius:16px; padding:16px 18px; margin-bottom:14px; font-size:13.5px; line-height:1.75;}
+.th-box.info{background:var(--info-bg); border:1px solid var(--info-bd); color:var(--info-tx);}
+.th-box.warn{background:var(--mod-bg); border:1px solid var(--mod-bd); color:var(--mod-tx);}
+.th-box.crit{background:var(--sev-bg); border:1px solid var(--sev-bd); color:var(--sev-tx);}
+.th-box b, .th-card b{color:var(--ink);}
+.th-evi-pill{display:inline-block; font-size:11px; font-weight:600; padding:4px 12px; border-radius:20px; background:rgba(255,255,255,.6); color:inherit; margin-top:8px;}
+.th-ol{margin:8px 0 4px 20px; padding:0;}
+.th-ol li{margin-bottom:6px;}
+.th-hdr-row{display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-bottom:8px;}
+.th-hdr-row h4{margin:0;}
 .evidence{font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--pink-600); background:var(--pink-100); padding:2px 7px; border-radius:4px; display:inline-block; margin-left:5px;}
 
 @media (max-width:400px){
@@ -6967,6 +6984,13 @@ function jaClassify(f){
   if(th.pt - b < 2.5) return 'near';
   return 'below';
 }
+function jaGap(f){ const th = jaThresholds(f); return Math.round((th.pt - f.tsb)*10)/10; }
+/* below-threshold follow-up bracket: 0 = gap 2.5–5.4, 1 = gap >=5.5 with neurotoxicity risk, 2 = gap >=5.5 without */
+function jaBelowBracketIdx(f){
+  const gap = jaGap(f);
+  if(gap < 5.5) return 0;
+  return jaThresholds(f).risk ? 1 : 2;
+}
 
 const JA = {
   refBadge:{th:'ภาวะตัวเหลืองในทารกแรกเกิด', en:'Neonatal jaundice'},
@@ -7050,6 +7074,17 @@ const JA = {
     bronzeNote:{th:'อาจพบภาวะ Bronze baby syndrome ได้เมื่อส่องไฟในทารกกลุ่มนี้ ซึ่งหายได้เองหลังหยุดส่องไฟ', en:'Bronze baby syndrome may occur with phototherapy in this group; it resolves after phototherapy is stopped.'}
   },
 
+  opd:{
+    heading:{th:'คำแนะนำการติดตามภาวะตัวเหลืองที่แผนกตรวจโรคผู้ป่วยนอก', en:'Follow-up guidance for neonatal jaundice at the outpatient department'},
+    admitLine:{th:'รับเข้ารักษาในโรงพยาบาลหากค่า TSB ถึงเกณฑ์การส่องไฟ', en:'Admit to hospital if the TSB reaches the phototherapy threshold.'},
+    followLine:{th:'หากค่า TSB ไม่ถึงเกณฑ์การส่องไฟ พิจารณานัดติดตามต่อภายใน 2–3 วัน เมื่อ', en:'If the TSB has not reached the phototherapy threshold, consider scheduling follow-up again within 2–3 days when:'},
+    followItems:[
+      {th:'แนวโน้มค่า TSB/MB/TcB ไม่ลดลง', en:'The TSB/MB/TcB trend is not decreasing.'},
+      {th:'ค่า TSB/MB/TcB ห่างจากเกณฑ์การส่องไฟ < 3 mg/dL', en:'TSB/MB/TcB is within 3 mg/dL of the phototherapy threshold.'},
+      {th:'มีอาการผิดปกติอื่น ๆ ร่วมด้วย เช่น น้ำหนักลด/ไม่เพิ่ม มีปัญหาในการเข้าเต้าหรือดูดนมแม่', en:'Other abnormal findings are present — e.g. weight loss/poor weight gain, or difficulty latching or breastfeeding.'}
+    ]
+  },
+
   age:{
     heading:{th:'อายุหลังเกิด', en:'Postnatal age'},
     hint:{th:'เลือกหน่วยแล้วกรอกตัวเลข — เกณฑ์จะใช้ช่วงอายุที่ต่ำกว่าหรือเท่ากับค่าที่กรอก', en:'Choose a unit and enter the value — thresholds use the column at or below the entered age'},
@@ -7102,6 +7137,7 @@ const JA = {
     rowRisk:{th:'ปัจจัยเสี่ยง neurotoxicity', en:'Neurotoxicity risk factors'},
     rowTsb:{th:'ระดับบิลิรูบิน', en:'Bilirubin level'},
     rowPt:{th:'เกณฑ์การส่องไฟ', en:'Phototherapy threshold'},
+    rowGap:{th:'ส่วนต่างจากเกณฑ์การส่องไฟ', en:'Gap from phototherapy threshold'},
     rowEsc:{th:'เกณฑ์เพิ่มระดับการดูแลรักษา', en:'Escalation-of-care threshold'},
     rowEx:{th:'เกณฑ์การเปลี่ยนถ่ายเลือด', en:'Exchange transfusion threshold'},
 
@@ -7640,10 +7676,10 @@ function jaResultView(app){
     { item:JA.res.rowAge, val:ageLabel },
     { item:JA.res.rowRisk, val:riskLabel },
     { item:JA.res.rowTsb, val:f.tsb + ' mg/dL' },
-    { item:JA.res.rowPt, val:th.pt + ' mg/dL' },
-    { item:JA.res.rowEsc, val:th.esc + ' mg/dL' },
-    { item:JA.res.rowEx, val:th.ex + ' mg/dL' }
+    { item:JA.res.rowPt, val:th.pt + ' mg/dL' }
   ];
+  if(cls==='near' || cls==='below'){ rows.push({ item:JA.res.rowGap, val: jaGap(f) + ' mg/dL' }); }
+  rows.push({ item:JA.res.rowEsc, val:th.esc + ' mg/dL' }, { item:JA.res.rowEx, val:th.ex + ' mg/dL' });
   spSectionCard(wrap, { h:JA.res.summaryHeading, icon:'🧮', prominent:true,
     customHtml: spTableHtml([{key:'item',label:JA.res.cols.item},{key:'val',label:JA.res.cols.val}], rows) });
 
@@ -7670,8 +7706,14 @@ function jaResultView(app){
     spSectionCard(wrap, { h:JA.res.nearHeading, icon:'👀', prominent:true, list:JA.res.nearItems });
     spSectionCard(wrap, { h:JA.res.sigRiskHeading, icon:'📋', collapsible:true, list:JA.res.sigRiskItems });
   } else {
-    spSectionCard(wrap, { h:JA.res.belowHeading, icon:'📅', prominent:true, list:JA.res.belowItems });
+    const belowIdx = jaBelowBracketIdx(f);
+    spSectionCard(wrap, { h:JA.res.belowHeading, icon:'📅', prominent:true, list:[JA.res.belowItems[belowIdx]] });
     spSectionCard(wrap, { h:JA.res.sigRiskHeading, icon:'📋', collapsible:true, list:JA.res.sigRiskItems });
+  }
+
+  if(cls==='near' || cls==='below'){
+    spSectionCard(wrap, { h:JA.opd.heading, icon:'🏥', collapsible:true, openByDefault:true,
+      customHtml: `<ul><li>${t(JA.opd.admitLine)}</li><li>${t(JA.opd.followLine)}<ol style="margin:6px 0 0 18px; padding:0;">${JA.opd.followItems.map(x=>`<li>${t(x)}</li>`).join('')}</ol></li></ul>` });
   }
 
   if(cls==='exchange' || cls==='escalation'){
@@ -9004,6 +9046,10 @@ const CATEGORY_DISCLAIMERS = {
   tb:{
     th:'เครื่องมือนี้จัดทำขึ้นเพื่อสนับสนุนการตัดสินใจทางคลินิกของบุคลากรทางการแพทย์ โดยอ้างอิงแนวทางเวชปฏิบัติเรื่องวัณโรคในเด็ก: การวินิจฉัย รักษา และป้องกัน พ.ศ. 2568 (ราชวิทยาลัยกุมารแพทย์แห่งประเทศไทย) ครอบคลุมบทที่ 2 (วัณโรคปอดและนอกปอด) บทที่ 3 (การรักษาวัณโรคที่ไม่ดื้อยา, การจัดการปัญหาระหว่างรักษา, และแนวทางวัณโรคดื้อยา) บทที่ 4 (การดูแลเด็กที่สัมผัสวัณโรคและวัณโรคระยะแฝง) บทที่ 5 (วัคซีนบีซีจี) และคำแนะนำเสริมสำหรับผู้ป่วยวัณโรคที่ติดเชื้อเอชไอวีร่วม (บทที่ 6 บางส่วน) ไม่ครอบคลุมกรณีพิเศษอื่นในบทที่ 6 (ตับ/ไต) เนื้อหาส่วนวัณโรคดื้อยาให้ข้อมูลเบื้องต้นเพื่อช่วยจำแนกประเภทและดูสูตรยาที่อาจเป็นไปได้เท่านั้น การรักษาต้องอยู่ภายใต้การดูแลของผู้เชี่ยวชาญด้านวัณโรคดื้อยา',
     en:'This tool is intended to support the clinical decision-making of healthcare professionals, based on the Clinical Practice Guideline on Tuberculosis in Children: Diagnosis, Treatment, and Prevention 2025 (Royal College of Pediatricians of Thailand), covering chapter 2 (pulmonary and extrapulmonary TB), chapter 3 (drug-susceptible TB treatment, managing on-treatment problems, and drug-resistant TB guidance), chapter 4 (TB contact management and latent TB infection), chapter 5 (BCG vaccine), and supplementary guidance for TB patients with concurrent HIV (part of chapter 6). It does not cover other chapter 6 special populations (liver/renal). The drug-resistant TB content provides preliminary classification and possible regimen information only; treatment must be managed under a drug-resistant TB specialist.'
+  },
+  thalassemia:{
+    th:'เครื่องมือนี้จัดทำขึ้นเพื่อสนับสนุนการตัดสินใจทางคลินิกของบุคลากรทางการแพทย์ โดยอ้างอิง (1) คู่มือทางห้องปฏิบัติการการตรวจวินิจฉัยธาลัสซีเมียและฮีโมโกลบินผิดปกติ กรมวิทยาศาสตร์การแพทย์ (การแปลผล Hb typing) และ (2) Guidelines for the Management of Anemia and Thalassemia (ข้อบ่งชี้การให้เลือดสม่ำเสมอและการให้ยาขับธาตุเหล็ก)',
+    en:'This tool is intended to support the clinical decision-making of healthcare professionals, based on (1) the Laboratory Diagnosis Manual for Thalassemia and Abnormal Hemoglobin, Department of Medical Sciences (Hb typing interpretation) and (2) the Guidelines for the Management of Anemia and Thalassemia (regular transfusion indication and iron chelation therapy).'
   },
   coderx:{
     th:'เครื่องมือนี้จัดทำขึ้นเพื่อสนับสนุนการตัดสินใจทางคลินิกของบุคลากรทางการแพทย์ โดยอ้างอิง (1) AAP "Drugs Used to Treat Pediatric Emergencies" Pediatrics 2020;145(1):e20193450 (ยาส่วนใหญ่และอุปกรณ์) และ (2) แนวทางเวชปฏิบัติในการรักษาโรคลมชักสำหรับแพทย์ พ.ศ. 2564 สถาบันประสาทวิทยา กรมการแพทย์ (เฉพาะ Diazepam และ Midazolam ตรงกับโมดูล Status Epilepticus)',
@@ -11871,6 +11917,1038 @@ function atRender(){
 /* ======================= End Antibiotic Allergy Evaluation ======================= */
 
 
+
+/* ============================================================================
+   THALASSEMIA — Hb typing interpreter, transfusion indication, iron chelation
+   Reference: คู่มือทางห้องปฏิบัติการการตรวจวินิจฉัยธาลัสซีเมียและฮีโมโกลบินผิดปกติ
+   (กรมวิทยาศาสตร์การแพทย์); Guidelines for the Management of Anemia and Thalassemia
+   ============================================================================ */
+
+const TH_UI = {
+  homeEyebrow: {th:'ธาลัสซีเมีย', en:'Thalassemia'},
+  homeTitle: {th:'เครื่องมือธาลัสซีเมีย', en:'Thalassemia Toolkit'},
+  homeDesc: {th:'แปลผล Hb typing · ประเมินข้อบ่งชี้การให้เลือด · แนวทางยาขับธาตุเหล็ก', en:'Hb typing interpretation · transfusion indication · iron chelation guidance'},
+  tabHbTyping: {th:'แปลผล Hb Typing', en:'Hb Typing Interpreter'},
+  tabHbTypingShort: {th:'กรอกผล %Hb → ชนิดธาลัสซีเมีย · genotype (รวมตารางอ้างอิง genotype)', en:'Enter %Hb values → thalassemia type · genotype (incl. genotype reference table)'},
+  tabTransfusion: {th:'ข้อบ่งชี้การให้เลือด', en:'Transfusion Indication'},
+  tabTransfusionShort: {th:'ประเมินเกณฑ์ให้เลือดสม่ำเสมอ (รวมแนวทางการให้เลือด)', en:'Assess regular-transfusion criteria (incl. transfusion regimens)'},
+  tabReference: {th:'ภาวะเหล็กเกินและการให้ยาขับธาตุเหล็ก', en:'Iron Overload & Chelation Therapy'},
+  tabReferenceShort: {th:'เกณฑ์เริ่มยา TDT/NTDT · DFO/DFP/DFX · ตาราง F/U', en:'TDT/NTDT criteria · DFO/DFP/DFX · F/U monitoring table'},
+
+  // --- Panel 1: Hb typing form ---
+  ageGroupLabel: {th:'ช่วงอายุที่เจาะเลือด', en:'Age at sampling'},
+  ageBirth: {th:'ทารกแรกเกิด (< 1 ปี)', en:'Newborn (< 1 year)'},
+  ageAfter1y: {th:'เด็กโต / ผู้ใหญ่ (≥ 1 ปี)', en:'Older child / adult (≥ 1 year)'},
+  mcvLabel: {th:'MCV (fL) — ถ้ามี', en:'MCV (fL) — if available'},
+  mchLabel: {th:'MCH (pg) — ถ้ามี', en:'MCH (pg) — if available'},
+  mcvHint: {th:'ช่วยแยก α-thal trait จากคนปกติ และช่วยเตือนกรณีผลไม่สอดคล้องกัน (เช่น สงสัยขาดธาตุเหล็ก)', en:'Helps distinguish α-thal trait from normal, and flags discordant results (e.g. suspected iron deficiency)'},
+  ceModeLabel: {th:'เครื่องตรวจแยก Hb A2 ออกจาก Hb E ได้ (Capillary Electrophoresis)', en:'Machine separates Hb A2 from Hb E (Capillary Electrophoresis)'},
+  hbALabel: {th:'Hb A (%)', en:'Hb A (%)'},
+  hbAPlaceholder: {th:'ปกติ 96-98%', en:'Normal 96-98%'},
+  hbFLabel: {th:'Hb F (%)', en:'Hb F (%)'},
+  hbFPlaceholder: {th:'ปกติ <1%', en:'Normal <1%'},
+  aeCombinedLabel: {th:'Hb A2/E (%) — ค่ารวม A2+E ตามที่เครื่อง HPLC รายงาน', en:'Hb A2/E (%) — combined A2+E as reported by HPLC'},
+  aeCombinedHint: {th:'เครื่อง HPLC ส่วนใหญ่ในไทยแยก Hb A2 กับ Hb E ไม่ได้ (retention time เท่ากัน) จึงรายงานรวมเป็นค่าเดียว', en:'Most HPLC machines in Thailand cannot separate Hb A2 from Hb E (same retention time), so they report a combined value'},
+  hbA2SepLabel: {th:'Hb A2 (%)', en:'Hb A2 (%)'},
+  hbESepLabel: {th:'Hb E (%)', en:'Hb E (%)'},
+  hbHLabel: {th:'Hb H (%)', en:'Hb H (%)'},
+  hbCSLabel: {th:'Hb Constant Spring — CS (%)', en:'Hb Constant Spring — CS (%)'},
+  hbBartsLabel: {th:"Hb Bart's (%)", en:"Hb Bart's (%)"},
+  hbBartsHint: {th:"Hb Bart's ที่ตรวจพบตอนแรกเกิดยังช่วยบอกแนวโน้มชนิดพาหะแอลฟ่าได้ แต่ Hb typing เพียงอย่างเดียวแยกพาหะ 2 ชนิดออกจากกันแน่ชัดไม่ได้", en:"Hb Bart's detected at birth still hints at α-thal carrier subtype, but Hb typing alone cannot reliably distinguish the two carrier types"},
+  symptomsCheckLabel: {th:'ผู้ป่วยมีอาการซีด/ตับม้ามโต/อาการทางคลินิกของธาลัสซีเมีย (ใช้แยกผลกำกวมบางชนิด)', en:'Patient has pallor/hepatosplenomegaly/clinical signs of thalassemia (used to resolve some ambiguous results)'},
+  ofTestLabel: {th:'OF Test (ถ้ามี — screening)', en:'OF Test (if available — screening)'},
+  dcipTestLabel: {th:'DCIP Test (ถ้ามี — screening)', en:'DCIP Test (if available — screening)'},
+  notSpecified: {th:'ไม่ระบุ', en:'Not specified'},
+  negative: {th:'Negative', en:'Negative'},
+  positive: {th:'Positive', en:'Positive'},
+  screenNotRequired: {th:'ไม่จำเป็นต้องกรอก — ใช้แค่เช็คความสอดคล้องกับผล Hb typing เท่านั้น', en:'Not required — used only to check consistency with the Hb typing result'},
+  interpretBtn: {th:'แปลผล genotype / ชนิดธาลัสซีเมีย', en:'Interpret genotype / thalassemia type'},
+
+  // Result labels
+  badgeTdt: {th:'มักเป็น TDT', en:'Usually TDT'},
+  badgeNtdt: {th:'มักเป็น NTDT', en:'Usually NTDT'},
+  badgeCarrier: {th:'พาหะ / ไม่ต้องรับเลือด', en:'Carrier / no transfusion needed'},
+  badgeVariable: {th:'ความรุนแรงหลากหลาย — ประเมินคลินิกเพิ่ม', en:'Variable severity — needs clinical correlation'},
+  genotypeLabel: {th:'Genotype', en:'Genotype'},
+  noMatchTitle: {th:'ไม่พบรูปแบบที่ตรงตามตารางอ้างอิง', en:'No matching pattern in the reference table'},
+  noMatchBody: {th:'ข้อมูลที่ให้มาไม่ตรงกับรูปแบบมาตรฐาน 22 รายการในคู่มือกรมวิทยาศาสตร์การแพทย์ กรุณาตรวจสอบตัวเลขอีกครั้ง หรืออาจเป็น Rare abnormal Hb ซึ่งควรรายงานตำแหน่งพีคที่พบบนโครมาโตแกรมและส่งตรวจ DNA ยืนยันต่อไป โดยเฉพาะถ้าผู้ป่วยเคยได้รับเลือดมาก่อน หรืออาการทางคลินิกไม่สอดคล้องกับผลเลือด', en:'The values entered do not match any of the 22 standard patterns in the Department of Medical Sciences manual. Please re-check the numbers, or this may be a rare abnormal Hb — report the chromatogram peak position and send for confirmatory DNA testing, especially if the patient was recently transfused or the clinical picture does not fit the lab result.'},
+  enteredFrom: {th:'ป้อนจาก', en:'Entered'},
+  birthLabel: {th:'แรกเกิด', en:'birth'},
+  after1yLabel: {th:'≥1 ปี', en:'≥1y'},
+  goToTransfusion: {th:'ไปที่แท็บ "ข้อบ่งชี้การให้เลือด" เพื่อประเมินต่อ', en:'Go to the "Transfusion Indication" tab to continue'},
+
+  // Discordance / caution
+  ironDeficiencyWarnTitle: {th:'⚠️ ผลไม่สอดคล้องกัน', en:'⚠️ Discordant result'},
+  ironDeficiencyWarnBody: {th:'Hb typing ปกติ แต่ MCV/MCH ต่ำ — เข้าได้กับ ภาวะขาดธาตุเหล็ก (iron deficiency anemia) หรือพาหะแอลฟ่า-ธาลัสซีเมียที่ตรวจไม่พบด้วยวิธีนี้ แนะนำตรวจ serum ferritin/iron studies เพิ่มเติมเพื่อแยกภาวะ (ควรจะเข้าเกณฑ์ item 2 "Not rule out α-thalassemia" แทน ลองตรวจสอบ MCV/MCH อีกครั้ง)', en:'Hb typing is normal but MCV/MCH is low — consistent with iron deficiency anemia or an α-thalassemia carrier not detected by this method. Recommend serum ferritin/iron studies to differentiate (this should probably fall under item 2 "Not rule out α-thalassemia" instead — double-check the MCV/MCH values)'},
+  reviewMcvTitle: {th:'⚠️ ควรทวนสอบ', en:'⚠️ Should be reviewed'},
+  reviewMcvBodyRange: {th:'ตามข้อมูลอ้างอิงมักมี MCV ประมาณ {lo}-{hi} fL แต่ค่าที่ป้อนมา ({mcv} fL) อยู่นอกช่วงดังกล่าว — แนะนำตรวจ CBC ซ้ำหรือทวนสอบผล Hb typing', en:'Reference data usually shows MCV around {lo}-{hi} fL, but the entered value ({mcv} fL) is outside this range — recommend repeating CBC or reviewing the Hb typing result'},
+  reviewMcvBodyGeneric: {th:'ตามปกติมักมี MCV &lt;80 fL และ MCH &lt;27 pg ร่วมด้วย แต่ค่าที่ป้อนมาอยู่ในช่วงปกติ — แนะนำตรวจ CBC ซ้ำหรือทวนสอบผล Hb typing', en:'This type normally has MCV &lt;80 fL and MCH &lt;27 pg, but the values entered are within the normal range — recommend repeating CBC or reviewing the Hb typing result'},
+  betaTraitMcvNote: {th:'⚠️ MCV ต่ำกว่าที่คาด', en:'⚠️ MCV lower than expected'},
+  betaTraitMcvBody: {th:'พาหะเบต้าธาลัสซีเมียเดี่ยวมักมี MCV {lo}-{hi} fL แต่ค่าที่ป้อนมา ({mcv} fL) ต่ำกว่านี้มาก — น่าจะมีภาวะร่วม เช่น พาหะแอลฟ่า-ธาลัสซีเมียร่วมด้วย หรือภาวะขาดธาตุเหล็ก แนะนำตรวจ serum ferritin และพิจารณา molecular genetics เพื่อยืนยัน', en:'A pure beta-thal trait usually has MCV {lo}-{hi} fL, but the entered value ({mcv} fL) is much lower — likely a co-existing condition, such as concurrent α-thalassemia trait or iron deficiency. Recommend serum ferritin and consider molecular genetics for confirmation.'},
+  a2HighTitle: {th:'⚠️ A2/E สูงผิดปกติ', en:'⚠️ Abnormally high A2/E'},
+  a2HighBody: {th:'พาหะเบต้าธาลัสซีเมียทั่วไปมี A2 ประมาณ 3.6-8% ค่าที่ป้อนมา ({ae}%) สูงกว่าช่วงนี้ — แนะนำทวนสอบผลหรือพิจารณาสาเหตุอื่นร่วมด้วย', en:'A typical beta-thal carrier has A2 around 3.6-8%; the entered value ({ae}%) is above this range — recommend reviewing the result or considering another cause'},
+  hbeHighTitle: {th:'⚠️ Hb E+A2 สูงเกิน 40%', en:'⚠️ Hb E+A2 above 40%'},
+  hbeHighBody: {th:'พาหะ Hb E ทั่วไปมักพบ Hb E+A2 ไม่เกินร้อยละ 40 ค่าที่ป้อนมา ({ae}%) สูงกว่านี้ อาจเป็น Compound β⁺-thalassemia with Hb E หรือ Abnormal Hb — ควรปรึกษาผู้เชี่ยวชาญ', en:'A typical Hb E trait usually has Hb E+A2 no higher than 40%; the entered value ({ae}%) is higher, and may represent compound β⁺-thalassemia with Hb E or an abnormal Hb — specialist consultation is advised'},
+  ageCautionTitle: {th:'⚠️ อายุ &lt;1 ปี', en:'⚠️ Age &lt;1 year'},
+  ageCautionBody: {th:'Hb F ยังคงสูงตามธรรมชาติในทารก ยังไม่สามารถแปลผลจีโนไทป์ที่แน่นอนได้ — แนะนำตรวจ Hb typing ซ้ำเมื่ออายุ ≥1 ปี', en:'Hb F is still physiologically elevated in infants; the exact genotype cannot yet be determined — recommend repeating Hb typing at age ≥1 year'},
+  eeScoreNoA2Title: {th:'EE Score', en:'EE Score'},
+  eeScoreNoA2Body: {th:'ยังไม่ได้กรอก Hb A2 — กรอกเพิ่มเพื่อให้ระบบคำนวณ EE Score (7.3×%A2+%F) ช่วยแยก Homozygous Hb E จาก β-thalassemia/Hb E (ใช้ได้เมื่อตรวจด้วย Capillary Electrophoresis ที่แยก %A2 ออกจาก %E ได้เท่านั้น — ถ้าใช้ HPLC ทั่วไปที่ A2 รวมกับ E จะใช้สูตรนี้ไม่ได้)', en:'Hb A2 has not been entered — enter it so the tool can calculate the EE Score (7.3×%A2+%F) to help distinguish Homozygous Hb E from β-thalassemia/Hb E (only valid when tested by Capillary Electrophoresis that separates %A2 from %E — this formula cannot be used with standard HPLC, where A2 is combined with E)'},
+  eeScoreInterpLow: {th:'Homozygous Hb E — ไม่จำเป็นต้องส่งตรวจ DNA ต่อ', en:'Homozygous Hb E — DNA testing is not required'},
+  eeScoreInterpHigh: {th:'มีโอกาสเป็น β-thalassemia/Hb E — แนะนำส่งตรวจยืนยัน β-thalassemia mutation ต่อไป', en:'Likely β-thalassemia/Hb E — recommend confirmatory testing for a β-thalassemia mutation'},
+  eeScoreFormulaNote: {th:'ใช้ได้ผลดีทั้งในผู้ใหญ่และเด็กอายุ &lt;2 ปี ตามคู่มือกรมวิทยาศาสตร์การแพทย์', en:'Reported to work well in both adults and children &lt;2 years per the Department of Medical Sciences manual'},
+  dcipMismatchNegTitle: {th:'⚠️ DCIP ไม่สอดคล้อง', en:'⚠️ DCIP inconsistent'},
+  dcipMismatchNegBody: {th:'ระบุ DCIP negative แต่ผลเข้าได้กับกลุ่มที่มี Hb E (DCIP มักให้ผลบวกเมื่อมี Hb E) — แนะนำทวนสอบผล', en:'DCIP was marked negative, but the result is consistent with a Hb E-containing group (DCIP is usually positive when Hb E is present) — recommend reviewing the result'},
+  ofMismatchTitle: {th:'⚠️ OF ไม่สอดคล้อง', en:'⚠️ OF inconsistent'},
+  ofMismatchBody: {th:'ระบุ OF negative แต่ MCV ต่ำ ({mcv} fL) ซึ่งปกติ OF มักให้ผลบวกเมื่อ MCV ต่ำ — แนะนำทวนสอบผล', en:'OF was marked negative, but MCV is low ({mcv} fL); OF is usually positive when MCV is low — recommend reviewing the result'},
+  symptomatic13Yes: {th:'มีอาการทางคลินิก →', en:'Symptomatic →'},
+  symptomatic13YesBody: {th:'แปลผลเป็น <b>Suspected β⁰-thalassemia/Hb E with or without α-thalassemia</b>', en:'Interpreted as <b>Suspected β⁰-thalassemia/Hb E with or without α-thalassemia</b>'},
+  symptomatic13No: {th:'ไม่มีอาการทางคลินิก (หรือไม่ได้ระบุ) →', en:'Asymptomatic (or not specified) →'},
+  symptomatic13NoBody: {th:'แปลผลเป็น <b>Suspected HPFH/Hb E or (δβ)⁰-thalassemia/Hb E with or without α-thalassemia</b> (ไม่มีอาการของโรคธาลัสซีเมีย หรืออาจมีอาการแต่ไม่รุนแรง)', en:'Interpreted as <b>Suspected HPFH/Hb E or (δβ)⁰-thalassemia/Hb E with or without α-thalassemia</b> (no thalassemia symptoms, or mild)'},
+  symptomatic14Yes: {th:'มีอาการซีดไม่มีประวัติรับเลือดใน 3 เดือนก่อนตรวจ →', en:'Pallor with no transfusion in the past 3 months →'},
+  symptomatic14YesBody: {th:'แปลผลเป็น <b>Suspected β⁰-thalassemia/β⁺-thalassemia or β⁺-thalassemia/β⁺-thalassemia with or without α-thalassemia</b>', en:'Interpreted as <b>Suspected β⁰-thalassemia/β⁺-thalassemia or β⁺-thalassemia/β⁺-thalassemia with or without α-thalassemia</b>'},
+  symptomatic14No: {th:'ไม่มีอาการของโรคธาลัสซีเมียเลย (หรือไม่ได้ระบุ) →', en:'No thalassemia symptoms at all (or not specified) →'},
+  symptomatic14NoBody: {th:'อาจเป็นพาหะ <b>HPFH trait หรือ (δβ)⁰-thalassemia trait with or without α-thalassemia</b>', en:'May be a carrier of <b>HPFH trait or (δβ)⁰-thalassemia trait with or without α-thalassemia</b>'},
+
+  // --- Panel 2: Transfusion ---
+  manualTypeLabel: {th:'หรือถ้าทราบผล Hb typing อยู่แล้ว เลือกชนิดได้เลย', en:'Or if the Hb typing result is already known, pick the type directly'},
+  manualTypeDefault: {th:'-- ไม่ระบุ / ยังไม่ทราบชนิด --', en:'-- Not specified / unknown type --'},
+  needInterpretFirst: {th:'กรุณาแปลผล Hb typing ในแท็บก่อนหน้า หรือเลือกชนิดจาก dropdown ด้านบนก่อน ระบบจะดึงชนิดของโรคมาใช้ประกอบการประเมิน', en:'Please interpret the Hb typing in the previous tab, or choose a type from the dropdown above first — the tool will use it for the assessment'},
+  goToHbTyping: {th:'ไปที่แปลผล Hb Typing', en:'Go to Hb Typing Interpreter'},
+  ageYearsLabel: {th:'อายุผู้ป่วย (ปี)', en:"Patient's age (years)"},
+  hb1Label: {th:'Hb ปัจจุบัน (g/dL)', en:'Current Hb (g/dL)'},
+  hb2Label: {th:'Hb ครั้งก่อนหน้า (g/dL) (ห่างกัน ≥2 สัปดาห์)', en:'Previous Hb (g/dL) (≥2 weeks apart)'},
+  hb2Placeholder: {th:'ถ้ามี', en:'if available'},
+  infectionLabel: {th:'มีภาวะติดเชื้อ/ไข้ร่วมด้วยขณะเจาะเลือด', en:'Concurrent infection/fever at the time of sampling'},
+  symptomsHeading: {th:'อาการ/ภาวะแทรกซ้อนที่พบร่วม (เลือกได้มากกว่า 1 ข้อ)', en:'Associated symptoms/complications (select all that apply)'},
+  symFace: {th:'ใบหน้าเปลี่ยนจากไขกระดูกขยาย', en:'Facial bone changes from marrow expansion'},
+  symGrowth: {th:'เจริญเติบโตช้าผิดปกติ', en:'Abnormal growth failure'},
+  symFracture: {th:'กระดูกหัก', en:'Bone fracture'},
+  symEmh: {th:'ตับ/ม้ามโตมาก (EMH)', en:'Marked hepatosplenomegaly (EMH)'},
+  symPah: {th:'ความดันหลอดเลือดปอดสูง', en:'Pulmonary arterial hypertension'},
+  symUlcer: {th:'แผลเรื้อรังที่ขา', en:'Chronic leg ulcer'},
+  symNone: {th:'ไม่มีอาการผิดปกติ', en:'No abnormal symptoms'},
+  assessBtn: {th:'ประเมินข้อบ่งชี้การให้เลือด', en:'Assess transfusion indication'},
+  noIndicationTitle: {th:'ไม่มีข้อบ่งชี้การให้เลือด', en:'No transfusion indication'},
+  noIndicationBody: {th:'เป็นพาหะ/ไม่มีอาการซีด ไม่จำเป็นต้องประเมินเกณฑ์การให้เลือด', en:'This is a carrier / has no anemia — no need to assess transfusion criteria'},
+  indicatedBadge: {th:'เข้าเกณฑ์เริ่มให้เลือดสม่ำเสมอ', en:'Meets criteria for regular transfusion'},
+  notIndicatedBadge: {th:'ยังไม่เข้าเกณฑ์การให้เลือดสม่ำเสมอ', en:'Does not yet meet regular-transfusion criteria'},
+  regimenTitle: {th:'รูปแบบการให้เลือดที่แนะนำ', en:'Suggested transfusion regimen'},
+  regimenHigh: {th:'High transfusion', en:'High transfusion'},
+  regimenHighTarget: {th:'9.0-10.5 g/dL (ไม่เกิน 14)', en:'9.0-10.5 g/dL (not exceeding 14)'},
+  regimenHighDose: {th:'10-15 mL/kg ทุก 2-6 สัปดาห์', en:'10-15 mL/kg every 2-6 weeks'},
+  regimenModerate: {th:'Moderate', en:'Moderate'},
+  regimenModerateTarget: {th:'&gt;7 g/dL (ผู้ใหญ่)', en:'&gt;7 g/dL (adult)'},
+  regimenModerateDose: {th:'1-2 unit ตามอาการ', en:'1-2 units as clinically indicated'},
+  regimenChoiceNote: {th:'เลือกรูปแบบตามความรุนแรง/ภาวะแทรกซ้อนและดุลยพินิจแพทย์ — ควรประเมินหมู่เลือด (C,c,E,e,Mi<sup>a</sup>), เชื้อไวรัสตับอักเสบ/HIV ก่อนเริ่มให้เลือดครั้งแรก', en:'Choose the regimen by severity/complications and clinical judgment — check minor blood group (C,c,E,e,Mi<sup>a</sup>) and hepatitis/HIV status before starting transfusion'},
+  notIndicatedNote: {th:"แนะนำติดตามอาการและระดับ Hb เป็นระยะ หากมี acute hemolysis จากการติดเชื้อ พิจารณาให้เลือดเป็นครั้งคราว (occasional transfusion) เมื่อ Hb &lt;7 g/dL หรือมีการเปลี่ยนแปลงของ vital signs", en:'Recommend periodic monitoring of symptoms and Hb. If acute hemolysis occurs with infection, consider occasional transfusion when Hb &lt;7 g/dL or vital signs change.'},
+  ageLt18Reason1: {th:'Hb {minHb} g/dL (&lt; 8 g/dL) วัด 2 ครั้งห่างกัน ≥2 สัปดาห์ โดยไม่มีการติดเชื้อร่วม — เข้าเกณฑ์อายุ &lt;18 ปี ข้อ 1', en:'Hb {minHb} g/dL (&lt; 8 g/dL), measured twice ≥2 weeks apart with no concurrent infection — meets age &lt;18y criterion 1'},
+  ageLt18Reason2: {th:'Hb &gt;8 g/dL แต่มีอาการร่วม: {syms} — เข้าเกณฑ์อายุ &lt;18 ปี ข้อ 2', en:'Hb &gt;8 g/dL but with associated symptoms: {syms} — meets age &lt;18y criterion 2'},
+  ageLt18NotMet: {th:'Hb {hb1} g/dL {infectionNote} {noSecondNote} และไม่มีอาการร่วมตามเกณฑ์ — ยังไม่เข้าเกณฑ์ ณ ขณะนี้ตามข้อมูลที่ให้มา', en:'Hb {hb1} g/dL {infectionNote} {noSecondNote} with no qualifying associated symptoms — does not currently meet criteria based on the data provided'},
+  ageGe18Reason1: {th:'Hb {minHb} g/dL (&lt;7 g/dL) วัด 2 ครั้งห่างกัน ≥2 สัปดาห์ โดยไม่มีการติดเชื้อร่วม — เข้าเกณฑ์อายุ ≥18 ปี ข้อ 1', en:'Hb {minHb} g/dL (&lt;7 g/dL), measured twice ≥2 weeks apart with no concurrent infection — meets age ≥18y criterion 1'},
+  ageGe18Reason2: {th:'Hb &gt;7 g/dL แต่มีภาวะแทรกซ้อนร่วม: {syms} — เข้าเกณฑ์อายุ ≥18 ปี ข้อ 2', en:'Hb &gt;7 g/dL but with an associated complication: {syms} — meets age ≥18y criterion 2'},
+  ageGe18NotMet: {th:'Hb {hb1} g/dL และไม่มีภาวะแทรกซ้อนตามเกณฑ์ — ยังไม่เข้าเกณฑ์ ณ ขณะนี้ตามข้อมูลที่ให้มา', en:'Hb {hb1} g/dL with no qualifying complications — does not currently meet criteria based on the data provided'},
+  ageMissing: {th:'กรุณาระบุอายุผู้ป่วย', en:"Please enter the patient's age"},
+  infectionNoteText: {th:'(มีภาวะติดเชื้อร่วม ต้องวัดซ้ำเมื่อหายจากการติดเชื้อ)', en:'(concurrent infection present — re-measure once resolved)'},
+  noSecondNoteText: {th:'(ยังไม่มีค่า Hb ครั้งที่ 2 ห่างกัน ≥2 สัปดาห์เพื่อยืนยัน)', en:'(no confirmatory second Hb value ≥2 weeks apart yet)'},
+
+  // --- Panel 3: Reference ---
+  refTransfusionRegimen: {th:'🩸 แนวทางการให้เลือด (Maintenance transfusion regimens)', en:'🩸 Maintenance Transfusion Regimens'},
+  refChelation: {th:'💊 ภาวะธาตุเหล็กเกินและการให้ยาขับธาตุเหล็ก (TDT / NTDT)', en:'💊 Iron Overload and Chelation Therapy (TDT / NTDT)'},
+  refGenotypeTable: {th:'📋 ตารางอ้างอิง: genotype ของธาลัสซีเมียที่มี phenotype ซับซ้อน', en:'📋 Reference: Genotypes of Complex-Phenotype Thalassemia'},
+
+  backToHub: {th:'‹ กลับไปหน้าธาลัสซีเมีย', en:'‹ Back to thalassemia hub'},
+  refFooter: {th:'อ้างอิง: Guidelines for the Management of Anemia and Thalassemia (คู่มือทางห้องปฏิบัติการการตรวจวินิจฉัยธาลัสซีเมียและฮีโมโกลบินผิดปกติ, กรมวิทยาศาสตร์การแพทย์)', en:'Reference: Guidelines for the Management of Anemia and Thalassemia (Laboratory Diagnosis Manual for Thalassemia and Abnormal Hemoglobin, Department of Medical Sciences)'},
+  chelationSubtitle: {th:'ใช้ประกอบการดูแลผู้ป่วยที่จัดเป็น TDT หรือ NTDT จากผลแปลผล Hb typing ในแท็บ "แปลผล Hb Typing"', en:'Used alongside the TDT/NTDT classification from the "Hb Typing Interpreter" tab'},
+};
+
+const TH_MCV_RANGES = {
+  'hbe-homo': [60,70],
+  'beta-thal-trait': [60,75],
+  'hbe-trait': [75,85],
+  'hbe-trait-a1': [60,75],
+};
+const TH_GENERIC_LOW_MCV_IDS = ['hbcs-trait','notrule-alpha','cs-ea'];
+const TH_F_DEPENDENT_AGE_IDS = ['a2f-12','a2fa-14','beta0-hbe-13','hbe-homo-ambiguous'];
+
+const TH_ABSENT = v => v <= 0.4;
+const TH_WITHIN = (v,lo,hi,tol=2) => v >= lo-tol && v <= hi+tol;
+const TH_NEAR = (v,center,tol) => v >= center-tol && v <= center+tol;
+
+const THAL_RULES = [
+  { id:'hydrops',
+    test:d => TH_WITHIN(d.barts,90,100,10) && TH_ABSENT(d.A) && TH_ABSENT(d.AE) && TH_ABSENT(d.F),
+    genotype:"--/--", type:{th:"Hb Bart's hydrops fetalis", en:"Hb Bart's hydrops fetalis"}, group:'severe', badge:'tdt',
+    note:{th:"Bart's 90-100%, ไม่พบ A/A2E/F — ทารกที่รอดชีวิตหลังคลอดต้องพึ่งพาการให้เลือด (TDT) ตั้งแต่แรกและตลอดชีวิต ร่วมกับยาขับธาตุเหล็ก",
+          en:"Bart's 90-100%, A/A2E/F absent — infants surviving delivery require lifelong transfusion (TDT) from birth, together with iron chelation"} },
+
+  { id:'cs-efa-barts',
+    test:d => !TH_ABSENT(d.CS) && !TH_ABSENT(d.barts) && d.A>=5 && d.AE>3 && d.F>3,
+    genotype:"--/α\u1D9Cˢα, β⁺/βᴱ", type:{th:'CS EFA Bart\'s disease', en:"CS EFA Bart's disease"}, group:'variable', badge:'variable',
+    note:{th:"CS + Bart's + A + E + F พบร่วมกัน — Hb H-CS disease ร่วมกับ β⁺-thalassemia/Hb E ความรุนแรงหลากหลาย ประเมินคลินิกเพิ่ม (item 22)",
+          en:"CS + Bart's + A + E + F together — Hb H-CS disease combined with β⁺-thalassemia/Hb E; severity varies, needs clinical correlation (item 22)"} },
+
+  { id:'cs-ea-barts',
+    test:d => !TH_ABSENT(d.CS) && !TH_ABSENT(d.barts) && d.A>=5 && d.AE>3 && d.F<=3,
+    genotype:"--/α\u1D9Cˢα, β/βᴱ", type:{th:"CS EA Bart's disease", en:"CS EA Bart's disease"}, group:'ntdt', badge:'ntdt',
+    note:{th:"CS + Bart's + A + E พบร่วมกัน ไม่พบ F ส่วนเกิน — มักมีอาการน้อย-ปานกลาง (item 19)",
+          en:"CS + Bart's + A + E together, no excess F — usually mild to moderate (item 19)"} },
+
+  { id:'cs-ef-barts',
+    test:d => !TH_ABSENT(d.CS) && !TH_ABSENT(d.barts) && d.A<5 && d.AE>3 && d.F>3,
+    genotype:"--/α\u1D9Cˢα, β⁰/βᴱ หรือ βᴱ/βᴱ", type:{th:"CS EF Bart's disease", en:"CS EF Bart's disease"}, group:'variable', badge:'variable',
+    note:{th:"CS + Bart's + E + F พบร่วมกัน ไม่พบ Hb A (จากผล CS EE Bart's หรือ CS EF Bart's) — ความรุนแรงหลากหลาย ประเมินคลินิกเพิ่ม (item 21)",
+          en:"CS + Bart's + E + F together, Hb A absent (from a CS EE Bart's or CS EF Bart's result) — severity varies, needs clinical correlation (item 21)"} },
+
+  { id:'efa-barts',
+    test:d => TH_ABSENT(d.CS) && !TH_ABSENT(d.barts) && d.A>=5 && d.AE>3 && d.F>3,
+    genotype:"--/-α, β⁺/βᴱ", type:{th:"EFA Bart's disease", en:"EFA Bart's disease"}, group:'variable', badge:'variable',
+    note:{th:"Bart's + A + E + F พบร่วมกัน — Hb H disease ร่วมกับ β⁺-thalassemia/Hb E ถ้าผู้ป่วยซีดและไม่มีประวัติรับเลือดภายใน 3 เดือนก่อนตรวจ แปลผลนี้ได้ค่อนข้างมั่นใจ (item 18)",
+          en:"Bart's + A + E + F together — Hb H disease combined with β⁺-thalassemia/Hb E; if the patient is anemic with no transfusion in the preceding 3 months, this interpretation is fairly reliable (item 18)"} },
+
+  { id:'ea-barts',
+    test:d => TH_ABSENT(d.CS) && !TH_ABSENT(d.barts) && d.A>=5 && d.AE>3 && d.F<=3,
+    genotype:"--/-α, β/βᴱ", type:{th:"EA Bart's disease", en:"EA Bart's disease"}, group:'ntdt', badge:'ntdt',
+    note:{th:"Bart's + A + E พบร่วมกัน ไม่พบ F ส่วนเกิน — มักมีอาการน้อย (item 16)",
+          en:"Bart's + A + E together, no excess F — usually mild (item 16)"} },
+
+  { id:'ef-barts',
+    test:d => TH_ABSENT(d.CS) && !TH_ABSENT(d.barts) && d.A<5 && d.AE>3 && d.F>3,
+    genotype:"--/-α, β⁰/βᴱ หรือ βᴱ/βᴱ", type:{th:"EF Bart's disease", en:"EF Bart's disease"}, group:'variable', badge:'variable',
+    note:{th:"Bart's + E + F พบร่วมกัน ไม่พบ Hb A (จากผล EE Bart's หรือ EF Bart's) — ความรุนแรงหลากหลาย ประเมินคลินิกเพิ่ม (item 17)",
+          en:"Bart's + E + F together, Hb A absent (from an EE Bart's or EF Bart's result) — severity varies, needs clinical correlation (item 17)"} },
+
+  { id:'hbh-cs',
+    test:d => !TH_ABSENT(d.H) && !TH_ABSENT(d.CS) && d.AE<=8 && d.F<3,
+    genotype:"--/α\u1D9Cˢα", type:{th:'Hb H-CS disease', en:'Hb H-CS disease'}, group:'variable', badge:'variable',
+    note:{th:"α-thalassemia 1/Hb Constant Spring — อาการมักรุนแรงกว่า Hb H disease ธรรมดา อาจเข้าเกณฑ์ TDT ในรายรุนแรง (item 11)",
+          en:"α-thalassemia 1/Hb Constant Spring — usually more severe than plain Hb H disease; may meet TDT criteria in severe cases (item 11)"} },
+
+  { id:'hbh',
+    test:d => !TH_ABSENT(d.H) && TH_ABSENT(d.CS) && d.AE<=8 && d.F<3,
+    genotype:"--/-α", type:{th:'Hb H disease (α-thalassemia 1/α-thalassemia 2)', en:'Hb H disease (α-thalassemia 1/α-thalassemia 2)'}, group:'ntdt', badge:'ntdt',
+    note:{th:"ตรวจพบ Hb H inclusion body ได้ 30-90% ของเม็ดเลือดแดง — ส่วนใหญ่เป็น NTDT พิจารณาให้เลือดครั้งคราวเมื่อมี acute hemolysis (item 10)",
+          en:"Hb H inclusion bodies found in 30-90% of red cells — usually NTDT; consider occasional transfusion during acute hemolysis (item 10)"} },
+
+  { id:'hbcs-homo',
+    test:d => TH_ABSENT(d.H) && !TH_ABSENT(d.CS) && !TH_ABSENT(d.barts) && d.AE<=8 && d.F<3,
+    genotype:"α\u1D9Cˢα/α\u1D9Cˢα", type:{th:'Homozygous Hb Constant Spring', en:'Homozygous Hb Constant Spring'}, group:'carrier', badge:'carrier',
+    note:{th:"CS A2A Bart's — มักไม่มีอาการหรืออาการน้อยมาก ไม่ต้องรับเลือด (item 9)",
+          en:"CS A2A Bart's — usually asymptomatic or very mild; no transfusion needed (item 9)"} },
+
+  { id:'cs-ea',
+    test:d => TH_ABSENT(d.H) && !TH_ABSENT(d.CS) && TH_ABSENT(d.barts) && d.AE>8 && d.F<3,
+    genotype:"β/βᴱ, α\u1D9Cˢα/αα", type:{th:'Hb E trait with Hb Constant Spring', en:'Hb E trait with Hb Constant Spring'}, group:'carrier', badge:'carrier',
+    note:{th:"CS EA — พาหะร่วม 2 ชนิด ไม่มีอาการซีด ไม่ต้องรับเลือด (item 20)",
+          en:"CS EA — dual carrier, no anemia, no transfusion needed (item 20)"} },
+
+  { id:'hbcs-trait',
+    test:d => TH_ABSENT(d.H) && !TH_ABSENT(d.CS) && TH_ABSENT(d.barts) && d.AE<=8 && d.F<3,
+    genotype:"α\u1D9Cˢα/αα", type:{th:'Hb Constant Spring trait', en:'Hb Constant Spring trait'}, group:'carrier', badge:'carrier',
+    note:{th:"CS A2A — พาหะ ไม่มีอาการซีด ไม่ต้องรับเลือด — ควรระวังว่าอาจเป็น Hb Paksé แทน (คุณสมบัติใกล้เคียงกันมาก แยกด้วย Hb typing ไม่ได้) (item 8)",
+          en:"CS A2A — carrier, no anemia, no transfusion needed — note this could instead be Hb Paksé (very similar properties, not distinguishable by Hb typing) (item 8)"} },
+
+  { id:'hbe-homo',
+    test:d => TH_ABSENT(d.H) && TH_ABSENT(d.CS) && TH_ABSENT(d.barts) && d.AE>=80 && d.F<=5 && TH_ABSENT(d.A),
+    genotype:"βᴱ/βᴱ", type:{th:'Homozygous Hb E', en:'Homozygous Hb E'}, group:'carrier', badge:'carrier',
+    note:{th:"EE, Hb E+A2 ≥80%, Hb F ≤5%, ไม่พบ Hb A — อาการน้อยมาก ปกติไม่ต้องรับเลือด, MCV มักอยู่ที่ 60-70 fL, Hb มัก &gt;10 g/dL (item 6)",
+          en:"EE, Hb E+A2 ≥80%, Hb F ≤5%, Hb A absent — very mild, usually no transfusion needed; MCV is usually 60-70 fL, Hb usually &gt;10 g/dL (item 6)"} },
+
+  { id:'hbe-homo-ambiguous',
+    test:d => TH_ABSENT(d.H) && TH_ABSENT(d.CS) && TH_ABSENT(d.barts) && d.AE>75 && d.F>5.5 && d.F<=20 && TH_ABSENT(d.A),
+    genotype:"βᴱ/βᴱ หรือ β⁰/βᴱ (แยกไม่ได้แน่ชัดจาก Hb typing อย่างเดียว)",
+    type:{th:'Suspected Homozygous Hb E หรือ β-thalassemia/Hb E', en:'Suspected Homozygous Hb E or β-thalassemia/Hb E'}, group:'variable', badge:'variable',
+    note:{th:"EE/EF, Hb E+A2 &gt;75%, Hb F &gt;5% — กรณีไม่แน่ใจว่าเป็น EE หรือ EF เนื่องจาก Hb F สูงขึ้น ให้ดูอาการทางคลินิกหรือทำ Family study ประกอบ (item 7)",
+          en:"EE/EF, Hb E+A2 &gt;75%, Hb F &gt;5% — uncertain whether EE or EF because Hb F is elevated; correlate with clinical picture or family study (item 7)"} },
+
+  { id:'beta0-hbe-13',
+    test:d => TH_ABSENT(d.H) && TH_ABSENT(d.CS) && TH_ABSENT(d.barts) && d.AE>=15 && TH_WITHIN(d.F,20,60,8) && d.A<5,
+    genotype:"β⁰/βᴱ, HPFH/βᴱ หรือ (δβ)⁰-thal/βᴱ",
+    type:{th:'Suspected β⁰-thalassemia/Hb E or HPFH/Hb E or (δβ)⁰-thalassemia/Hb E', en:'Suspected β⁰-thalassemia/Hb E or HPFH/Hb E or (δβ)⁰-thalassemia/Hb E'}, group:'variable', badge:'variable',
+    note:{th:"EF, Hb E+A2 มักพบ 40-80% แต่พบ F 20-60% เป็นตัวชี้วัดหลัก (AE อาจต่ำกว่า 40% ได้จาก lab variation จริง จึงผ่อนเกณฑ์ AE≥15% ร่วมกับ F เป็นหลัก), A ต่ำกว่า 5% ถือว่าไม่มีนัยสำคัญ (item 13)",
+          en:"EF — Hb E+A2 is usually 40-80%, but F 20-60% is the primary marker used here (AE can run below 40% due to lab variation, so the AE≥15% + F rule is used); A below 5% is considered non-significant (item 13)"} },
+
+  { id:'efa-15',
+    test:d => TH_ABSENT(d.H) && TH_ABSENT(d.CS) && TH_ABSENT(d.barts) && d.A>=5 && d.AE>8 && d.F>3,
+    genotype:"β⁺/βᴱ", type:{th:'β⁺-thalassemia/Hb E', en:'β⁺-thalassemia/Hb E'}, group:'variable', badge:'variable',
+    note:{th:"EFA — พบ Hb A ร่วมด้วย (ต่างจาก EF ที่ไม่พบ Hb A) — ถ้าผู้ป่วยซีดไม่มีประวัติรับเลือดใน 3 เดือนก่อนตรวจ แปลผลนี้ได้มั่นใจ (item 15)",
+          en:"EFA — Hb A is present (unlike EF, where Hb A is absent) — if the patient is anemic with no transfusion in the preceding 3 months, this interpretation is reliable (item 15)"} },
+
+  { id:'hbe-trait-a1',
+    test:d => TH_ABSENT(d.H) && TH_ABSENT(d.CS) && TH_ABSENT(d.barts) && !TH_ABSENT(d.A) && d.AE>=13 && d.AE<25 && d.F<3,
+    genotype:"β/βᴱ, --/αα", type:{th:'Hb E trait with or without α-thalassemia', en:'Hb E trait with or without α-thalassemia'}, group:'carrier', badge:'carrier',
+    note:{th:"EA, Hb E+A2 &lt;25% (มักพบ 19-21%) — มักพบร่วมกับพาหะ α-thalassemia 1 — พาหะ ไม่มีอาการซีด ไม่ต้องรับเลือด (item 5)",
+          en:"EA, Hb E+A2 &lt;25% (usually 19-21%) — often co-exists with α-thalassemia 1 trait — carrier, no anemia, no transfusion needed (item 5)"} },
+
+  { id:'hbe-trait',
+    test:d => TH_ABSENT(d.H) && TH_ABSENT(d.CS) && TH_ABSENT(d.barts) && !TH_ABSENT(d.A) && d.AE>=25 && d.F<3,
+    genotype:"β/βᴱ", type:{th:'Hb E trait', en:'Hb E trait'}, group:'carrier', badge:'carrier',
+    note:{th:"EA, Hb E+A2 ≥25% (มักพบ 25-35%) — พาหะ ไม่มีอาการซีด ไม่ต้องรับเลือด — โดยทั่วไปมักไม่เกินร้อยละ 40 หากพบสูงกว่านี้อาจเป็น Compound β⁺-thalassemia with Hb E หรือ Abnormal Hb ควรปรึกษาผู้เชี่ยวชาญ (item 4)",
+          en:"EA, Hb E+A2 ≥25% (usually 25-35%) — carrier, no anemia, no transfusion needed — usually no higher than 40%; higher values may suggest compound β⁺-thalassemia with Hb E or an abnormal Hb, and specialist consultation is advised (item 4)"} },
+
+  { id:'a2fa-14',
+    test:d => TH_ABSENT(d.H) && TH_ABSENT(d.CS) && TH_ABSENT(d.barts) && d.A>=5 && TH_WITHIN(d.F,10,30,5) && d.AE<=8,
+    genotype:"β⁰/β⁺, β⁺/β⁺, HPFH trait หรือ (δβ)⁰-thal trait",
+    type:{th:'Suspected β⁰/β⁺-thalassemia or β⁺/β⁺-thalassemia or HPFH trait or (δβ)⁰-thalassemia trait', en:'Suspected β⁰/β⁺-thalassemia or β⁺/β⁺-thalassemia or HPFH trait or (δβ)⁰-thalassemia trait'}, group:'variable', badge:'variable',
+    note:{th:"A2FA, Hb F 10-30% — ถ้ามีอาการซีดโดยไม่มีประวัติรับเลือดใน 3 เดือนก่อนตรวจ มักเป็น β-thalassemia; ถ้าไม่มีอาการเลย มักเป็นพาหะ HPFH/(δβ)⁰-thal (item 14)",
+          en:"A2FA, Hb F 10-30% — if anemic with no transfusion in the preceding 3 months, usually β-thalassemia; if entirely asymptomatic, usually an HPFH/(δβ)⁰-thal carrier (item 14)"} },
+
+  { id:'a2f-12',
+    test:d => TH_ABSENT(d.H) && TH_ABSENT(d.CS) && TH_ABSENT(d.barts) && d.A<5 && d.F>10 && d.AE<=8,
+    genotype:"β⁰/β⁰", type:{th:'Homozygous β⁰-thalassemia with or without α-thalassemia', en:'Homozygous β⁰-thalassemia with or without α-thalassemia'}, group:'severe', badge:'tdt',
+    note:{th:"A2F, ไม่พบ Hb A (หรือพบเพียงเล็กน้อย &lt;5% ซึ่งยังไม่ถือว่ามีนัยสำคัญ อาจติดฉลากเป็น A2FA ในบางแล็บได้), Hb F สูงมาก — ผู้ป่วยอายุ &gt;1 ปี ที่มีอาการซีด ตับม้ามโตชัดเจน — TDT (item 12)",
+          en:"A2F, Hb A absent (or only a trace &lt;5%, still non-significant — some labs may label this A2FA), Hb F very high — in a patient &gt;1 year old with anemia and clear hepatosplenomegaly — TDT (item 12)"} },
+
+  { id:'beta-thal-trait',
+    test:d => TH_ABSENT(d.H) && TH_ABSENT(d.CS) && TH_ABSENT(d.barts) && !TH_ABSENT(d.A) && TH_WITHIN(d.AE,3.6,8,0.5) && d.F<3,
+    genotype:"β/β⁰ หรือ β/β⁺", type:{th:'β-thalassemia trait with or without α-thalassemia', en:'β-thalassemia trait with or without α-thalassemia'}, group:'carrier', badge:'carrier',
+    note:{th:"A2A, Hb A2 3.6-8% (MCV มักอยู่ที่ 60-75 fL) — พาหะ ไม่มีอาการซีด ไม่ต้องรับเลือด (item 3)",
+          en:"A2A, Hb A2 3.6-8% (MCV usually 60-75 fL) — carrier, no anemia, no transfusion needed (item 3)"} },
+
+  { id:'notrule-alpha',
+    test:d => TH_ABSENT(d.H) && TH_ABSENT(d.CS) && TH_ABSENT(d.barts) && !TH_ABSENT(d.A) && d.AE<=3.5 && d.F<3 && d.mcv>0 && d.mcv<80,
+    genotype:"--/αα, -α/αα หรือ -α/-α (แยกชนิดแน่ชัดไม่ได้)", type:{th:'Normal Hb typing, Not rule out α-thalassemia', en:'Normal Hb typing, Not rule out α-thalassemia'}, group:'carrier', badge:'carrier',
+    note:{th:"A2A, Hb A2 ≤3.5%, MCV&lt;80, MCH&lt;27 — เข้าได้กับพาหะ α-thalassemia 1, พาหะ α-thalassemia 2 หรือ Homozygous α-thalassemia 2 (แยกกันไม่ได้ด้วย Hb typing) — ไม่มีอาการซีด ไม่ต้องรับเลือด (item 2)",
+          en:"A2A, Hb A2 ≤3.5%, MCV&lt;80, MCH&lt;27 — consistent with α-thalassemia 1 trait, α-thalassemia 2 trait, or homozygous α-thalassemia 2 (not distinguishable by Hb typing) — no anemia, no transfusion needed (item 2)"} },
+
+  { id:'normal',
+    test:d => TH_ABSENT(d.H) && TH_ABSENT(d.CS) && TH_ABSENT(d.barts) && !TH_ABSENT(d.A) && d.AE<=3.5 && d.F<3,
+    genotype:"αα/αα, β/β หรือพาหะ α-thalassemia 2 (แยกไม่ได้)", type:{th:'Normal or non-clinically significant thalassemia', en:'Normal or non-clinically significant thalassemia'}, group:'carrier', badge:'carrier',
+    note:{th:"A2A, Hb A2 ≤3.5% — ถ้า MCV≥80/MCH≥27 ถือเป็นปกติหรือพาหะ α-thalassemia 2 ที่ไม่แสดงอาการ (item 1)",
+          en:"A2A, Hb A2 ≤3.5% — if MCV≥80/MCH≥27, this is normal or a non-manifesting α-thalassemia 2 carrier (item 1)"} },
+];
+
+let thState = { screen:'home', interp:null, ceMode:false, lastInputs:null, manualId:null };
+
+function thGoHome(){ thState = { screen:'home', interp:null, ceMode:false, lastInputs:null, manualId:null }; scrollToTop(); thRender(); }
+function thOpenTab(id){ thState.screen = id; scrollToTop(); thRender(); }
+
+function thRender(){
+  const app = document.getElementById('app');
+  app.innerHTML = '';
+  if(thState.screen==='home'){ thRenderHome(app); return; }
+  const topHome = document.createElement('button');
+  topHome.className='top-back-link';
+  topHome.textContent = t(UI.backToMainHome);
+  topHome.onclick = goMainHome;
+  app.appendChild(topHome);
+
+  if(thState.screen==='hbtyping'){ thHbTypingView(app); }
+  else if(thState.screen==='transfusion'){ thTransfusionView(app); }
+  else if(thState.screen==='reference'){ thReferenceView(app); }
+}
+
+/* wizard-style header with a ‹ back-to-hub button, matching the newborn module's convention */
+function thHeader(app, title){
+  const head = document.createElement('div');
+  head.className='wizard-head';
+  const hubLabel = (LANG==='th'?'กลับไปหน้ารวม':'Back to') + ' ' + t(TH_UI.homeTitle);
+  head.innerHTML = `<button class="back-btn" id="thHubBack" aria-label="${hubLabel}">‹</button><div class="wizard-title">${title}</div>`;
+  app.appendChild(head);
+  document.getElementById('thHubBack').onclick = thGoHome;
+}
+
+function thRenderHome(app){
+  const backBtn = document.createElement('button');
+  backBtn.className='top-back-link';
+  backBtn.textContent = t(UI.backToMainHome);
+  backBtn.onclick = goMainHome;
+  app.appendChild(backBtn);
+
+  const hero = document.createElement('div');
+  hero.innerHTML = `
+    <div class="hero">
+      <span class="eyebrow">${t(TH_UI.homeEyebrow)}</span>
+      <h1>${t(TH_UI.homeTitle)}</h1>
+      <p>${t(TH_UI.homeDesc)}</p>
+    </div>
+  `;
+  app.appendChild(hero);
+
+  const cards = [
+    { id:'hbtyping', icon:'🧬', name:TH_UI.tabHbTyping, short:TH_UI.tabHbTypingShort },
+    { id:'transfusion', icon:'🩸', name:TH_UI.tabTransfusion, short:TH_UI.tabTransfusionShort },
+    { id:'reference', icon:'💊', name:TH_UI.tabReference, short:TH_UI.tabReferenceShort },
+  ];
+  const grid = document.createElement('div');
+  grid.className = 'module-grid';
+  cards.forEach(c=>{
+    const card = document.createElement('button');
+    card.className='module-card';
+    card.onclick = ()=>thOpenTab(c.id);
+    card.innerHTML = `
+      <div class="icon">${c.icon}</div>
+      <div class="txt">
+        <div class="name">${t(c.name)}</div>
+        <div class="desc">${t(c.short)}</div>
+      </div>
+      <div class="arrow">›</div>`;
+    grid.appendChild(card);
+  });
+  app.appendChild(grid);
+}
+
+function thNum(id){
+  const el = document.getElementById(id);
+  if(!el) return 0;
+  const v = el.value;
+  return v === '' ? 0 : parseFloat(v);
+}
+
+/* small helper: a single standalone toggle button (reuses .opt-btn styling) */
+function thToggleBtnHtml(id, label, checked){
+  return `<button type="button" class="opt-btn${checked?' selected':''}" id="${id}"><span class="chk">${checked?'✓':''}</span>${label}</button>`;
+}
+function thWireToggle(id, getVal, setVal, onChange){
+  const btn = document.getElementById(id);
+  if(!btn) return;
+  btn.onclick = ()=>{
+    setVal(!getVal());
+    const now = getVal();
+    btn.classList.toggle('selected', now);
+    btn.querySelector('.chk').textContent = now ? '✓' : '';
+    if(onChange) onChange(now);
+  };
+}
+
+/* ---------------- TAB 1: Hb typing interpreter ---------------- */
+function thHbTypingView(app){
+  thHeader(app, t(TH_UI.tabHbTyping));
+  const wrap = document.createElement('div');
+  wrap.className='q-card';
+  const li = thState.lastInputs || {};
+  const gridStyle = 'display:grid; grid-template-columns:1fr 1fr; gap:12px;';
+
+  wrap.innerHTML = `
+    <div class="q-text" style="font-size:14px;">${t(TH_UI.ageGroupLabel)}</div>
+    <select class="select-input" id="thAgeGroup">
+      <option value="birth" ${li.ageGroup==='birth'?'selected':''}>${t(TH_UI.ageBirth)}</option>
+      <option value="after1y" ${li.ageGroup!=='birth'?'selected':''}>${t(TH_UI.ageAfter1y)}</option>
+    </select>
+
+    <div style="height:14px"></div>
+    <div style="${gridStyle}">
+      <div><div class="q-text" style="font-size:13px;">${t(TH_UI.mcvLabel)}</div>
+        <input class="num-input" id="thMcv" type="number" inputmode="decimal" value="${li.mcv||''}"></div>
+      <div><div class="q-text" style="font-size:13px;">${t(TH_UI.mchLabel)}</div>
+        <input class="num-input" id="thMch" type="number" inputmode="decimal" value="${li.mch||''}"></div>
+    </div>
+    <div class="field-unit">${t(TH_UI.mcvHint)}</div>
+
+    <div style="height:10px"></div>
+    ${thToggleBtnHtml('thCeMode', t(TH_UI.ceModeLabel), thState.ceMode)}
+
+    <div style="height:14px"></div>
+    <div style="${gridStyle}">
+      <div><div class="q-text" style="font-size:13px;">${t(TH_UI.hbALabel)}</div>
+        <input class="num-input" id="thHbA" type="number" inputmode="decimal" value="${li.A||''}" placeholder="${t(TH_UI.hbAPlaceholder)}"></div>
+      <div><div class="q-text" style="font-size:13px;">${t(TH_UI.hbFLabel)}</div>
+        <input class="num-input" id="thHbF" type="number" inputmode="decimal" value="${li.F||''}" placeholder="${t(TH_UI.hbFPlaceholder)}"></div>
+    </div>
+
+    <div style="height:12px"></div>
+    <div id="thCombinedAEField" style="${thState.ceMode?'display:none':''}">
+      <div class="q-text" style="font-size:13px;">${t(TH_UI.aeCombinedLabel)}</div>
+      <input class="num-input" id="thAE" type="number" inputmode="decimal" value="${li.AE||''}" placeholder="29.7">
+      <div class="field-unit">${t(TH_UI.aeCombinedHint)}</div>
+    </div>
+    <div id="thSeparateAEFields" style="${gridStyle} ${thState.ceMode?'':'display:none'}">
+      <div><div class="q-text" style="font-size:13px;">${t(TH_UI.hbA2SepLabel)}</div>
+        <input class="num-input" id="thA2Sep" type="number" inputmode="decimal" value="${li.A2||''}"></div>
+      <div><div class="q-text" style="font-size:13px;">${t(TH_UI.hbESepLabel)}</div>
+        <input class="num-input" id="thESep" type="number" inputmode="decimal" value="${li.E||''}"></div>
+    </div>
+
+    <div style="height:14px"></div>
+    <div style="${gridStyle}">
+      <div><div class="q-text" style="font-size:13px;">${t(TH_UI.hbHLabel)}</div>
+        <input class="num-input" id="thHbH" type="number" inputmode="decimal" value="${li.H||''}"></div>
+      <div><div class="q-text" style="font-size:13px;">${t(TH_UI.hbCSLabel)}</div>
+        <input class="num-input" id="thHbCS" type="number" inputmode="decimal" value="${li.CS||''}"></div>
+    </div>
+
+    <div style="height:14px"></div>
+    <div class="q-text" style="font-size:13px;">${t(TH_UI.hbBartsLabel)}</div>
+    <input class="num-input" id="thBarts" type="number" inputmode="decimal" value="${li.barts||''}">
+    <div class="field-unit">${t(TH_UI.hbBartsHint)}</div>
+
+    <div style="height:14px"></div>
+    ${thToggleBtnHtml('thSymptoms', t(TH_UI.symptomsCheckLabel), !!li.symptoms)}
+
+    <div style="height:14px"></div>
+    <div style="${gridStyle}">
+      <div><div class="q-text" style="font-size:13px;">${t(TH_UI.ofTestLabel)}</div>
+        <select class="select-input" id="thOfTest">
+          <option value="">${t(TH_UI.notSpecified)}</option>
+          <option value="neg">${t(TH_UI.negative)}</option>
+          <option value="pos">${t(TH_UI.positive)}</option>
+        </select></div>
+      <div><div class="q-text" style="font-size:13px;">${t(TH_UI.dcipTestLabel)}</div>
+        <select class="select-input" id="thDcipTest">
+          <option value="">${t(TH_UI.notSpecified)}</option>
+          <option value="neg">${t(TH_UI.negative)}</option>
+          <option value="pos">${t(TH_UI.positive)}</option>
+        </select></div>
+    </div>
+    <div class="field-unit">${t(TH_UI.screenNotRequired)}</div>
+
+    <div class="wizard-nav" style="margin-top:16px;">
+      <button class="btn btn-primary" id="thInterpretBtn">${t(TH_UI.interpretBtn)}</button>
+    </div>
+    <div id="thHbResult" style="margin-top:14px;"></div>
+  `;
+  app.appendChild(wrap);
+
+  let ceModeLocal = thState.ceMode;
+  thWireToggle('thCeMode', ()=>ceModeLocal, v=>{ ceModeLocal=v; thState.ceMode=v; }, (now)=>{
+    document.getElementById('thCombinedAEField').style.display = now ? 'none' : 'block';
+    document.getElementById('thSeparateAEFields').style.display = now ? 'grid' : 'none';
+  });
+  let symLocal = !!li.symptoms;
+  thWireToggle('thSymptoms', ()=>symLocal, v=>{ symLocal=v; });
+
+  document.getElementById('thInterpretBtn').onclick = ()=>thInterpret(()=>symLocal, ()=>ceModeLocal);
+  if(thState.interp){ thRenderHbResult(thState.interp); }
+
+  const refWrap = document.createElement('div');
+  refWrap.style.marginTop = '14px';
+  spSectionCard(refWrap, { h:TH_UI.refGenotypeTable, collapsible:true, customHtml: thRefGenotypeTableHtml() });
+  app.appendChild(refWrap);
+}
+
+function thInterpret(getSym, getCe){
+  const ceMode = getCe();
+  const A2raw = ceMode ? thNum('thA2Sep') : 0;
+  const Eraw = ceMode ? thNum('thESep') : 0;
+  const AE = ceMode ? (A2raw + Eraw) : thNum('thAE');
+
+  const d = {
+    A: thNum('thHbA'), F: thNum('thHbF'), AE: AE, A2: A2raw, E: Eraw,
+    H: thNum('thHbH'), CS: thNum('thHbCS'), barts: thNum('thBarts'),
+    mcv: thNum('thMcv'), mch: thNum('thMch'),
+    ageGroup: document.getElementById('thAgeGroup').value,
+    symptoms: getSym()
+  };
+  thState.lastInputs = Object.assign({}, d, { ceMode });
+
+  const match = THAL_RULES.find(r => r.test(d));
+  thState.interp = match ? { match, d, ceMode } : { match:null, d };
+  thRenderHbResult(thState.interp);
+}
+
+function thBadgeClass(badge){ return { tdt:'severe', ntdt:'mild', carrier:'info', variable:'moderate' }[badge] || 'info'; }
+function thBadgeLabel(badge){ return { tdt:TH_UI.badgeTdt, ntdt:TH_UI.badgeNtdt, carrier:TH_UI.badgeCarrier, variable:TH_UI.badgeVariable }[badge]; }
+function thFmt(tpl, vals){
+  let s = t(tpl);
+  Object.keys(vals).forEach(k=>{ s = s.split('{'+k+'}').join(vals[k]); });
+  return s;
+}
+function thNote(text){ return `<div class="th-box info">${text}</div>`; }
+function thWarnNote(text){ return `<div class="th-box warn">${text}</div>`; }
+function thCritNote(text){ return `<div class="th-box crit">${text}</div>`; }
+
+function thRenderHbResult(interp){
+  const box = document.getElementById('thHbResult');
+  if(!box) return;
+  if(!interp || !interp.match){
+    box.innerHTML = `<div class="result-banner moderate"><h2>${t(TH_UI.noMatchTitle)}</h2><p>${t(TH_UI.noMatchBody)}</p></div>`;
+    return;
+  }
+  const { match, d, ceMode } = interp;
+  const cls = thBadgeClass(match.badge);
+  let extras = '';
+
+  const lowIndices = (d.mcv>0 && d.mcv<80) || (d.mch>0 && d.mch<27);
+  const bothIndices = d.mcv>0 && d.mch>0;
+  const normalIndices = bothIndices && d.mcv>=80 && d.mch>=27;
+  if(match.id==='normal' && lowIndices){
+    extras += thWarnNote(`<b>${t(TH_UI.ironDeficiencyWarnTitle)}</b><br>${t(TH_UI.ironDeficiencyWarnBody)}`);
+  }
+  if(TH_MCV_RANGES[match.id] && d.mcv>0){
+    const [lo,hi] = TH_MCV_RANGES[match.id];
+    if(d.mcv < lo-5 || d.mcv > hi+5){
+      if(match.id==='beta-thal-trait' && d.mcv < lo-5){
+        extras += thWarnNote(`<b>${t(TH_UI.betaTraitMcvNote)}</b><br>${thFmt(TH_UI.betaTraitMcvBody,{lo,hi,mcv:d.mcv})}`);
+      } else {
+        extras += thWarnNote(`<b>${t(TH_UI.reviewMcvTitle)}</b><br>${thFmt(TH_UI.reviewMcvBodyRange,{lo,hi,mcv:d.mcv})}`);
+      }
+    }
+  } else if(TH_GENERIC_LOW_MCV_IDS.includes(match.id) && bothIndices && normalIndices){
+    extras += thWarnNote(`<b>${t(TH_UI.reviewMcvTitle)}</b><br>${t(TH_UI.reviewMcvBodyGeneric)}`);
+  }
+  if(match.id==='beta-thal-trait' && d.AE > 8){
+    extras += thWarnNote(`<b>${t(TH_UI.a2HighTitle)}</b><br>${thFmt(TH_UI.a2HighBody,{ae:d.AE})}`);
+  }
+  if(match.id==='hbe-trait' && d.AE > 40){
+    extras += thWarnNote(`<b>${t(TH_UI.hbeHighTitle)}</b><br>${thFmt(TH_UI.hbeHighBody,{ae:d.AE})}`);
+  }
+  if(match.id==='beta0-hbe-13'){
+    extras += d.symptoms
+      ? thNote(`<b>${t(TH_UI.symptomatic13Yes)}</b><br>${t(TH_UI.symptomatic13YesBody)}`)
+      : thNote(`<b>${t(TH_UI.symptomatic13No)}</b><br>${t(TH_UI.symptomatic13NoBody)}`);
+  }
+  if(match.id==='a2fa-14'){
+    extras += d.symptoms
+      ? thNote(`<b>${t(TH_UI.symptomatic14Yes)}</b><br>${t(TH_UI.symptomatic14YesBody)}`)
+      : thNote(`<b>${t(TH_UI.symptomatic14No)}</b><br>${t(TH_UI.symptomatic14NoBody)}`);
+  }
+  if(TH_F_DEPENDENT_AGE_IDS.includes(match.id) && d.ageGroup==='birth'){
+    extras += thWarnNote(`<b>${t(TH_UI.ageCautionTitle)}</b><br>${t(TH_UI.ageCautionBody)}`);
+  }
+  if(match.id==='hbe-homo' || match.id==='hbe-homo-ambiguous'){
+    if(ceMode && d.A2 > 0){
+      const eeScore = (7.3 * d.A2 + d.F).toFixed(1);
+      const interp2 = eeScore <= 60 ? t(TH_UI.eeScoreInterpLow) : t(TH_UI.eeScoreInterpHigh);
+      extras += thNote(`<b>${t(TH_UI.eeScoreNoA2Title)}</b> = 7.3×(%A2) + %F = 7.3×${d.A2} + ${d.F} = <b>${eeScore}</b><br>${interp2}<div class="field-unit" style="margin-top:4px;">${t(TH_UI.eeScoreFormulaNote)}</div>`);
+    } else {
+      extras += thNote(`<b>${t(TH_UI.eeScoreNoA2Title)}:</b><br>${t(TH_UI.eeScoreNoA2Body)}`);
+    }
+  }
+  const ofVal = document.getElementById('thOfTest') ? document.getElementById('thOfTest').value : '';
+  const dcipVal = document.getElementById('thDcipTest') ? document.getElementById('thDcipTest').value : '';
+  if(dcipVal==='neg' && d.AE > 3 && match.id!=='beta-thal-trait' && match.id!=='notrule-alpha' && match.id!=='normal'){
+    extras += thWarnNote(`<b>${t(TH_UI.dcipMismatchNegTitle)}</b><br>${t(TH_UI.dcipMismatchNegBody)}`);
+  }
+  if(ofVal==='neg' && d.mcv>0 && d.mcv<80){
+    extras += thWarnNote(`<b>${t(TH_UI.ofMismatchTitle)}</b><br>${thFmt(TH_UI.ofMismatchBody,{mcv:d.mcv})}`);
+  }
+
+  const aeLabel = ceMode ? `A2 ${d.A2}% + E ${d.E}% = ${d.AE.toFixed(1)}%` : `A2/E ${d.AE}%`;
+  const ageLbl = d.ageGroup==='birth' ? t(TH_UI.birthLabel) : t(TH_UI.after1yLabel);
+  const canTransfuse = match.group !== 'carrier';
+
+  box.innerHTML = `
+    <div class="result-banner ${cls}">
+      <span class="tag">${t(thBadgeLabel(match.badge))}</span>
+      <h2>${t(match.type)}</h2>
+      <p><b>${t(TH_UI.genotypeLabel)}:</b> ${match.genotype}</p>
+      <p>${t(match.note)}</p>
+    </div>
+    ${extras}
+    <div class="field-unit" style="margin-top:8px;">${t(TH_UI.enteredFrom)}: A ${d.A}%, ${aeLabel}, F ${d.F}%, H ${d.H}%, CS ${d.CS}%, Bart's ${d.barts}% (${ageLbl})</div>
+    ${canTransfuse ? `<div class="wizard-nav" style="margin-top:12px;">
+      <button class="btn btn-ghost" id="thGoTransfusionBtn">${t(TH_UI.goToTransfusion)}</button>
+    </div>` : ''}
+  `;
+  const goBtn = document.getElementById('thGoTransfusionBtn');
+  if(goBtn) goBtn.onclick = ()=>{ thState.manualId = match.id; thOpenTab('transfusion'); };
+}
+
+/* ---------------- TAB 2: Transfusion indication ---------------- */
+function thTransfusionView(app){
+  thHeader(app, t(TH_UI.tabTransfusion));
+
+  const refWrap = document.createElement('div');
+  spSectionCard(refWrap, { h:TH_UI.refTransfusionRegimen, collapsible:true, customHtml: thRefRegimenHtml() });
+  app.appendChild(refWrap);
+
+  const wrap = document.createElement('div');
+  wrap.className='q-card';
+  wrap.style.marginTop = '14px';
+
+  const groupLabel = { tdt:t(TH_UI.badgeTdt), ntdt:t(TH_UI.badgeNtdt), carrier:t(TH_UI.badgeCarrier), variable:t(TH_UI.badgeVariable) };
+  const options = THAL_RULES.map(r=>`<option value="${r.id}" ${thState.manualId===r.id?'selected':''}>${t(r.type)} [${groupLabel[r.badge]}]</option>`).join('');
+
+  wrap.innerHTML = `
+    <div class="q-text" style="font-size:13px;">${t(TH_UI.manualTypeLabel)}</div>
+    <select class="select-input" id="thManualType">
+      <option value="">${t(TH_UI.manualTypeDefault)}</option>
+      ${options}
+    </select>
+    <div id="thTxFormArea" style="margin-top:14px;"></div>
+    <div id="thTxResult" style="margin-top:14px;"></div>
+  `;
+  app.appendChild(wrap);
+
+  document.getElementById('thManualType').onchange = ()=>{
+    thState.manualId = document.getElementById('thManualType').value || null;
+    thRenderTxForm();
+  };
+  thRenderTxForm();
+}
+
+function thRenderTxForm(){
+  const area = document.getElementById('thTxFormArea');
+  const resultBox = document.getElementById('thTxResult');
+  if(!area) return;
+  const match = thState.manualId
+    ? THAL_RULES.find(r=>r.id===thState.manualId)
+    : ((thState.interp && thState.interp.match) ? thState.interp.match : null);
+  const gridStyle = 'display:grid; grid-template-columns:1fr 1fr; gap:12px;';
+
+  if(!match){
+    area.innerHTML = `<div class="field-unit">${t(TH_UI.needInterpretFirst)}</div>`;
+    if(resultBox) resultBox.innerHTML = '';
+    return;
+  }
+  if(match.group==='carrier'){
+    area.innerHTML = '';
+    if(resultBox) resultBox.innerHTML = `<div class="result-banner info"><h2>${t(TH_UI.noIndicationTitle)}</h2><p>${t(match.type)} — ${t(TH_UI.noIndicationBody)}</p></div>`;
+    return;
+  }
+
+  const symDefs = [
+    ['s_face','symFace'], ['s_growth','symGrowth'], ['s_fracture','symFracture'],
+    ['s_emh','symEmh'], ['s_pah','symPah'], ['s_ulcer','symUlcer']
+  ];
+  const symBtns = symDefs.map(([k,labelKey])=>thToggleBtnHtml('thTx_'+k, t(TH_UI[labelKey]), false)).join('');
+
+  area.innerHTML = `
+    <div style="${gridStyle}">
+      <div><div class="q-text" style="font-size:13px;">${t(TH_UI.ageYearsLabel)}</div>
+        <input class="num-input" id="thTxAge" type="number" inputmode="decimal"></div>
+      <div><div class="q-text" style="font-size:13px;">${t(TH_UI.hb1Label)}</div>
+        <input class="num-input" id="thTxHb1" type="number" inputmode="decimal"></div>
+    </div>
+    <div style="height:12px"></div>
+    <div class="q-text" style="font-size:13px;">${t(TH_UI.hb2Label)}</div>
+    <input class="num-input" id="thTxHb2" type="number" inputmode="decimal" placeholder="${t(TH_UI.hb2Placeholder)}">
+    <div style="height:12px"></div>
+    ${thToggleBtnHtml('thTxInfection', t(TH_UI.infectionLabel), false)}
+    <div style="height:14px"></div>
+    <div class="q-text" style="font-size:13px;">${t(TH_UI.symptomsHeading)}</div>
+    <div class="opt-list">${symBtns}</div>
+    <div style="height:8px"></div>
+    ${thToggleBtnHtml('thTxNoSym', t(TH_UI.symNone), false)}
+    <div class="wizard-nav" style="margin-top:16px;">
+      <button class="btn btn-primary" id="thTxAssessBtn">${t(TH_UI.assessBtn)}</button>
+    </div>
+  `;
+  if(resultBox) resultBox.innerHTML = '';
+
+  const symState = {}; symDefs.forEach(([k])=>symState[k]=false);
+  let infectionState = false, noSymState = false;
+
+  symDefs.forEach(([k])=>{
+    thWireToggle('thTx_'+k, ()=>symState[k], v=>{
+      symState[k]=v;
+      if(v && noSymState){
+        noSymState = false;
+        const noSymBtn = document.getElementById('thTxNoSym');
+        noSymBtn.classList.remove('selected');
+        noSymBtn.querySelector('.chk').textContent = '';
+      }
+    });
+  });
+  thWireToggle('thTxInfection', ()=>infectionState, v=>{ infectionState=v; });
+  thWireToggle('thTxNoSym', ()=>noSymState, v=>{
+    noSymState=v;
+    if(v){
+      symDefs.forEach(([k])=>{
+        symState[k]=false;
+        const b = document.getElementById('thTx_'+k);
+        b.classList.remove('selected'); b.querySelector('.chk').textContent='';
+      });
+    }
+  });
+
+  document.getElementById('thTxAssessBtn').onclick = ()=>{
+    thAssessTransfusion(match, symState, infectionState);
+  };
+}
+
+function thAssessTransfusion(match, symState, hasInfection){
+  const box = document.getElementById('thTxResult');
+  const age = thNum('thTxAge');
+  const hb1 = thNum('thTxHb1');
+  const hb2raw = document.getElementById('thTxHb2').value;
+  const hb2 = hb2raw === '' ? null : parseFloat(hb2raw);
+
+  const minHb = (hb2!==null) ? Math.min(hb1,hb2) : hb1;
+  const twoTimesApart = (hb2!==null);
+  let indicated = false;
+  let reason = '';
+
+  if(age>0 && age<18){
+    if(minHb<8 && twoTimesApart && !hasInfection){
+      indicated = true;
+      reason = thFmt(TH_UI.ageLt18Reason1,{minHb});
+    } else if(hb1>8 && (symState.s_face||symState.s_growth||symState.s_fracture||symState.s_emh)){
+      indicated = true;
+      const syms = [];
+      if(symState.s_face) syms.push(t(TH_UI.symFace));
+      if(symState.s_growth) syms.push(t(TH_UI.symGrowth));
+      if(symState.s_fracture) syms.push(t(TH_UI.symFracture));
+      if(symState.s_emh) syms.push(t(TH_UI.symEmh));
+      reason = thFmt(TH_UI.ageLt18Reason2,{syms:syms.join(', ')});
+    } else {
+      reason = thFmt(TH_UI.ageLt18NotMet,{
+        hb1: hb1||'-',
+        infectionNote: hasInfection? t(TH_UI.infectionNoteText):'',
+        noSecondNote: !twoTimesApart? t(TH_UI.noSecondNoteText):''
+      });
+    }
+  } else if(age>=18){
+    if(minHb<7 && twoTimesApart && !hasInfection){
+      indicated = true;
+      reason = thFmt(TH_UI.ageGe18Reason1,{minHb});
+    } else if(hb1>7 && (symState.s_fracture||symState.s_pah||symState.s_ulcer)){
+      indicated = true;
+      const syms = [];
+      if(symState.s_fracture) syms.push(t(TH_UI.symFracture));
+      if(symState.s_pah) syms.push(t(TH_UI.symPah));
+      if(symState.s_ulcer) syms.push(t(TH_UI.symUlcer));
+      reason = thFmt(TH_UI.ageGe18Reason2,{syms:syms.join(', ')});
+    } else {
+      reason = thFmt(TH_UI.ageGe18NotMet,{hb1:hb1||'-'});
+    }
+  } else {
+    reason = t(TH_UI.ageMissing);
+  }
+
+  let regimenHtml = '';
+  if(indicated){
+    const cols = [{key:'label',label:{th:'',en:''}},{key:'high',label:TH_UI.regimenHigh},{key:'mod',label:TH_UI.regimenModerate}];
+    const rows = [
+      { label:{th:'เป้าหมาย Hb',en:'Target Hb'}, high:TH_UI.regimenHighTarget, mod:TH_UI.regimenModerateTarget },
+      { label:{th:'ขนาด/ความถี่',en:'Dose/frequency'}, high:TH_UI.regimenHighDose, mod:TH_UI.regimenModerateDose },
+    ];
+    regimenHtml = spTableHtml(cols, rows) + `<div class="field-unit">${t(TH_UI.regimenChoiceNote)}</div>`;
+  }
+
+  const cls = indicated ? 'severe' : 'info';
+  box.innerHTML = `
+    <div class="result-banner ${cls}">
+      <span class="tag">${indicated ? t(TH_UI.indicatedBadge) : t(TH_UI.notIndicatedBadge)}</span>
+      <h2>${t(match.type)}</h2>
+      <p>${reason}</p>
+    </div>
+    ${regimenHtml}
+    ${!indicated ? `<div class="field-unit" style="margin-top:8px;">${t(TH_UI.notIndicatedNote)}</div>` : ''}
+  `;
+}
+
+/* ---------------- TAB 3: Iron overload & chelation ---------------- */
+function thReferenceView(app){
+  thHeader(app, t(TH_UI.tabReference));
+  const subtitle = document.createElement('div');
+  subtitle.className = 'field-unit';
+  subtitle.style.marginTop = '-8px';
+  subtitle.textContent = t(TH_UI.chelationSubtitle);
+  app.appendChild(subtitle);
+  const wrap = document.createElement('div');
+  wrap.className='q-card';
+  wrap.style.marginTop = '10px';
+  wrap.innerHTML = thRefChelationHtml();
+  app.appendChild(wrap);
+}
+
+function thP(txt){ return `<p style="font-size:13px; line-height:1.7; margin:0 0 10px;">${txt}</p>`; }
+
+function thRegimenCard(num, name, targetBadge, lines, evi){
+  const body = lines.map(([lbl,txt])=>`<p><b>${lbl}:</b> ${txt}</p>`).join('');
+  return `<div class="th-card">
+    <div class="th-hdr-row"><h4>${num}. ${name}</h4><span class="th-badge">${targetBadge}</span></div>
+    ${body}
+    <span class="th-evi-pill">${evi}</span>
+  </div>`;
+}
+
+function thRefRegimenHtml(){
+  if(LANG==='th'){
+    return thRegimenCard(1,'High transfusion','เป้าหมาย 9.0-10.5 g/dL', [
+        ['วัตถุประสงค์','ยับยั้งการสร้างเม็ดเลือดแดง (suppress erythropoiesis) — รักษาระดับ Hb ก่อนรับเลือดให้ <b>สูงกว่า 9.0-10.5 g/dL ตลอดเวลา และไม่เกิน 14 g/dL</b>'],
+        ['ขนาด/ความถี่','RBC เข้มข้น 10-15 mL/kg (1-2 ยูนิตในผู้ใหญ่) ทุก 2-6 สัปดาห์'],
+        ['ใช้ในผู้ป่วย','วินิจฉัยใหม่ที่เข้าเกณฑ์ข้อบ่งชี้ให้เลือดสม่ำเสมอ — โดยเฉพาะผู้ป่วยเด็ก (ให้คุณภาพชีวิตดี เจริญเติบโตปกติ) และผู้ใหญ่ที่มีภาวะแทรกซ้อนจากโลหิตจางเรื้อรัง เช่น EMH กดเบียดไขสันหลัง (spinal cord compression), แผลเรื้อรังที่ขา — ทั้งนี้ขึ้นกับความพร้อมของโรงพยาบาลและดุลยพินิจของแพทย์'],
+      ], 'คุณภาพหลักฐาน ค๑ / น้ำหนักคำแนะนำ ++')
+      + thRegimenCard(2,'Moderate transfusion','เป้าหมาย &gt;7 g/dL', [
+        ['วัตถุประสงค์','รักษาระดับ Hb ก่อนรับเลือดให้เกิน 7 g/dL ในผู้ใหญ่ — คุณภาพชีวิตดีพอสมควร'],
+        ['ขนาด','RBC เข้มข้น 1-2 ยูนิตในผู้ใหญ่'],
+        ['ใช้ในผู้ป่วย','ธาลัสซีเมียรุนแรงมากที่ไม่สามารถให้ความร่วมมือในการให้เลือดแบบ high transfusion ได้'],
+      ], 'คุณภาพหลักฐาน ง๑ / น้ำหนักคำแนะนำ ++')
+      + thRegimenCard(3,'Occasional transfusion','ให้เมื่อ Hb &lt;7 g/dL', [
+        ['ใช้ในผู้ป่วย','ธาลัสซีเมียรุนแรงปานกลาง เช่น Hb H disease และ β-thalassemia ชนิดไม่รุนแรง เมื่อมีอาการซีดลงกว่าเดิม (acute hemolysis) ซึ่งมักถูกกระตุ้นจากการติดเชื้อ'],
+        ['เกณฑ์ให้เลือด','Hb &lt;7 g/dL หรือมีการเปลี่ยนแปลงของสัญญาณชีพ — ถ้ามีภาวะแทรกซ้อนร่วมด้วย เช่น ความดันหลอดเลือดปอดสูง ให้พิจารณาระดับ Hb ที่เหมาะสมเป็นรายๆ ไป'],
+      ], 'คุณภาพหลักฐาน ง๑ / น้ำหนักคำแนะนำ ++')
+      + `<div class="field-unit">Guidelines for the Management of Anemia and Thalassemia, หน้า 116</div>`;
+  }
+  return thRegimenCard(1,'High transfusion','Target 9.0-10.5 g/dL', [
+      ['Purpose','Suppress erythropoiesis — keep pre-transfusion Hb <b>above 9.0-10.5 g/dL at all times, not exceeding 14 g/dL</b>'],
+      ['Dose/frequency','10-15 mL/kg packed RBC (1-2 units in adults) every 2-6 weeks'],
+      ['Used in','Newly diagnosed patients meeting regular-transfusion criteria — especially children (good quality of life, normal growth) and adults with complications from chronic anemia such as EMH-related spinal cord compression or chronic leg ulcer — depends on hospital resources and clinical judgment'],
+    ], 'Evidence grade ค๑ / Strength ++')
+    + thRegimenCard(2,'Moderate transfusion','Target &gt;7 g/dL', [
+      ['Purpose','Keep pre-transfusion Hb above 7 g/dL in adults — reasonably good quality of life'],
+      ['Dose','1-2 units packed RBC in adults'],
+      ['Used in','Very severe thalassemia patients who cannot tolerate a high-transfusion regimen'],
+    ], 'Evidence grade ง๑ / Strength ++')
+    + thRegimenCard(3,'Occasional transfusion','Given when Hb &lt;7 g/dL', [
+      ['Used in','Moderately severe thalassemia, e.g. Hb H disease and mild β-thalassemia, when anemia worsens (acute hemolysis), usually infection-triggered'],
+      ['Transfusion criteria','Hb &lt;7 g/dL or a change in vital signs — with a co-existing complication such as pulmonary hypertension, decide the appropriate Hb target case by case'],
+    ], 'Evidence grade ง๑ / Strength ++')
+    + `<div class="field-unit">Guidelines for the Management of Anemia and Thalassemia, p.116</div>`;
+}
+
+function thDrugCard(name, abbr, lines){
+  const body = lines.map(([lbl,txt])=>`<p><b>${lbl}:</b> ${txt}</p>`).join('');
+  return `<div class="th-card">
+    <div class="th-hdr-row"><h4>${name}</h4><span class="th-badge">${abbr}</span></div>
+    ${body}
+  </div>`;
+}
+
+function thRefChelationHtml(){
+  const assessCols = [{key:'method',label:{th:'วิธี',en:'Method'}},{key:'criteria',label:{th:'เกณฑ์ / ค่าตัด',en:'Criteria / cutoff'}},{key:'freq',label:{th:'ความถี่',en:'Frequency'}}];
+  const assessRows = LANG==='th' ? [
+    {method:'Serum ferritin', criteria:'&gt;1,000 ng/mL = เหล็กเกิน', freq:'ซ้ำทุก 1-3 เดือน'},
+    {method:'MRI T2* (หัวใจ) / LIC (ตับ)', criteria:'-', freq:'พิจารณาตรวจเมื่ออายุ &gt;10 ปี หรือเร็วกว่านั้นถ้าเตรียม HSCT/ferritin &gt;2,500'},
+  ] : [
+    {method:'Serum ferritin', criteria:'&gt;1,000 ng/mL = iron overload', freq:'Repeat every 1-3 months'},
+    {method:'MRI T2* (cardiac) / LIC (liver)', criteria:'-', freq:'When age &gt;10y, or earlier if planning HSCT / ferritin &gt;2,500'},
+  ];
+  const ferritinCols = [{key:'drug',label:{th:'ยา',en:'Drug'}},{key:'start',label:{th:'เริ่มต้น',en:'Starting'}},{key:'max',label:{th:'สูงสุด',en:'Max'}}];
+  const ntdtRows = LANG==='th' ? [
+    {drug:'DFX (เลือกก่อน)',start:'10-20 mg/kg/day',max:'30 mg/kg/day'},
+    {drug:'DFP',start:'50 mg/kg/day',max:'100 mg/kg/day'},
+    {drug:'DFO (ถ้า 2 ตัวแรกใช้ไม่ได้)',start:'ขนาดเดียวกับ TDT',max:''},
+  ] : [
+    {drug:'DFX (preferred)',start:'10-20 mg/kg/day',max:'30 mg/kg/day'},
+    {drug:'DFP',start:'50 mg/kg/day',max:'100 mg/kg/day'},
+    {drug:'DFO (if the first two fail)',start:'Same dose as TDT',max:''},
+  ];
+  const fuCols = [{key:'test',label:{th:'การตรวจ',en:'Test'}},{key:'dfo',label:{th:'DFO',en:'DFO'}},{key:'dfp',label:{th:'DFP',en:'DFP'}},{key:'dfx',label:{th:'DFX',en:'DFX'}}];
+  const fuRows = LANG==='th' ? [
+    {test:'CBC', dfo:'-', dfp:'ทุก 1-2 สัปดาห์ (3 เดือนแรก) แล้วทุกเดือน + ทุกครั้งที่มีไข้/ติดเชื้อ', dfx:'"'},
+    {test:'Ferritin', dfo:'ทุก 3 เดือน', dfp:'"', dfx:'"'},
+    {test:'ไต (BUN/Cr)', dfo:'ทุก 3 เดือน', dfp:'ทุก 3 เดือน', dfx:'ทุก 1-3 เดือน หรือเมื่อปรับยา'},
+    {test:'Proteinuria', dfo:'-', dfp:'-', dfx:'ทุก 1-3 เดือน'},
+    {test:'AST/ALT', dfo:'ทุก 3 เดือน', dfp:'ทุก 1 เดือนหลังเริ่มยา แล้วทุก 3 เดือน; หยุดถ้า &gt;5×ปกติ', dfx:'"'},
+    {test:'ตา/หู', dfo:'ก่อนเริ่ม + ทุกปี', dfp:'"', dfx:'"'},
+  ] : [
+    {test:'CBC', dfo:'-', dfp:'Every 1-2 weeks (first 3mo) then monthly + with fever/infection', dfx:'"'},
+    {test:'Ferritin', dfo:'Every 3 months', dfp:'"', dfx:'"'},
+    {test:'Renal (BUN/Cr)', dfo:'Every 3mo', dfp:'Every 3mo', dfx:'Every 1-3mo or with dose change'},
+    {test:'Proteinuria', dfo:'-', dfp:'-', dfx:'Every 1-3 months'},
+    {test:'AST/ALT', dfo:'Every 3mo', dfp:'Monthly after starting, then every 3mo; stop if &gt;5× normal', dfx:'"'},
+    {test:'Eyes/ears', dfo:'Baseline + annually', dfp:'"', dfx:'"'},
+  ];
+
+  if(LANG==='th'){
+    return `<div class="q-text" style="font-size:14px;">การประเมินภาวะธาตุเหล็กเกิน</div>
+      ${spTableHtml(assessCols, assessRows)}
+
+      <div class="q-text" style="font-size:15px; margin-top:10px;">TDT — เกณฑ์เริ่มยาขับธาตุเหล็ก</div>
+      ${thNote('<b>ข้อบ่งชี้เริ่มยา (ข้อใดข้อหนึ่ง):</b><ol class="th-ol"><li>Serum ferritin &gt;1,000 ng/mL (วัด 2 ครั้งห่าง 1-3 เดือน)</li><li>LIC &gt;7 mg/g dry weight</li><li>รับเลือดสม่ำเสมอมานาน &gt;1 ปี</li><li>รับเลือดมาแล้ว &gt;10 ครั้ง</li></ol>')}
+
+      ${thDrugCard('Desferrioxamine','DFO', [
+        ['รูปแบบ','ฉีดใต้ผิวหนัง (SC) หรือหยดเข้าเส้นเลือดต่อเนื่อง'],
+        ['อายุ','&gt;2 ปี'],
+        ['ขนาด','20-60 mg/kg/day (เด็กเล็กสูงสุด 40) นาน 8-12 ชม./วัน 5-7 วัน/สัปดาห์'],
+        ['ปรับยา','dose/ferritin ratio ≤0.025, ลดขนาดเมื่อ ferritin &lt;1,000'],
+      ])}
+      ${thDrugCard('Deferiprone','DFP', [
+        ['รูปแบบ','กิน'],
+        ['อายุ','&gt;6 ปี (ยาแรกเลือกใน TDT ≥6 ปี)'],
+        ['ขนาด','50-100 mg/kg/day แบ่ง 3-4 ครั้ง'],
+      ])}
+      ${thCritNote('<b>ต้องเฝ้าระวัง:</b> Agranulocytosis (ANC &lt;500) / neutropenia (ANC &lt;1,500) — CBC ทุก 1-2 สัปดาห์ (2-3 เดือนแรก) แล้วทุกเดือน')}
+      ${thDrugCard('Deferasirox','DFX', [
+        ['รูปแบบ','กิน (dispersible/FCT)'],
+        ['อายุ','&gt;2 ปี (ยาแรกเลือกใน TDT อายุ 2-6 ปี)'],
+        ['ขนาด','20-40 mg/kg/day วันละครั้ง ก่อนอาหาร 30 นาที ขณะท้องว่าง'],
+      ])}
+
+      ${thNote('<b>Combination therapy:</b> เมื่อ monotherapy ไม่ได้ผล นิยม DFO+DFP (DFO 20-40 mg/kg 2-6 วัน/สัปดาห์ + DFP 75-100 mg/kg/day ทุกวัน) — ได้ผลดีกว่ายาเดี่ยวโดยเฉพาะเหล็กเกินที่หัวใจ <span class="th-evi-pill">ข๑ / ++</span>')}
+      ${thWarnNote('<b>DFO continuous infusion (IV/SC):</b> พิจารณาเมื่อมี cardiac dysrhythmia/LVEF&lt;56%, วางแผนตั้งครรภ์ หรือต้องลดเหล็กเร็วก่อน HSCT')}
+
+      <div class="q-text" style="font-size:15px; margin-top:10px;">NTDT</div>
+      ${thNote('เริ่มประเมินเมื่ออายุ ≥10 ปี — ferritin ทุก 3-6 เดือน, LIC ทุก 1-2 ปีถ้าตรวจ MRI ได้ <span class="th-evi-pill">ง๑ / ++</span><br>เริ่มยาเมื่ออายุ &gt;10 ปี และ (LIC ≥5 mg/g <b>หรือ</b> ferritin ≥800 ng/mL) <span class="th-evi-pill">ข๓ / ++</span>')}
+      ${spTableHtml(ferritinCols, ntdtRows)}
+      ${thP('ลดยาเมื่อ ferritin &lt;500 ng/mL, หยุดยาเมื่อ ferritin &lt;300 ng/mL หรือ LIC &lt;3 mg/g')}
+
+      <div class="q-text" style="font-size:15px; margin-top:10px;">ตารางที่ 3 — การตรวจติดตามเพื่อประเมินผลการรักษาและความปลอดภัย</div>
+      ${spTableHtml(fuCols, fuRows)}
+      <div class="field-unit">Guidelines for the Management of Anemia and Thalassemia, ตารางที่ 3 หน้า 126</div>
+
+      ${thNote('<b>แนวทางปรับขนาดยาโดยสรุป:</b><ul class="th-ol" style="list-style:disc;"><li><b>DFO:</b> ลดขนาดเมื่อ ferritin &lt;1,000 ng/mL หรือ dose/ferritin ratio &gt;0.025</li><li><b>DFP:</b> หยุดยาทันทีถ้ามี ANC &lt;500 (agranulocytosis) — ปรึกษาแพทย์ผู้เชี่ยวชาญก่อนกลับมาใช้ยาใหม่</li><li><b>NTDT (ทุกยา):</b> ลดขนาดเมื่อ ferritin &lt;500 ng/mL หรือหยุดยาเมื่อ ferritin &lt;300 ng/mL หรือ LIC &lt;3 mg/g dry weight</li></ul>')}
+
+      <div class="q-text" style="font-size:16px; margin-top:16px;">แผนภูมิที่ 1 — แนวทางการเลือก/ปรับยาขับธาตุเหล็กใน TDT</div>
+
+      ${thNote('<span class="th-badge">TDT</span> &nbsp;<b>จุดเริ่มต้น:</b> ผู้ป่วยได้รับการวินิจฉัยเป็นโรคธาลัสซีเมียชนิดพึ่งเลือด (TDT): ได้รับ hypertransfusion &gt;1 ปี หรือได้รับเลือดมาแล้ว &gt;10 ครั้ง')}
+      ${thNote('<b>TDT อายุ 2-6 ปี:</b> ให้ DFO 20-40 mg/kg/day SC 8-12 ชม. × 5-7 วัน/สัปดาห์ หรือ DFX เป็นทางเลือกแรก โดยมีข้อบ่งชี้เดียวกับ SF &gt;1,000 ng/mL หรือ LIC &gt;7 mg Fe/g dry weight')}
+      ${thNote('<b>TDT &gt;6 ปี และผู้ใหญ่:</b> ให้ DFO 20-40 mg/kg/day* SC 8-12 ชม. × 5-7 วัน/สัปดาห์ (*ผู้ใหญ่ทนได้ถึง 60 mg/kg/day) หรือ DFP เป็นทางเลือกแรก 50-100 mg/kg/day แบ่ง 3-4 ครั้ง — ถ้า DFP เป็นทางเลือกแรกไม่ได้ผล ให้เปลี่ยนไปใช้ DFX')}
+
+      ${thCritNote('<b>เกณฑ์ DFP ไม่พึงประสงค์ / DFP failure (ข้อใดข้อหนึ่ง):</b><ol class="th-ol"><li>Systemic allergic reaction</li><li>ALT และ/หรือ AST &gt; 2.5 เท่าของ ULN</li><li>Neutropenia (ANC &lt;1,500/mm³) และเกิดซ้ำอีกหลังจาก rechallenge</li><li>Severe neutropenia (ANC &lt;500/mm³)</li><li>Severe arthropathy และเกิดซ้ำอีกหลังจาก rechallenge</li><li>DFP intolerance (คลื่นไส้ อาเจียน ท้องเสีย) ตาม CTCAE grade 2 (rechallenge) หรือ grade 3</li></ol>→ เริ่ม DFX ที่ <b>20 mg/kg/day</b> ปรับเพิ่มครั้งละ 5-10 mg/kg/day ทุก 3-6 เดือน (สูงสุด 40 mg/kg/day)')}
+
+      ${thWarnNote('<b>ผู้ป่วยล้มเหลวจากการใช้ DFP (เข้าเกณฑ์ทุกข้อ):</b><ol class="th-ol"><li>ใช้ DFP ในขนาดสูงสุดที่ทนได้ หรือถึง 100 mg/kg/day</li><li>SF &gt;2,500 ng/mL โดย SF ไม่ลดลงหรือเพิ่มขึ้นหลังรับยา 1 ปี <b>หรือ</b> SF ลดลงไม่ถึง 15% จากค่าเริ่มต้นหลังรับยา 2 ปี</li></ol><span class="field-unit" style="margin-top:6px;">หมายเหตุ: ต้องผ่านการประเมินว่าผู้ป่วยให้ความร่วมมือในการใช้ยา DFP แล้ว</span>→ พิจารณาเปลี่ยนเป็น combination therapy (DFP+DFO)')}
+
+      ${thWarnNote('<b>ผู้ป่วยไม่ทนต่อยาจาก DFX (เข้าเกณฑ์ทุกข้อ):</b><ol class="th-ol"><li>ใช้ DFX ในขนาดสูงสุดที่ทนได้ หรือถึง 40 mg/kg/day</li><li>SF &gt;2,500 ng/mL โดย SF ไม่ลดลงหรือเพิ่มขึ้นหลังรับยา 1 ปี <b>หรือ</b> SF ลดลงไม่ถึง 15% จากค่าเริ่มต้นหลังรับยา 2 ปี</li></ol><span class="field-unit" style="margin-top:6px;">หมายเหตุ: ต้องผ่านการประเมินว่าผู้ป่วยให้ความร่วมมือในการใช้ยา DFX แล้ว</span>→ พิจารณาเปลี่ยนเป็น combination therapy (DFO+DFP)')}
+
+      ${thNote('<b>ผู้ป่วยตอบสนองดีและทนยา DFX ได้:</b> ให้การรักษาต่อเนื่อง ติดตาม SF ทุก 3 เดือน และปรับขนาดยาตามแนวโน้ม SF — เป้าหมาย SF &lt;1,000 ng/mL')}
+
+      <div class="field-unit" style="margin-top:10px;">SF = serum ferritin, DFO = Desferrioxamine, DFX = Deferasirox, DFP = Deferiprone, LIC = liver iron concentration — Guidelines for the Management of Anemia and Thalassemia, แผนภูมิที่ 1 หน้า 127</div>`;
+  }
+  return `<div class="q-text" style="font-size:14px;">Iron overload assessment</div>
+    ${spTableHtml(assessCols, assessRows)}
+
+    <div class="q-text" style="font-size:15px; margin-top:10px;">TDT — criteria to start chelation</div>
+    ${thNote('<b>Indication to start (any one):</b><ol class="th-ol"><li>Serum ferritin &gt;1,000 ng/mL (2 measurements 1-3 months apart)</li><li>LIC &gt;7 mg/g dry weight</li><li>Regular transfusion for &gt;1 year</li><li>&gt;10 transfusions received</li></ol>')}
+
+    ${thDrugCard('Desferrioxamine','DFO', [
+      ['Form','Subcutaneous injection or continuous infusion'],
+      ['Age','&gt;2y'],
+      ['Dose','20-60 mg/kg/day (max 40 in young children), 8-12h/day, 5-7 days/week'],
+      ['Adjust','dose/ferritin ratio ≤0.025, reduce when ferritin &lt;1,000'],
+    ])}
+    ${thDrugCard('Deferiprone','DFP', [
+      ['Form','Oral'],
+      ['Age','&gt;6y (first-line for TDT ≥6y)'],
+      ['Dose','50-100 mg/kg/day in 3-4 doses'],
+    ])}
+    ${thCritNote('<b>Must monitor:</b> Agranulocytosis (ANC &lt;500) / neutropenia (ANC &lt;1,500) — CBC every 1-2 weeks (first 2-3 months) then monthly')}
+    ${thDrugCard('Deferasirox','DFX', [
+      ['Form','Oral (dispersible/FCT)'],
+      ['Age','&gt;2y (first-line for TDT age 2-6y)'],
+      ['Dose','20-40 mg/kg/day once daily, 30 min before food, on an empty stomach'],
+    ])}
+
+    ${thNote('<b>Combination therapy:</b> when monotherapy fails, DFO+DFP is preferred (DFO 20-40 mg/kg 2-6 days/week + DFP 75-100 mg/kg/day daily) — more effective than monotherapy, especially for cardiac iron overload <span class="th-evi-pill">ข๑ / ++</span>')}
+    ${thWarnNote('<b>DFO continuous infusion (IV/SC):</b> consider for cardiac dysrhythmia/LVEF&lt;56%, pregnancy planning, or rapid iron reduction before HSCT')}
+
+    <div class="q-text" style="font-size:15px; margin-top:10px;">NTDT</div>
+    ${thNote('Start assessment at age ≥10y — ferritin every 3-6 months, LIC every 1-2 years if MRI available <span class="th-evi-pill">ง๑ / ++</span><br>Start chelation when age &gt;10y and (LIC ≥5 mg/g <b>or</b> ferritin ≥800 ng/mL) <span class="th-evi-pill">ข๓ / ++</span>')}
+    ${spTableHtml(ferritinCols, ntdtRows)}
+    ${thP('Reduce when ferritin &lt;500 ng/mL; stop when ferritin &lt;300 ng/mL or LIC &lt;3 mg/g')}
+
+    <div class="q-text" style="font-size:15px; margin-top:10px;">Table 3 — Follow-up monitoring for treatment efficacy and safety</div>
+    ${spTableHtml(fuCols, fuRows)}
+    <div class="field-unit">Guidelines for the Management of Anemia and Thalassemia, Table 3, p.126</div>
+
+    ${thNote('<b>Dose-adjustment summary:</b><ul class="th-ol" style="list-style:disc;"><li><b>DFO:</b> reduce when ferritin &lt;1,000 ng/mL or dose/ferritin ratio &gt;0.025</li><li><b>DFP:</b> stop immediately if ANC &lt;500 (agranulocytosis) — consult a specialist before restarting</li><li><b>NTDT (all drugs):</b> reduce when ferritin &lt;500 ng/mL, or stop when ferritin &lt;300 ng/mL or LIC &lt;3 mg/g dry weight</li></ul>')}
+
+    <div class="q-text" style="font-size:16px; margin-top:16px;">Flowchart 1 — Choosing and Adjusting Iron Chelation Therapy in TDT</div>
+
+    ${thNote('<span class="th-badge">TDT</span> &nbsp;<b>Starting point:</b> patient diagnosed as transfusion-dependent thalassemia (TDT): on hypertransfusion for &gt;1 year, or having received &gt;10 transfusions')}
+    ${thNote('<b>TDT age 2-6y:</b> give DFO 20-40 mg/kg/day SC 8-12h × 5-7 days/week, or DFX as a first-line alternative with the same indication (SF &gt;1,000 ng/mL or LIC &gt;7 mg Fe/g dry weight)')}
+    ${thNote('<b>TDT &gt;6y and adults:</b> give DFO 20-40 mg/kg/day* SC 8-12h × 5-7 days/week (*adults tolerate up to 60 mg/kg/day), or DFP as a first-line alternative 50-100 mg/kg/day in 3-4 doses — switch to DFX if first-line DFP fails')}
+
+    ${thCritNote('<b>DFP failure criteria (any one):</b><ol class="th-ol"><li>Systemic allergic reaction</li><li>ALT and/or AST &gt; 2.5× ULN</li><li>Neutropenia (ANC &lt;1,500/mm³) recurring after rechallenge</li><li>Severe neutropenia (ANC &lt;500/mm³)</li><li>Severe arthropathy recurring after rechallenge</li><li>DFP intolerance (nausea, vomiting, diarrhea) per CTCAE grade 2 (on rechallenge) or grade 3</li></ol>→ Start DFX at <b>20 mg/kg/day</b>, increase by 5-10 mg/kg/day every 3-6 months (max 40 mg/kg/day)')}
+
+    ${thWarnNote('<b>Patient failed DFP treatment (meets all criteria):</b><ol class="th-ol"><li>Used DFP at max tolerated dose, or up to 100 mg/kg/day</li><li>SF &gt;2,500 ng/mL with SF not decreasing or increasing after 1 year of treatment, <b>or</b> SF decreasing by less than 15% from baseline after 2 years</li></ol><span class="field-unit" style="margin-top:6px;">Note: must confirm the patient has been adherent to DFP</span>→ Consider combination therapy (DFP+DFO)')}
+
+    ${thWarnNote('<b>Patient failed DFX treatment (meets all criteria):</b><ol class="th-ol"><li>Used DFX at max tolerated dose, or up to 40 mg/kg/day</li><li>SF &gt;2,500 ng/mL with SF not decreasing or increasing after 1 year of treatment, <b>or</b> SF decreasing by less than 15% from baseline after 2 years</li></ol><span class="field-unit" style="margin-top:6px;">Note: must confirm the patient has been adherent to DFX</span>→ Consider combination therapy (DFO+DFP)')}
+
+    ${thNote('<b>Patient responds well and tolerates DFX:</b> continue treatment, monitor SF every 3 months and adjust dose by SF trend — target SF &lt;1,000 ng/mL')}
+
+    <div class="field-unit" style="margin-top:10px;">SF = serum ferritin, DFO = Desferrioxamine, DFX = Deferasirox, DFP = Deferiprone, LIC = liver iron concentration — Guidelines for the Management of Anemia and Thalassemia, Flowchart 1, p.127</div>`;
+}
+
+
+function thRefGenotypeTableHtml(){
+  const cols = [{key:'hbtype',label:{th:'Hb Type',en:'Hb Type'}},{key:'interp',label:{th:'การแปลผล',en:'Interpretation'}},{key:'meaning',label:{th:'ความหมาย (genotype)',en:'Genotype meaning'}}];
+  const rows = [
+    { hbtype:"EA Bart's", interp:"EA Bart's Disease", meaning:"Hb H disease with Hb E trait (α-thal 1/α-thal 2 – β\u1D31/β\u1D2C)" },
+    { hbtype:"EE Bart's, EF Bart's", interp:"EF Bart's Disease", meaning: LANG==='th' ? "Hb H disease ร่วมกับ β\u2070-thalassemia/Hb E หรือ homozygous Hb E (α-thal 1/α-thal 2 – β\u2070/β\u1D31 หรือ β\u1D31/β\u1D31)" : "Hb H disease with β\u2070-thalassemia/Hb E or homozygous Hb E (α-thal 1/α-thal 2 – β\u2070/β\u1D31 or β\u1D31/β\u1D31)" },
+    { hbtype:"EFA Bart's", interp:"EFA Bart's Disease", meaning:"Hb H disease with β\u207A-thalassemia/Hb E (α-thal 1/α-thal 2 – β\u207A/β\u1D31)" },
+    { hbtype:"CS EA Bart's", interp:"CS EA Bart's Disease", meaning:"Hb H-CS with Hb E trait (α-thal 1/α\u1D9Cˢ – β\u1D31/β\u1D2C)" },
+    { hbtype:"CS EE Bart's, CS EF Bart's", interp:"CS EF Bart's Disease", meaning: LANG==='th' ? "Hb H-CS ร่วมกับ β\u2070-thalassemia/Hb E หรือ homozygous Hb E (α-thal 1/α\u1D9Cˢ – β\u2070/β\u1D31 หรือ β\u1D31/β\u1D31)" : "Hb H-CS with β\u2070-thalassemia/Hb E or homozygous Hb E (α-thal 1/α\u1D9Cˢ – β\u2070/β\u1D31 or β\u1D31/β\u1D31)" },
+    { hbtype:"CS EFA Bart's", interp:"CS EFA Bart's Disease", meaning:"Hb H-CS with β\u207A-thalassemia/Hb E (α-thal 1/α\u1D9Cˢ – β\u207A/β\u1D31)" },
+  ];
+  const noteTxt = LANG==='th'
+    ? 'หมายเหตุ: เมื่อเป็น Hb E trait ร่วมกับกลุ่มนี้ สาย α-globin ที่เหลือน้อยจะจับกับสาย β-globin ปกติได้มากกว่าสาย β\u1D31-globin ทำให้ %Hb E ลดลงเสมอเมื่อเทียบกับ %Hb A — การสรุป genotype ที่แน่ชัดต้องตรวจ DNA'
+    : 'Note: when Hb E trait co-exists with this group, the reduced α-globin chains preferentially pair with normal β-globin over β\u1D31-globin, so %Hb E is always lower relative to %Hb A — confirming the exact genotype requires DNA testing';
+  return spTableHtml(cols, rows) + `<div class="field-unit" style="margin-top:6px;">${noteTxt}</div>`;
+}
+
 let topState = { screen:'home' };
 
 function goMainHome(){
@@ -11887,6 +12965,7 @@ function selectCategory(cat){
   else if(cat==='meningoencephalitis'){ mgResetAll(); }
   else if(cat==='sepsis'){ spResetAll(); }
   else if(cat==='uti'){ utResetAll(); }
+  else if(cat==='thalassemia'){ thGoHome(); }
   else if(cat==='tb'){ tbResetAll(); }
   else if(cat==='anaphylaxis'){ anResetAll(); }
   else if(cat==='statusepilepticus'){ seResetAll(); }
@@ -13793,6 +14872,7 @@ const CATEGORIES = [
   { id:'fever', icon:'🌡️', group:'common', name:{th:'Fever Without Source', en:'Fever Without Source'}, short:{th:'อายุ 0–3 ปี · ประเมินความเสี่ยง SBI', en:'Age 0–3y · SBI risk assessment'}, keywords:'fever ไข้ ไข้สูง ตัวร้อน sbi fws' },
   { id:'meningoencephalitis', icon:'🧠', group:'common', name:{th:'Meningoencephalitis', en:'Meningoencephalitis'}, short:{th:'ประเมิน LP · ผล CSF · ยาปฏิชีวนะ', en:'LP work-up · CSF result · antibiotics'}, keywords:'meningoencephalitis meningitis encephalitis เยื่อหุ้มสมองอักเสบ สมองอักเสบ เยื่อหุ้มสมองอักเสบ csf lp เจาะหลัง' },
   { id:'respiratory', icon:'🫁', group:'common', name:{th:'Respiratory Tract Infections', en:'Respiratory Tract Infections'}, short:{th:'หูชั้นกลาง · ไซนัส · Croup · ปอดบวม · เสียงหวีด', en:'AOM · Sinusitis · Croup · Pneumonia · Wheezing'}, keywords:'respiratory หายใจ ระบบหายใจ ไอ หอบ หวัด ปอดบวม ปอดอักเสบ pneumonia ไซนัส ไซนัสอักเสบ sinusitis หูชั้นกลางอักเสบ หูอักเสบ aom otitis croup กล่องเสียงอักเสบ หลอดลม เสียงหวีด หอบหืด wheeze wheezing asthma หลอดลมฝอยอักเสบ bronchiolitis' },
+  { id:'thalassemia', icon:'🧬', group:'common', name:{th:'Thalassemia', en:'Thalassemia'}, short:{th:'แปลผล Hb typing · ข้อบ่งชี้การให้เลือด · ยาขับเหล็ก', en:'Hb typing interpretation · transfusion indication · iron chelation'}, keywords:'thalassemia ธาลัสซีเมีย hb typing hemoglobin typing transfusion การให้เลือด iron chelation ยาขับเหล็ก deferiprone deferasirox desferrioxamine hb h disease hb e' },
   { id:'tb', icon:'🫁', group:'common', name:{th:'Tuberculosis', en:'Tuberculosis'}, short:{th:'วินิจฉัยปอด/นอกปอด · สูตรยา · คำนวณขนาดยา', en:'Pulmonary/extrapulmonary diagnosis · regimen · dosing'}, keywords:'tb tuberculosis วัณโรค ไอเรื้อรัง afb xpert mtb rif isoniazid rifampicin pyrazinamide ethambutol hrze' },
   { id:'uti', icon:'🚽', group:'common', name:{th:'Urinary Tract Infection', en:'Urinary Tract Infection'}, short:{th:'อายุ 2 เดือน–5 ปี · วินิจฉัย · แยก upper/lower · การรักษา', en:'Age 2mo–5y · diagnosis · upper/lower · treatment'}, keywords:'uti urinary tract infection ปัสสาวะ ทางเดินปัสสาวะ กระเพาะปัสสาวะอักเสบ กรวยไตอักเสบ ติดเชื้อทางเดินปัสสาวะ pyelonephritis cystitis' }
 ];
@@ -15764,7 +16844,7 @@ const DRUG_DB = [
     regimens: [
       { label:{th:'การติดเชื้อเล็กน้อย–ปานกลาง (PO)', en:'Mild to moderate infection (PO)'}, mgPerKgPerDay:null, mgPerKgPerDose:[10,10], freq:2, maxDoseMg:500 },
       { label:{th:'การติดเชื้อรุนแรง (PO)', en:'Severe infection (PO)'}, mgPerKgPerDay:null, mgPerKgPerDose:[15,20], freq:2, maxDoseMg:750 },
-      { label:{th:'การติดเชื้อรุนแรง (IV)', en:'Severe infection (IV)'}, mgPerKgPerDay:null, mgPerKgPerDose:[10,10], freq:2, maxDoseMg:400, notes:{th:'q8-12h', en:'q8-12h'} }
+      { label:{th:'การติดเชื้อรุนแรง (IV)', en:'Severe infection (IV)'}, route:'IV', mgPerKgPerDay:null, mgPerKgPerDose:[10,10], freq:2, maxDoseMg:400, notes:{th:'q8-12h', en:'q8-12h'} }
     ]
   },
   {
@@ -15869,7 +16949,7 @@ const DRUG_DB = [
     category: 'anticonvulsant',
     route: 'IV/PO',
     regimens: [
-      { label:{th:'Status epilepticus — loading', en:'Status epilepticus — loading'}, mgPerKgPerDay:null, mgPerKgPerDose:[20,20], freq:1, maxDoseMg:1000, notes:{th:'อาจเพิ่ม 5-10มก./กก.หากไม่หยุดชัก', en:'may add 5-10mg/kg if seizure continues'} },
+      { label:{th:'Status epilepticus — loading', en:'Status epilepticus — loading'}, route:'IV', mgPerKgPerDay:null, mgPerKgPerDose:[20,20], freq:1, maxDoseMg:1000, notes:{th:'อาจเพิ่ม 5-10มก./กก.หากไม่หยุดชัก', en:'may add 5-10mg/kg if seizure continues'} },
       { label:{th:'Maintenance', en:'Maintenance'}, mgPerKgPerDay:[4,8], freq:2, maxDailyMg:300 }
     ]
   },
@@ -15892,7 +16972,7 @@ const DRUG_DB = [
     category: 'anticonvulsant',
     route: 'IV/PO',
     regimens: [
-      { label:{th:'Status epilepticus — loading', en:'Status epilepticus — loading'}, mgPerKgPerDay:null, mgPerKgPerDose:[15,20], freq:1, maxDoseMg:1000, notes:{th:'อาจเพิ่ม 5-10มก./กก. หลัง loading dose', en:'may add 5-10mg/kg after loading dose'} },
+      { label:{th:'Status epilepticus — loading', en:'Status epilepticus — loading'}, route:'IV', mgPerKgPerDay:null, mgPerKgPerDose:[15,20], freq:1, maxDoseMg:1000, notes:{th:'อาจเพิ่ม 5-10มก./กก. หลัง loading dose', en:'may add 5-10mg/kg after loading dose'} },
       { label:{th:'Maintenance — อายุ ≤5 ปี', en:'Maintenance — age ≤5 years'}, mgPerKgPerDay:[3,5], freq:1, maxDailyMg:300 },
       { label:{th:'Maintenance — อายุ >5 ปี', en:'Maintenance — age >5 years'}, mgPerKgPerDay:[2,3], freq:1, maxDailyMg:300 }
     ]
@@ -15970,7 +17050,7 @@ const DRUG_DB = [
     category: 'antihistamine',
     route: 'IV/PO',
     regimens: [
-      { label:{th:'Anaphylaxis', en:'Anaphylaxis'}, mgPerKgPerDay:null, mgPerKgPerDose:[1,1], freq:4, maxDoseMg:50, notes:{th:'IV q6h', en:'IV q6h'} }
+      { label:{th:'Anaphylaxis', en:'Anaphylaxis'}, route:'IV', mgPerKgPerDay:null, mgPerKgPerDose:[1,1], freq:4, maxDoseMg:50, notes:{th:'IV q6h', en:'IV q6h'} }
     ]
   },
   {
@@ -16766,7 +17846,7 @@ const DRUG_DB = [
     route: 'PO/IV',
     regimens: [
       { label:{th:'Heart failure/afterload reduction (PO)', en:'Heart failure/afterload reduction (PO)'}, mgPerKgPerDay:[0.75,3], freq:4, maxDailyMg:200 },
-      { label:{th:'Acute severe HTN (IV)', en:'Acute severe HTN (IV)'}, mgPerKgPerDay:null, mgPerKgPerDose:[0.1,0.2], freq:4, maxDoseMg:20, notes:{th:'IV/IM q4-6h', en:'IV/IM q4-6h'} }
+      { label:{th:'Acute severe HTN (IV)', en:'Acute severe HTN (IV)'}, route:'IV', mgPerKgPerDay:null, mgPerKgPerDose:[0.1,0.2], freq:4, maxDoseMg:20, notes:{th:'IV/IM q4-6h', en:'IV/IM q4-6h'} }
     ]
   },
   {
@@ -16914,7 +17994,7 @@ const DRUG_DB = [
     unit: 'mEq',
     regimens: [
       { label:{th:'Hypokalemia เล็กน้อย-ปานกลาง (PO)', en:'Mild-moderate hypokalemia (PO)'}, mEqPerKgPerDay:[1,2], freq:3, maxDoseMEq:40 },
-      { label:{th:'Hypokalemia รุนแรง (IV)', en:'Severe hypokalemia (IV)'}, mgPerKgPerDay:null, mEqPerKgPerDose:[0.5,1], freq:1, maxDoseMEq:20, notes:{th:'ห้าม undiluted IV push', en:'never undiluted IV push'} }
+      { label:{th:'Hypokalemia รุนแรง (IV)', en:'Severe hypokalemia (IV)'}, route:'IV', mgPerKgPerDay:null, mEqPerKgPerDose:[0.5,1], freq:1, maxDoseMEq:20, notes:{th:'ห้าม undiluted IV push', en:'never undiluted IV push'} }
     ]
   },
   {
@@ -18281,6 +19361,7 @@ function render(){
   if(topState.screen==='meningoencephalitis'){ mgRender(); return; }
   if(topState.screen==='sepsis'){ spRender(); return; }
   if(topState.screen==='uti'){ utRender(); return; }
+  if(topState.screen==='thalassemia'){ thRender(); return; }
   if(topState.screen==='tb'){ tbRender(); return; }
   if(topState.screen==='anaphylaxis'){ anRender(); return; }
   if(topState.screen==='statusepilepticus'){ seRender(); return; }
