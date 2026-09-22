@@ -15407,6 +15407,7 @@ function vtRender(){
 }
 /* ======================= End Ventilation ======================= */
 
+
 /* ======================= Newborn Ventilation ======================= */
 const NV = {
   refBadge: {th:'Ramathibodi Handbook of Neonatology (พ.ศ. 2565)', en:'Ramathibodi Handbook of Neonatology (2022)'},
@@ -16925,8 +16926,8 @@ const DRUG_DB = [
     regimens: [
       { label:{th:'ทารกแรกเกิด PMA <40 สัปดาห์', en:'Neonate PMA <40 weeks'}, mgPerKgPerDay:[100,100], freq:2, maxDailyMg:null, notes:{th:'IV แบ่ง 2 ครั้ง/วัน', en:'IV in 2 divided doses'} },
       { label:{th:'ทารกแรกเกิด PMA 40-44 สัปดาห์', en:'Neonate PMA 40-44 weeks'}, mgPerKgPerDay:[200,200], freq:3, maxDailyMg:null, notes:{th:'IV แบ่ง 3 ครั้ง/วัน', en:'IV in 3 divided doses'} },
-      { label:{th:'น้ำหนัก <10 กก.', en:'Weight <10 kg'}, mgPerKgPerDay:[200,300], freq:3, maxDailyMg:24000, maxDoseMg:8000, notes:{th:'IV แบ่ง 3 ครั้ง/วัน', en:'IV in 3 divided doses'} },
-      { label:{th:'น้ำหนัก 10-40 กก.', en:'Weight 10-40 kg'}, mgPerKgPerDay:[200,400], freq:4, maxDailyMg:24000, maxDoseMg:8000, notes:{th:'IV แบ่ง 3-4 ครั้ง/วัน', en:'IV in 3-4 divided doses'} },
+      { label:{th:'น้ำหนัก <10 กก.', en:'Weight <10 kg'}, weightMax:10, weightMaxExclusive:true, mgPerKgPerDay:[200,300], freq:3, maxDailyMg:24000, maxDoseMg:8000, notes:{th:'IV แบ่ง 3 ครั้ง/วัน', en:'IV in 3 divided doses'} },
+      { label:{th:'น้ำหนัก 10-40 กก.', en:'Weight 10-40 kg'}, weightMin:10, weightMax:40, mgPerKgPerDay:[200,400], freq:4, maxDailyMg:24000, maxDoseMg:8000, notes:{th:'IV แบ่ง 3-4 ครั้ง/วัน', en:'IV in 3-4 divided doses'} },
       { label:{th:'น้ำหนัก >40 กก. — ทั่วไป', en:'Weight >40 kg — general'}, mgPerKgPerDay:null, fixedDailyRangeMg:[12000,24000], freq:4, maxDailyMg:24000, maxDoseMg:8000, notes:{th:'g/day แบ่ง 3-4 ครั้ง/วัน', en:'g/day in 3-4 divided doses'} },
       { label:{th:'น้ำหนัก >40 กก. — Bacterial meningitis', en:'Weight >40 kg — Bacterial meningitis'}, mgPerKgPerDay:null, fixedDailyRangeMg:[16000,24000], freq:4, maxDailyMg:24000, maxDoseMg:8000, notes:{th:'g/day แบ่ง 3-4 ครั้ง/วัน', en:'g/day in 3-4 divided doses'} },
       { label:{th:'CrCl >40 มล./นาที — ไม่ต้องปรับขนาดยา', en:'CrCl >40 mL/min — no adjustment needed'}, notes:{th:'ใช้ maintenance dose ตามช่วงน้ำหนักตัวปกติ (ดูรายการด้านบน)', en:"Use the patient's usual weight-based maintenance dose (see options above)"} },
@@ -17029,6 +17030,7 @@ const DRUG_DB = [
     warnings: [{th:'ห้ามใช้ในทารกแรกเกิด — เสี่ยง kernicterus', en:'Avoid in neonates — kernicterus risk'}],
     regimens: [
       { label:{th:'ขนาดทั่วไป (≥2 เดือน)', en:'General dose (≥2 months)'}, mgPerKgPerDay:null, mgPerKgPerDose:[4,6], freq:2, maxDoseMg:160, notes:{th:'ของ TMP component, q12h (=8-12 มก. TMP/กก./วัน)', en:'TMP component, q12h (=8-12 mg TMP/kg/day)'} },
+      { label:{th:'Melioidosis (เด็ก)', en:'Melioidosis (pediatric)'}, mgPerKgPerDay:[8,12], freq:2, maxDoseMg:320, notes:{th:'ของ TMP component, q12h · ระยะ eradication/รักษาต่อเนื่องนาน ≥12-20 สัปดาห์ (คู่มือโรคเมลิออยด์) หรือ ≥3 เดือน (Lexicomp) — ใช้เป็นยาปฏิชีวนะหลักหลังพ้นระยะ intensive therapy', en:'TMP component, q12h · eradication/continuation phase duration ≥12-20 weeks (Melioidosis handbook) or ≥3 months (Lexicomp) — used as first-line therapy following the intensive-phase antibiotics'} },
       { label:{th:'PCP (Pneumocystis jirovecii pneumonia) treatment', en:'PCP (Pneumocystis jirovecii pneumonia) treatment'}, mgPerKgPerDay:[15,20], freq:4, maxDailyMg:1280, notes:{th:'ของ TMP component, q6h นาน 21 วัน', en:'TMP component, q6h for 21 days'} }
     ]
   },
@@ -17089,8 +17091,8 @@ const DRUG_DB = [
     regimens: [
       { label:{th:'PO', en:'PO'}, mgPerKgPerDay:null, mgPerKgPerDose:[10,15], freq:4, maxDoseMg:null, maxDailyMg:4000, notes:{th:'q4-6h, ไม่เกิน 5 ครั้ง/24ชม., max 75มก./กก./วัน', en:'q4-6h, max 5 doses/24h, max 75mg/kg/day'} },
       { label:{th:'IV — อายุ <2 ปี', en:'IV — age <2 years'}, mgPerKgPerDay:null, mgPerKgPerDose:[7.5,15], freq:4, maxDailyMg:null, notes:{th:'q6h, max 60มก./กก./วัน', en:'q6h, max 60mg/kg/day'} },
-      { label:{th:'IV — อายุ ≥2 ปี, <50กก.', en:'IV — age ≥2 years, <50kg'}, mgPerKgPerDay:null, mgPerKgPerDose:[12.5,15], freq:5, maxDailyMg:3750, notes:{th:'15มก./กก. q6h หรือ 12.5มก./กก. q4h', en:'15mg/kg q6h or 12.5mg/kg q4h'} },
-      { label:{th:'IV — อายุ ≥2 ปี, ≥50กก.', en:'IV — age ≥2 years, ≥50kg'}, mgPerKgPerDay:null, mgPerKgPerDose:[12.5,15], freq:5, maxDailyMg:4000, notes:{th:'15มก./กก. q6h หรือ 12.5มก./กก. q4h', en:'15mg/kg q6h or 12.5mg/kg q4h'} },
+      { label:{th:'IV — อายุ ≥2 ปี, <50กก.', en:'IV — age ≥2 years, <50kg'}, weightMax:50, weightMaxExclusive:true, mgPerKgPerDay:null, mgPerKgPerDose:[12.5,15], freq:5, maxDailyMg:3750, notes:{th:'15มก./กก. q6h หรือ 12.5มก./กก. q4h', en:'15mg/kg q6h or 12.5mg/kg q4h'} },
+      { label:{th:'IV — อายุ ≥2 ปี, ≥50กก.', en:'IV — age ≥2 years, ≥50kg'}, weightMin:50, mgPerKgPerDay:null, mgPerKgPerDose:[12.5,15], freq:5, maxDailyMg:4000, notes:{th:'15มก./กก. q6h หรือ 12.5มก./กก. q4h', en:'15mg/kg q6h or 12.5mg/kg q4h'} },
       { label:{th:'Rectal', en:'Rectal'}, mgPerKgPerDay:null, mgPerKgPerDose:[10,20], freq:4, maxDailyMg:1625, notes:{th:'q4-6h, ไม่เกิน 5 ครั้ง/24ชม.', en:'q4-6h, max 5 doses/24h'} }
     ]
   },
@@ -17580,7 +17582,7 @@ const DRUG_DB = [
     route: 'IV',
     notes: [{th:'COVID-19 ผู้ป่วยใน — นาน 5-10 วัน', en:'COVID-19 inpatient — 5-10 days total'}],
     regimens: [
-      { label:{th:'น้ำหนัก 3–<40 กก.', en:'Weight 3–<40 kg'}, multiPhase:true, phases:[
+      { label:{th:'น้ำหนัก 3–<40 กก.', en:'Weight 3–<40 kg'}, weightMin:3, weightMax:40, weightMaxExclusive:true, multiPhase:true, phases:[
         { phaseLabel:{th:'วันที่ 1', en:'Day 1'}, mgPerKgPerDose:[5,5], freq:1, notes:{th:'OD', en:'OD'} },
         { phaseLabel:{th:'วันที่ 2 เป็นต้นไป', en:'Day 2 onward'}, mgPerKgPerDose:[2.5,2.5], freq:1, notes:{th:'OD', en:'OD'} }
       ]},
@@ -17654,8 +17656,8 @@ const DRUG_DB = [
     notes: [{th:'เก็บยาน้ำให้พ้นแสง — ทางเลือกอื่น: dose by BSA 180-240 มก./ตร.ม. q12h (max 300มก./ครั้ง BID) ใช้ในกรณีต้องคำนวณตาม BSA', en:'Protect solution from light — alternative: dose by BSA 180-240mg/m² q12h (max 300mg/dose BID) when BSA-based dosing is needed'}],
     regimens: [
       { label:{th:'แรกเกิด–<4 สัปดาห์', en:'Birth–<4 weeks'}, mgPerKgPerDay:null, mgPerKgPerDose:[4,4], freq:2 },
-      { label:{th:'≥4 สัปดาห์ — น้ำหนัก 4–<9 กก.', en:'≥4 weeks — weight 4–<9 kg'}, mgPerKgPerDay:null, mgPerKgPerDose:[12,12], freq:2 },
-      { label:{th:'≥4 สัปดาห์ — น้ำหนัก 9–30 กก.', en:'≥4 weeks — weight 9–30 kg'}, mgPerKgPerDay:null, mgPerKgPerDose:[9,9], freq:2 },
+      { label:{th:'≥4 สัปดาห์ — น้ำหนัก 4–<9 กก.', en:'≥4 weeks — weight 4–<9 kg'}, weightMin:4, weightMax:9, weightMaxExclusive:true, mgPerKgPerDay:null, mgPerKgPerDose:[12,12], freq:2 },
+      { label:{th:'≥4 สัปดาห์ — น้ำหนัก 9–30 กก.', en:'≥4 weeks — weight 9–30 kg'}, weightMin:9, weightMax:30, mgPerKgPerDay:null, mgPerKgPerDose:[9,9], freq:2 },
       { label:{th:'≥4 สัปดาห์ — น้ำหนัก ≥30 กก.', en:'≥4 weeks — weight ≥30 kg'}, fixedDoseMg:300, freq:2 }
     ]
   },
@@ -18856,12 +18858,13 @@ const DD = {
   mixRateLabel: {th:'อัตราให้', en:'Infusion rate'},
   fixedNotice: {th:'ขนาดคงที่ ไม่ขึ้นกับน้ำหนักตัว', en:'Fixed dose, not weight-based'},
   unsupportedKind: {th:'ยังไม่รองรับการแสดงผลรูปแบบนี้', en:'Display format not yet supported'},
-  mlHeading: {th:'ปริมาตรยาน้ำ', en:'Liquid volume'},
+  mlHeading: {th:'ปริมาตรยาน้ำต่อครั้ง', en:'Liquid volume per dose'},
   chooseFormulation: {th:'เลือกความเข้มข้นยา', en:'Select formulation strength'},
   chooseTablet: {th:'เลือกขนาดเม็ดยา', en:'Select tablet strength'},
-  tabletHeading: {th:'จำนวนเม็ด', en:'Tablet count'},
+  tabletHeading: {th:'จำนวนเม็ดต่อครั้ง', en:'Tablet count per dose'},
   disclaimer: {th:'เครื่องมือนี้ช่วยคำนวณเบื้องต้นเท่านั้น ไม่ทดแทนดุลยพินิจทางคลินิก — ตรวจสอบความเข้มข้นบนฉลากยาจริงและ max dose ก่อนให้ยาทุกครั้ง', en:'This tool provides an initial calculation only and does not replace clinical judgment — verify the actual product concentration and max dose before administering'},
-  enterWeight: {th:'กรอกน้ำหนักตัวเพื่อดูขนาดยา', en:'Enter weight to see the calculated dose'}
+  enterWeight: {th:'กรอกน้ำหนักตัวเพื่อดูขนาดยา', en:'Enter weight to see the calculated dose'},
+  weightCappedNote: {th:'น้ำหนักที่กรอกอยู่นอกช่วงของสูตรนี้ ระบบปรับให้อยู่ในขอบเขตที่ใช้ได้แล้ว — หากน้ำหนักผู้ป่วยจริงไม่อยู่ในช่วงนี้ กรุณาเลือกสูตรยาอื่นที่ตรงกับน้ำหนัก', en:'The entered weight is outside this regimen\u2019s range and has been adjusted to fit — if the patient\u2019s actual weight is outside this range, please select a different regimen'}
 };
 
 const DD_CATEGORY_LABELS = {
@@ -19429,6 +19432,34 @@ function ddIsFixedRegimen(reg){
   return regIsFixed(reg);
 }
 
+// Some regimens are only valid for a specific patient-weight bracket (e.g. Remdesivir
+// "3-<40kg" vs "≥40kg" as separate regimens). weightMin/weightMax (with optional
+// *Exclusive flags matching the label's < / ≤ / ≥ semantics) hard-cap the weight input
+// to that bracket so a mismatched weight can't silently be run through the wrong regimen.
+function ddWeightBoundsFor(reg){
+  if (reg.weightMin === undefined && reg.weightMax === undefined) return null;
+  return {
+    min: reg.weightMin,
+    max: reg.weightMax,
+    minExclusive: !!reg.weightMinExclusive,
+    maxExclusive: !!reg.weightMaxExclusive
+  };
+}
+
+function ddClampWeightToBounds(value, bounds){
+  if (!bounds || !isFinite(value)) return { value: value, capped:false };
+  let v = value, capped = false;
+  if (bounds.min !== undefined){
+    const minOk = bounds.minExclusive ? v > bounds.min : v >= bounds.min;
+    if (!minOk){ v = bounds.min; capped = true; }
+  }
+  if (bounds.max !== undefined){
+    const maxOk = bounds.maxExclusive ? v < bounds.max : v <= bounds.max;
+    if (!maxOk){ v = bounds.maxExclusive ? Math.round((bounds.max - 0.1) * 10) / 10 : bounds.max; capped = true; }
+  }
+  return { value: v, capped: capped };
+}
+
 function ddCalcView(app){
   const drug = DRUG_DB.find(d => d.id === ddState.drugId);
   if (!drug){ ddGoTo('home'); return; }
@@ -19437,6 +19468,7 @@ function ddCalcView(app){
   const isOralRegimen = /\bPO\b/.test(effectiveRoute);
   const isFixed = ddIsFixedRegimen(reg);
   const isBsa = !!reg.bsaMgPerM2PerDose;
+  const weightBounds = ddWeightBoundsFor(reg);
 
   // Combine liquid + tablet formulations into ONE list, oral regimens only.
   // If the regimen specifies a formTag (e.g. Dolutegravir's dispersible vs film-coated —
@@ -19471,13 +19503,25 @@ function ddCalcView(app){
 
   // Weight (+ height, for BSA-based regimens) input — skipped entirely for fixed-dose regimens
   if (!isFixed){
+    // If a leftover weight from a previously viewed regimen doesn't fit this regimen's
+    // bracket, clamp it before the input is even drawn.
+    if (weightBounds && ddState.weight !== null && ddState.weight !== undefined && ddState.weight !== ''){
+      const initV = parseFloat(ddState.weight);
+      if (isFinite(initV)){
+        const c = ddClampWeightToBounds(initV, weightBounds);
+        if (c.capped) ddState.weight = String(c.value);
+      }
+    }
+    const weightMinAttr = weightBounds && weightBounds.min !== undefined ? ` min="${weightBounds.min}"` : '';
+    const weightMaxAttr = weightBounds && weightBounds.max !== undefined ? ` max="${weightBounds.maxExclusive ? Math.round((weightBounds.max-0.1)*10)/10 : weightBounds.max}"` : '';
     const inputWrap = document.createElement('div');
     inputWrap.className = 'q-card';
     inputWrap.innerHTML = `
       <div class="q-text">${t(DD.weightLabel)}</div>
-      <input type="number" id="ddWeightInput" inputmode="decimal" placeholder="${t(DD.weightPlaceholder)}"
+      <input type="number" id="ddWeightInput" inputmode="decimal" placeholder="${t(DD.weightPlaceholder)}"${weightMinAttr}${weightMaxAttr} step="0.1"
              style="width:100%; padding:10px; font-size:16px; border-radius:8px; border:1px solid var(--pink-200); margin-top:8px; margin-bottom:${isBsa?'12px':'0'};"
              value="${ddState.weight || ''}">
+      ${weightBounds ? `<div id="ddWeightRangeNote" style="display:none; color:var(--sev-tx); font-size:12px; margin-top:6px; line-height:1.5;"></div>` : ''}
       ${isBsa ? `<div class="q-text">${t(DD.heightLabel)}</div>
       <input type="number" id="ddHeightInput" inputmode="decimal" placeholder="${t(DD.heightPlaceholder)}"
              style="width:100%; padding:10px; font-size:16px; border-radius:8px; border:1px solid var(--pink-200); margin-top:8px;"
@@ -19521,9 +19565,23 @@ function ddCalcView(app){
   function renderResult(){
     resultArea.innerHTML = '';
     let w = 0, h = 0;
+    const rangeNote = document.getElementById('ddWeightRangeNote');
     if (!isFixed){
       w = parseFloat(document.getElementById('ddWeightInput').value);
       if (isBsa) h = parseFloat(document.getElementById('ddHeightInput').value);
+      // Clamp the weight used for calculation to the regimen's bracket — but only for the
+      // calculation itself; the field's displayed text is left alone here so typing a
+      // multi-digit number isn't interrupted mid-keystroke (hard-capped on blur instead).
+      if (weightBounds && isFinite(w)){
+        const c = ddClampWeightToBounds(w, weightBounds);
+        if (rangeNote){
+          if (c.capped){ rangeNote.textContent = t(DD.weightCappedNote); rangeNote.style.display = 'block'; }
+          else { rangeNote.style.display = 'none'; }
+        }
+        w = c.value;
+      } else if (rangeNote){
+        rangeNote.style.display = 'none';
+      }
       const missing = !w || w <= 0 || (isBsa && (!h || h <= 0));
       if (missing){
         const hint = document.createElement('div');
@@ -19564,6 +19622,23 @@ function ddCalcView(app){
   if (!isFixed){
     document.getElementById('ddWeightInput').oninput = function(){
       ddState.weight = this.value;
+      renderResult();
+    };
+    // Hard-cap the displayed value once the person leaves the field, rather than on every
+    // keystroke — clamping mid-typing made it impossible to type a two-digit weight below
+    // the regimen's minimum (e.g. "15" for a 10-40kg bracket got snapped to "10" after the
+    // first digit).
+    document.getElementById('ddWeightInput').onblur = function(){
+      if (weightBounds){
+        const raw = parseFloat(this.value);
+        if (isFinite(raw)){
+          const c = ddClampWeightToBounds(raw, weightBounds);
+          if (c.capped){
+            this.value = c.value;
+            ddState.weight = String(c.value);
+          }
+        }
+      }
       renderResult();
     };
     if (isBsa){
