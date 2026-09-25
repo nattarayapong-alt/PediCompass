@@ -1,0 +1,8 @@
+#!/bin/sh
+# Blocks the push (and therefore the Vercel deploy) if any PediCompass test fails.
+node tests/run.js || {
+  echo ""
+  echo "Push blocked: tests failed. If a dose change is intended, review the diff and run:"
+  echo "  node tests/run.js --update-snapshot"
+  exit 1
+}

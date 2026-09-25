@@ -1376,8 +1376,10 @@ RESP_MODULES.croup = {
             {th:'รับไว้ในหอผู้ป่วยวิกฤต', en:'Admit to critical care'} ] } ] };
     }
     const score = ['cough','stridor','airentry','retraction','cyanosis'].reduce((s,k)=>s+parseInt(a[k]||0),0);
+    const spo2 = parseFloat(a.spo2);
+    const hypoxemic = isFinite(spo2) && spo2 < 92;
     let sev, drugSection, careSection;
-    if(score < 4){
+    if(score < 4 && !hypoxemic){
       sev='mild';
       drugSection = { icon:'💊', h:{th:'การรักษา',en:'Treatment'}, drugs:[
           {name:'Dexamethasone', dose:{th:'0.6 มก./กก. (สูงสุด 10 มก.) กินหรือฉีด ครั้งเดียว', en:'0.6 mg/kg (max 10 mg) PO or IM/IV, single dose'}},
@@ -1386,7 +1388,7 @@ RESP_MODULES.croup = {
           {th:'ให้กลับบ้านได้หลังได้รับยา', en:'May be discharged home after treatment'},
           {th:'แนะนำผู้ปกครองสังเกตอาการเลวลง: stridor ขณะพัก/หลับ ซีดลง กระสับกระส่าย ไข้สูง น้ำลายไหลย้อย กินได้น้อยลง — รีบกลับมาทันทีหากมี', en:'Advise caregivers to watch for worsening: stridor at rest/asleep, pallor, restlessness, high fever, drooling, reduced intake — return immediately if present'},
           {th:'นัดติดตามอาการภายใน 24–48 ชั่วโมง', en:'Follow up within 24–48 hours'} ] };
-    } else if(score <= 7){
+    } else if(score <= 7 && !hypoxemic){
       sev='moderate';
       drugSection = { icon:'💊', h:{th:'การรักษา',en:'Treatment'}, drugs:[
           {name:'Dexamethasone', dose:{th:'0.6 มก./กก. (สูงสุด 10 มก.) กินหรือฉีด ครั้งเดียว', en:'0.6 mg/kg (max 10 mg) PO or IM/IV, single dose'}},
@@ -1410,7 +1412,9 @@ RESP_MODULES.croup = {
     }
     return { severity: sev,
       title:{th:`Downes score = ${score} — ระดับ${sev==='mild'?'ความรุนแรงน้อย (Mild)':sev==='moderate'?'ปานกลาง (Moderate)':'รุนแรงมาก (Severe)'}`, en:`Downes score = ${score} — ${sev==='mild'?'Mild':sev==='moderate'?'Moderate':'Severe'} croup`},
-      summary:{th:'ประเมินจาก Downes score (croup score): <4 น้อย, 4–7 ปานกลาง, >7 รุนแรงมาก', en:'Classified by Downes (croup) score: <4 mild, 4–7 moderate, >7 severe'},
+      summary: hypoxemic
+        ? {th:`SpO2 ${spo2}% (<92%) — จัดเป็นรุนแรงแม้ Downes score = ${score}`, en:`SpO2 ${spo2}% (<92%) — managed as severe regardless of Downes score (${score})`}
+        : {th:'ประเมินจาก Downes score (croup score): <4 น้อย, 4–7 ปานกลาง, >7 รุนแรงมาก', en:'Classified by Downes (croup) score: <4 mild, 4–7 moderate, >7 severe'},
       sections:[ drugSection, careSection,
         { icon:'🏥', h:{th:'ข้อพิจารณารับไว้รักษาในโรงพยาบาล',en:'Hospital admission considerations'}, list:[
             {th:'หายใจลำบากชัดเจน หรือต้องได้รับออกซิเจนต่อเนื่อง', en:'Clear respiratory distress or ongoing oxygen requirement'},
@@ -1518,10 +1522,18 @@ RESP_MODULES.pneumonia = {
         {th: severe ? 'เข้าเกณฑ์ปอดบวมรุนแรง — ควรรับไว้รักษาในโรงพยาบาล' : 'อาการไม่รุนแรง — อาจรักษาแบบผู้ป่วยนอกได้ หากติดตามอาการได้', en: severe ? 'Meets severe pneumonia criteria — admission recommended' : 'Non-severe — outpatient management possible if follow-up is reliable'},
         {th:'ข้อบ่งชี้เพิ่มเติม: มีโรคประจำตัว (หัวใจพิการแต่กำเนิด ภูมิคุ้มกันบกพร่อง โรคปอดเรื้อรัง), สงสัยเชื้อ S. aureus/GAS, ผู้ปกครองดูแลไม่ได้หรือบ้านไกล, รักษาแบบผู้ป่วยนอก 48 ชม.แล้วไม่ดีขึ้น', en:'Also admit if: comorbidity (congenital heart disease, immunodeficiency, chronic lung disease), suspected S. aureus/GAS, unreliable caregiving/follow-up, or not improving after 48h outpatient treatment'} ] });
 
+    // Age-specific tachypnea cutoff (<2mo ≥60, 2mo–1y ≥50, 1–5y ≥40, >5y ≥30); the 1–3 month group straddles 2 months
+    const rrCut = isInfant ? 50 : (a.age==='y1_5' ? 40 : 30);
+    let rrNote;
+    if(!(rr>0)) rrNote = {th:'ไม่ได้ระบุอัตราการหายใจ', en:'respiratory rate not entered'};
+    else if(rr < rrCut) rrNote = {th:'ไม่เข้าเกณฑ์หายใจเร็วตามอายุ ควรทบทวนการวินิจฉัย', en:'below the age-specific tachypnea threshold — reconsider the diagnosis'};
+    else if(a.age==='m1_3' && rr < 60) rrNote = {th:'เข้าเกณฑ์หายใจเร็วเฉพาะเมื่ออายุ ≥2 เดือน (อายุ <2 เดือน เกณฑ์คือ ≥60)', en:'meets tachypnea only if age ≥2 months (threshold is ≥60 if <2 months)'};
+    else rrNote = {th:'เข้าเกณฑ์หายใจเร็วตามอายุ', en:'meets the age-specific tachypnea threshold'};
+
     return { severity: severe?'severe':'mild',
       title:{th: severe? 'ปอดบวมรุนแรง' : 'ปอดบวมไม่รุนแรง', en: severe? 'Severe pneumonia' : 'Non-severe pneumonia'},
-      summary:{th:`RR ${rr||'-'} /min, SpO2 ${a.spo2||'-'}% — ${rr>0 && rr < (isInfant?(a.age==='neo'?60:a.age==='m1_3'?50:50):(a.age==='y1_5'?40:30)) ? 'ไม่เข้าเกณฑ์หายใจเร็วตามอายุ ควรทบทวนการวินิจฉัย' : 'เข้าเกณฑ์หายใจเร็วตามอายุ'}`,
-               en:`RR ${rr||'-'} /min, SpO2 ${a.spo2||'-'}%`},
+      summary:{th:`RR ${rr||'-'} /min, SpO2 ${a.spo2||'-'}% — ${rrNote.th}`,
+               en:`RR ${rr||'-'} /min, SpO2 ${a.spo2||'-'}% — ${rrNote.en}`},
       sections };
   }
 };
@@ -8152,10 +8164,12 @@ function anSalbutamolDose(f){
   };
 }
 function anEpiBolusDose(f){
-  const mg = anNum(f.wt * 0.01, 2);
-  const ml = anNum(f.wt * 0.1, 1);
+  const raw = f.wt * 0.01;
+  const capped = raw > 1;
+  const mg = anNum(Math.min(raw, 1), 2);
+  const ml = anNum(Math.min(raw, 1) * 10, 1);
   const adult = anAdultSuffix(f, '1 มก.', '1 mg');
-  return {th: mg + ' มก. IV bolus — เจือจางเป็น 1:10,000 เท่ากับ ' + ml + ' มล.' + adult.th, en: mg + ' mg IV bolus — diluted to 1:10,000 equals ' + ml + ' mL' + adult.en};
+  return {th: mg + ' มก. IV bolus — เจือจางเป็น 1:10,000 เท่ากับ ' + ml + ' มล.' + (capped ? ' — ขนาดสูงสุด' : '') + adult.th, en: mg + ' mg IV bolus — diluted to 1:10,000 equals ' + ml + ' mL' + (capped ? ' — maximum dose' : '') + adult.en};
 }
 function anDripPrepText(f){
   const mg = anNum(f.wt * 0.6, 2);
@@ -13193,7 +13207,7 @@ const TB = {
         {th:'สัมผัสวัณโรคภายใน 2 ปีที่ผ่านมา — ตรวจร่างกายและภาพรังสีทรวงอกทุกราย', en:'Contact with TB within the past 2 years — exam and chest X-ray in all cases.'},
         {th:'ผลผิดปกติเข้าได้กับวัณโรค — ประเมิน/รักษาวัณโรคตามความเหมาะสม (ไปหน้า "การวินิจฉัย")', en:'Findings compatible with active TB — evaluate/treat as TB (see the "Diagnosis" section).'},
         {th:'ผลปกติ อายุ <5 ปี หรือมีภาวะภูมิคุ้มกันบกพร่อง — ให้ยาป้องกันทุกราย โดยไม่ต้องรอผล IGRA/TST', en:'Normal findings, age <5 years or immunocompromised — start TPT in all cases, without waiting for IGRA/TST.'},
-        {th:'ผลปกติ อายุ ≥5 ปี — ให้ยาป้องกันเฉพาะเมื่อ IGRA ให้ผลบวก หรือ TST > 15 มม.', en:'Normal findings, age ≥5 years — start TPT only if IGRA is positive or TST > 15 mm.'}
+        {th:'ผลปกติ อายุ ≥5 ปี — ให้ยาป้องกันเฉพาะเมื่อ IGRA ให้ผลบวก, TST ≥ 15 มม. หรือ Cy-TB ≥ 5 มม.', en:'Normal findings, age ≥5 years — start TPT only if IGRA is positive, TST ≥ 15 mm, or Cy-TB ≥ 5 mm.'}
       ],
       regimens: [
         {regimen:'3HR', use:{th:'สูตรหลัก ทุกกลุ่มอายุ — isoniazid 10 มก./กก./วัน + rifampicin 15 มก./กก./วัน นาน 3 เดือน', en:'Main option, all ages — isoniazid 10 mg/kg/day + rifampicin 15 mg/kg/day for 3 months'}},
@@ -13208,7 +13222,7 @@ const TB = {
         {th:'เด็กติดเชื้อเอชไอวีที่ไม่ได้เป็นวัณโรค แนะนำให้ยาป้องกัน (TPT) ในเกณฑ์ที่กว้างกว่าเด็กทั่วไป และให้ได้โดยไม่ต้องรอผล TST/IGRA', en:'HIV-infected children without active TB should receive TPT under broader criteria than non-HIV children, and it may be given without waiting for TST/IGRA.'},
         {th:'รายใหม่ (เริ่มยาต้านไวรัส ≤12 เดือน): อายุ ≤1 ปี ให้เฉพาะรายที่มีประวัติสัมผัสวัณโรค / อายุ >1 ปี ให้ทุกราย (เริ่มหลังไม่มีผลข้างเคียงจากยาต้านไวรัสหรือ co-trimoxazole)', en:'New ART patients (≤12 months on ART): age ≤1 year — only if there is a known TB contact; age >1 year — give to all (start once free of ART/co-trimoxazole side effects).'},
         {th:'รายเก่า (ยาต้านไวรัส >12 เดือน) อายุ <12 ปี — ให้เฉพาะรายที่มีประวัติสัมผัสวัณโรค', en:'Established ART patients (>12 months on ART), age <12 years — only if there is a known TB contact.'},
-        {th:'รายเก่า อายุ ≥12 ปี — มีประวัติสัมผัส: ให้ทุกราย; ไม่มีประวัติสัมผัส: CD4 <200 หรือคุมไวรัสไม่สำเร็จหรือขาดยา >90 วัน → ให้เลย; CD4 ≥200 และกินยาต่อเนื่อง → ตรวจ IGRA/TST ก่อน (บวกจึงให้)', en:'Established ART patients, age ≥12 years — with a known contact: give to all; without a contact: CD4 <200, virologic failure, or >90 days off ART → start TPT directly; CD4 ≥200 with continuous ART → test IGRA/TST first (start only if positive).'}
+        {th:'รายเก่า อายุ ≥12 ปี — มีประวัติสัมผัส: ให้ทุกราย; ไม่มีประวัติสัมผัส: CD4 <200 หรือคุมไวรัสไม่สำเร็จหรือขาดยา >90 วัน → ให้เลย; CD4 ≥200 และกินยาต่อเนื่อง → ตรวจ IGRA/TST/Cy-TB ก่อน (บวกจึงให้)', en:'Established ART patients, age ≥12 years — with a known contact: give to all; without a contact: CD4 <200, virologic failure, or >90 days off ART → start TPT directly; CD4 ≥200 with continuous ART → test IGRA/TST/Cy-TB first (start only if positive).'}
       ],
       regimens: [
         {regimen:'6-9H', use:{th:'สูตรหลัก อายุ <13 ปี — isoniazid เดี่ยว นาน 6–9 เดือน', en:'Main option, age <13 years — isoniazid alone for 6–9 months'}},
@@ -13313,11 +13327,11 @@ const TB = {
           summary:{th:'อายุ <5 ปี หรือมีภูมิคุ้มกันบกพร่อง ให้ยาป้องกันได้เลยโดยไม่ต้องรอผล IGRA/TST', en:'Age <5 years or immunocompromised — start TPT without waiting for IGRA/TST.'},
           action:'toRegimen', regimens:['3HR','6-9H','3HP'] },
         q3: { type:'question',
-          text:{th:'ผลตรวจ IGRA หรือ TST เป็นอย่างไร?', en:'What is the IGRA/TST result?'},
+          text:{th:'ผลตรวจ IGRA, TST หรือ Cy-TB เป็นอย่างไร?', en:'What is the IGRA, TST, or Cy-TB result?'},
           options:[
-            {val:'high', label:{th:'IGRA บวก หรือ TST \u2265 15 มม.', en:'IGRA positive, or TST \u2265 15 mm'}, next:'rTptTest'},
+            {val:'high', label:{th:'IGRA บวก, TST \u2265 15 มม. หรือ Cy-TB \u2265 5 มม.', en:'IGRA positive, TST \u2265 15 mm, or Cy-TB \u2265 5 mm'}, next:'rTptTest'},
             {val:'mid', label:{th:'TST 10\u201314 มม.', en:'TST 10\u201314 mm'}, next:'rCaseByCase'},
-            {val:'low', label:{th:'IGRA ลบ หรือ TST < 10 มม.', en:'IGRA negative, or TST < 10 mm'}, next:'rNoTptWatch'}
+            {val:'low', label:{th:'IGRA ลบ, TST < 10 มม. หรือ Cy-TB < 5 มม.', en:'IGRA negative, TST < 10 mm, or Cy-TB < 5 mm'}, next:'rNoTptWatch'}
           ]},
         rTptTest: { type:'result', severity:'info',
           title:{th:'เข้าเกณฑ์ให้ยาป้องกัน', en:'Meets criteria for TPT'},
@@ -13329,7 +13343,7 @@ const TB = {
           action:null },
         rNoTptWatch: { type:'result', severity:'info',
           title:{th:'ยังไม่เข้าเกณฑ์ให้ยาป้องกัน \u2014 เฝ้าระวัง', en:'Does not yet meet criteria for TPT \u2014 monitor'},
-          summary:{th:'IGRA ลบ หรือ TST < 10 มม. ไม่เข้าเกณฑ์ให้ยาป้องกันในขณะนี้ แนะนำเฝ้าระวัง ซักประวัติและตรวจร่างกายทุก 3\u20136 เดือน นาน 1\u20132 ปี', en:'IGRA negative or TST < 10 mm does not meet criteria for TPT at this time. Recommend monitoring with history and exam every 3\u20136 months for 1\u20132 years.'},
+          summary:{th:'IGRA ลบ, TST < 10 มม. หรือ Cy-TB < 5 มม. ไม่เข้าเกณฑ์ให้ยาป้องกันในขณะนี้ แนะนำเฝ้าระวัง ซักประวัติและตรวจร่างกายทุก 3\u20136 เดือน นาน 1\u20132 ปี', en:'IGRA negative, TST < 10 mm, or Cy-TB < 5 mm does not meet criteria for TPT at this time. Recommend monitoring with history and exam every 3\u20136 months for 1\u20132 years.'},
           details:[{
             icon:'\ud83d\udd01',
             heading:{th:'การตรวจซ้ำและการแปลผล (recent converter)', en:'Repeat testing and interpretation (recent converter)'},
@@ -13398,7 +13412,7 @@ const TB = {
             {val:'no', label:{th:'ไม่ใช่', en:'No'}, next:'q7'}
           ]},
         q7: { type:'question',
-          text:{th:'ผล IGRA เป็นบวก หรือ TST ≥ 5 มม. หรือไม่?', en:'Is IGRA positive, or TST ≥ 5 mm?'},
+          text:{th:'ผล IGRA เป็นบวก, TST ≥ 5 มม. หรือ Cy-TB ≥ 5 มม. หรือไม่?', en:'Is IGRA positive, TST ≥ 5 mm, or Cy-TB ≥ 5 mm?'},
           hint:{th:'หากยังไม่ได้ตรวจ การให้ TPT มีประโยชน์และสามารถให้ได้โดยไม่ต้องตรวจ ตามดุลยพินิจแพทย์', en:'If not yet tested, TPT is beneficial and may be given without testing, at clinical discretion.'},
           options:[
             {val:'posOrUnknown', label:{th:'บวก หรือยังไม่ได้ตรวจ', en:'Positive, or not yet tested'}, next:'rTptContact'},
@@ -16348,7 +16362,7 @@ function nvRender(){
 /* ======================= Sidebar Navigation Drawer ======================= */
 let sidebarOpen = false;
 let sbSearchQuery = '';
-let sbGroupsExpanded = { urgent:false, common:false, newborn:false, atb:false };
+let sbGroupsExpanded = { urgent:false, common:false, newborn:false, atb:false, vent:false };
 
 function sbOpen(){
   sidebarOpen = true;
@@ -18235,6 +18249,17 @@ const DRUG_DB = [
       { label:{th:'1HP รายวัน อายุ ≥13 ปี — น้ำหนัก >45กก.', en:'1HP daily age ≥13y — weight >45kg'}, fixedDoseMg:600, freq:1 }
     ]
   },
+  {
+    id: 'ethionamide',
+    name: {th:'Ethionamide (Eto)', en:'Ethionamide (Eto)'},
+    aliases: ['Eto'],
+    category: 'antituberculosis',
+    route: 'PO',
+    regimens: [
+      { label:{th:'วัณโรคเยื่อหุ้มสมอง — สูตรทางเลือก 6HRZEto', en:'TB meningitis — alternative 6HRZEto regimen'}, mgPerKgPerDay:[20,20], freq:1, maxDailyMg:750, notes:{th:'ทุกวัน นาน 6 เดือน เฉพาะผู้ป่วยที่ไม่ติดเชื้อเอชไอวี', en:'daily for 6 months, HIV-negative patients only'} },
+      { label:{th:'วัณโรคดื้อยา (DR-TB)', en:'Drug-resistant TB (DR-TB)'}, mgPerKgPerDay:[15,20], freq:1, maxDailyMg:1000, notes:{th:'วันละครั้ง (อาจแบ่งวันละ 2 ครั้ง)', en:'once daily (may be divided twice daily)'} }
+    ]
+  },
 
 // --- Sedation / Procedural / Neuromuscular blockade ---
   {
@@ -18993,6 +19018,19 @@ const DRUG_FORMULATIONS = {
   ],
   'desloratadine': [
     { form:{th:'ยาน้ำเชื่อม 2.5 มก./5 มล.', en:'Syrup 2.5 mg/5 mL'}, concMgPerMl: 0.5 }
+  ],
+  'isoniazid': [
+    { form:{th:'ยาน้ำเชื่อม 50 มก./5 มล.', en:'Syrup 50 mg/5 mL'}, concMgPerMl: 10 },
+    { form:{th:'ยาน้ำเชื่อม 50 มก./มล.', en:'Syrup 50 mg/mL'}, concMgPerMl: 50 }
+  ],
+  'rifampicin': [
+    { form:{th:'ยาน้ำเชื่อม 100 มก./5 มล.', en:'Syrup 100 mg/5 mL'}, concMgPerMl: 20 }
+  ],
+  'ethambutol': [
+    { form:{th:'ยาน้ำเชื่อม 100 มก./5 มล.', en:'Syrup 100 mg/5 mL'}, concMgPerMl: 20 }
+  ],
+  'pyrazinamide': [
+    { form:{th:'ยาน้ำเชื่อม 250 มก./5 มล.', en:'Syrup 250 mg/5 mL'}, concMgPerMl: 50 }
   ]
 };
 
@@ -19047,7 +19085,13 @@ const DRUG_TABLETS = {
   'dolutegravir': [ { form:{th:'เม็ด dispersible 10 มก.', en:'Dispersible tablet 10 mg'}, mgPerTab:10, tag:'dispersible' }, { form:{th:'เม็ด film-coated 50 มก.', en:'Film-coated tablet 50 mg'}, mgPerTab:50, tag:'film-coated' } ],
   'cetirizine': [ { form:{th:'เม็ด 10 มก.', en:'Tablet 10 mg'}, mgPerTab:10 } ],
   'loratadine': [ { form:{th:'เม็ด 10 มก.', en:'Tablet 10 mg'}, mgPerTab:10 } ],
-  'desloratadine': [ { form:{th:'เม็ด 5 มก.', en:'Tablet 5 mg'}, mgPerTab:5 } ]
+  'desloratadine': [ { form:{th:'เม็ด 5 มก.', en:'Tablet 5 mg'}, mgPerTab:5 } ],
+  'isoniazid': [ { form:{th:'เม็ด 100 มก.', en:'Tablet 100 mg'}, mgPerTab:100 }, { form:{th:'เม็ด 300 มก.', en:'Tablet 300 mg'}, mgPerTab:300 } ],
+  'rifampicin': [ { form:{th:'แคปซูล 300 มก.', en:'Capsule 300 mg'}, mgPerTab:300, capsule:true }, { form:{th:'เม็ด 450 มก.', en:'Tablet 450 mg'}, mgPerTab:450 }, { form:{th:'เม็ด 600 มก.', en:'Tablet 600 mg'}, mgPerTab:600 } ],
+  'ethambutol': [ { form:{th:'เม็ด 400 มก.', en:'Tablet 400 mg'}, mgPerTab:400 } ],
+  'pyrazinamide': [ { form:{th:'เม็ด 500 มก.', en:'Tablet 500 mg'}, mgPerTab:500 } ],
+  'rifapentine': [ { form:{th:'เม็ด 150 มก.', en:'Tablet 150 mg'}, mgPerTab:150 }, { form:{th:'เม็ด 300 มก.', en:'Tablet 300 mg'}, mgPerTab:300 } ],
+  'ethionamide': [ { form:{th:'เม็ด 250 มก.', en:'Tablet 250 mg'}, mgPerTab:250 } ]
 };
 
 /* ---------- Extend calcRegimenDose result with mL, given a chosen formulation ---------- */
@@ -19058,7 +19102,7 @@ function calcMlFromMg(mgAmount, formulation){
 function attachMlToResult(result, formulation){
   if (!formulation) return result;
   const out = Object.assign({}, result);
-  if (result.kind === 'dose' || result.kind === 'day+dose'){
+  if (result.kind === 'dose' || result.kind === 'day+dose' || result.kind === 'single'){
     out.mlLo = calcMlFromMg(result.doseLo, formulation);
     out.mlHi = calcMlFromMg(result.doseHi, formulation);
   } else if (result.kind === 'fixed'){
@@ -19076,10 +19120,46 @@ function calcTabsFromMg(mgAmount, tablet){
   return Math.round(raw * 4) / 4;
 }
 
-function attachTabsToResult(result, tablet){
+/* Tablet/capsule count that stays inside the recommended range.
+   Tablets step by 1/4, capsules by whole units. Range regimens accept [doseLo, doseHi];
+   single-value doses accept ±10% (never above the max dose). Returns the counts, the mg they
+   deliver and the actual mg/kg, or outOfRange when no count of this strength fits. */
+function ddFitTabs(result, tablet, reg, weightKg){
+  let lo, hi;
+  if (result.kind === 'dose' || result.kind === 'day+dose' || result.kind === 'single'){ lo = result.doseLo; hi = result.doseHi; }
+  else if (result.kind === 'fixed'){ lo = hi = result.value; }
+  else if (result.kind === 'fixed-range'){ lo = result.lo; hi = result.hi; }
+  else return null;
+  const step = tablet.capsule ? 1 : 0.25;
+  const freq = (reg && reg.freq) || 1;
+  const cap = reg && reg.maxDoseMg != null ? reg.maxDoseMg : (reg && reg.maxDailyMg != null ? reg.maxDailyMg / freq : Infinity);
+  const accLo = lo < hi ? lo : lo * 0.9;
+  const accHi = lo < hi ? hi : Math.min(hi * 1.1, Math.max(cap, hi));
+  const units = mg => mg / tablet.mgPerTab / step;
+  const nLo = Math.ceil(units(accLo) - 1e-9) * step;
+  const nHi = Math.floor(units(accHi) + 1e-9) * step;
+  const target = (lo + hi) / 2;
+  let a, b, out = false;
+  if (nLo <= nHi && nHi > 0){
+    if (lo < hi){ a = nLo; b = nHi; }
+    else { a = b = Math.min(Math.max(Math.round(units(target)) * step, nLo), nHi); }
+  } else {
+    out = true;
+    a = b = Math.round(units(target)) * step;
+  }
+  const perKg = n => (weightKg > 0 ? n * tablet.mgPerTab / weightKg : null);
+  return { lo:a, hi:b, mgLo:a * tablet.mgPerTab, mgHi:b * tablet.mgPerTab, mgKgLo:perKg(a), mgKgHi:perKg(b),
+           outOfRange:out, capsule:!!tablet.capsule, showPerKg: weightKg > 0 && result.kind !== 'fixed' && result.kind !== 'fixed-range' };
+}
+
+function attachTabsToResult(result, tablet, fitCtx){
   if (!tablet) return result;
   const out = Object.assign({}, result);
-  if (result.kind === 'dose' || result.kind === 'day+dose'){
+  if (fitCtx){
+    const fit = ddFitTabs(result, tablet, fitCtx.reg, fitCtx.weightKg);
+    if (fit){ out.tabsFit = fit; return out; }
+  }
+  if (result.kind === 'dose' || result.kind === 'day+dose' || result.kind === 'single'){
     out.tabsLo = calcTabsFromMg(result.doseLo, tablet);
     out.tabsHi = calcTabsFromMg(result.doseHi, tablet);
   } else if (result.kind === 'fixed'){
@@ -19180,8 +19260,11 @@ function calcRegimenDose(reg, weightKg) {
     return { kind: 'rate', unit: 'units/kg/hr', lo: reg.unitsPerKgPerHr[0], hi: reg.unitsPerKgPerHr[1] };
   }
   if (reg.mcgPerKgPerDose && !reg.freq) {
-    // dexmedetomidine-style loading dose without explicit freq
-    return { kind: 'dose', unit: 'mcg', lo: reg.mcgPerKgPerDose[0] * weightKg, hi: reg.mcgPerKgPerDose[1] * weightKg, freq: 1 };
+    // dexmedetomidine-style loading dose without explicit freq  single dose, not once daily
+    let doseLo = reg.mcgPerKgPerDose[0] * weightKg, doseHi = reg.mcgPerKgPerDose[1] * weightKg;
+    const capMcg = reg.maxDoseMcg != null ? reg.maxDoseMcg : (reg.maxDoseMg != null ? reg.maxDoseMg * 1000 : null);
+    if (capMcg != null) { doseLo = Math.min(doseLo, capMcg); doseHi = Math.min(doseHi, capMcg); }
+    return { kind: 'single', unit: 'mcg', doseLo, doseHi };
   }
 
   // ---------- Discrete per-kg dosing: mg / mcg / g / mEq / mL ----------
@@ -19222,6 +19305,7 @@ function calcRegimenDose(reg, weightKg) {
       } else {
         // basis === 'dose': loAmt/hiAmt are per-dose amounts
         if (reg[maxDoseKey] != null) { loAmt = Math.min(loAmt, reg[maxDoseKey]); hiAmt = Math.min(hiAmt, reg[maxDoseKey]); }
+        else if (u.unit === 'mcg' && reg.maxDoseMg != null) { loAmt = Math.min(loAmt, reg.maxDoseMg * 1000); hiAmt = Math.min(hiAmt, reg.maxDoseMg * 1000); }
         // *** FIX from batch 5 review: also enforce daily total = dose x freq <= maxDailyMg/maxDailyGm ***
         if (reg[maxDailyKey] != null) {
           const dailyLo = loAmt * freqNum, dailyHi = hiAmt * freqNum;
@@ -19290,6 +19374,9 @@ const DD = {
   mixDiluteLabel: {th:'ปรับปริมาตรรวมเป็น', en:'diluted to a total volume of'},
   mixRateLabel: {th:'อัตราให้', en:'Infusion rate'},
   fixedNotice: {th:'ขนาดคงที่ ไม่ขึ้นกับน้ำหนักตัว', en:'Fixed dose, not weight-based'},
+  singleDose: {th:'ให้ครั้งเดียว', en:'single dose'},
+  capsuleHeading: {th:'จำนวนแคปซูลต่อครั้ง', en:'Capsule count per dose'},
+  tabsOutOfRange: {th:'ยาขนาดนี้ให้ได้ไม่อยู่ในช่วงขนาดที่แนะนำ — ควรเลือกยาขนาดอื่นหรือยาน้ำ', en:'This strength cannot give a dose within the recommended range — choose another strength or the liquid form'},
   unsupportedKind: {th:'ยังไม่รองรับการแสดงผลรูปแบบนี้', en:'Display format not yet supported'},
   mlHeading: {th:'ปริมาตรยาน้ำต่อครั้ง', en:'Liquid volume per dose'},
   chooseFormulation: {th:'เลือกความเข้มข้นยา', en:'Select formulation strength'},
@@ -19987,10 +20074,11 @@ function ddCalcView(app){
   const resultArea = document.createElement('div');
   app.appendChild(resultArea);
 
-  function applyFormsAndTabs(result){
+  function applyFormsAndTabs(result, r, wt){
     if (formSelect && combinedForms[formSelect.value]){
       const chosen = combinedForms[formSelect.value];
-      result = chosen.type === 'liquid' ? attachMlToResult(result, chosen.data) : attachTabsToResult(result, chosen.data);
+      const fitCtx = drug.category === 'antituberculosis' ? { reg: r || reg, weightKg: wt } : null;
+      result = chosen.type === 'liquid' ? attachMlToResult(result, chosen.data) : attachTabsToResult(result, chosen.data, fitCtx);
     }
     return result;
   }
@@ -20027,19 +20115,19 @@ function ddCalcView(app){
     }
     let html;
     if (isBsa){
-      const result = applyFormsAndTabs(calcBsaDose(reg, w, h));
+      const result = applyFormsAndTabs(calcBsaDose(reg, w, h), reg, w);
       const bsaLine = `<div style="font-size:12px; color:var(--pink-600); font-weight:700; margin-bottom:6px;">BSA (Mosteller) = ${ddNum(result.bsa)} m²</div>`;
       html = bsaLine + ddFormatResult(result, reg, effectiveRoute);
     } else if (reg.multiPhase && reg.phases){
       html = reg.phases.map(function(phase){
-        const phaseResult = applyFormsAndTabs(calcRegimenDose(phase, w));
+        const phaseResult = applyFormsAndTabs(calcRegimenDose(phase, w), phase, w);
         return `<div style="margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid var(--pink-100);">
           <div style="font-size:13px; font-weight:700; color:var(--pink-600); margin-bottom:4px;">${t(phase.phaseLabel)}</div>
           ${ddFormatResult(phaseResult, phase, effectiveRoute)}
         </div>`;
       }).join('');
     } else {
-      const result = applyFormsAndTabs(calcRegimenDose(reg, w));
+      const result = applyFormsAndTabs(calcRegimenDose(reg, w), reg, w);
       html = ddFormatResult(result, reg, effectiveRoute);
     }
     spSectionCard(resultArea, {
@@ -20165,6 +20253,10 @@ function ddSpecText(reg, route){
   if (reg.maxDoseMl != null) maxParts.push(`${ddNum(reg.maxDoseMl)} mL/${t(DD.perDose)}`);
   if (reg.maxDoseUnits != null) maxParts.push(`${ddNum(reg.maxDoseUnits)} units/${t(DD.perDose)}`);
   if (reg.maxDailyUnits != null) maxParts.push(`${ddNum(reg.maxDailyUnits)} units${t(DD.perDay)}`);
+  if (reg.maxDoseMcg != null) maxParts.push(`${ddNum(reg.maxDoseMcg)} mcg/${t(DD.perDose)}`);
+  if (reg.maxMcgPerKgPerMin != null) maxParts.push(`${ddNum(reg.maxMcgPerKgPerMin)} mcg/kg/min`);
+  if (reg.maxMcgPerKgPerHr != null) maxParts.push(`${ddNum(reg.maxMcgPerKgPerHr)} mcg/kg/hr`);
+  if (reg.maxMilliunitsPerKgPerMin != null) maxParts.push(`${ddNum(reg.maxMilliunitsPerKgPerMin)} milliunits/kg/min`);
   if (maxParts.length) lines.push(`${t(DD.maxDoseLabel)}: ${maxParts.join(', ')}`);
   const notes = reg.notes ? t(reg.notes) : '';
   return `<div style="font-size:13px; color:var(--ink); line-height:1.7;">${lines.join('<br>')}</div>` +
@@ -20177,7 +20269,7 @@ function ddFormatResult(r, reg, route){
   const mlLine = (r.mlLo !== undefined) ?
     `<p style="font-size:14px; color:var(--ink); margin-top:6px;">${t(DD.mlHeading)}: ${ddNum(r.mlLo)}–${ddNum(r.mlHi)} mL</p>` :
     (r.mlValue !== undefined ? `<p style="font-size:14px; color:var(--ink); margin-top:6px;">${t(DD.mlHeading)}: ${ddNum(r.mlValue)} mL</p>` : '');
-  const tabLine = (r.tabsLo !== undefined) ?
+  const tabLine = r.tabsFit ? ddTabsFitLine(r.tabsFit) : (r.tabsLo !== undefined) ?
     `<p style="font-size:14px; color:var(--ink); margin-top:4px;">${t(DD.tabletHeading)}: \u2248${ddNum(r.tabsLo)}–${ddNum(r.tabsHi)} ${LANG==='th'?'เม็ด':'tab(s)'}</p>` :
     (r.tabsValue !== undefined ? `<p style="font-size:14px; color:var(--ink); margin-top:4px;">${t(DD.tabletHeading)}: \u2248${ddNum(r.tabsValue)} ${LANG==='th'?'เม็ด':'tab(s)'}</p>` : '');
 
@@ -20186,6 +20278,10 @@ function ddFormatResult(r, reg, route){
     const dailyTxt = r.dailyLo === r.dailyHi ? `${ddNum(r.dailyLo)} ${r.unit}` : `${ddNum(r.dailyLo)}–${ddNum(r.dailyHi)} ${r.unit}`;
     return `${perKgLine}<p style="font-size:16px; font-weight:600;">${doseTxt} ${t(DD.perDose)} (${ddFreqText(r.freq, route)})</p>
             <p style="font-size:13px; color:var(--ink-soft);">${t(DD.totalPerDay)} ${dailyTxt}${t(DD.perDay)}</p>${mlLine}${tabLine}${notes}`;
+  }
+  if (r.kind === 'single'){
+    const doseTxt = r.doseLo === r.doseHi ? `${ddNum(r.doseLo)} ${r.unit}` : `${ddNum(r.doseLo)}–${ddNum(r.doseHi)} ${r.unit}`;
+    return `${perKgLine}<p style="font-size:16px; font-weight:600;">${doseTxt} (${t(DD.singleDose)})</p>${mlLine}${tabLine}${notes}`;
   }
   if (r.kind === 'rate'){
     const mixHtml = (r.infusionMix && r.infusionMix.length) ? r.infusionMix.map(function(line){
@@ -20214,6 +20310,17 @@ function ddFormatResult(r, reg, route){
 
 function ddNum(v){
   return Math.round(v * 100) / 100;
+}
+
+function ddTabsFitLine(f){
+  const head = t(f.capsule ? DD.capsuleHeading : DD.tabletHeading);
+  const unit = f.capsule ? (LANG==='th'?'แคปซูล':'cap(s)') : (LANG==='th'?'เม็ด':'tab(s)');
+  const rng = (a, b, u) => a === b ? `${ddNum(a)}${u}` : `${ddNum(a)}–${ddNum(b)}${u}`;
+  let detail = rng(f.mgLo, f.mgHi, ' mg');
+  if (f.showPerKg) detail += ` \u2248 ${rng(f.mgKgLo, f.mgKgHi, ' mg/kg')}`;
+  const count = f.hi > 0 ? `<p style="font-size:14px; color:var(--ink); margin-top:4px;">${head}: <b>${rng(f.lo, f.hi, '')} ${unit}</b> (${detail})</p>` : '';
+  const warn = f.outOfRange ? `<p style="font-size:12.5px; color:#b45309; margin-top:6px;">\u26a0 ${t(DD.tabsOutOfRange)}</p>` : '';
+  return count + warn;
 }
 
 const DD_META = {
