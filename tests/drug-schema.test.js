@@ -8,6 +8,7 @@ const { loadApp } = require('./load-app');
 const DOSE_FIELDS = [
   ['fixedDoseMg','fixed'], ['fixedDoseRangeMg','fixed'], ['fixedDoseRangeGm','fixed'],
   ['fixedDoseUnits','fixed'], ['fixedDoseRangeUnits','fixed'], ['fixedDoseRangeMl','fixed'],
+  ['fixedDoseTabs','fixed'],
   ['fixedDailyRangeMg','fixedDaily'],
   ['mcgPerKgPerMin','rateMcgMin'], ['mcgPerKgPerHr','rateMcgHr'], ['mgPerKgPerHr','rateMgHr'],
   ['milliunitsPerKgPerMin','rateMu'], ['unitsPerKgPerHr','rateUnitsHr'],
@@ -31,7 +32,7 @@ const ENFORCED_CAPS = {
 const DISPLAYED_CAPS = ['maxDoseMg','maxDailyMg','maxDoseGm','maxDoseMEq','maxDoseMl','maxDoseUnits',
   'maxDailyUnits','maxDoseMcg','maxMcgPerKgPerMin','maxMcgPerKgPerHr','maxMilliunitsPerKgPerMin'];
 const OTHER_REG_KEYS = new Set(['label','notes','freq','route','formTag','durationDays','weightMin','weightMax',
-  'weightMinExclusive','weightMaxExclusive','multiPhase','phases','phaseLabel','infusionMix']);
+  'weightMinExclusive','weightMaxExclusive','multiPhase','phases','phaseLabel','infusionMix','tabForm']);
 const DOSE_KEYS = new Set(DOSE_FIELDS.map(d => d[0]));
 const CAP_KEYS = new Set([].concat(...Object.values(ENFORCED_CAPS), DISPLAYED_CAPS));
 const DRUG_KEYS = new Set(['id','name','aliases','category','route','regimens','formulations','notes',
@@ -111,6 +112,8 @@ function checkDose(t, r, rw, noteOnlyAllowed){
   t.check(active.length === 1, `${rw}: several dose fields (${active.map(a => a[0]).join(', ')}) — only "${active[0][0]}" is used`);
   const [field, type] = active[0];
   const v = r[field];
+  if (field === 'fixedDoseTabs')
+    t.check(isBi(r.tabForm), `${rw}: fixedDoseTabs needs tabForm (tablet composition) with th and en`);
 
   if (Array.isArray(v)){
     t.check(v.length === 2 && v.every(x => typeof x === 'number' && isFinite(x) && x > 0), `${rw}: ${field} must be [lo, hi] positive numbers`);

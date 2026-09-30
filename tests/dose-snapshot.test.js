@@ -32,9 +32,9 @@ function build(){
           if (res.kind === 'unknown') continue;
           lines.push(`${key} @${w}kg: ${strip(fmt(res, p, route))}`);
           for (const f of forms){
-            const r2 = f[0] === 'ml' ? ml(res, f[1]) : tabs(res, f[1], d.category === 'antituberculosis' ? { reg: p, weightKg: w } : undefined);
+            const r2 = f[0] === 'ml' ? ml(res, f[1]) : tabs(res, f[1], (d.category === 'antituberculosis' || f[1].sachet) ? { reg: p, weightKg: w } : undefined);
             const extra = r2.tabsFit
-              ? `${r2.tabsFit.lo}-${r2.tabsFit.hi} ${r2.tabsFit.capsule ? 'cap' : 'tab'}${r2.tabsFit.outOfRange ? ' OUT-OF-RANGE' : ''}`
+              ? `${r2.tabsFit.lo}-${r2.tabsFit.hi} ${r2.tabsFit.capsule ? 'cap' : r2.tabsFit.sachet ? 'sachet' : 'tab'}${r2.tabsFit.outOfRange ? ' OUT-OF-RANGE' : ''}`
               : f[0] === 'ml'
               ? (r2.mlValue !== undefined ? r2.mlValue : `${r2.mlLo}-${r2.mlHi}`) + ' mL'
               : (r2.tabsValue !== undefined ? r2.tabsValue : `${r2.tabsLo}-${r2.tabsHi}`) + ' tab';

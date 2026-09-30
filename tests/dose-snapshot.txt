@@ -223,16 +223,16 @@ cefuroxime #0 AOM/Sinusitis (step-up) @70kg [Suspension 125 mg/5 mL]: 20-20 mL
 cefuroxime #0 AOM/Sinusitis (step-up) @70kg [Tablet 250 mg]: 2-2 tab
 cefuroxime #0 AOM/Sinusitis (step-up) @70kg [Tablet 500 mg]: 1-1 tab
 cefditoren #0 AOM/Sinusitis (step-up) @3kg: Dose used for calculation: 4.5–9 mg/kg/dose 13.5–27 mg per dose (2 times/day) Total 27–54 mg/day BID (equivalent to 9-18 mg/kg/day)
-cefditoren #0 AOM/Sinusitis (step-up) @3kg [Sachet 50 mg]: 0.25-0.5 tab
+cefditoren #0 AOM/Sinusitis (step-up) @3kg [Sachet 50 mg]: 0-0 sachet OUT-OF-RANGE
 cefditoren #0 AOM/Sinusitis (step-up) @3kg [Tablet 100 mg]: 0.25-0.25 tab
 cefditoren #0 AOM/Sinusitis (step-up) @10kg: Dose used for calculation: 4.5–9 mg/kg/dose 45–90 mg per dose (2 times/day) Total 90–180 mg/day BID (equivalent to 9-18 mg/kg/day)
-cefditoren #0 AOM/Sinusitis (step-up) @10kg [Sachet 50 mg]: 1-1.75 tab
+cefditoren #0 AOM/Sinusitis (step-up) @10kg [Sachet 50 mg]: 1-1 sachet
 cefditoren #0 AOM/Sinusitis (step-up) @10kg [Tablet 100 mg]: 0.5-1 tab
 cefditoren #0 AOM/Sinusitis (step-up) @25kg: Dose used for calculation: 4.5–9 mg/kg/dose 112.5–225 mg per dose (2 times/day) Total 225–450 mg/day BID (equivalent to 9-18 mg/kg/day)
-cefditoren #0 AOM/Sinusitis (step-up) @25kg [Sachet 50 mg]: 2.25-4.5 tab
+cefditoren #0 AOM/Sinusitis (step-up) @25kg [Sachet 50 mg]: 3-4 sachet
 cefditoren #0 AOM/Sinusitis (step-up) @25kg [Tablet 100 mg]: 1.25-2.25 tab
 cefditoren #0 AOM/Sinusitis (step-up) @70kg: Dose used for calculation: 4.5–9 mg/kg/dose 315–400 mg per dose (2 times/day) Total 630–800 mg/day BID (equivalent to 9-18 mg/kg/day)
-cefditoren #0 AOM/Sinusitis (step-up) @70kg [Sachet 50 mg]: 6.25-8 tab
+cefditoren #0 AOM/Sinusitis (step-up) @70kg [Sachet 50 mg]: 7-8 sachet
 cefditoren #0 AOM/Sinusitis (step-up) @70kg [Tablet 100 mg]: 3.25-4 tab
 cefpodoxime #0 Sinusitis (step-up) @3kg: Dose used for calculation: 10 mg/kg/dose 30 mg per dose (1 times/day) Total 30 mg/day
 cefpodoxime #0 Sinusitis (step-up) @10kg: Dose used for calculation: 10 mg/kg/dose 100 mg per dose (1 times/day) Total 100 mg/day
@@ -2090,70 +2090,142 @@ lopinavir-ritonavir #1 Age 1–18 years @25kg [Tablet (LPV 200mg+RTV 50mg)]: 1-1
 lopinavir-ritonavir #1 Age 1–18 years @70kg: 320.72 mg per dose (2 times/day) Total 641.44 mg/day LPV component (with RTV 57.5mg/m²) q12h — max LPV 400mg/RTV 100mg per dose
 lopinavir-ritonavir #1 Age 1–18 years @70kg [Solution (LPV 80mg+RTV 20mg)/mL]: 4.0089959604757786-4.0089959604757786 mL
 lopinavir-ritonavir #1 Age 1–18 years @70kg [Tablet (LPV 200mg+RTV 50mg)]: 1.5-1.5 tab
-dolutegravir #0 Dispersible — weight 3–<6 kg (age≥4wks) @3kg: 5 mg Fixed dose, not weight-based
+dolutegravir #0 Dispersible — weight 3–<6 kg (age≥4wks) @3kg: 5 mg Fixed dose, not weight-based If co-administered with rifampicin, increase to twice daily; no dose adjustment needed with 3HP/1HP for TPT
 dolutegravir #0 Dispersible — weight 3–<6 kg (age≥4wks) @3kg [Dispersible tablet 10 mg]: 0.5 tab
-dolutegravir #0 Dispersible — weight 3–<6 kg (age≥4wks) @10kg: 5 mg Fixed dose, not weight-based
+dolutegravir #0 Dispersible — weight 3–<6 kg (age≥4wks) @10kg: 5 mg Fixed dose, not weight-based If co-administered with rifampicin, increase to twice daily; no dose adjustment needed with 3HP/1HP for TPT
 dolutegravir #0 Dispersible — weight 3–<6 kg (age≥4wks) @10kg [Dispersible tablet 10 mg]: 0.5 tab
-dolutegravir #0 Dispersible — weight 3–<6 kg (age≥4wks) @25kg: 5 mg Fixed dose, not weight-based
+dolutegravir #0 Dispersible — weight 3–<6 kg (age≥4wks) @25kg: 5 mg Fixed dose, not weight-based If co-administered with rifampicin, increase to twice daily; no dose adjustment needed with 3HP/1HP for TPT
 dolutegravir #0 Dispersible — weight 3–<6 kg (age≥4wks) @25kg [Dispersible tablet 10 mg]: 0.5 tab
-dolutegravir #0 Dispersible — weight 3–<6 kg (age≥4wks) @70kg: 5 mg Fixed dose, not weight-based
+dolutegravir #0 Dispersible — weight 3–<6 kg (age≥4wks) @70kg: 5 mg Fixed dose, not weight-based If co-administered with rifampicin, increase to twice daily; no dose adjustment needed with 3HP/1HP for TPT
 dolutegravir #0 Dispersible — weight 3–<6 kg (age≥4wks) @70kg [Dispersible tablet 10 mg]: 0.5 tab
-dolutegravir #1 Dispersible — weight 6–<10 kg @3kg: 15 mg Fixed dose, not weight-based
+dolutegravir #1 Dispersible — weight 6–<10 kg @3kg: 15 mg Fixed dose, not weight-based If co-administered with rifampicin, increase to twice daily; no dose adjustment needed with 3HP/1HP for TPT
 dolutegravir #1 Dispersible — weight 6–<10 kg @3kg [Dispersible tablet 10 mg]: 1.5 tab
-dolutegravir #1 Dispersible — weight 6–<10 kg @10kg: 15 mg Fixed dose, not weight-based
+dolutegravir #1 Dispersible — weight 6–<10 kg @10kg: 15 mg Fixed dose, not weight-based If co-administered with rifampicin, increase to twice daily; no dose adjustment needed with 3HP/1HP for TPT
 dolutegravir #1 Dispersible — weight 6–<10 kg @10kg [Dispersible tablet 10 mg]: 1.5 tab
-dolutegravir #1 Dispersible — weight 6–<10 kg @25kg: 15 mg Fixed dose, not weight-based
+dolutegravir #1 Dispersible — weight 6–<10 kg @25kg: 15 mg Fixed dose, not weight-based If co-administered with rifampicin, increase to twice daily; no dose adjustment needed with 3HP/1HP for TPT
 dolutegravir #1 Dispersible — weight 6–<10 kg @25kg [Dispersible tablet 10 mg]: 1.5 tab
-dolutegravir #1 Dispersible — weight 6–<10 kg @70kg: 15 mg Fixed dose, not weight-based
+dolutegravir #1 Dispersible — weight 6–<10 kg @70kg: 15 mg Fixed dose, not weight-based If co-administered with rifampicin, increase to twice daily; no dose adjustment needed with 3HP/1HP for TPT
 dolutegravir #1 Dispersible — weight 6–<10 kg @70kg [Dispersible tablet 10 mg]: 1.5 tab
-dolutegravir #2 Dispersible — weight 10–<14 kg @3kg: 20 mg Fixed dose, not weight-based
+dolutegravir #2 Dispersible — weight 10–<14 kg @3kg: 20 mg Fixed dose, not weight-based If co-administered with rifampicin, increase to twice daily; no dose adjustment needed with 3HP/1HP for TPT
 dolutegravir #2 Dispersible — weight 10–<14 kg @3kg [Dispersible tablet 10 mg]: 2 tab
-dolutegravir #2 Dispersible — weight 10–<14 kg @10kg: 20 mg Fixed dose, not weight-based
+dolutegravir #2 Dispersible — weight 10–<14 kg @10kg: 20 mg Fixed dose, not weight-based If co-administered with rifampicin, increase to twice daily; no dose adjustment needed with 3HP/1HP for TPT
 dolutegravir #2 Dispersible — weight 10–<14 kg @10kg [Dispersible tablet 10 mg]: 2 tab
-dolutegravir #2 Dispersible — weight 10–<14 kg @25kg: 20 mg Fixed dose, not weight-based
+dolutegravir #2 Dispersible — weight 10–<14 kg @25kg: 20 mg Fixed dose, not weight-based If co-administered with rifampicin, increase to twice daily; no dose adjustment needed with 3HP/1HP for TPT
 dolutegravir #2 Dispersible — weight 10–<14 kg @25kg [Dispersible tablet 10 mg]: 2 tab
-dolutegravir #2 Dispersible — weight 10–<14 kg @70kg: 20 mg Fixed dose, not weight-based
+dolutegravir #2 Dispersible — weight 10–<14 kg @70kg: 20 mg Fixed dose, not weight-based If co-administered with rifampicin, increase to twice daily; no dose adjustment needed with 3HP/1HP for TPT
 dolutegravir #2 Dispersible — weight 10–<14 kg @70kg [Dispersible tablet 10 mg]: 2 tab
-dolutegravir #3 Dispersible — weight 14–<20 kg @3kg: 25 mg Fixed dose, not weight-based
+dolutegravir #3 Dispersible — weight 14–<20 kg @3kg: 25 mg Fixed dose, not weight-based If co-administered with rifampicin, increase to twice daily; no dose adjustment needed with 3HP/1HP for TPT
 dolutegravir #3 Dispersible — weight 14–<20 kg @3kg [Dispersible tablet 10 mg]: 2.5 tab
-dolutegravir #3 Dispersible — weight 14–<20 kg @10kg: 25 mg Fixed dose, not weight-based
+dolutegravir #3 Dispersible — weight 14–<20 kg @10kg: 25 mg Fixed dose, not weight-based If co-administered with rifampicin, increase to twice daily; no dose adjustment needed with 3HP/1HP for TPT
 dolutegravir #3 Dispersible — weight 14–<20 kg @10kg [Dispersible tablet 10 mg]: 2.5 tab
-dolutegravir #3 Dispersible — weight 14–<20 kg @25kg: 25 mg Fixed dose, not weight-based
+dolutegravir #3 Dispersible — weight 14–<20 kg @25kg: 25 mg Fixed dose, not weight-based If co-administered with rifampicin, increase to twice daily; no dose adjustment needed with 3HP/1HP for TPT
 dolutegravir #3 Dispersible — weight 14–<20 kg @25kg [Dispersible tablet 10 mg]: 2.5 tab
-dolutegravir #3 Dispersible — weight 14–<20 kg @70kg: 25 mg Fixed dose, not weight-based
+dolutegravir #3 Dispersible — weight 14–<20 kg @70kg: 25 mg Fixed dose, not weight-based If co-administered with rifampicin, increase to twice daily; no dose adjustment needed with 3HP/1HP for TPT
 dolutegravir #3 Dispersible — weight 14–<20 kg @70kg [Dispersible tablet 10 mg]: 2.5 tab
-dolutegravir #4 Dispersible — weight ≥20 kg @3kg: 30 mg Fixed dose, not weight-based
+dolutegravir #4 Dispersible — weight ≥20 kg @3kg: 30 mg Fixed dose, not weight-based If co-administered with rifampicin, increase to twice daily; no dose adjustment needed with 3HP/1HP for TPT
 dolutegravir #4 Dispersible — weight ≥20 kg @3kg [Dispersible tablet 10 mg]: 3 tab
-dolutegravir #4 Dispersible — weight ≥20 kg @10kg: 30 mg Fixed dose, not weight-based
+dolutegravir #4 Dispersible — weight ≥20 kg @10kg: 30 mg Fixed dose, not weight-based If co-administered with rifampicin, increase to twice daily; no dose adjustment needed with 3HP/1HP for TPT
 dolutegravir #4 Dispersible — weight ≥20 kg @10kg [Dispersible tablet 10 mg]: 3 tab
-dolutegravir #4 Dispersible — weight ≥20 kg @25kg: 30 mg Fixed dose, not weight-based
+dolutegravir #4 Dispersible — weight ≥20 kg @25kg: 30 mg Fixed dose, not weight-based If co-administered with rifampicin, increase to twice daily; no dose adjustment needed with 3HP/1HP for TPT
 dolutegravir #4 Dispersible — weight ≥20 kg @25kg [Dispersible tablet 10 mg]: 3 tab
-dolutegravir #4 Dispersible — weight ≥20 kg @70kg: 30 mg Fixed dose, not weight-based
+dolutegravir #4 Dispersible — weight ≥20 kg @70kg: 30 mg Fixed dose, not weight-based If co-administered with rifampicin, increase to twice daily; no dose adjustment needed with 3HP/1HP for TPT
 dolutegravir #4 Dispersible — weight ≥20 kg @70kg [Dispersible tablet 10 mg]: 3 tab
-dolutegravir #5 Film-coated — weight 10–<14 kg @3kg: 20 mg Fixed dose, not weight-based
-dolutegravir #5 Film-coated — weight 10–<14 kg @3kg [Film-coated tablet 50 mg]: 0.5 tab
-dolutegravir #5 Film-coated — weight 10–<14 kg @10kg: 20 mg Fixed dose, not weight-based
-dolutegravir #5 Film-coated — weight 10–<14 kg @10kg [Film-coated tablet 50 mg]: 0.5 tab
-dolutegravir #5 Film-coated — weight 10–<14 kg @25kg: 20 mg Fixed dose, not weight-based
-dolutegravir #5 Film-coated — weight 10–<14 kg @25kg [Film-coated tablet 50 mg]: 0.5 tab
-dolutegravir #5 Film-coated — weight 10–<14 kg @70kg: 20 mg Fixed dose, not weight-based
-dolutegravir #5 Film-coated — weight 10–<14 kg @70kg [Film-coated tablet 50 mg]: 0.5 tab
-dolutegravir #6 Film-coated — weight 14–<20 kg @3kg: 25 mg Fixed dose, not weight-based
-dolutegravir #6 Film-coated — weight 14–<20 kg @3kg [Film-coated tablet 50 mg]: 0.5 tab
-dolutegravir #6 Film-coated — weight 14–<20 kg @10kg: 25 mg Fixed dose, not weight-based
-dolutegravir #6 Film-coated — weight 14–<20 kg @10kg [Film-coated tablet 50 mg]: 0.5 tab
-dolutegravir #6 Film-coated — weight 14–<20 kg @25kg: 25 mg Fixed dose, not weight-based
-dolutegravir #6 Film-coated — weight 14–<20 kg @25kg [Film-coated tablet 50 mg]: 0.5 tab
-dolutegravir #6 Film-coated — weight 14–<20 kg @70kg: 25 mg Fixed dose, not weight-based
-dolutegravir #6 Film-coated — weight 14–<20 kg @70kg [Film-coated tablet 50 mg]: 0.5 tab
-dolutegravir #7 Film-coated — weight ≥20 kg (age≥6y) @3kg: 50 mg Fixed dose, not weight-based
-dolutegravir #7 Film-coated — weight ≥20 kg (age≥6y) @3kg [Film-coated tablet 50 mg]: 1 tab
-dolutegravir #7 Film-coated — weight ≥20 kg (age≥6y) @10kg: 50 mg Fixed dose, not weight-based
-dolutegravir #7 Film-coated — weight ≥20 kg (age≥6y) @10kg [Film-coated tablet 50 mg]: 1 tab
-dolutegravir #7 Film-coated — weight ≥20 kg (age≥6y) @25kg: 50 mg Fixed dose, not weight-based
-dolutegravir #7 Film-coated — weight ≥20 kg (age≥6y) @25kg [Film-coated tablet 50 mg]: 1 tab
-dolutegravir #7 Film-coated — weight ≥20 kg (age≥6y) @70kg: 50 mg Fixed dose, not weight-based
-dolutegravir #7 Film-coated — weight ≥20 kg (age≥6y) @70kg [Film-coated tablet 50 mg]: 1 tab
+dolutegravir #5 Film-coated (age ≥6y or weight ≥15 kg) — weight 15–<20 kg @3kg: 25 mg Fixed dose, not weight-based If co-administered with rifampicin, increase to twice daily; no dose adjustment needed with 3HP/1HP for TPT
+dolutegravir #5 Film-coated (age ≥6y or weight ≥15 kg) — weight 15–<20 kg @3kg [Film-coated tablet 50 mg]: 0.5 tab
+dolutegravir #5 Film-coated (age ≥6y or weight ≥15 kg) — weight 15–<20 kg @10kg: 25 mg Fixed dose, not weight-based If co-administered with rifampicin, increase to twice daily; no dose adjustment needed with 3HP/1HP for TPT
+dolutegravir #5 Film-coated (age ≥6y or weight ≥15 kg) — weight 15–<20 kg @10kg [Film-coated tablet 50 mg]: 0.5 tab
+dolutegravir #5 Film-coated (age ≥6y or weight ≥15 kg) — weight 15–<20 kg @25kg: 25 mg Fixed dose, not weight-based If co-administered with rifampicin, increase to twice daily; no dose adjustment needed with 3HP/1HP for TPT
+dolutegravir #5 Film-coated (age ≥6y or weight ≥15 kg) — weight 15–<20 kg @25kg [Film-coated tablet 50 mg]: 0.5 tab
+dolutegravir #5 Film-coated (age ≥6y or weight ≥15 kg) — weight 15–<20 kg @70kg: 25 mg Fixed dose, not weight-based If co-administered with rifampicin, increase to twice daily; no dose adjustment needed with 3HP/1HP for TPT
+dolutegravir #5 Film-coated (age ≥6y or weight ≥15 kg) — weight 15–<20 kg @70kg [Film-coated tablet 50 mg]: 0.5 tab
+dolutegravir #6 Film-coated (age ≥6y or weight ≥15 kg) — weight ≥20 kg @3kg: 50 mg Fixed dose, not weight-based If co-administered with rifampicin, increase to twice daily; no dose adjustment needed with 3HP/1HP for TPT
+dolutegravir #6 Film-coated (age ≥6y or weight ≥15 kg) — weight ≥20 kg @3kg [Film-coated tablet 50 mg]: 1 tab
+dolutegravir #6 Film-coated (age ≥6y or weight ≥15 kg) — weight ≥20 kg @10kg: 50 mg Fixed dose, not weight-based If co-administered with rifampicin, increase to twice daily; no dose adjustment needed with 3HP/1HP for TPT
+dolutegravir #6 Film-coated (age ≥6y or weight ≥15 kg) — weight ≥20 kg @10kg [Film-coated tablet 50 mg]: 1 tab
+dolutegravir #6 Film-coated (age ≥6y or weight ≥15 kg) — weight ≥20 kg @25kg: 50 mg Fixed dose, not weight-based If co-administered with rifampicin, increase to twice daily; no dose adjustment needed with 3HP/1HP for TPT
+dolutegravir #6 Film-coated (age ≥6y or weight ≥15 kg) — weight ≥20 kg @25kg [Film-coated tablet 50 mg]: 1 tab
+dolutegravir #6 Film-coated (age ≥6y or weight ≥15 kg) — weight ≥20 kg @70kg: 50 mg Fixed dose, not weight-based If co-administered with rifampicin, increase to twice daily; no dose adjustment needed with 3HP/1HP for TPT
+dolutegravir #6 Film-coated (age ≥6y or weight ≥15 kg) — weight ≥20 kg @70kg [Film-coated tablet 50 mg]: 1 tab
+fdc-azt-3tc #0 Weight ≥30 kg @3kg: 1 tablet (2 times/day) Tablet AZT 300 mg + 3TC 150 mg every 12 hours
+fdc-azt-3tc #0 Weight ≥30 kg @10kg: 1 tablet (2 times/day) Tablet AZT 300 mg + 3TC 150 mg every 12 hours
+fdc-azt-3tc #0 Weight ≥30 kg @25kg: 1 tablet (2 times/day) Tablet AZT 300 mg + 3TC 150 mg every 12 hours
+fdc-azt-3tc #0 Weight ≥30 kg @70kg: 1 tablet (2 times/day) Tablet AZT 300 mg + 3TC 150 mg every 12 hours
+fdc-abc-3tc #0 Weight >14–20 kg @3kg: ½ tablet (1 times/day) Tablet ABC 600 mg + 3TC 300 mg
+fdc-abc-3tc #0 Weight >14–20 kg @10kg: ½ tablet (1 times/day) Tablet ABC 600 mg + 3TC 300 mg
+fdc-abc-3tc #0 Weight >14–20 kg @25kg: ½ tablet (1 times/day) Tablet ABC 600 mg + 3TC 300 mg
+fdc-abc-3tc #0 Weight >14–20 kg @70kg: ½ tablet (1 times/day) Tablet ABC 600 mg + 3TC 300 mg
+fdc-abc-3tc #1 Weight >20–25 kg @3kg: ¾ tablet (1 times/day) Tablet ABC 600 mg + 3TC 300 mg
+fdc-abc-3tc #1 Weight >20–25 kg @10kg: ¾ tablet (1 times/day) Tablet ABC 600 mg + 3TC 300 mg
+fdc-abc-3tc #1 Weight >20–25 kg @25kg: ¾ tablet (1 times/day) Tablet ABC 600 mg + 3TC 300 mg
+fdc-abc-3tc #1 Weight >20–25 kg @70kg: ¾ tablet (1 times/day) Tablet ABC 600 mg + 3TC 300 mg
+fdc-abc-3tc #2 Weight >25 kg @3kg: 1 tablet (1 times/day) Tablet ABC 600 mg + 3TC 300 mg
+fdc-abc-3tc #2 Weight >25 kg @10kg: 1 tablet (1 times/day) Tablet ABC 600 mg + 3TC 300 mg
+fdc-abc-3tc #2 Weight >25 kg @25kg: 1 tablet (1 times/day) Tablet ABC 600 mg + 3TC 300 mg
+fdc-abc-3tc #2 Weight >25 kg @70kg: 1 tablet (1 times/day) Tablet ABC 600 mg + 3TC 300 mg
+fdc-tdf-ftc #0 Weight 15–22 kg @3kg: ½ tablet (1 times/day) Tablet TDF 300 mg + FTC 200 mg
+fdc-tdf-ftc #0 Weight 15–22 kg @10kg: ½ tablet (1 times/day) Tablet TDF 300 mg + FTC 200 mg
+fdc-tdf-ftc #0 Weight 15–22 kg @25kg: ½ tablet (1 times/day) Tablet TDF 300 mg + FTC 200 mg
+fdc-tdf-ftc #0 Weight 15–22 kg @70kg: ½ tablet (1 times/day) Tablet TDF 300 mg + FTC 200 mg
+fdc-tdf-ftc #1 Weight 23–29 kg @3kg: ¾ tablet (1 times/day) Tablet TDF 300 mg + FTC 200 mg
+fdc-tdf-ftc #1 Weight 23–29 kg @10kg: ¾ tablet (1 times/day) Tablet TDF 300 mg + FTC 200 mg
+fdc-tdf-ftc #1 Weight 23–29 kg @25kg: ¾ tablet (1 times/day) Tablet TDF 300 mg + FTC 200 mg
+fdc-tdf-ftc #1 Weight 23–29 kg @70kg: ¾ tablet (1 times/day) Tablet TDF 300 mg + FTC 200 mg
+fdc-tdf-ftc #2 Weight ≥30 kg @3kg: 1 tablet (1 times/day) Tablet TDF 300 mg + FTC 200 mg
+fdc-tdf-ftc #2 Weight ≥30 kg @10kg: 1 tablet (1 times/day) Tablet TDF 300 mg + FTC 200 mg
+fdc-tdf-ftc #2 Weight ≥30 kg @25kg: 1 tablet (1 times/day) Tablet TDF 300 mg + FTC 200 mg
+fdc-tdf-ftc #2 Weight ≥30 kg @70kg: 1 tablet (1 times/day) Tablet TDF 300 mg + FTC 200 mg
+fdc-taf-ftc #0 Weight >14–25 kg @3kg: 1 tablet (1 times/day) Tablet TAF 15 mg + FTC 120 mg
+fdc-taf-ftc #0 Weight >14–25 kg @10kg: 1 tablet (1 times/day) Tablet TAF 15 mg + FTC 120 mg
+fdc-taf-ftc #0 Weight >14–25 kg @25kg: 1 tablet (1 times/day) Tablet TAF 15 mg + FTC 120 mg
+fdc-taf-ftc #0 Weight >14–25 kg @70kg: 1 tablet (1 times/day) Tablet TAF 15 mg + FTC 120 mg
+fdc-taf-ftc #1 Weight ≥25 kg @3kg: 1 tablet (1 times/day) Tablet TAF 25 mg + FTC 200 mg Weight 25–35 kg: do not co-administer with cobicistat or ritonavir
+fdc-taf-ftc #1 Weight ≥25 kg @10kg: 1 tablet (1 times/day) Tablet TAF 25 mg + FTC 200 mg Weight 25–35 kg: do not co-administer with cobicistat or ritonavir
+fdc-taf-ftc #1 Weight ≥25 kg @25kg: 1 tablet (1 times/day) Tablet TAF 25 mg + FTC 200 mg Weight 25–35 kg: do not co-administer with cobicistat or ritonavir
+fdc-taf-ftc #1 Weight ≥25 kg @70kg: 1 tablet (1 times/day) Tablet TAF 25 mg + FTC 200 mg Weight 25–35 kg: do not co-administer with cobicistat or ritonavir
+fdc-kocitaf #0 Weight ≥25 kg @3kg: 1 tablet (1 times/day) Tablet TAF 25 mg + FTC 200 mg + DTG 50 mg
+fdc-kocitaf #0 Weight ≥25 kg @10kg: 1 tablet (1 times/day) Tablet TAF 25 mg + FTC 200 mg + DTG 50 mg
+fdc-kocitaf #0 Weight ≥25 kg @25kg: 1 tablet (1 times/day) Tablet TAF 25 mg + FTC 200 mg + DTG 50 mg
+fdc-kocitaf #0 Weight ≥25 kg @70kg: 1 tablet (1 times/day) Tablet TAF 25 mg + FTC 200 mg + DTG 50 mg
+fdc-tld #0 Weight ≥30 kg @3kg: 1 tablet (1 times/day) Tablet TDF 300 mg + 3TC 300 mg + DTG 50 mg
+fdc-tld #0 Weight ≥30 kg @10kg: 1 tablet (1 times/day) Tablet TDF 300 mg + 3TC 300 mg + DTG 50 mg
+fdc-tld #0 Weight ≥30 kg @25kg: 1 tablet (1 times/day) Tablet TDF 300 mg + 3TC 300 mg + DTG 50 mg
+fdc-tld #0 Weight ≥30 kg @70kg: 1 tablet (1 times/day) Tablet TDF 300 mg + 3TC 300 mg + DTG 50 mg
+fdc-tdf-ftc-efv #0 Age ≥12 years — weight ≥35 kg @3kg: 1 tablet (1 times/day) Tablet TDF 300 mg + FTC 200 mg + EFV 600 mg
+fdc-tdf-ftc-efv #0 Age ≥12 years — weight ≥35 kg @10kg: 1 tablet (1 times/day) Tablet TDF 300 mg + FTC 200 mg + EFV 600 mg
+fdc-tdf-ftc-efv #0 Age ≥12 years — weight ≥35 kg @25kg: 1 tablet (1 times/day) Tablet TDF 300 mg + FTC 200 mg + EFV 600 mg
+fdc-tdf-ftc-efv #0 Age ≥12 years — weight ≥35 kg @70kg: 1 tablet (1 times/day) Tablet TDF 300 mg + FTC 200 mg + EFV 600 mg
+fdc-biktarvy #0 Age 2–6 years — weight >14–25 kg @3kg: 1 tablet (1 times/day) Tablet TAF 15 mg + FTC 120 mg + BIC 30 mg This strength is not yet available in Thailand
+fdc-biktarvy #0 Age 2–6 years — weight >14–25 kg @10kg: 1 tablet (1 times/day) Tablet TAF 15 mg + FTC 120 mg + BIC 30 mg This strength is not yet available in Thailand
+fdc-biktarvy #0 Age 2–6 years — weight >14–25 kg @25kg: 1 tablet (1 times/day) Tablet TAF 15 mg + FTC 120 mg + BIC 30 mg This strength is not yet available in Thailand
+fdc-biktarvy #0 Age 2–6 years — weight >14–25 kg @70kg: 1 tablet (1 times/day) Tablet TAF 15 mg + FTC 120 mg + BIC 30 mg This strength is not yet available in Thailand
+fdc-biktarvy #1 Age ≥6 years — weight ≥25 kg @3kg: 1 tablet (1 times/day) Tablet TAF 25 mg + FTC 200 mg + BIC 50 mg
+fdc-biktarvy #1 Age ≥6 years — weight ≥25 kg @10kg: 1 tablet (1 times/day) Tablet TAF 25 mg + FTC 200 mg + BIC 50 mg
+fdc-biktarvy #1 Age ≥6 years — weight ≥25 kg @25kg: 1 tablet (1 times/day) Tablet TAF 25 mg + FTC 200 mg + BIC 50 mg
+fdc-biktarvy #1 Age ≥6 years — weight ≥25 kg @70kg: 1 tablet (1 times/day) Tablet TAF 25 mg + FTC 200 mg + BIC 50 mg
+fdc-ald #0 Dispersible — weight ≥6–<10 kg @3kg: 3 tablets (1 times/day) Dispersible tablet ABC 60 mg + 3TC 30 mg + DTG 5 mg
+fdc-ald #0 Dispersible — weight ≥6–<10 kg @10kg: 3 tablets (1 times/day) Dispersible tablet ABC 60 mg + 3TC 30 mg + DTG 5 mg
+fdc-ald #0 Dispersible — weight ≥6–<10 kg @25kg: 3 tablets (1 times/day) Dispersible tablet ABC 60 mg + 3TC 30 mg + DTG 5 mg
+fdc-ald #0 Dispersible — weight ≥6–<10 kg @70kg: 3 tablets (1 times/day) Dispersible tablet ABC 60 mg + 3TC 30 mg + DTG 5 mg
+fdc-ald #1 Dispersible — weight ≥10–<14 kg @3kg: 4 tablets (1 times/day) Dispersible tablet ABC 60 mg + 3TC 30 mg + DTG 5 mg
+fdc-ald #1 Dispersible — weight ≥10–<14 kg @10kg: 4 tablets (1 times/day) Dispersible tablet ABC 60 mg + 3TC 30 mg + DTG 5 mg
+fdc-ald #1 Dispersible — weight ≥10–<14 kg @25kg: 4 tablets (1 times/day) Dispersible tablet ABC 60 mg + 3TC 30 mg + DTG 5 mg
+fdc-ald #1 Dispersible — weight ≥10–<14 kg @70kg: 4 tablets (1 times/day) Dispersible tablet ABC 60 mg + 3TC 30 mg + DTG 5 mg
+fdc-ald #2 Dispersible — weight ≥14–<20 kg @3kg: 5 tablets (1 times/day) Dispersible tablet ABC 60 mg + 3TC 30 mg + DTG 5 mg
+fdc-ald #2 Dispersible — weight ≥14–<20 kg @10kg: 5 tablets (1 times/day) Dispersible tablet ABC 60 mg + 3TC 30 mg + DTG 5 mg
+fdc-ald #2 Dispersible — weight ≥14–<20 kg @25kg: 5 tablets (1 times/day) Dispersible tablet ABC 60 mg + 3TC 30 mg + DTG 5 mg
+fdc-ald #2 Dispersible — weight ≥14–<20 kg @70kg: 5 tablets (1 times/day) Dispersible tablet ABC 60 mg + 3TC 30 mg + DTG 5 mg
+fdc-ald #3 Dispersible — weight ≥20–<25 kg @3kg: 6 tablets (1 times/day) Dispersible tablet ABC 60 mg + 3TC 30 mg + DTG 5 mg
+fdc-ald #3 Dispersible — weight ≥20–<25 kg @10kg: 6 tablets (1 times/day) Dispersible tablet ABC 60 mg + 3TC 30 mg + DTG 5 mg
+fdc-ald #3 Dispersible — weight ≥20–<25 kg @25kg: 6 tablets (1 times/day) Dispersible tablet ABC 60 mg + 3TC 30 mg + DTG 5 mg
+fdc-ald #3 Dispersible — weight ≥20–<25 kg @70kg: 6 tablets (1 times/day) Dispersible tablet ABC 60 mg + 3TC 30 mg + DTG 5 mg
+fdc-ald #4 Tablet — weight ≥25 kg @3kg: 1 tablet (1 times/day) Tablet ABC 600 mg + 3TC 300 mg + DTG 50 mg
+fdc-ald #4 Tablet — weight ≥25 kg @10kg: 1 tablet (1 times/day) Tablet ABC 600 mg + 3TC 300 mg + DTG 50 mg
+fdc-ald #4 Tablet — weight ≥25 kg @25kg: 1 tablet (1 times/day) Tablet ABC 600 mg + 3TC 300 mg + DTG 50 mg
+fdc-ald #4 Tablet — weight ≥25 kg @70kg: 1 tablet (1 times/day) Tablet ABC 600 mg + 3TC 300 mg + DTG 50 mg
+fdc-dtg-3tc #0 Age ≥12 years — weight ≥25 kg @3kg: 1 tablet (1 times/day) Tablet DTG 50 mg + 3TC 300 mg
+fdc-dtg-3tc #0 Age ≥12 years — weight ≥25 kg @10kg: 1 tablet (1 times/day) Tablet DTG 50 mg + 3TC 300 mg
+fdc-dtg-3tc #0 Age ≥12 years — weight ≥25 kg @25kg: 1 tablet (1 times/day) Tablet DTG 50 mg + 3TC 300 mg
+fdc-dtg-3tc #0 Age ≥12 years — weight ≥25 kg @70kg: 1 tablet (1 times/day) Tablet DTG 50 mg + 3TC 300 mg
 isoniazid #0 Active TB treatment @3kg: Dose used for calculation: 7–15 mg/kg/day 21–45 mg per dose (1 times/day) Total 21–45 mg/day target 10mg/kg/day, daily
 isoniazid #0 Active TB treatment @3kg [Syrup 50 mg/5 mL]: 2.1-4.5 mL
 isoniazid #0 Active TB treatment @3kg [Syrup 50 mg/mL]: 0.42-0.9 mL

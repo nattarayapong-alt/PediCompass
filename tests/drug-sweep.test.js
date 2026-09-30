@@ -46,7 +46,7 @@ module.exports = function(t){
             for (const [k, v] of Object.entries(res))
               if (typeof v === 'number') t.check(isFinite(v), `${where} @${w}kg: result.${k} = ${v}`);
             for (const f of forms){
-              const r2 = !f ? res : (f[0] === 'ml' ? ml(res, f[1]) : tabs(res, f[1], d.category === 'antituberculosis' ? { reg: p, weightKg: w } : undefined));
+              const r2 = !f ? res : (f[0] === 'ml' ? ml(res, f[1]) : tabs(res, f[1], (d.category === 'antituberculosis' || f[1].sachet) ? { reg: p, weightKg: w } : undefined));
               let html;
               try { html = fmt(r2, p, route); }
               catch (e){ t.check(false, `${where} @${w}kg: ddFormatResult threw ${e.message}`); continue; }
