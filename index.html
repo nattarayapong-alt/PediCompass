@@ -11010,6 +11010,111 @@ const CRX_FLOWCHARTS = {
   }
 };
 
+/* ---------- Normal vital signs in children — PALS Provider Manual 2020 (AHA) ----------
+   Reference tables only (no calculation). Update here if the 2025 PALS card values differ. */
+const CRX_NORMALS = {
+  toggle: {th:'ค่าปกติของสัญญาณชีพในเด็ก และ Pediatric GCS', en:'Normal vital signs in children & Pediatric GCS'},
+  source: {th:'อ้างอิง: American Heart Association. Pediatric Advanced Life Support Provider Manual, 2020 (Vital Signs in Children)', en:'Source: American Heart Association. Pediatric Advanced Life Support Provider Manual, 2020 (Vital Signs in Children)'},
+  colAge: {th:'อายุ', en:'Age'},
+  rr: {
+    title: {th:'อัตราการหายใจ (ครั้ง/นาที)', en:'Respiratory rate (breaths/min)'},
+    col: {th:'ค่าปกติ', en:'Normal'},
+    rows: [
+      [{th:'ทารก (&lt;1 ปี)', en:'Infant (&lt;1 y)'}, '30–53'],
+      [{th:'Toddler (1–2 ปี)', en:'Toddler (1–2 y)'}, '22–37'],
+      [{th:'Preschool (3–5 ปี)', en:'Preschool (3–5 y)'}, '20–28'],
+      [{th:'วัยเรียน (6–11 ปี)', en:'School-age (6–11 y)'}, '18–25'],
+      [{th:'วัยรุ่น (12–15 ปี)', en:'Adolescent (12–15 y)'}, '12–20']
+    ]
+  },
+  hr: {
+    title: {th:'อัตราการเต้นของหัวใจ (ครั้ง/นาที)', en:'Heart rate (beats/min)'},
+    colAwake: {th:'ขณะตื่น', en:'Awake'}, colAsleep: {th:'ขณะหลับ', en:'Asleep'},
+    rows: [
+      [{th:'แรกเกิด (&lt;28 วัน)', en:'Neonate (&lt;28 d)'}, '100–205', '90–160'],
+      [{th:'ทารก (1–12 เดือน)', en:'Infant (1–12 mo)'}, '100–180', '90–160'],
+      [{th:'Toddler (1–2 ปี)', en:'Toddler (1–2 y)'}, '98–140', '80–120'],
+      [{th:'Preschool (3–5 ปี)', en:'Preschool (3–5 y)'}, '80–120', '65–100'],
+      [{th:'วัยเรียน (6–11 ปี)', en:'School-age (6–11 y)'}, '75–118', '58–90'],
+      [{th:'วัยรุ่น (12–15 ปี)', en:'Adolescent (12–15 y)'}, '60–100', '50–90']
+    ]
+  },
+  bp: {
+    title: {th:'ความดันโลหิต (mmHg)', en:'Blood pressure (mmHg)'},
+    colSbp: {th:'Systolic', en:'Systolic'}, colDbp: {th:'Diastolic', en:'Diastolic'},
+    rows: [
+      [{th:'แรกเกิด (อายุ 1 วัน)', en:'Neonate (1 d)'}, '60–76', '30–45'],
+      [{th:'แรกเกิด (อายุ 4 วัน)', en:'Neonate (4 d)'}, '67–84', '35–53'],
+      [{th:'ทารก (1–12 เดือน)', en:'Infant (1–12 mo)'}, '72–104', '37–56'],
+      [{th:'Toddler (1–2 ปี)', en:'Toddler (1–2 y)'}, '86–106', '42–63'],
+      [{th:'Preschool (3–5 ปี)', en:'Preschool (3–5 y)'}, '89–112', '46–72'],
+      [{th:'วัยเรียน (6–9 ปี)', en:'School-age (6–9 y)'}, '97–115', '57–76'],
+      [{th:'ก่อนวัยรุ่น (10–12 ปี)', en:'Preadolescent (10–12 y)'}, '102–120', '61–80'],
+      [{th:'วัยรุ่น (12–15 ปี)', en:'Adolescent (12–15 y)'}, '110–131', '64–83']
+    ]
+  },
+  hypo: {
+    title: {th:'เกณฑ์ความดันต่ำ (Hypotension, SBP)', en:'Hypotension (systolic BP)'},
+    col: {th:'SBP ต่ำกว่า', en:'SBP below'},
+    rows: [
+      [{th:'ทารกแรกเกิดครบกำหนด (0–28 วัน)', en:'Term neonate (0–28 d)'}, '60'],
+      [{th:'ทารก (1–12 เดือน)', en:'Infant (1–12 mo)'}, '70'],
+      [{th:'เด็ก 1–10 ปี', en:'Child 1–10 y'}, {th:'70 + (2 × อายุเป็นปี)', en:'70 + (2 × age in years)'}],
+      [{th:'เด็ก >10 ปี', en:'Child >10 y'}, '90']
+    ]
+  },
+  gcs: {
+    title: {th:'Pediatric Glasgow Coma Scale', en:'Pediatric Glasgow Coma Scale'},
+    colResp: {th:'การตอบสนอง', en:'Response'}, colScore: {th:'คะแนน', en:'Score'},
+    colVerbal: {th:'เด็กพูดได้', en:'Verbal child'}, colPre: {th:'เด็กยังไม่พูด / ทารก', en:'Pre-verbal child / infant'},
+    groups: [
+      { name:{th:'ลืมตา (E)', en:'Eye opening (E)'}, rows:[
+        [4, {th:'ลืมตาเอง', en:'Spontaneous'}, {th:'ลืมตาเอง', en:'Spontaneous'}],
+        [3, {th:'ลืมตาเมื่อเรียก', en:'To verbal command'}, {th:'ลืมตาเมื่อได้ยินเสียง', en:'To speech'}],
+        [2, {th:'ลืมตาเมื่อเจ็บ', en:'To pain'}, {th:'ลืมตาเมื่อเจ็บ', en:'To pain'}],
+        [1, {th:'ไม่ลืมตา', en:'None'}, {th:'ไม่ลืมตา', en:'None'}] ]},
+      { name:{th:'การพูด (V)', en:'Verbal (V)'}, rows:[
+        [5, {th:'พูดรู้เรื่อง orientation ดี', en:'Oriented'}, {th:'อ้อแอ้ ส่งเสียงตามปกติ', en:'Coos and babbles'}],
+        [4, {th:'พูดสับสน', en:'Confused'}, {th:'ร้องกวน ปลอบได้', en:'Irritable cry'}],
+        [3, {th:'พูดเป็นคำ ไม่เหมาะสม', en:'Inappropriate words'}, {th:'ร้องเมื่อเจ็บ', en:'Cries to pain'}],
+        [2, {th:'ส่งเสียงไม่เป็นคำ', en:'Incomprehensible sounds'}, {th:'ครางเมื่อเจ็บ', en:'Moans to pain'}],
+        [1, {th:'ไม่มีเสียง', en:'None'}, {th:'ไม่มีเสียง', en:'None'}] ]},
+      { name:{th:'การเคลื่อนไหว (M)', en:'Motor (M)'}, rows:[
+        [6, {th:'ทำตามสั่ง', en:'Obeys commands'}, {th:'เคลื่อนไหวเองได้ตามปกติ', en:'Moves spontaneously and purposefully'}],
+        [5, {th:'ปัดตำแหน่งที่เจ็บได้', en:'Localizes pain'}, {th:'ชักหนีเมื่อถูกสัมผัส', en:'Withdraws to touch'}],
+        [4, {th:'ชักหนีเมื่อเจ็บ', en:'Withdraws to pain'}, {th:'ชักหนีเมื่อเจ็บ', en:'Withdraws to pain'}],
+        [3, {th:'งอแขนผิดปกติ (decorticate)', en:'Abnormal flexion (decorticate)'}, {th:'งอแขนผิดปกติ (decorticate)', en:'Abnormal flexion (decorticate)'}],
+        [2, {th:'เหยียดแขนขาผิดปกติ (decerebrate)', en:'Abnormal extension (decerebrate)'}, {th:'เหยียดแขนขาผิดปกติ (decerebrate)', en:'Abnormal extension (decerebrate)'}],
+        [1, {th:'ไม่เคลื่อนไหว', en:'None'}, {th:'ไม่เคลื่อนไหว', en:'None'}] ]}
+    ],
+    note: {th:'คะแนนรวม 3–15 · ในการบาดเจ็บที่ศีรษะ: 13–15 = mild, 9–12 = moderate, 3–8 = severe · ในเด็กที่ใส่ท่อช่วยหายใจหรือได้ยาสงบประสาท คะแนน motor ให้ข้อมูลมากที่สุด',
+           en:'Total 3–15 · Head injury: 13–15 = mild, 9–12 = moderate, 3–8 = severe · In intubated or sedated children, the motor score is the most informative'}
+  }
+};
+
+function crxNormalsHtml(){
+  const N = CRX_NORMALS;
+  const cell = v => (typeof v === 'object' ? t(v) : v);
+  const h4 = x => `<div style="font-size:13px; font-weight:700; color:var(--ink); margin:14px 0 4px;">${t(x)}</div>`;
+  const tbl = (heads, rows, narrow) =>
+    `<div class="dose-table-scroll" style="max-height:none;"><table class="dose-table sticky-col1"${narrow ? ' style="min-width:0;"' : ''}>` +
+    `<thead><tr>${heads.map(x => `<th>${t(x)}</th>`).join('')}</tr></thead>` +
+    `<tbody>${rows.map(r => `<tr>${r.map(v => `<td>${cell(v)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+  const gcsRows = N.gcs.groups.map(g => g.rows.map((r, i) =>
+    `<tr>${i === 0 ? `<td rowspan="${g.rows.length}" style="font-weight:600;">${t(g.name)}</td>` : ''}<td style="text-align:center;">${r[0]}</td><td>${t(r[1])}</td><td>${t(r[2])}</td></tr>`).join('')).join('');
+  return `
+    ${h4(N.rr.title)}${tbl([N.colAge, N.rr.col], N.rr.rows, true)}
+    ${h4(N.hr.title)}${tbl([N.colAge, N.hr.colAwake, N.hr.colAsleep], N.hr.rows, true)}
+    ${h4(N.bp.title)}${tbl([N.colAge, N.bp.colSbp, N.bp.colDbp], N.bp.rows, true)}
+    ${h4(N.hypo.title)}${tbl([N.colAge, N.hypo.col], N.hypo.rows, true)}
+    ${h4(N.gcs.title)}
+    <div class="dose-table-scroll" style="max-height:none;"><table class="dose-table">
+      <thead><tr><th>${t(N.gcs.colResp)}</th><th>${t(N.gcs.colScore)}</th><th>${t(N.gcs.colVerbal)}</th><th>${t(N.gcs.colPre)}</th></tr></thead>
+      <tbody>${gcsRows}</tbody></table></div>
+    <div style="font-size:11.5px; color:var(--ink-soft); margin-top:6px; line-height:1.5;">${t(N.gcs.note)}</div>
+    <div style="font-size:11px; color:var(--ink-soft); margin-top:10px; line-height:1.5;">${t(N.source)}</div>`;
+}
+
 function crxFlowchartsHtml(){
   return `
     <details class="q-fig" style="margin-bottom:10px;">
@@ -11039,6 +11144,10 @@ function crxFlowchartsHtml(){
         <img src="${CRX_FLOWCHARTS.bradycardia.dataUri}" alt="${t(CRX_FLOWCHARTS.bradycardia.title)}" style="width:100%; height:auto; border-radius:8px; border:0.5px solid var(--pink-200); display:block;">
         <div style="font-size:11px; color:var(--ink-soft); margin-top:6px; line-height:1.5;">${t(CRX_FLOWCHARTS.bradycardia.caption)}</div>
       </div>
+    </details>
+    <details class="q-fig" style="margin-top:10px;">
+      <summary style="cursor:pointer; font-size:13.5px; font-weight:600; color:var(--pink-600); list-style:none; display:flex; align-items:center; gap:7px;">📋 ${t(CRX_NORMALS.toggle)} <span style="margin-left:auto; font-size:11px; color:var(--ink-soft); font-weight:400;">${LANG==='th'?'แตะเพื่อดู':'tap to view'}</span></summary>
+      <div style="margin-top:6px;">${crxNormalsHtml()}</div>
     </details>
   `;
 }
