@@ -38,7 +38,7 @@
 }
 *{box-sizing:border-box;}
 html{margin:0;padding:0; width:100%; overflow-x:hidden;}
-body{margin:0;padding:0; width:100%;}
+body{margin:0;padding:0; width:100%; overflow-x:clip;}
 body{
   background: linear-gradient(180deg, var(--pink-50) 0%, #FBFDFF 40%);
   color:var(--ink);
@@ -549,6 +549,16 @@ footer .disclaimer-warning{
 @media (max-width:400px){
   .hero h1{font-size:20px;}
   .q-text{font-size:15px;}
+}
+
+/* header fit on narrow phones (Samsung Internet): keep full app name, trim spacing, shrink subtitle only */
+@media (max-width:440px){
+  header.top{padding-left:10px; padding-right:10px; gap:6px;}
+  header.top .brand{gap:8px; margin-right:auto;}
+  header.top .brand-text .title{font-size:14px; white-space:nowrap;}
+  header.top .brand-text .subtitle{white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  header.top > div:last-child{flex-shrink:0; gap:6px !important;}
+  header.top .lang-toggle button{padding:6px 10px;}
 }
 
 /* ===== Feedback / comment widget ===== */
