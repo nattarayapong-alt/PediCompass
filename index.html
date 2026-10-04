@@ -150,6 +150,30 @@ main{flex:1; width:100%; max-width:640px; margin:0 auto; padding:22px 18px 40px;
   border-radius:14px; padding:12px 14px; font-size:12.5px; line-height:1.6; margin:18px 0;
 }
 
+.aap-box{
+  background:var(--purple-bg); border:1px solid var(--purple-bd);
+  border-radius:14px; padding:12px 14px; margin:14px 0;
+}
+.aap-box .aap-tag{
+  display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:10.5px;
+  letter-spacing:.06em; color:var(--purple-tx); background:var(--white);
+  border:1px solid var(--purple-bd); padding:2px 9px; border-radius:999px; margin-bottom:6px;
+}
+.aap-box h3{font-size:13.5px; color:var(--purple-tx); margin:0 0 4px;}
+.aap-box .aap-sub{font-size:11.5px; color:var(--ink-soft); margin:0 0 8px; line-height:1.55;}
+.aap-box ul{margin:0; padding-left:18px;}
+.aap-box li{font-size:12.5px; line-height:1.6; margin-bottom:5px; color:var(--ink);}
+.aap-box .aap-src{font-size:11px; color:var(--ink-soft); margin:8px 0 0; line-height:1.5;}
+.aap-box .aap-tbl-title{font-size:12.5px; font-weight:700; color:var(--purple-tx); margin:10px 0 2px;}
+.aap-box .aap-tbl-foot{font-size:11px; color:var(--ink-soft); margin:2px 0 8px; line-height:1.5;}
+.aap-box .dose-table-scroll{max-height:none; overflow:visible;}
+.aap-box .dose-table{min-width:0; table-layout:fixed;}
+.aap-box .dose-table th{white-space:normal; position:static; background:var(--white); color:var(--purple-tx); border-color:var(--purple-bd);}
+.aap-box .dose-table td{border-color:var(--purple-bd); background:var(--white); line-height:1.5; word-break:break-word;}
+.aap-box .dose-table tr:nth-child(even) td{background:var(--white);}
+.aap-box .dose-table th:first-child, .aap-box .dose-table td:first-child{width:42%;}
+.aap-box .dose-table td:first-child{font-weight:600;}
+
 .module-grid{display:flex; flex-direction:column; gap:12px; margin-top:18px;}
 @media (min-width:768px){
   .module-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
@@ -6721,6 +6745,177 @@ const UT = {
     ]
   },
 
+  aap:{
+    tag:{th:'AAP 2026', en:'AAP 2026'},
+    title:{th:'ส่วนที่ต่างหรือเพิ่มเติมจาก Thai CPG', en:'Differences and additions to the Thai CPG'},
+    sub:{th:'เนื้อหาหลักและการจัดการของแอปยังเป็นไปตาม Thai CPG พ.ศ. 2565 กล่องนี้แสดงข้อมูลเปรียบเทียบจาก AAP 2026 เท่านั้น', en:'The main content and management in this app still follow the Thai CPG 2022. This box shows comparative information from AAP 2026 only.'},
+    diag:{
+      blocks:[
+        {
+          list:[
+            {th:'ขอบเขต: เด็ก 8 วัน–5 ปีที่ไม่ซับซ้อนทางการแพทย์ (ไม่รวม neurogenic bladder, ภูมิคุ้มกันบกพร่อง, คลอดก่อนกำหนดมาก, ความผิดปกติของไตและทางเดินปัสสาวะแต่กำเนิดที่ทราบแล้ว)', en:'Scope: children 8 days to 5 years with low medical complexity (excludes neurogenic bladder, immunocompromise, extreme prematurity, and known congenital anomalies of the kidney and urinary tract).'},
+            {th:'ควรประเมินภายใน 72 ชม. หลังเริ่มมีอาการ และเร่งให้เร็วขึ้นถ้ามีความผิดปกติของทางเดินปัสสาวะเดิม เคยมี febrile UTI หรือมีอาการ pyelonephritis เช่น flank pain', en:'Evaluate within 72 hours of symptom onset, and sooner if there is a known urinary tract abnormality, a prior febrile UTI, or signs of pyelonephritis such as flank pain.'},
+            {th:'เด็ก 2–24 เดือน (ไข้ ≥39°C ดูดี ไม่มีแหล่งไข้): ก่อนส่ง UA ให้ประเมินโอกาสเป็น UTI จากอายุ <12 เดือน, เพศหญิง, ชายไม่ขลิบ, เคยเป็น UTI, ไม่มีแหล่งไข้อื่น, ไข้ ≥48 ชม. หรือใช้ UTICalc', en:'Children 2–24 months (fever ≥39°C, well-appearing, no source): before ordering a UA, estimate UTI risk from age <12 months, female sex, uncircumcised male, prior UTI, no other fever source, fever ≥48 h, or use UTICalc.'},
+            {th:'เด็ก >24 เดือน–5 ปี: ไข้ >39°C ไม่มีแหล่งไข้ หรือมีอาการ (dysuria, frequency, urgency, suprapubic pain, secondary enuresis, flank pain/tenderness) ถ้าเด็กบอกอาการไม่ได้ ให้ใช้แนวทางของเด็ก 2–24 เดือน', en:'Children >24 months to 5 years: fever >39°C with no source, or urinary symptoms (dysuria, frequency, urgency, suprapubic pain, secondary enuresis, flank pain or tenderness). If the child cannot report symptoms, use the 2–24 month pathway.'},
+            {th:'AAP ใช้ไข้ ≥39°C (102.2°F) ใน flow ของเด็ก 2 เดือน–5 ปี ส่วนแอปนี้ใช้ ≥38°C แยก upper/lower UTI', en:'AAP uses fever ≥39°C (102.2°F) in its flow for ages 2 months to 5 years, whereas this app uses ≥38°C to separate upper from lower UTI.'}
+          ]
+        },
+        {
+          table:{
+            h:{th:'เกณฑ์ UA ของ AAP (เด็ก 2 เดือน–5 ปี)', en:'AAP urinalysis criteria (ages 2 months to 5 years)'},
+            cols:[
+              {key:'a', label:{th:'ผล UA', en:'UA result'}},
+              {key:'b', label:{th:'AAP 2026', en:'AAP 2026'}}
+            ],
+            rows:[
+              {
+                a:{th:'WBC ≥5/hpf หรือ LE ≥1+ (แต่ไม่ถึงระดับถัดไป)', en:'WBC ≥5/hpf or LE ≥1+ (but below the next tier)'},
+                b:{th:'ส่ง urine culture (เก็บด้วย catheter) และรอผลก่อนให้ยา เว้นแต่โอกาสเป็น UTI สูง (เช่น ดูป่วย) อาจเริ่มยาตามดุลยพินิจ', en:'Send a urine culture (catheter specimen) and wait for the result before treating, unless pretest probability is high (for example ill-appearing), when empiric treatment may be started at clinical discretion'}
+              },
+              {
+                a:{th:'WBC ≥10/hpf หรือ LE ≥2+', en:'WBC ≥10/hpf or LE ≥2+'},
+                b:{th:'ส่ง culture และเริ่ม presumptive antibiotics ตามความไวต่อยาท้องถิ่นระหว่างรอผล', en:'Send a culture and start presumptive antibiotics per local resistance while awaiting the result'}
+              },
+              {
+                a:{th:'WBC <5/hpf และ LE <1+', en:'WBC <5/hpf and LE <1+'},
+                b:{th:'UTI ไม่น่าเป็น (ดูเวลาประเมินซ้ำในหน้า "ไม่เข้าเกณฑ์")', en:'UTI unlikely (see re-evaluation timing on the "does not suggest UTI" screen)'}
+              },
+              {
+                a:{th:'Nitrite', en:'Nitrite'},
+                b:{th:'ไม่ใช้เป็นเกณฑ์ (ความไวต่ำ และไม่ช่วยแยก asymptomatic bacteriuria จาก UTI)', en:'Not used as a criterion (low sensitivity; does not help separate asymptomatic bacteriuria from UTI)'}
+              }
+            ],
+            footer:{th:'เกณฑ์ UA เป็นจุดอ้างอิงช่วยตัดสินใจ ไม่ใช่กฎตายตัว แอปนี้ใช้ LE และ/หรือ nitrite บวก หรือ WBC ≥5/HPF เป็นเกณฑ์เดียว', en:'UA thresholds are decision-support anchors, not absolute rules. This app uses positive LE and/or nitrite, or WBC ≥5/HPF, as a single criterion.'}
+          }
+        },
+        {
+          list:[
+            {th:'ห้าม culture ปัสสาวะจาก bag: ถ้า UA เก็บจาก bag หรือ stimulated void แล้วผลบวก ให้เก็บซ้ำด้วย catheter เพื่อเพิ่มความจำเพาะ และ culture จากปัสสาวะที่ได้จาก catheter เท่านั้น', en:'Do not culture bag urine: if the UA was collected by bag or stimulated void and is positive, repeat it on a catheter specimen to improve specificity, and culture only catheter urine.'},
+            {th:'ทารก 8–60 วันที่ไข้ ≥38.0°C ดูดี ไม่มีแหล่งไข้: AAP ให้ประเมินทันที อายุ <22 วัน ส่ง UA และ culture ด้วย catheter พร้อมเริ่มยาทันที อายุ ≥22 วัน ส่ง UA ก่อน ถ้า WBC ≥5/hpf หรือ LE ≥ trace จึง culture ด้วย catheter และเริ่มยา แอปนี้ไม่ครอบคลุมช่วงอายุนี้ (ดูโมดูลที่ระบุไว้ในข้อความด้านบน)', en:'Infants 8–60 days with fever ≥38.0°C, well-appearing, no source: AAP advises immediate evaluation. Under 22 days, obtain UA and culture by catheter and start antibiotics right away. From 22 days, send a UA first; if WBC ≥5/hpf or LE ≥ trace, culture by catheter and start antibiotics. This app does not cover this age group (see the modules named in the note above).'}
+          ]
+        }
+      ],
+      src:{th:'ที่มา: AAP CPG 2026 (Pediatrics 2026;158(4):e2026078565) — KAS 1, Table 1, Figure 1–3', en:'Source: AAP CPG 2026 (Pediatrics 2026;158(4):e2026078565) — KAS 1, Table 1, Figures 1–3'}
+    },
+    notConfirmed:{
+      blocks:[
+        {
+          list:[
+            {th:'ถ้า UA ต่ำกว่าเกณฑ์ส่ง culture (WBC <5/hpf และ LE <1+) และไม่มีแหล่งไข้อื่น AAP ให้ประเมินซ้ำภายใน 24–36 ชม. (เด็ก 2–24 เดือน) หรือ 24–48 ชม. (เด็ก >24 เดือน–5 ปี)', en:'If the UA is below the culture threshold (WBC <5/hpf and LE <1+) and there is no other fever source, AAP advises re-evaluation within 24–36 h (ages 2–24 months) or 24–48 h (ages >24 months to 5 years).'},
+            {th:'ถ้าโอกาสเป็น UTI ก่อนตรวจสูง (เช่น ดูป่วย) แม้ UA กำกวม อาจส่ง culture และพิจารณาให้ยาระหว่างรอผล พร้อมประเมินซ้ำอย่างใกล้ชิด ถ้าโอกาสต่ำ (ดูดี ไม่มี focal findings) ผล UA กำกวมช่วยตัดโรคได้ดีกว่า และอาจไม่ต้องให้ยา', en:'If pretest probability is high (for example an ill-appearing child), a culture may still be sent despite an equivocal UA, with empiric treatment considered and prompt reassessment. If pretest probability is low (well-appearing, no focal findings), an equivocal UA is more useful for excluding infection and treatment may not be needed.'}
+          ]
+        }
+      ],
+      src:{th:'ที่มา: AAP CPG 2026 — Table 1 (footnote), Figure 2 box 11, Figure 3 box 10', en:'Source: AAP CPG 2026 — Table 1 (footnote), Figure 2 box 11, Figure 3 box 10'}
+    },
+    result:{
+      blocks:[
+        {
+          table:{
+            h:{th:'เกณฑ์ผล culture ยืนยัน UTI (AAP)', en:'AAP culture thresholds confirming UTI'},
+            cols:[
+              {key:'a', label:{th:'ตัวอย่างปัสสาวะ', en:'Urine specimen'}},
+              {key:'b', label:{th:'เกณฑ์', en:'Threshold'}}
+            ],
+            rows:[
+              {
+                a:{th:'Catheter (หรือ SPA)', en:'Catheter (or SPA)'},
+                b:{th:'≥10⁴ CFU/mL ของเชื้อก่อโรคชนิดเดียว', en:'≥10⁴ CFU/mL of a single pathogen'}
+              },
+              {
+                a:{th:'Clean catch', en:'Clean catch'},
+                b:{th:'≥10⁵ CFU/mL', en:'≥10⁵ CFU/mL'}
+              },
+              {
+                a:{th:'Bag urine', en:'Bag urine'},
+                b:{th:'ไม่ใช้ culture', en:'Do not culture'}
+              }
+            ],
+            footer:{th:'ใช้ร่วมกับ UA ที่มี inflammation (WBC ≥5/hpf หรือ LE ≥1+) ถ้า culture ไม่ถึงเกณฑ์ ให้ถือว่า UTI ไม่น่าเป็นและหยุดยาที่เริ่มไว้ (ยกเว้นได้ยามาก่อนเก็บ culture) ต่างจาก Thai CPG ที่ใช้ catheter ≥5×10⁴ หรือ ≥10⁴ ถ้ามี pyuria', en:'Used together with a UA showing inflammation (WBC ≥5/hpf or LE ≥1+). If culture is below threshold, UTI is unlikely and any started antibiotics should be stopped (unless treated before the culture was taken). The Thai CPG uses catheter ≥5×10⁴, or ≥10⁴ if pyuria is present.'}
+          }
+        },
+        {
+          list:[
+            {th:'ยาเริ่มต้น: เน้น narrow-spectrum; cefazolin หรือ cephalexin เป็นตัวเลือกแรกถ้าความไวต่อยาท้องถิ่น >80–85% ทางเลือกอื่น ได้แก่ ceftriaxone, cefixime, TMP-SMX, ciprofloxacin (ใช้อย่างระมัดระวังตามข้อมูลการดื้อยาในพื้นที่)', en:'Empiric choice: prefer narrow-spectrum agents; cefazolin or cephalexin first if local susceptibility is >80–85%. Alternatives include ceftriaxone, cefixime, TMP-SMX, and ciprofloxacin (use cautiously, guided by local resistance).'},
+            {th:'ช่องทางให้ยา: เด็กอายุ >28 วัน AAP แนะนำอย่างหนักแน่น (strong, หลักฐานน้อยมาก) ให้ยากินแทนยาฉีดหรือยาฉีดสลับกิน และสนับสนุนการรักษาแบบผู้ป่วยนอก กลุ่มที่อาจใช้ยาฉีด: bacteremia, อาการวิกฤต, กินยาไม่ได้ ถ้ากังวลว่าครอบครัวซื้อยากินไม่ทัน ให้ยาฉีด 1 ครั้งก่อนเปลี่ยนเป็นยากินได้ อายุ 8–28 วัน: ยาฉีดแล้วเปลี่ยนเป็นยากินเมื่ออาการดีขึ้น (ต่างจากเกณฑ์ risk ในแอปนี้ เช่น อายุ <3 เดือน)', en:'Route: for children older than 28 days AAP strongly recommends oral over parenteral or sequential therapy (very low certainty evidence) and encourages outpatient care. Groups where parenteral therapy may be appropriate: bacteremia, critical illness, inability to tolerate oral drugs. If prompt access to oral antibiotics is a concern, one parenteral dose may be given before switching to oral. Ages 8–28 days: parenteral then early transition to oral once improving. (This differs from the risk criteria in this app, such as age <3 months.)'}
+          ]
+        },
+        {
+          table:{
+            h:{th:'ระยะเวลาให้ยา (AAP แนะนำ ≤7 วัน)', en:'Treatment duration (AAP suggests ≤7 days)'},
+            cols:[
+              {key:'a', label:{th:'กลุ่มผู้ป่วย', en:'Group'}},
+              {key:'b', label:{th:'ระยะเวลา', en:'Duration'}}
+            ],
+            rows:[
+              {
+                a:{th:'เด็ก 2–24 เดือน', en:'Ages 2–24 months'},
+                b:{th:'5–7 วัน', en:'5–7 days'}
+              },
+              {
+                a:{th:'อายุ ≥2 ปี ไม่มีความผิดปกติของทางเดินปัสสาวะ: cystitis ไม่มีไข้', en:'Age ≥2 years without urinary tract abnormality: afebrile cystitis'},
+                b:{th:'3–5 วัน', en:'3–5 days'}
+              },
+              {
+                a:{th:'อายุ ≥2 ปี ไม่มีความผิดปกติของทางเดินปัสสาวะ: สงสัย pyelonephritis (เช่น ไข้ ≥39°C)', en:'Age ≥2 years without urinary tract abnormality: suspected pyelonephritis (for example fever ≥39°C)'},
+                b:{th:'5–7 วัน', en:'5–7 days'}
+              },
+              {
+                a:{th:'อายุ 8 วัน–2 เดือน, ความผิดปกติของทางเดินปัสสาวะ, bacteremia หรือตอบสนองไม่ดี', en:'Age 8 days to 2 months, urinary tract abnormality, bacteremia, or poor response'},
+                b:{th:'อาจให้นานกว่า 7 วัน', en:'May be given for more than 7 days'}
+              }
+            ],
+            footer:{th:'Thai CPG ใช้ upper UTI 7–14 วัน และ lower UTI 3–5 วัน', en:'The Thai CPG uses 7–14 days for upper UTI and 3–5 days for lower UTI.'}
+          }
+        },
+        {
+          list:[
+            {th:'Renal and bladder ultrasound (RBUS): ทำใน first febrile UTI อายุ <5 ปี (strong) เพื่อหา structural anomaly ไม่ใช่เพื่อวินิจฉัย VUR (sensitivity ต่อ VUR ~0.50; RBUS ปกติไม่ได้ rule out VUR) ไม่จำเป็นต้องทำช่วงเฉียบพลัน แต่ควรวางแผนนัดตรวจ ยกเว้นอาการรุนแรงหรือผิดปกติ', en:'Renal and bladder ultrasound (RBUS): perform after a first febrile UTI in children <5 years (strong) to find structural anomalies, not to diagnose VUR (sensitivity for VUR about 0.50; a normal RBUS does not exclude VUR). It need not be done in the acute phase, but follow-up should be arranged, unless the presentation is severe or atypical.'}
+          ]
+        },
+        {
+          table:{
+            h:{th:'VCUG หลัง febrile UTI (AAP)', en:'VCUG after a febrile UTI (AAP)'},
+            cols:[
+              {key:'a', label:{th:'สถานการณ์', en:'Situation'}},
+              {key:'b', label:{th:'คำแนะนำ', en:'Recommendation'}}
+            ],
+            rows:[
+              {
+                a:{th:'First febrile UTI และ RBUS ปกติ', en:'First febrile UTI with normal RBUS'},
+                b:{th:'ไม่ทำ routine', en:'Not routine'}
+              },
+              {
+                a:{th:'RBUS ผิดปกติที่มีนัยทางคลินิก', en:'Clinically relevant RBUS abnormality'},
+                b:{th:'เสนอทำ VCUG', en:'Offer VCUG'}
+              },
+              {
+                a:{th:'Febrile UTI ครั้งที่ 2 ในเด็ก <2 ปี', en:'Second febrile UTI in a child <2 years'},
+                b:{th:'เสนอทำ VCUG', en:'Offer VCUG'}
+              },
+              {
+                a:{th:'Febrile UTI ครั้งที่ 2 ในเด็ก ≥2 ปี ที่ไม่มีปัจจัยอื่นอธิบาย (เช่น BBD)', en:'Second febrile UTI in a child ≥2 years with no alternative explanation (such as BBD)'},
+                b:{th:'เสนอทำ VCUG', en:'Offer VCUG'}
+              },
+              {
+                a:{th:'First febrile UTI ที่ RBUS ปกติ แต่อายุ <1 เดือน, เชื้อไม่ใช่ E. coli, ชายที่ขลิบแล้ว, septic shock/ICU หรือติดตามไม่ได้', en:'First febrile UTI with normal RBUS but age <1 month, non-E. coli organism, circumcised male, septic shock or ICU admission, or unreliable follow-up'},
+                b:{th:'เป็นทางเลือก ปรึกษาผู้เชี่ยวชาญ', en:'Optional, with subspecialty input'}
+              }
+            ],
+            footer:{th:'มักทำหลังจบการรักษาแบบผู้ป่วยนอก และตัดสินใจร่วมกับครอบครัว', en:'Usually done as an outpatient after treatment is completed, with shared decision making.'}
+          }
+        },
+        {
+          list:[
+            {th:'Prophylaxis (CAP): ไม่แนะนำ routine ใน low-risk VUR (grade I–II และไม่มี BBD ยกเว้น functional constipation); grade III เป็นทางเลือก; high-risk VUR (grade IV–V, intrarenal reflux, renal scarring, ความผิดปกติของไตหรือท่อไต, recurrent pyelonephritis, bacteremia จน ICU, BBD) CAP เป็นทางเลือก ตัดสินใจร่วมกับครอบครัวและส่ง urology/nephrology', en:'Prophylaxis (CAP): routine use is not suggested in low-risk VUR (grade I–II without BBD, excluding functional constipation); grade III is a reasonable option; in high-risk VUR (grade IV–V, intrarenal reflux, renal scarring, renal or ureteral abnormalities, recurrent pyelonephritis, bacteremia leading to ICU, BBD) CAP is an option. Decide with the family through shared decision making and refer to urology or nephrology.'},
+            {th:'BBD และท้องผูก: ควรประเมินและรักษาในเด็ก UTI ทุกราย (ซักประวัติ ตรวจร่างกาย หรือใช้แบบคัดกรอง) ส่งต่อถ้าไม่ตอบสนอง ถ้าเข้าถึงผู้เชี่ยวชาญยาก ใช้ e-consult หรือ telehealth ได้', en:'BBD and constipation: assess and treat in every child with UTI (history, examination, or a screening tool), and refer if there is no response. If specialist access is limited, e-consults or telehealth can be used.'}
+          ]
+        }
+      ],
+      src:{th:'ที่มา: AAP CPG 2026 — Table 1, KAS 2–6, Good Practice Statements, Figure 2–4', en:'Source: AAP CPG 2026 — Table 1, KAS 2–6, Good Practice Statements, Figures 2–4'}
+    }
+  },
+
   refFooter:{th:'อ้างอิง: แนวทางเวชปฏิบัติโรคติดเชื้อทางเดินปัสสาวะในผู้ป่วยเด็กอายุ 2 เดือนถึง 5 ปี พ.ศ. 2565 ชมรมโรคไตเด็กแห่งประเทศไทย ราชวิทยาลัยกุมารแพทย์แห่งประเทศไทย', en:'Reference: Clinical Practice Guideline for Urinary Tract Infection in Children Aged 2 Months to 5 Years 2022, Thai Pediatric Nephrology Society, Royal College of Pediatricians of Thailand'}
 };
 
@@ -6730,6 +6925,29 @@ function utInitialForm(){
 let utState = { screen:'diagnosis', form: utInitialForm() };
 function utResetAll(){ utState = { screen:'diagnosis', form: utInitialForm() }; }
 function utGoTo(s){ utState.screen = s; scrollToTop(); render(); }
+
+function utAapTableHtml(tb){
+  const head = tb.cols.map(c=>`<th>${t(c.label)}</th>`).join('');
+  const body = tb.rows.map(r=>`<tr>${tb.cols.map(c=>`<td>${t(r[c.key])}</td>`).join('')}</tr>`).join('');
+  let html = `<div class="aap-tbl-title">${t(tb.h)}</div><div class="dose-table-scroll"><table class="dose-table"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
+  if(tb.footer) html += `<div class="aap-tbl-foot">${t(tb.footer)}</div>`;
+  return html;
+}
+
+function utAapBox(wrap, box){
+  const A = UT.aap;
+  const el = document.createElement('div');
+  el.className = 'aap-box';
+  const blocksHtml = box.blocks.map(b=> b.table ? utAapTableHtml(b.table) : `<ul>${b.list.map(it=>`<li>${t(it)}</li>`).join('')}</ul>`).join('');
+  el.innerHTML = `
+    <span class="aap-tag">${t(A.tag)}</span>
+    <h3>${t(A.title)}</h3>
+    <p class="aap-sub">${t(A.sub)}</p>
+    ${blocksHtml}
+    <p class="aap-src">${t(box.src)}</p>
+  `;
+  wrap.appendChild(el);
+}
 
 function utDiagnosisView(app){
   spHeader(app, t(UT.refBadge));
@@ -6753,6 +6971,7 @@ function utDiagnosisView(app){
     </div>
   `;
   app.appendChild(card);
+  utAapBox(app, UT.aap.diag);
 
   card.querySelectorAll('[data-ua]').forEach(btn=>{
     btn.onclick = ()=>{ f.ua = btn.getAttribute('data-ua')==='true'; render(); };
@@ -6773,6 +6992,7 @@ function utNotConfirmedView(app){
   banner.className = 'result-banner info';
   banner.innerHTML = `<h2>${t(UT.notConfirmed.title)}</h2><p>${t(UT.notConfirmed.summary)}</p>`;
   wrap.appendChild(banner);
+  utAapBox(wrap, UT.aap.notConfirmed);
   const restart = document.createElement('button');
   restart.className='restart-btn';
   restart.textContent = t(UI.restart);
@@ -6877,6 +7097,7 @@ function utResultView(app){
   spSectionCard(wrap, { h:UT.res.prophylaxisHeading, icon:'🛡️', list:[UT.res.prophylaxisText] });
   spSectionCard(wrap, { h:UT.res.otherCareHeading, icon:'🩺', collapsible:true, list:UT.res.otherCareItems });
   spSectionCard(wrap, { h:UT.res.referralHeading, icon:'↗️', collapsible:true, list:UT.res.referralItems });
+  utAapBox(wrap, UT.aap.result);
 
   const restart = document.createElement('button');
   restart.className='restart-btn';
@@ -9066,8 +9287,8 @@ const CATEGORY_DISCLAIMERS = {
     en:'This tool is intended to support the clinical decision-making of healthcare professionals, based on the Management Guideline for Diabetic Ketoacidosis and Hyperglycemic Hyperosmolar State in Children and Adolescents, revised April 2023 (Thai Society for Pediatric Endocrinology), adapted from Glaser N, et al. ISPAD Clinical Practice Consensus Guidelines 2022: Diabetic ketoacidosis and hyperglycemic hyperosmolar state. Pediatr Diabetes 2022;23:835-56.'
   },
   uti:{
-    th:'เครื่องมือนี้จัดทำขึ้นเพื่อสนับสนุนการตัดสินใจทางคลินิกของบุคลากรทางการแพทย์ โดยอ้างอิงแนวทางเวชปฏิบัติโรคติดเชื้อทางเดินปัสสาวะในผู้ป่วยเด็กอายุ 2 เดือนถึง 5 ปี พ.ศ. 2565 ชมรมโรคไตเด็กแห่งประเทศไทย ราชวิทยาลัยกุมารแพทย์แห่งประเทศไทย',
-    en:'This tool is intended to support the clinical decision-making of healthcare professionals, based on the Clinical Practice Guideline for Urinary Tract Infection in Children Aged 2 Months to 5 Years 2022, Thai Pediatric Nephrology Society, Royal College of Pediatricians of Thailand.'
+    th:'เครื่องมือนี้จัดทำขึ้นเพื่อสนับสนุนการตัดสินใจทางคลินิกของบุคลากรทางการแพทย์ โดยอ้างอิงแนวทางเวชปฏิบัติโรคติดเชื้อทางเดินปัสสาวะในผู้ป่วยเด็กอายุ 2 เดือนถึง 5 ปี พ.ศ. 2565 ชมรมโรคไตเด็กแห่งประเทศไทย ราชวิทยาลัยกุมารแพทย์แห่งประเทศไทย และแสดงข้อมูลเปรียบเทียบจาก Alverson BK, et al. Clinical Practice Guideline for the Diagnosis and Treatment of Urinary Tract Infection in Children From 8 Days to 5 Years of Age. Pediatrics 2026;158(4):e2026078565 (American Academy of Pediatrics)',
+    en:'This tool is intended to support the clinical decision-making of healthcare professionals, based on the Clinical Practice Guideline for Urinary Tract Infection in Children Aged 2 Months to 5 Years 2022, Thai Pediatric Nephrology Society, Royal College of Pediatricians of Thailand, and shows comparative information from Alverson BK, et al. Clinical Practice Guideline for the Diagnosis and Treatment of Urinary Tract Infection in Children From 8 Days to 5 Years of Age. Pediatrics 2026;158(4):e2026078565 (American Academy of Pediatrics).'
   },
   asthma:{
     th:'เครื่องมือนี้จัดทำขึ้นเพื่อสนับสนุนการตัดสินใจทางคลินิกของบุคลากรทางการแพทย์ โดยอ้างอิงบท Acute Life-threatening Asthma หนังสือ Ramathibodi Handbook of Pediatric Emergency พ.ศ. 2565 ภาควิชากุมารเวชศาสตร์ คณะแพทยศาสตร์โรงพยาบาลรามาธิบดี มหาวิทยาลัยมหิดล',
