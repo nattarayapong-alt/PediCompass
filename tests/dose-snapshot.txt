@@ -1758,22 +1758,362 @@ oseltamivir #8 Age <3 months @3kg: 12 mg Fixed dose, not weight-based
 oseltamivir #8 Age <3 months @10kg: 12 mg Fixed dose, not weight-based
 oseltamivir #8 Age <3 months @25kg: 12 mg Fixed dose, not weight-based
 oseltamivir #8 Age <3 months @70kg: 12 mg Fixed dose, not weight-based
-acyclovir #0 HSV meningoencephalitis — neonate–3 months @3kg: Dose used for calculation: 60 mg/kg/day 60 mg per dose (q8h) Total 180 mg/day IV q8h for 21 days
-acyclovir #0 HSV meningoencephalitis — neonate–3 months @10kg: Dose used for calculation: 60 mg/kg/day 200 mg per dose (q8h) Total 600 mg/day IV q8h for 21 days
-acyclovir #0 HSV meningoencephalitis — neonate–3 months @25kg: Dose used for calculation: 60 mg/kg/day 500 mg per dose (q8h) Total 1500 mg/day IV q8h for 21 days
-acyclovir #0 HSV meningoencephalitis — neonate–3 months @70kg: Dose used for calculation: 60 mg/kg/day 1400 mg per dose (q8h) Total 4200 mg/day IV q8h for 21 days
-acyclovir #1 HSV meningoencephalitis — 3mo–12y @3kg: Dose used for calculation: 30–45 mg/kg/day 30–45 mg per dose (q8h) Total 90–135 mg/day IV q8h for 14-21 days
-acyclovir #1 HSV meningoencephalitis — 3mo–12y @10kg: Dose used for calculation: 30–45 mg/kg/day 100–150 mg per dose (q8h) Total 300–450 mg/day IV q8h for 14-21 days
-acyclovir #1 HSV meningoencephalitis — 3mo–12y @25kg: Dose used for calculation: 30–45 mg/kg/day 250–375 mg per dose (q8h) Total 750–1125 mg/day IV q8h for 14-21 days
-acyclovir #1 HSV meningoencephalitis — 3mo–12y @70kg: Dose used for calculation: 30–45 mg/kg/day 700–1000 mg per dose (q8h) Total 2100–3000 mg/day IV q8h for 14-21 days
-acyclovir #2 HSV meningoencephalitis — >12y @3kg: Dose used for calculation: 30 mg/kg/day 30 mg per dose (q8h) Total 90 mg/day IV q8h for 14-21 days
-acyclovir #2 HSV meningoencephalitis — >12y @10kg: Dose used for calculation: 30 mg/kg/day 100 mg per dose (q8h) Total 300 mg/day IV q8h for 14-21 days
-acyclovir #2 HSV meningoencephalitis — >12y @25kg: Dose used for calculation: 30 mg/kg/day 250 mg per dose (q8h) Total 750 mg/day IV q8h for 14-21 days
-acyclovir #2 HSV meningoencephalitis — >12y @70kg: Dose used for calculation: 30 mg/kg/day 700 mg per dose (q8h) Total 2100 mg/day IV q8h for 14-21 days
-acyclovir #3 Varicella (immunocompromised) — <2y @3kg: Dose used for calculation: 10 mg/kg/dose 30 mg per dose (q8h) Total 90 mg/day IV q8h
-acyclovir #3 Varicella (immunocompromised) — <2y @10kg: Dose used for calculation: 10 mg/kg/dose 100 mg per dose (q8h) Total 300 mg/day IV q8h
-acyclovir #3 Varicella (immunocompromised) — <2y @25kg: Dose used for calculation: 10 mg/kg/dose 250 mg per dose (q8h) Total 750 mg/day IV q8h
-acyclovir #3 Varicella (immunocompromised) — <2y @70kg: Dose used for calculation: 10 mg/kg/dose 700 mg per dose (q8h) Total 2100 mg/day IV q8h
+acyclovir #0 Neonatal HSV — birth to ≤4 months @3kg: Dose used for calculation: 60 mg/kg/day 60 mg per dose (q8h) Total 180 mg/day IV divided q8h for 14 days (SEM) or 21 days (CNS/disseminated); >21 days if CSF PCR remains positive near end of treatment
+acyclovir #0 Neonatal HSV — birth to ≤4 months @10kg: Dose used for calculation: 60 mg/kg/day 200 mg per dose (q8h) Total 600 mg/day IV divided q8h for 14 days (SEM) or 21 days (CNS/disseminated); >21 days if CSF PCR remains positive near end of treatment
+acyclovir #0 Neonatal HSV — birth to ≤4 months @25kg: Dose used for calculation: 60 mg/kg/day 500 mg per dose (q8h) Total 1500 mg/day IV divided q8h for 14 days (SEM) or 21 days (CNS/disseminated); >21 days if CSF PCR remains positive near end of treatment
+acyclovir #0 Neonatal HSV — birth to ≤4 months @70kg: Dose used for calculation: 60 mg/kg/day 1400 mg per dose (q8h) Total 4200 mg/day IV divided q8h for 14 days (SEM) or 21 days (CNS/disseminated); >21 days if CSF PCR remains positive near end of treatment
+acyclovir #1 Neonatal HSV — oral suppression (2 wk–8 mo) @3kg: 86.6 mg per dose (3 times/day) Total 259.81 mg/day After completing IV therapy; 3 times daily for 6 months
+acyclovir #1 Neonatal HSV — oral suppression (2 wk–8 mo) @10kg: 158.11 mg per dose (3 times/day) Total 474.34 mg/day After completing IV therapy; 3 times daily for 6 months
+acyclovir #1 Neonatal HSV — oral suppression (2 wk–8 mo) @25kg: 250 mg per dose (3 times/day) Total 750 mg/day After completing IV therapy; 3 times daily for 6 months
+acyclovir #1 Neonatal HSV — oral suppression (2 wk–8 mo) @70kg: 418.33 mg per dose (3 times/day) Total 1254.99 mg/day After completing IV therapy; 3 times daily for 6 months
+acyclovir #2 HSV encephalitis — >4 mo to 12 y @3kg: Dose used for calculation: 30–45 mg/kg/day 30–45 mg per dose (q8h) Total 90–135 mg/day IV divided q8h for 14–21 days; 60 mg/kg/day not recommended (AKI risk)
+acyclovir #2 HSV encephalitis — >4 mo to 12 y @10kg: Dose used for calculation: 30–45 mg/kg/day 100–150 mg per dose (q8h) Total 300–450 mg/day IV divided q8h for 14–21 days; 60 mg/kg/day not recommended (AKI risk)
+acyclovir #2 HSV encephalitis — >4 mo to 12 y @25kg: Dose used for calculation: 30–45 mg/kg/day 250–375 mg per dose (q8h) Total 750–1125 mg/day IV divided q8h for 14–21 days; 60 mg/kg/day not recommended (AKI risk)
+acyclovir #2 HSV encephalitis — >4 mo to 12 y @70kg: Dose used for calculation: 30–45 mg/kg/day 700–1000 mg per dose (q8h) Total 2100–3000 mg/day IV divided q8h for 14–21 days; 60 mg/kg/day not recommended (AKI risk)
+acyclovir #3 HSV encephalitis — ≥12 y @3kg: Dose used for calculation: 30 mg/kg/day 30 mg per dose (q8h) Total 90 mg/day IV divided q8h for 14–21 days
+acyclovir #3 HSV encephalitis — ≥12 y @10kg: Dose used for calculation: 30 mg/kg/day 100 mg per dose (q8h) Total 300 mg/day IV divided q8h for 14–21 days
+acyclovir #3 HSV encephalitis — ≥12 y @25kg: Dose used for calculation: 30 mg/kg/day 250 mg per dose (q8h) Total 750 mg/day IV divided q8h for 14–21 days
+acyclovir #3 HSV encephalitis — ≥12 y @70kg: Dose used for calculation: 30 mg/kg/day 700 mg per dose (q8h) Total 2100 mg/day IV divided q8h for 14–21 days
+acyclovir #4 Varicella (immunocompetent) — PO, ≥2 y, ≤40 kg @3kg: Dose used for calculation: 80 mg/kg/day 60 mg per dose (4 times/day) Total 240 mg/day 4 divided doses for 5 days
+acyclovir #4 Varicella (immunocompetent) — PO, ≥2 y, ≤40 kg @10kg: Dose used for calculation: 80 mg/kg/day 200 mg per dose (4 times/day) Total 800 mg/day 4 divided doses for 5 days
+acyclovir #4 Varicella (immunocompetent) — PO, ≥2 y, ≤40 kg @25kg: Dose used for calculation: 80 mg/kg/day 500 mg per dose (4 times/day) Total 2000 mg/day 4 divided doses for 5 days
+acyclovir #4 Varicella (immunocompetent) — PO, ≥2 y, ≤40 kg @70kg: Dose used for calculation: 80 mg/kg/day 800 mg per dose (4 times/day) Total 3200 mg/day 4 divided doses for 5 days
+acyclovir #5 Varicella (immunocompetent) — PO, ≥2 y, >40 kg @3kg: 800 mg per dose (4 times/day) Total 3200 mg/day 3200 mg/day in 4 divided doses (800 mg/dose) for 5 days; adult: 4000 mg/day in 5 divided doses for 5–7 days (source misprints "4000 g" — read as mg)
+acyclovir #5 Varicella (immunocompetent) — PO, ≥2 y, >40 kg @10kg: 800 mg per dose (4 times/day) Total 3200 mg/day 3200 mg/day in 4 divided doses (800 mg/dose) for 5 days; adult: 4000 mg/day in 5 divided doses for 5–7 days (source misprints "4000 g" — read as mg)
+acyclovir #5 Varicella (immunocompetent) — PO, ≥2 y, >40 kg @25kg: 800 mg per dose (4 times/day) Total 3200 mg/day 3200 mg/day in 4 divided doses (800 mg/dose) for 5 days; adult: 4000 mg/day in 5 divided doses for 5–7 days (source misprints "4000 g" — read as mg)
+acyclovir #5 Varicella (immunocompetent) — PO, ≥2 y, >40 kg @70kg: 800 mg per dose (4 times/day) Total 3200 mg/day 3200 mg/day in 4 divided doses (800 mg/dose) for 5 days; adult: 4000 mg/day in 5 divided doses for 5–7 days (source misprints "4000 g" — read as mg)
+acyclovir #6 Varicella (immunocompetent, hospitalized) — IV, ≥2 y @3kg: Dose used for calculation: 30 mg/kg/day 30 mg per dose (q8h) Total 90 mg/day IV divided q8h for 7–10 days; or 1500 mg/m²/day in 3 divided doses for 7–10 days
+acyclovir #6 Varicella (immunocompetent, hospitalized) — IV, ≥2 y @10kg: Dose used for calculation: 30 mg/kg/day 100 mg per dose (q8h) Total 300 mg/day IV divided q8h for 7–10 days; or 1500 mg/m²/day in 3 divided doses for 7–10 days
+acyclovir #6 Varicella (immunocompetent, hospitalized) — IV, ≥2 y @25kg: Dose used for calculation: 30 mg/kg/day 250 mg per dose (q8h) Total 750 mg/day IV divided q8h for 7–10 days; or 1500 mg/m²/day in 3 divided doses for 7–10 days
+acyclovir #6 Varicella (immunocompetent, hospitalized) — IV, ≥2 y @70kg: Dose used for calculation: 30 mg/kg/day 700 mg per dose (q8h) Total 2100 mg/day IV divided q8h for 7–10 days; or 1500 mg/m²/day in 3 divided doses for 7–10 days
+acyclovir #7 Varicella (immunocompromised) — IV, <2 y @3kg: Dose used for calculation: 30 mg/kg/day 30 mg per dose (q8h) Total 90 mg/day IV divided q8h for 7–10 days
+acyclovir #7 Varicella (immunocompromised) — IV, <2 y @10kg: Dose used for calculation: 30 mg/kg/day 100 mg per dose (q8h) Total 300 mg/day IV divided q8h for 7–10 days
+acyclovir #7 Varicella (immunocompromised) — IV, <2 y @25kg: Dose used for calculation: 30 mg/kg/day 250 mg per dose (q8h) Total 750 mg/day IV divided q8h for 7–10 days
+acyclovir #7 Varicella (immunocompromised) — IV, <2 y @70kg: Dose used for calculation: 30 mg/kg/day 700 mg per dose (q8h) Total 2100 mg/day IV divided q8h for 7–10 days
+acyclovir #8 Varicella (immunocompromised) — IV, ≥2 y @3kg: 144.34 mg per dose (q8h) Total 433.01 mg/day 1500 mg/m²/day in 3 divided doses for 7–10 days; some experts recommend 30 mg/kg/day in 3 divided doses
+acyclovir #8 Varicella (immunocompromised) — IV, ≥2 y @10kg: 263.52 mg per dose (q8h) Total 790.57 mg/day 1500 mg/m²/day in 3 divided doses for 7–10 days; some experts recommend 30 mg/kg/day in 3 divided doses
+acyclovir #8 Varicella (immunocompromised) — IV, ≥2 y @25kg: 416.67 mg per dose (q8h) Total 1250 mg/day 1500 mg/m²/day in 3 divided doses for 7–10 days; some experts recommend 30 mg/kg/day in 3 divided doses
+acyclovir #8 Varicella (immunocompromised) — IV, ≥2 y @70kg: 697.22 mg per dose (q8h) Total 2091.65 mg/day 1500 mg/m²/day in 3 divided doses for 7–10 days; some experts recommend 30 mg/kg/day in 3 divided doses
+acyclovir #9 Zoster (immunocompetent, hospitalized) — IV, all ages @3kg: Dose used for calculation: 30 mg/kg/day 30 mg per dose (q8h) Total 90 mg/day Same as varicella in immunocompetent host requiring hospitalization — IV divided q8h for 7–10 days
+acyclovir #9 Zoster (immunocompetent, hospitalized) — IV, all ages @10kg: Dose used for calculation: 30 mg/kg/day 100 mg per dose (q8h) Total 300 mg/day Same as varicella in immunocompetent host requiring hospitalization — IV divided q8h for 7–10 days
+acyclovir #9 Zoster (immunocompetent, hospitalized) — IV, all ages @25kg: Dose used for calculation: 30 mg/kg/day 250 mg per dose (q8h) Total 750 mg/day Same as varicella in immunocompetent host requiring hospitalization — IV divided q8h for 7–10 days
+acyclovir #9 Zoster (immunocompetent, hospitalized) — IV, all ages @70kg: Dose used for calculation: 30 mg/kg/day 700 mg per dose (q8h) Total 2100 mg/day Same as varicella in immunocompetent host requiring hospitalization — IV divided q8h for 7–10 days
+acyclovir #10 Zoster (immunocompetent) — PO, ≥12 y @3kg: 800 mg per dose (5 times/day) Total 4000 mg/day 4000 mg/day (800 mg/dose) in 5 divided doses for 5–7 days
+acyclovir #10 Zoster (immunocompetent) — PO, ≥12 y @10kg: 800 mg per dose (5 times/day) Total 4000 mg/day 4000 mg/day (800 mg/dose) in 5 divided doses for 5–7 days
+acyclovir #10 Zoster (immunocompetent) — PO, ≥12 y @25kg: 800 mg per dose (5 times/day) Total 4000 mg/day 4000 mg/day (800 mg/dose) in 5 divided doses for 5–7 days
+acyclovir #10 Zoster (immunocompetent) — PO, ≥12 y @70kg: 800 mg per dose (5 times/day) Total 4000 mg/day 4000 mg/day (800 mg/dose) in 5 divided doses for 5–7 days
+acyclovir #11 Zoster (immunocompromised) — IV, all ages @3kg: Dose used for calculation: 30 mg/kg/day 30 mg per dose (q8h) Total 90 mg/day IV divided q8h for 7–10 days; or 1500 mg/m²/day in 3 divided doses for 7–10 days
+acyclovir #11 Zoster (immunocompromised) — IV, all ages @10kg: Dose used for calculation: 30 mg/kg/day 100 mg per dose (q8h) Total 300 mg/day IV divided q8h for 7–10 days; or 1500 mg/m²/day in 3 divided doses for 7–10 days
+acyclovir #11 Zoster (immunocompromised) — IV, all ages @25kg: Dose used for calculation: 30 mg/kg/day 250 mg per dose (q8h) Total 750 mg/day IV divided q8h for 7–10 days; or 1500 mg/m²/day in 3 divided doses for 7–10 days
+acyclovir #11 Zoster (immunocompromised) — IV, all ages @70kg: Dose used for calculation: 30 mg/kg/day 700 mg per dose (q8h) Total 2100 mg/day IV divided q8h for 7–10 days; or 1500 mg/m²/day in 3 divided doses for 7–10 days
+acyclovir #12 HSV in immunocompromised (localized/progressive/disseminated) — IV, all ages @3kg: Dose used for calculation: 30 mg/kg/day 30 mg per dose (q8h) Total 90 mg/day IV divided q8h for 7–14 days
+acyclovir #12 HSV in immunocompromised (localized/progressive/disseminated) — IV, all ages @10kg: Dose used for calculation: 30 mg/kg/day 100 mg per dose (q8h) Total 300 mg/day IV divided q8h for 7–14 days
+acyclovir #12 HSV in immunocompromised (localized/progressive/disseminated) — IV, all ages @25kg: Dose used for calculation: 30 mg/kg/day 250 mg per dose (q8h) Total 750 mg/day IV divided q8h for 7–14 days
+acyclovir #12 HSV in immunocompromised (localized/progressive/disseminated) — IV, all ages @70kg: Dose used for calculation: 30 mg/kg/day 700 mg per dose (q8h) Total 2100 mg/day IV divided q8h for 7–14 days
+acyclovir #13 HSV in immunocompromised — PO, ≥2 y @3kg: 250 mg per dose (4 times/day) Total 1000 mg/day 1000 mg/day in 3–5 divided doses for 7–14 days
+acyclovir #13 HSV in immunocompromised — PO, ≥2 y @10kg: 250 mg per dose (4 times/day) Total 1000 mg/day 1000 mg/day in 3–5 divided doses for 7–14 days
+acyclovir #13 HSV in immunocompromised — PO, ≥2 y @25kg: 250 mg per dose (4 times/day) Total 1000 mg/day 1000 mg/day in 3–5 divided doses for 7–14 days
+acyclovir #13 HSV in immunocompromised — PO, ≥2 y @70kg: 250 mg per dose (4 times/day) Total 1000 mg/day 1000 mg/day in 3–5 divided doses for 7–14 days
+acyclovir #14 Prophylaxis of HSV/varicella/zoster in immunocompromised — PO, ≥2 y @3kg: Dose used for calculation: 80 mg/kg/day 80 mg per dose (3 times/day) Total 240 mg/day 80 mg/kg/day in 2–3 divided doses (max 800 mg/dose) during period of risk; or 600–1000 mg/day in 3–5 divided doses; some experts recommend 500 mg/m²/day in 2–3 divided doses
+acyclovir #14 Prophylaxis of HSV/varicella/zoster in immunocompromised — PO, ≥2 y @10kg: Dose used for calculation: 80 mg/kg/day 266.67 mg per dose (3 times/day) Total 800 mg/day 80 mg/kg/day in 2–3 divided doses (max 800 mg/dose) during period of risk; or 600–1000 mg/day in 3–5 divided doses; some experts recommend 500 mg/m²/day in 2–3 divided doses
+acyclovir #14 Prophylaxis of HSV/varicella/zoster in immunocompromised — PO, ≥2 y @25kg: Dose used for calculation: 80 mg/kg/day 666.67 mg per dose (3 times/day) Total 2000 mg/day 80 mg/kg/day in 2–3 divided doses (max 800 mg/dose) during period of risk; or 600–1000 mg/day in 3–5 divided doses; some experts recommend 500 mg/m²/day in 2–3 divided doses
+acyclovir #14 Prophylaxis of HSV/varicella/zoster in immunocompromised — PO, ≥2 y @70kg: Dose used for calculation: 80 mg/kg/day 800 mg per dose (3 times/day) Total 5600 mg/day 80 mg/kg/day in 2–3 divided doses (max 800 mg/dose) during period of risk; or 600–1000 mg/day in 3–5 divided doses; some experts recommend 500 mg/m²/day in 2–3 divided doses
+acyclovir #15 Prophylaxis in immunocompromised — IV, all ages @3kg: Dose used for calculation: 15 mg/kg/day 15 mg per dose (q8h) Total 45 mg/day 15 mg/kg/day in 3 divided doses (q8h) during period of risk
+acyclovir #15 Prophylaxis in immunocompromised — IV, all ages @10kg: Dose used for calculation: 15 mg/kg/day 50 mg per dose (q8h) Total 150 mg/day 15 mg/kg/day in 3 divided doses (q8h) during period of risk
+acyclovir #15 Prophylaxis in immunocompromised — IV, all ages @25kg: Dose used for calculation: 15 mg/kg/day 125 mg per dose (q8h) Total 375 mg/day 15 mg/kg/day in 3 divided doses (q8h) during period of risk
+acyclovir #15 Prophylaxis in immunocompromised — IV, all ages @70kg: Dose used for calculation: 15 mg/kg/day 350 mg per dose (q8h) Total 1050 mg/day 15 mg/kg/day in 3 divided doses (q8h) during period of risk
+acyclovir #16 Genital HSV first episode — PO, ≥12 y @3kg: 400 mg per dose (3 times/day) Total 1200 mg/day 1200 mg/day in 3 divided doses for 7–10 days; oral pediatric dose: 40–80 mg/kg/day divided in 3–4 doses (max 1000 mg/day)
+acyclovir #16 Genital HSV first episode — PO, ≥12 y @10kg: 400 mg per dose (3 times/day) Total 1200 mg/day 1200 mg/day in 3 divided doses for 7–10 days; oral pediatric dose: 40–80 mg/kg/day divided in 3–4 doses (max 1000 mg/day)
+acyclovir #16 Genital HSV first episode — PO, ≥12 y @25kg: 400 mg per dose (3 times/day) Total 1200 mg/day 1200 mg/day in 3 divided doses for 7–10 days; oral pediatric dose: 40–80 mg/kg/day divided in 3–4 doses (max 1000 mg/day)
+acyclovir #16 Genital HSV first episode — PO, ≥12 y @70kg: 400 mg per dose (3 times/day) Total 1200 mg/day 1200 mg/day in 3 divided doses for 7–10 days; oral pediatric dose: 40–80 mg/kg/day divided in 3–4 doses (max 1000 mg/day)
+acyclovir #17 Genital HSV first episode — IV, ≥12 y @3kg: Dose used for calculation: 15 mg/kg/day 15 mg per dose (q8h) Total 45 mg/day IV in 3 divided doses for 5–7 days
+acyclovir #17 Genital HSV first episode — IV, ≥12 y @10kg: Dose used for calculation: 15 mg/kg/day 50 mg per dose (q8h) Total 150 mg/day IV in 3 divided doses for 5–7 days
+acyclovir #17 Genital HSV first episode — IV, ≥12 y @25kg: Dose used for calculation: 15 mg/kg/day 125 mg per dose (q8h) Total 375 mg/day IV in 3 divided doses for 5–7 days
+acyclovir #17 Genital HSV first episode — IV, ≥12 y @70kg: Dose used for calculation: 15 mg/kg/day 350 mg per dose (q8h) Total 1050 mg/day IV in 3 divided doses for 5–7 days
+acyclovir #18 Genital HSV recurrence — PO, ≥12 y @3kg: 800 mg per dose (2 times/day) Total 1600 mg/day 1600 mg in 2 divided doses for 5 days, or 2400 mg in 3 divided doses for 2 days
+acyclovir #18 Genital HSV recurrence — PO, ≥12 y @10kg: 800 mg per dose (2 times/day) Total 1600 mg/day 1600 mg in 2 divided doses for 5 days, or 2400 mg in 3 divided doses for 2 days
+acyclovir #18 Genital HSV recurrence — PO, ≥12 y @25kg: 800 mg per dose (2 times/day) Total 1600 mg/day 1600 mg in 2 divided doses for 5 days, or 2400 mg in 3 divided doses for 2 days
+acyclovir #18 Genital HSV recurrence — PO, ≥12 y @70kg: 800 mg per dose (2 times/day) Total 1600 mg/day 1600 mg in 2 divided doses for 5 days, or 2400 mg in 3 divided doses for 2 days
+acyclovir #19 Chronic suppressive therapy for recurrent genital/cutaneous (ocular) HSV — PO, ≥12 y @3kg: 400 mg per dose (2 times/day) Total 800 mg/day 800 mg/day in 2 divided doses for as long as 12 continuous months; revisit annually
+acyclovir #19 Chronic suppressive therapy for recurrent genital/cutaneous (ocular) HSV — PO, ≥12 y @10kg: 400 mg per dose (2 times/day) Total 800 mg/day 800 mg/day in 2 divided doses for as long as 12 continuous months; revisit annually
+acyclovir #19 Chronic suppressive therapy for recurrent genital/cutaneous (ocular) HSV — PO, ≥12 y @25kg: 400 mg per dose (2 times/day) Total 800 mg/day 800 mg/day in 2 divided doses for as long as 12 continuous months; revisit annually
+acyclovir #19 Chronic suppressive therapy for recurrent genital/cutaneous (ocular) HSV — PO, ≥12 y @70kg: 400 mg per dose (2 times/day) Total 800 mg/day 800 mg/day in 2 divided doses for as long as 12 continuous months; revisit annually
+acyclovir #20 Recurrent herpes labialis — PO, all ages @3kg: Dose used for calculation: 80 mg/kg/day 60 mg per dose (4 times/day) Total 240 mg/day 4 divided doses for 5–7 days (max 3200 mg/day)
+acyclovir #20 Recurrent herpes labialis — PO, all ages @10kg: Dose used for calculation: 80 mg/kg/day 200 mg per dose (4 times/day) Total 800 mg/day 4 divided doses for 5–7 days (max 3200 mg/day)
+acyclovir #20 Recurrent herpes labialis — PO, all ages @25kg: Dose used for calculation: 80 mg/kg/day 500 mg per dose (4 times/day) Total 2000 mg/day 4 divided doses for 5–7 days (max 3200 mg/day)
+acyclovir #20 Recurrent herpes labialis — PO, all ages @70kg: Dose used for calculation: 80 mg/kg/day 800 mg per dose (4 times/day) Total 3200 mg/day 4 divided doses for 5–7 days (max 3200 mg/day)
+amphotericin-b-deoxycholate #0 Standard (daily) @3kg: Dose used for calculation: 0.8–1 mg/kg/day 2.4–3 mg per dose (once daily (OD)) Total 2.4–3 mg/day 0.8–1 mg/kg/day (max 1.5 mg/kg/day)
+amphotericin-b-deoxycholate #0 Standard (daily) @10kg: Dose used for calculation: 0.8–1 mg/kg/day 8–10 mg per dose (once daily (OD)) Total 8–10 mg/day 0.8–1 mg/kg/day (max 1.5 mg/kg/day)
+amphotericin-b-deoxycholate #0 Standard (daily) @25kg: Dose used for calculation: 0.8–1 mg/kg/day 20–25 mg per dose (once daily (OD)) Total 20–25 mg/day 0.8–1 mg/kg/day (max 1.5 mg/kg/day)
+amphotericin-b-deoxycholate #0 Standard (daily) @70kg: Dose used for calculation: 0.8–1 mg/kg/day 56–70 mg per dose (once daily (OD)) Total 56–70 mg/day 0.8–1 mg/kg/day (max 1.5 mg/kg/day)
+amphotericin-b-deoxycholate #1 Alternate-day @3kg: Dose used for calculation: 1.5 mg/kg/dose 4.5 mg per dose (once daily (OD)) Total 4.5 mg/day 1.5 mg/kg every other day
+amphotericin-b-deoxycholate #1 Alternate-day @10kg: Dose used for calculation: 1.5 mg/kg/dose 15 mg per dose (once daily (OD)) Total 15 mg/day 1.5 mg/kg every other day
+amphotericin-b-deoxycholate #1 Alternate-day @25kg: Dose used for calculation: 1.5 mg/kg/dose 37.5 mg per dose (once daily (OD)) Total 37.5 mg/day 1.5 mg/kg every other day
+amphotericin-b-deoxycholate #1 Alternate-day @70kg: Dose used for calculation: 1.5 mg/kg/dose 105 mg per dose (once daily (OD)) Total 105 mg/day 1.5 mg/kg every other day
+liposomal-amphotericin-b #0 Standard @3kg: Dose used for calculation: 3–5 mg/kg/day 9–15 mg per dose (once daily (OD)) Total 9–15 mg/day 3–5 mg/kg/day
+liposomal-amphotericin-b #0 Standard @10kg: Dose used for calculation: 3–5 mg/kg/day 30–50 mg per dose (once daily (OD)) Total 30–50 mg/day 3–5 mg/kg/day
+liposomal-amphotericin-b #0 Standard @25kg: Dose used for calculation: 3–5 mg/kg/day 75–125 mg per dose (once daily (OD)) Total 75–125 mg/day 3–5 mg/kg/day
+liposomal-amphotericin-b #0 Standard @70kg: Dose used for calculation: 3–5 mg/kg/day 210–350 mg per dose (once daily (OD)) Total 210–350 mg/day 3–5 mg/kg/day
+liposomal-amphotericin-b #1 Mucormycosis / CNS infection (high dose) @3kg: Dose used for calculation: 10 mg/kg/day 30 mg per dose (once daily (OD)) Total 30 mg/day Up to 10 mg/kg/day have been used
+liposomal-amphotericin-b #1 Mucormycosis / CNS infection (high dose) @10kg: Dose used for calculation: 10 mg/kg/day 100 mg per dose (once daily (OD)) Total 100 mg/day Up to 10 mg/kg/day have been used
+liposomal-amphotericin-b #1 Mucormycosis / CNS infection (high dose) @25kg: Dose used for calculation: 10 mg/kg/day 250 mg per dose (once daily (OD)) Total 250 mg/day Up to 10 mg/kg/day have been used
+liposomal-amphotericin-b #1 Mucormycosis / CNS infection (high dose) @70kg: Dose used for calculation: 10 mg/kg/day 700 mg per dose (once daily (OD)) Total 700 mg/day Up to 10 mg/kg/day have been used
+liposomal-amphotericin-b #2 IFI prophylaxis — every other day @3kg: Dose used for calculation: 1 mg/kg/dose 3 mg per dose (once daily (OD)) Total 3 mg/day 1 mg/kg/dose every other day
+liposomal-amphotericin-b #2 IFI prophylaxis — every other day @10kg: Dose used for calculation: 1 mg/kg/dose 10 mg per dose (once daily (OD)) Total 10 mg/day 1 mg/kg/dose every other day
+liposomal-amphotericin-b #2 IFI prophylaxis — every other day @25kg: Dose used for calculation: 1 mg/kg/dose 25 mg per dose (once daily (OD)) Total 25 mg/day 1 mg/kg/dose every other day
+liposomal-amphotericin-b #2 IFI prophylaxis — every other day @70kg: Dose used for calculation: 1 mg/kg/dose 70 mg per dose (once daily (OD)) Total 70 mg/day 1 mg/kg/dose every other day
+liposomal-amphotericin-b #3 IFI prophylaxis — twice weekly @3kg: Dose used for calculation: 2.5 mg/kg/dose 7.5 mg per dose (once daily (OD)) Total 7.5 mg/day 2.5 mg/kg/dose twice weekly
+liposomal-amphotericin-b #3 IFI prophylaxis — twice weekly @10kg: Dose used for calculation: 2.5 mg/kg/dose 25 mg per dose (once daily (OD)) Total 25 mg/day 2.5 mg/kg/dose twice weekly
+liposomal-amphotericin-b #3 IFI prophylaxis — twice weekly @25kg: Dose used for calculation: 2.5 mg/kg/dose 62.5 mg per dose (once daily (OD)) Total 62.5 mg/day 2.5 mg/kg/dose twice weekly
+liposomal-amphotericin-b #3 IFI prophylaxis — twice weekly @70kg: Dose used for calculation: 2.5 mg/kg/dose 175 mg per dose (once daily (OD)) Total 175 mg/day 2.5 mg/kg/dose twice weekly
+fluconazole #0 Neonatal candidiasis — day 1 / thereafter / Day 1 @3kg: Dose used for calculation: 25 mg/kg/dose 75 mg per dose (once daily (OD)) Total 75 mg/day Loading
+fluconazole #0 Neonatal candidiasis — day 1 / thereafter / Day 1 @10kg: Dose used for calculation: 25 mg/kg/dose 250 mg per dose (once daily (OD)) Total 250 mg/day Loading
+fluconazole #0 Neonatal candidiasis — day 1 / thereafter / Day 1 @25kg: Dose used for calculation: 25 mg/kg/dose 625 mg per dose (once daily (OD)) Total 625 mg/day Loading
+fluconazole #0 Neonatal candidiasis — day 1 / thereafter / Day 1 @70kg: Dose used for calculation: 25 mg/kg/dose 1750 mg per dose (once daily (OD)) Total 1750 mg/day Loading
+fluconazole #0 Neonatal candidiasis — day 1 / thereafter / Thereafter @3kg: Dose used for calculation: 12 mg/kg/dose 36 mg per dose (once daily (OD)) Total 36 mg/day once daily
+fluconazole #0 Neonatal candidiasis — day 1 / thereafter / Thereafter @10kg: Dose used for calculation: 12 mg/kg/dose 120 mg per dose (once daily (OD)) Total 120 mg/day once daily
+fluconazole #0 Neonatal candidiasis — day 1 / thereafter / Thereafter @25kg: Dose used for calculation: 12 mg/kg/dose 300 mg per dose (once daily (OD)) Total 300 mg/day once daily
+fluconazole #0 Neonatal candidiasis — day 1 / thereafter / Thereafter @70kg: Dose used for calculation: 12 mg/kg/dose 840 mg per dose (once daily (OD)) Total 840 mg/day once daily
+fluconazole #1 Oropharyngeal / esophageal candidiasis / Day 1 @3kg: Dose used for calculation: 6 mg/kg/dose 18 mg per dose (once daily (OD)) Total 18 mg/day adult: 200 mg
+fluconazole #1 Oropharyngeal / esophageal candidiasis / Day 1 @10kg: Dose used for calculation: 6 mg/kg/dose 60 mg per dose (once daily (OD)) Total 60 mg/day adult: 200 mg
+fluconazole #1 Oropharyngeal / esophageal candidiasis / Day 1 @25kg: Dose used for calculation: 6 mg/kg/dose 150 mg per dose (once daily (OD)) Total 150 mg/day adult: 200 mg
+fluconazole #1 Oropharyngeal / esophageal candidiasis / Day 1 @70kg: Dose used for calculation: 6 mg/kg/dose 420 mg per dose (once daily (OD)) Total 420 mg/day adult: 200 mg
+fluconazole #1 Oropharyngeal / esophageal candidiasis / Thereafter @3kg: Dose used for calculation: 3–6 mg/kg/dose 9–18 mg per dose (once daily (OD)) Total 9–18 mg/day once daily (adult 100 mg); up to 12 mg/kg/day used by clinical judgment
+fluconazole #1 Oropharyngeal / esophageal candidiasis / Thereafter @10kg: Dose used for calculation: 3–6 mg/kg/dose 30–60 mg per dose (once daily (OD)) Total 30–60 mg/day once daily (adult 100 mg); up to 12 mg/kg/day used by clinical judgment
+fluconazole #1 Oropharyngeal / esophageal candidiasis / Thereafter @25kg: Dose used for calculation: 3–6 mg/kg/dose 75–150 mg per dose (once daily (OD)) Total 75–150 mg/day once daily (adult 100 mg); up to 12 mg/kg/day used by clinical judgment
+fluconazole #1 Oropharyngeal / esophageal candidiasis / Thereafter @70kg: Dose used for calculation: 3–6 mg/kg/dose 210–420 mg per dose (once daily (OD)) Total 210–420 mg/day once daily (adult 100 mg); up to 12 mg/kg/day used by clinical judgment
+fluconazole #2 Systemic Candida infection @3kg: Dose used for calculation: 12 mg/kg/day 36 mg per dose (once daily (OD)) Total 36 mg/day 12 mg/kg/day
+fluconazole #2 Systemic Candida infection @10kg: Dose used for calculation: 12 mg/kg/day 120 mg per dose (once daily (OD)) Total 120 mg/day 12 mg/kg/day
+fluconazole #2 Systemic Candida infection @25kg: Dose used for calculation: 12 mg/kg/day 300 mg per dose (once daily (OD)) Total 300 mg/day 12 mg/kg/day
+fluconazole #2 Systemic Candida infection @70kg: Dose used for calculation: 12 mg/kg/day 840 mg per dose (once daily (OD)) Total 840 mg/day 12 mg/kg/day
+fluconazole #3 Prophylaxis in children (cancer/HSCT) @3kg: Dose used for calculation: 6 mg/kg/day 18 mg per dose (once daily (OD)) Total 18 mg/day 6 mg/kg once daily (max 400 mg/day)
+fluconazole #3 Prophylaxis in children (cancer/HSCT) @10kg: Dose used for calculation: 6 mg/kg/day 60 mg per dose (once daily (OD)) Total 60 mg/day 6 mg/kg once daily (max 400 mg/day)
+fluconazole #3 Prophylaxis in children (cancer/HSCT) @25kg: Dose used for calculation: 6 mg/kg/day 150 mg per dose (once daily (OD)) Total 150 mg/day 6 mg/kg once daily (max 400 mg/day)
+fluconazole #3 Prophylaxis in children (cancer/HSCT) @70kg: Dose used for calculation: 6 mg/kg/day 400 mg per dose (once daily (OD)) Total 400 mg/day 6 mg/kg once daily (max 400 mg/day)
+fluconazole #4 Cryptococcal meningitis (children) — after induction @3kg: Dose used for calculation: 10–12 mg/kg/day 15–18 mg per dose (q12h) Total 30–36 mg/day After induction with amphotericin B + flucytosine ≥2 weeks; continue ≥8 weeks in 2 divided doses
+fluconazole #4 Cryptococcal meningitis (children) — after induction @10kg: Dose used for calculation: 10–12 mg/kg/day 50–60 mg per dose (q12h) Total 100–120 mg/day After induction with amphotericin B + flucytosine ≥2 weeks; continue ≥8 weeks in 2 divided doses
+fluconazole #4 Cryptococcal meningitis (children) — after induction @25kg: Dose used for calculation: 10–12 mg/kg/day 125–150 mg per dose (q12h) Total 250–300 mg/day After induction with amphotericin B + flucytosine ≥2 weeks; continue ≥8 weeks in 2 divided doses
+fluconazole #4 Cryptococcal meningitis (children) — after induction @70kg: Dose used for calculation: 10–12 mg/kg/day 350–400 mg per dose (q12h) Total 700–800 mg/day After induction with amphotericin B + flucytosine ≥2 weeks; continue ≥8 weeks in 2 divided doses
+fluconazole #5 Cryptococcal meningitis (children with AIDS) — suppression @3kg: Dose used for calculation: 6 mg/kg/day 18 mg per dose (once daily (OD)) Total 18 mg/day 6 mg/kg once daily (max 200 mg/day) for relapse suppression
+fluconazole #5 Cryptococcal meningitis (children with AIDS) — suppression @10kg: Dose used for calculation: 6 mg/kg/day 60 mg per dose (once daily (OD)) Total 60 mg/day 6 mg/kg once daily (max 200 mg/day) for relapse suppression
+fluconazole #5 Cryptococcal meningitis (children with AIDS) — suppression @25kg: Dose used for calculation: 6 mg/kg/day 150 mg per dose (once daily (OD)) Total 150 mg/day 6 mg/kg once daily (max 200 mg/day) for relapse suppression
+fluconazole #5 Cryptococcal meningitis (children with AIDS) — suppression @70kg: Dose used for calculation: 6 mg/kg/day 200 mg per dose (once daily (OD)) Total 200 mg/day 6 mg/kg once daily (max 200 mg/day) for relapse suppression
+fluconazole #6 Cryptococcal meningitis (adults) — after induction @3kg: Dose used for calculation: 12 mg/kg/day 18 mg per dose (q12h) Total 36 mg/day 12 mg/kg/day in 2 divided doses ≥8 weeks; AIDS relapse suppression: 200 mg once daily
+fluconazole #6 Cryptococcal meningitis (adults) — after induction @10kg: Dose used for calculation: 12 mg/kg/day 60 mg per dose (q12h) Total 120 mg/day 12 mg/kg/day in 2 divided doses ≥8 weeks; AIDS relapse suppression: 200 mg once daily
+fluconazole #6 Cryptococcal meningitis (adults) — after induction @25kg: Dose used for calculation: 12 mg/kg/day 150 mg per dose (q12h) Total 300 mg/day 12 mg/kg/day in 2 divided doses ≥8 weeks; AIDS relapse suppression: 200 mg once daily
+fluconazole #6 Cryptococcal meningitis (adults) — after induction @70kg: Dose used for calculation: 12 mg/kg/day 400 mg per dose (q12h) Total 800 mg/day 12 mg/kg/day in 2 divided doses ≥8 weeks; AIDS relapse suppression: 200 mg once daily
+fluconazole #7 Coccidioidomycosis (adults) @3kg: 400–800 mg Fixed dose, not weight-based 400 mg once daily; up to 800 mg in non-meningitis and 1200 mg in meningitis
+fluconazole #7 Coccidioidomycosis (adults) @10kg: 400–800 mg Fixed dose, not weight-based 400 mg once daily; up to 800 mg in non-meningitis and 1200 mg in meningitis
+fluconazole #7 Coccidioidomycosis (adults) @25kg: 400–800 mg Fixed dose, not weight-based 400 mg once daily; up to 800 mg in non-meningitis and 1200 mg in meningitis
+fluconazole #7 Coccidioidomycosis (adults) @70kg: 400–800 mg Fixed dose, not weight-based 400 mg once daily; up to 800 mg in non-meningitis and 1200 mg in meningitis
+flucytosine #0 Standard @3kg: Dose used for calculation: 100 mg/kg/day 75 mg per dose (4 times/day) Total 300 mg/day 100 mg/kg/day divided q6h
+flucytosine #0 Standard @10kg: Dose used for calculation: 100 mg/kg/day 250 mg per dose (4 times/day) Total 1000 mg/day 100 mg/kg/day divided q6h
+flucytosine #0 Standard @25kg: Dose used for calculation: 100 mg/kg/day 625 mg per dose (4 times/day) Total 2500 mg/day 100 mg/kg/day divided q6h
+flucytosine #0 Standard @70kg: Dose used for calculation: 100 mg/kg/day 1750 mg per dose (4 times/day) Total 7000 mg/day 100 mg/kg/day divided q6h
+griseofulvin #0 Ultramicrosize @3kg: Dose used for calculation: 10–15 mg/kg/day 30–45 mg per dose (1 times/day) Total 30–45 mg/day once daily (max 750 mg/day)
+griseofulvin #0 Ultramicrosize @10kg: Dose used for calculation: 10–15 mg/kg/day 100–150 mg per dose (1 times/day) Total 100–150 mg/day once daily (max 750 mg/day)
+griseofulvin #0 Ultramicrosize @25kg: Dose used for calculation: 10–15 mg/kg/day 250–375 mg per dose (1 times/day) Total 250–375 mg/day once daily (max 750 mg/day)
+griseofulvin #0 Ultramicrosize @70kg: Dose used for calculation: 10–15 mg/kg/day 700–750 mg per dose (1 times/day) Total 700–750 mg/day once daily (max 750 mg/day)
+griseofulvin #1 Microsize @3kg: Dose used for calculation: 20–25 mg/kg/day 30–37.5 mg per dose (2 times/day) Total 60–75 mg/day 2 divided doses (max 1000 mg/day)
+griseofulvin #1 Microsize @10kg: Dose used for calculation: 20–25 mg/kg/day 100–125 mg per dose (2 times/day) Total 200–250 mg/day 2 divided doses (max 1000 mg/day)
+griseofulvin #1 Microsize @25kg: Dose used for calculation: 20–25 mg/kg/day 250–312.5 mg per dose (2 times/day) Total 500–625 mg/day 2 divided doses (max 1000 mg/day)
+griseofulvin #1 Microsize @70kg: Dose used for calculation: 20–25 mg/kg/day 500 mg per dose (2 times/day) Total 1000 mg/day 2 divided doses (max 1000 mg/day)
+itraconazole #0 Children — general @3kg: Dose used for calculation: 10 mg/kg/day 15 mg per dose (2 times/day) Total 30 mg/day 10 mg/kg/day divided in 2 doses
+itraconazole #0 Children — general @10kg: Dose used for calculation: 10 mg/kg/day 50 mg per dose (2 times/day) Total 100 mg/day 10 mg/kg/day divided in 2 doses
+itraconazole #0 Children — general @25kg: Dose used for calculation: 10 mg/kg/day 125 mg per dose (2 times/day) Total 250 mg/day 10 mg/kg/day divided in 2 doses
+itraconazole #0 Children — general @70kg: Dose used for calculation: 10 mg/kg/day 350 mg per dose (2 times/day) Total 700 mg/day 10 mg/kg/day divided in 2 doses
+itraconazole #1 Children — endemic mycoses / First 3 days @3kg: Dose used for calculation: 2–5 mg/kg/dose 6–15 mg per dose (3 times/day) Total 18–45 mg/day three times daily for 3 days
+itraconazole #1 Children — endemic mycoses / First 3 days @10kg: Dose used for calculation: 2–5 mg/kg/dose 20–50 mg per dose (3 times/day) Total 60–150 mg/day three times daily for 3 days
+itraconazole #1 Children — endemic mycoses / First 3 days @25kg: Dose used for calculation: 2–5 mg/kg/dose 50–125 mg per dose (3 times/day) Total 150–375 mg/day three times daily for 3 days
+itraconazole #1 Children — endemic mycoses / First 3 days @70kg: Dose used for calculation: 2–5 mg/kg/dose 140–350 mg per dose (3 times/day) Total 420–1050 mg/day three times daily for 3 days
+itraconazole #1 Children — endemic mycoses / Then @3kg: Dose used for calculation: 2–5 mg/kg/dose 6–15 mg per dose (2 times/day) Total 12–30 mg/day twice daily (max 200 mg/dose)
+itraconazole #1 Children — endemic mycoses / Then @10kg: Dose used for calculation: 2–5 mg/kg/dose 20–50 mg per dose (2 times/day) Total 40–100 mg/day twice daily (max 200 mg/dose)
+itraconazole #1 Children — endemic mycoses / Then @25kg: Dose used for calculation: 2–5 mg/kg/dose 50–125 mg per dose (2 times/day) Total 100–250 mg/day twice daily (max 200 mg/dose)
+itraconazole #1 Children — endemic mycoses / Then @70kg: Dose used for calculation: 2–5 mg/kg/dose 140–200 mg per dose (2 times/day) Total 280–400 mg/day twice daily (max 200 mg/dose)
+itraconazole #2 Children — IFI prophylaxis @3kg: Dose used for calculation: 2.5 mg/kg/dose 7.5 mg per dose (2 times/day) Total 15 mg/day 2.5 mg/kg twice daily
+itraconazole #2 Children — IFI prophylaxis @10kg: Dose used for calculation: 2.5 mg/kg/dose 25 mg per dose (2 times/day) Total 50 mg/day 2.5 mg/kg twice daily
+itraconazole #2 Children — IFI prophylaxis @25kg: Dose used for calculation: 2.5 mg/kg/dose 62.5 mg per dose (2 times/day) Total 125 mg/day 2.5 mg/kg twice daily
+itraconazole #2 Children — IFI prophylaxis @70kg: Dose used for calculation: 2.5 mg/kg/dose 175 mg per dose (2 times/day) Total 350 mg/day 2.5 mg/kg twice daily
+itraconazole #3 Adults — aspergillosis @3kg: 200–400 mg per dose (1 times/day) Total 200–400 mg/day 200–400 mg/day once or twice daily
+itraconazole #3 Adults — aspergillosis @10kg: 200–400 mg per dose (1 times/day) Total 200–400 mg/day 200–400 mg/day once or twice daily
+itraconazole #3 Adults — aspergillosis @25kg: 200–400 mg per dose (1 times/day) Total 200–400 mg/day 200–400 mg/day once or twice daily
+itraconazole #3 Adults — aspergillosis @70kg: 200–400 mg per dose (1 times/day) Total 200–400 mg/day 200–400 mg/day once or twice daily
+itraconazole #4 Adults — endemic mycoses / First 3 days @3kg: 200 mg Fixed dose, not weight-based 200 mg three times daily for 3 days
+itraconazole #4 Adults — endemic mycoses / First 3 days @10kg: 200 mg Fixed dose, not weight-based 200 mg three times daily for 3 days
+itraconazole #4 Adults — endemic mycoses / First 3 days @25kg: 200 mg Fixed dose, not weight-based 200 mg three times daily for 3 days
+itraconazole #4 Adults — endemic mycoses / First 3 days @70kg: 200 mg Fixed dose, not weight-based 200 mg three times daily for 3 days
+itraconazole #4 Adults — endemic mycoses / Then @3kg: 200–200 mg Fixed dose, not weight-based 200 mg once or twice daily
+itraconazole #4 Adults — endemic mycoses / Then @10kg: 200–200 mg Fixed dose, not weight-based 200 mg once or twice daily
+itraconazole #4 Adults — endemic mycoses / Then @25kg: 200–200 mg Fixed dose, not weight-based 200 mg once or twice daily
+itraconazole #4 Adults — endemic mycoses / Then @70kg: 200–200 mg Fixed dose, not weight-based 200 mg once or twice daily
+itraconazole #5 Adults — oropharyngeal/esophageal candidiasis @3kg: 100–200 mg Fixed dose, not weight-based 100–200 mg once daily; SUBA-itraconazole approved for blastomycosis in ≥18 y (pediatric data lacking)
+itraconazole #5 Adults — oropharyngeal/esophageal candidiasis @10kg: 100–200 mg Fixed dose, not weight-based 100–200 mg once daily; SUBA-itraconazole approved for blastomycosis in ≥18 y (pediatric data lacking)
+itraconazole #5 Adults — oropharyngeal/esophageal candidiasis @25kg: 100–200 mg Fixed dose, not weight-based 100–200 mg once daily; SUBA-itraconazole approved for blastomycosis in ≥18 y (pediatric data lacking)
+itraconazole #5 Adults — oropharyngeal/esophageal candidiasis @70kg: 100–200 mg Fixed dose, not weight-based 100–200 mg once daily; SUBA-itraconazole approved for blastomycosis in ≥18 y (pediatric data lacking)
+micafungin #0 Pediatric — candidemia / acute disseminated candidiasis / Candida peritonitis @3kg: Dose used for calculation: 2 mg/kg/day 6 mg per dose (once daily (OD)) Total 6 mg/day 2 mg/kg/day (max 100 mg/day); up to 7 mg/kg/day used for disseminated candidiasis
+micafungin #0 Pediatric — candidemia / acute disseminated candidiasis / Candida peritonitis @10kg: Dose used for calculation: 2 mg/kg/day 20 mg per dose (once daily (OD)) Total 20 mg/day 2 mg/kg/day (max 100 mg/day); up to 7 mg/kg/day used for disseminated candidiasis
+micafungin #0 Pediatric — candidemia / acute disseminated candidiasis / Candida peritonitis @25kg: Dose used for calculation: 2 mg/kg/day 50 mg per dose (once daily (OD)) Total 50 mg/day 2 mg/kg/day (max 100 mg/day); up to 7 mg/kg/day used for disseminated candidiasis
+micafungin #0 Pediatric — candidemia / acute disseminated candidiasis / Candida peritonitis @70kg: Dose used for calculation: 2 mg/kg/day 100 mg per dose (once daily (OD)) Total 100 mg/day 2 mg/kg/day (max 100 mg/day); up to 7 mg/kg/day used for disseminated candidiasis
+micafungin #1 Pediatric — Candida prophylaxis @3kg: Dose used for calculation: 1 mg/kg/day 3 mg per dose (once daily (OD)) Total 3 mg/day 1 mg/kg/day (max 50 mg/day)
+micafungin #1 Pediatric — Candida prophylaxis @10kg: Dose used for calculation: 1 mg/kg/day 10 mg per dose (once daily (OD)) Total 10 mg/day 1 mg/kg/day (max 50 mg/day)
+micafungin #1 Pediatric — Candida prophylaxis @25kg: Dose used for calculation: 1 mg/kg/day 25 mg per dose (once daily (OD)) Total 25 mg/day 1 mg/kg/day (max 50 mg/day)
+micafungin #1 Pediatric — Candida prophylaxis @70kg: Dose used for calculation: 1 mg/kg/day 50 mg per dose (once daily (OD)) Total 50 mg/day 1 mg/kg/day (max 50 mg/day)
+micafungin #2 Pediatric — esophageal candidiasis, ≤30 kg @3kg: Dose used for calculation: 3 mg/kg/day 9 mg per dose (once daily (OD)) Total 9 mg/day 3 mg/kg/day
+micafungin #2 Pediatric — esophageal candidiasis, ≤30 kg @10kg: Dose used for calculation: 3 mg/kg/day 30 mg per dose (once daily (OD)) Total 30 mg/day 3 mg/kg/day
+micafungin #2 Pediatric — esophageal candidiasis, ≤30 kg @25kg: Dose used for calculation: 3 mg/kg/day 75 mg per dose (once daily (OD)) Total 75 mg/day 3 mg/kg/day
+micafungin #2 Pediatric — esophageal candidiasis, ≤30 kg @70kg: Dose used for calculation: 3 mg/kg/day 210 mg per dose (once daily (OD)) Total 210 mg/day 3 mg/kg/day
+micafungin #3 Pediatric — esophageal candidiasis, >30 kg @3kg: Dose used for calculation: 2.5 mg/kg/day 7.5 mg per dose (once daily (OD)) Total 7.5 mg/day 2.5 mg/kg/day (max 150 mg/day)
+micafungin #3 Pediatric — esophageal candidiasis, >30 kg @10kg: Dose used for calculation: 2.5 mg/kg/day 25 mg per dose (once daily (OD)) Total 25 mg/day 2.5 mg/kg/day (max 150 mg/day)
+micafungin #3 Pediatric — esophageal candidiasis, >30 kg @25kg: Dose used for calculation: 2.5 mg/kg/day 62.5 mg per dose (once daily (OD)) Total 62.5 mg/day 2.5 mg/kg/day (max 150 mg/day)
+micafungin #3 Pediatric — esophageal candidiasis, >30 kg @70kg: Dose used for calculation: 2.5 mg/kg/day 150 mg per dose (once daily (OD)) Total 150 mg/day 2.5 mg/kg/day (max 150 mg/day)
+micafungin #4 Neonates @3kg: Dose used for calculation: 10 mg/kg/day 30 mg per dose (once daily (OD)) Total 30 mg/day 10 mg/kg/day
+micafungin #4 Neonates @10kg: Dose used for calculation: 10 mg/kg/day 100 mg per dose (once daily (OD)) Total 100 mg/day 10 mg/kg/day
+micafungin #4 Neonates @25kg: Dose used for calculation: 10 mg/kg/day 250 mg per dose (once daily (OD)) Total 250 mg/day 10 mg/kg/day
+micafungin #4 Neonates @70kg: Dose used for calculation: 10 mg/kg/day 700 mg per dose (once daily (OD)) Total 700 mg/day 10 mg/kg/day
+micafungin #5 Adults — candidemia / disseminated / peritonitis @3kg: 100 mg Fixed dose, not weight-based 100 mg once daily
+micafungin #5 Adults — candidemia / disseminated / peritonitis @10kg: 100 mg Fixed dose, not weight-based 100 mg once daily
+micafungin #5 Adults — candidemia / disseminated / peritonitis @25kg: 100 mg Fixed dose, not weight-based 100 mg once daily
+micafungin #5 Adults — candidemia / disseminated / peritonitis @70kg: 100 mg Fixed dose, not weight-based 100 mg once daily
+micafungin #6 Adults — esophageal candidiasis @3kg: 150 mg Fixed dose, not weight-based 150 mg once daily
+micafungin #6 Adults — esophageal candidiasis @10kg: 150 mg Fixed dose, not weight-based 150 mg once daily
+micafungin #6 Adults — esophageal candidiasis @25kg: 150 mg Fixed dose, not weight-based 150 mg once daily
+micafungin #6 Adults — esophageal candidiasis @70kg: 150 mg Fixed dose, not weight-based 150 mg once daily
+micafungin #7 Adults — prophylaxis in HSCT @3kg: 50 mg Fixed dose, not weight-based 50 mg once daily
+micafungin #7 Adults — prophylaxis in HSCT @10kg: 50 mg Fixed dose, not weight-based 50 mg once daily
+micafungin #7 Adults — prophylaxis in HSCT @25kg: 50 mg Fixed dose, not weight-based 50 mg once daily
+micafungin #7 Adults — prophylaxis in HSCT @70kg: 50 mg Fixed dose, not weight-based 50 mg once daily
+nystatin #0 Infants @3kg: 200000 units Fixed dose, not weight-based 200,000 units 4 times daily after meals
+nystatin #0 Infants @10kg: 200000 units Fixed dose, not weight-based 200,000 units 4 times daily after meals
+nystatin #0 Infants @25kg: 200000 units Fixed dose, not weight-based 200,000 units 4 times daily after meals
+nystatin #0 Infants @70kg: 200000 units Fixed dose, not weight-based 200,000 units 4 times daily after meals
+nystatin #1 Children and adults @3kg: 400000–600000 units Fixed dose, not weight-based 400,000–600,000 units 3 times daily after meals
+nystatin #1 Children and adults @10kg: 400000–600000 units Fixed dose, not weight-based 400,000–600,000 units 3 times daily after meals
+nystatin #1 Children and adults @25kg: 400000–600000 units Fixed dose, not weight-based 400,000–600,000 units 3 times daily after meals
+nystatin #1 Children and adults @70kg: 400000–600000 units Fixed dose, not weight-based 400,000–600,000 units 3 times daily after meals
+posaconazole #0 IV — prophylaxis of Aspergillus/Candida (adolescents/adults) / Day 1 @3kg: 300 mg Fixed dose, not weight-based 300 mg IV twice daily
+posaconazole #0 IV — prophylaxis of Aspergillus/Candida (adolescents/adults) / Day 1 @10kg: 300 mg Fixed dose, not weight-based 300 mg IV twice daily
+posaconazole #0 IV — prophylaxis of Aspergillus/Candida (adolescents/adults) / Day 1 @25kg: 300 mg Fixed dose, not weight-based 300 mg IV twice daily
+posaconazole #0 IV — prophylaxis of Aspergillus/Candida (adolescents/adults) / Day 1 @70kg: 300 mg Fixed dose, not weight-based 300 mg IV twice daily
+posaconazole #0 IV — prophylaxis of Aspergillus/Candida (adolescents/adults) / Day 2 onward @3kg: 300 mg Fixed dose, not weight-based 300 mg IV once daily
+posaconazole #0 IV — prophylaxis of Aspergillus/Candida (adolescents/adults) / Day 2 onward @10kg: 300 mg Fixed dose, not weight-based 300 mg IV once daily
+posaconazole #0 IV — prophylaxis of Aspergillus/Candida (adolescents/adults) / Day 2 onward @25kg: 300 mg Fixed dose, not weight-based 300 mg IV once daily
+posaconazole #0 IV — prophylaxis of Aspergillus/Candida (adolescents/adults) / Day 2 onward @70kg: 300 mg Fixed dose, not weight-based 300 mg IV once daily
+posaconazole #1 PO delayed-release tablet — >2 y and >40 kg / Day 1 @3kg: 300 mg Fixed dose, not weight-based 300 mg twice daily
+posaconazole #1 PO delayed-release tablet — >2 y and >40 kg / Day 1 @10kg: 300 mg Fixed dose, not weight-based 300 mg twice daily
+posaconazole #1 PO delayed-release tablet — >2 y and >40 kg / Day 1 @25kg: 300 mg Fixed dose, not weight-based 300 mg twice daily
+posaconazole #1 PO delayed-release tablet — >2 y and >40 kg / Day 1 @70kg: 300 mg Fixed dose, not weight-based 300 mg twice daily
+posaconazole #1 PO delayed-release tablet — >2 y and >40 kg / Day 2 onward @3kg: 300 mg Fixed dose, not weight-based 300 mg once daily
+posaconazole #1 PO delayed-release tablet — >2 y and >40 kg / Day 2 onward @10kg: 300 mg Fixed dose, not weight-based 300 mg once daily
+posaconazole #1 PO delayed-release tablet — >2 y and >40 kg / Day 2 onward @25kg: 300 mg Fixed dose, not weight-based 300 mg once daily
+posaconazole #1 PO delayed-release tablet — >2 y and >40 kg / Day 2 onward @70kg: 300 mg Fixed dose, not weight-based 300 mg once daily
+posaconazole #2 PO delayed-release suspension — 10 to <12 kg / Day 1 @3kg: 90 mg Fixed dose, not weight-based 90 mg twice daily
+posaconazole #2 PO delayed-release suspension — 10 to <12 kg / Day 1 @10kg: 90 mg Fixed dose, not weight-based 90 mg twice daily
+posaconazole #2 PO delayed-release suspension — 10 to <12 kg / Day 1 @25kg: 90 mg Fixed dose, not weight-based 90 mg twice daily
+posaconazole #2 PO delayed-release suspension — 10 to <12 kg / Day 1 @70kg: 90 mg Fixed dose, not weight-based 90 mg twice daily
+posaconazole #2 PO delayed-release suspension — 10 to <12 kg / Day 2 onward @3kg: 90 mg Fixed dose, not weight-based 90 mg once daily
+posaconazole #2 PO delayed-release suspension — 10 to <12 kg / Day 2 onward @10kg: 90 mg Fixed dose, not weight-based 90 mg once daily
+posaconazole #2 PO delayed-release suspension — 10 to <12 kg / Day 2 onward @25kg: 90 mg Fixed dose, not weight-based 90 mg once daily
+posaconazole #2 PO delayed-release suspension — 10 to <12 kg / Day 2 onward @70kg: 90 mg Fixed dose, not weight-based 90 mg once daily
+posaconazole #3 PO delayed-release suspension — 12 to <17 kg / Day 1 @3kg: 120 mg Fixed dose, not weight-based 120 mg twice daily
+posaconazole #3 PO delayed-release suspension — 12 to <17 kg / Day 1 @10kg: 120 mg Fixed dose, not weight-based 120 mg twice daily
+posaconazole #3 PO delayed-release suspension — 12 to <17 kg / Day 1 @25kg: 120 mg Fixed dose, not weight-based 120 mg twice daily
+posaconazole #3 PO delayed-release suspension — 12 to <17 kg / Day 1 @70kg: 120 mg Fixed dose, not weight-based 120 mg twice daily
+posaconazole #3 PO delayed-release suspension — 12 to <17 kg / Day 2 onward @3kg: 120 mg Fixed dose, not weight-based 120 mg once daily
+posaconazole #3 PO delayed-release suspension — 12 to <17 kg / Day 2 onward @10kg: 120 mg Fixed dose, not weight-based 120 mg once daily
+posaconazole #3 PO delayed-release suspension — 12 to <17 kg / Day 2 onward @25kg: 120 mg Fixed dose, not weight-based 120 mg once daily
+posaconazole #3 PO delayed-release suspension — 12 to <17 kg / Day 2 onward @70kg: 120 mg Fixed dose, not weight-based 120 mg once daily
+posaconazole #4 PO delayed-release suspension — 17 to <21 kg / Day 1 @3kg: 150 mg Fixed dose, not weight-based 150 mg twice daily
+posaconazole #4 PO delayed-release suspension — 17 to <21 kg / Day 1 @10kg: 150 mg Fixed dose, not weight-based 150 mg twice daily
+posaconazole #4 PO delayed-release suspension — 17 to <21 kg / Day 1 @25kg: 150 mg Fixed dose, not weight-based 150 mg twice daily
+posaconazole #4 PO delayed-release suspension — 17 to <21 kg / Day 1 @70kg: 150 mg Fixed dose, not weight-based 150 mg twice daily
+posaconazole #4 PO delayed-release suspension — 17 to <21 kg / Day 2 onward @3kg: 150 mg Fixed dose, not weight-based 150 mg once daily
+posaconazole #4 PO delayed-release suspension — 17 to <21 kg / Day 2 onward @10kg: 150 mg Fixed dose, not weight-based 150 mg once daily
+posaconazole #4 PO delayed-release suspension — 17 to <21 kg / Day 2 onward @25kg: 150 mg Fixed dose, not weight-based 150 mg once daily
+posaconazole #4 PO delayed-release suspension — 17 to <21 kg / Day 2 onward @70kg: 150 mg Fixed dose, not weight-based 150 mg once daily
+posaconazole #5 PO delayed-release suspension — 21 to <26 kg / Day 1 @3kg: 180 mg Fixed dose, not weight-based 180 mg twice daily
+posaconazole #5 PO delayed-release suspension — 21 to <26 kg / Day 1 @10kg: 180 mg Fixed dose, not weight-based 180 mg twice daily
+posaconazole #5 PO delayed-release suspension — 21 to <26 kg / Day 1 @25kg: 180 mg Fixed dose, not weight-based 180 mg twice daily
+posaconazole #5 PO delayed-release suspension — 21 to <26 kg / Day 1 @70kg: 180 mg Fixed dose, not weight-based 180 mg twice daily
+posaconazole #5 PO delayed-release suspension — 21 to <26 kg / Day 2 onward @3kg: 180 mg Fixed dose, not weight-based 180 mg once daily (source misprints "180 g" — read as mg)
+posaconazole #5 PO delayed-release suspension — 21 to <26 kg / Day 2 onward @10kg: 180 mg Fixed dose, not weight-based 180 mg once daily (source misprints "180 g" — read as mg)
+posaconazole #5 PO delayed-release suspension — 21 to <26 kg / Day 2 onward @25kg: 180 mg Fixed dose, not weight-based 180 mg once daily (source misprints "180 g" — read as mg)
+posaconazole #5 PO delayed-release suspension — 21 to <26 kg / Day 2 onward @70kg: 180 mg Fixed dose, not weight-based 180 mg once daily (source misprints "180 g" — read as mg)
+posaconazole #6 PO delayed-release suspension — 26 to <36 kg / Day 1 @3kg: 210 mg Fixed dose, not weight-based 210 mg twice daily
+posaconazole #6 PO delayed-release suspension — 26 to <36 kg / Day 1 @10kg: 210 mg Fixed dose, not weight-based 210 mg twice daily
+posaconazole #6 PO delayed-release suspension — 26 to <36 kg / Day 1 @25kg: 210 mg Fixed dose, not weight-based 210 mg twice daily
+posaconazole #6 PO delayed-release suspension — 26 to <36 kg / Day 1 @70kg: 210 mg Fixed dose, not weight-based 210 mg twice daily
+posaconazole #6 PO delayed-release suspension — 26 to <36 kg / Day 2 onward @3kg: 210 mg Fixed dose, not weight-based 210 mg once daily
+posaconazole #6 PO delayed-release suspension — 26 to <36 kg / Day 2 onward @10kg: 210 mg Fixed dose, not weight-based 210 mg once daily
+posaconazole #6 PO delayed-release suspension — 26 to <36 kg / Day 2 onward @25kg: 210 mg Fixed dose, not weight-based 210 mg once daily
+posaconazole #6 PO delayed-release suspension — 26 to <36 kg / Day 2 onward @70kg: 210 mg Fixed dose, not weight-based 210 mg once daily
+posaconazole #7 PO delayed-release suspension — 36–40 kg / Day 1 @3kg: 240 mg Fixed dose, not weight-based 240 mg twice daily
+posaconazole #7 PO delayed-release suspension — 36–40 kg / Day 1 @10kg: 240 mg Fixed dose, not weight-based 240 mg twice daily
+posaconazole #7 PO delayed-release suspension — 36–40 kg / Day 1 @25kg: 240 mg Fixed dose, not weight-based 240 mg twice daily
+posaconazole #7 PO delayed-release suspension — 36–40 kg / Day 1 @70kg: 240 mg Fixed dose, not weight-based 240 mg twice daily
+posaconazole #7 PO delayed-release suspension — 36–40 kg / Day 2 onward @3kg: 240 mg Fixed dose, not weight-based 240 mg once daily
+posaconazole #7 PO delayed-release suspension — 36–40 kg / Day 2 onward @10kg: 240 mg Fixed dose, not weight-based 240 mg once daily
+posaconazole #7 PO delayed-release suspension — 36–40 kg / Day 2 onward @25kg: 240 mg Fixed dose, not weight-based 240 mg once daily
+posaconazole #7 PO delayed-release suspension — 36–40 kg / Day 2 onward @70kg: 240 mg Fixed dose, not weight-based 240 mg once daily
+posaconazole #8 PO immediate-release oral solution — ≥13 y @3kg: 200 mg Fixed dose, not weight-based 200 mg (5 mL) three times daily; duration based on recovery from neutropenia/immunosuppression
+posaconazole #8 PO immediate-release oral solution — ≥13 y @10kg: 200 mg Fixed dose, not weight-based 200 mg (5 mL) three times daily; duration based on recovery from neutropenia/immunosuppression
+posaconazole #8 PO immediate-release oral solution — ≥13 y @25kg: 200 mg Fixed dose, not weight-based 200 mg (5 mL) three times daily; duration based on recovery from neutropenia/immunosuppression
+posaconazole #8 PO immediate-release oral solution — ≥13 y @70kg: 200 mg Fixed dose, not weight-based 200 mg (5 mL) three times daily; duration based on recovery from neutropenia/immunosuppression
+posaconazole #9 Oropharyngeal candidiasis — oral suspension / Day 1 @3kg: 100 mg Fixed dose, not weight-based 100 mg (2.5 mL) twice daily
+posaconazole #9 Oropharyngeal candidiasis — oral suspension / Day 1 @10kg: 100 mg Fixed dose, not weight-based 100 mg (2.5 mL) twice daily
+posaconazole #9 Oropharyngeal candidiasis — oral suspension / Day 1 @25kg: 100 mg Fixed dose, not weight-based 100 mg (2.5 mL) twice daily
+posaconazole #9 Oropharyngeal candidiasis — oral suspension / Day 1 @70kg: 100 mg Fixed dose, not weight-based 100 mg (2.5 mL) twice daily
+posaconazole #9 Oropharyngeal candidiasis — oral suspension / Days 2–14 @3kg: 100 mg Fixed dose, not weight-based 100 mg once daily for 13 days
+posaconazole #9 Oropharyngeal candidiasis — oral suspension / Days 2–14 @10kg: 100 mg Fixed dose, not weight-based 100 mg once daily for 13 days
+posaconazole #9 Oropharyngeal candidiasis — oral suspension / Days 2–14 @25kg: 100 mg Fixed dose, not weight-based 100 mg once daily for 13 days
+posaconazole #9 Oropharyngeal candidiasis — oral suspension / Days 2–14 @70kg: 100 mg Fixed dose, not weight-based 100 mg once daily for 13 days
+posaconazole #10 Oropharyngeal candidiasis refractory to itraconazole/fluconazole @3kg: 400 mg Fixed dose, not weight-based oral suspension 400 mg (10 mL) twice daily; duration by severity and clinical response
+posaconazole #10 Oropharyngeal candidiasis refractory to itraconazole/fluconazole @10kg: 400 mg Fixed dose, not weight-based oral suspension 400 mg (10 mL) twice daily; duration by severity and clinical response
+posaconazole #10 Oropharyngeal candidiasis refractory to itraconazole/fluconazole @25kg: 400 mg Fixed dose, not weight-based oral suspension 400 mg (10 mL) twice daily; duration by severity and clinical response
+posaconazole #10 Oropharyngeal candidiasis refractory to itraconazole/fluconazole @70kg: 400 mg Fixed dose, not weight-based oral suspension 400 mg (10 mL) twice daily; duration by severity and clinical response
+voriconazole #0 Treatment / IFI prophylaxis — age 2 to <12 y, or 12–14 y and <50 kg (IV throughout) / Day 1 (loading) @3kg: Dose used for calculation: 9 mg/kg/dose 27 mg per dose (q12h) Total 54 mg/day IV q12h for 2 doses (loading)
+voriconazole #0 Treatment / IFI prophylaxis — age 2 to <12 y, or 12–14 y and <50 kg (IV throughout) / Day 1 (loading) @10kg: Dose used for calculation: 9 mg/kg/dose 90 mg per dose (q12h) Total 180 mg/day IV q12h for 2 doses (loading)
+voriconazole #0 Treatment / IFI prophylaxis — age 2 to <12 y, or 12–14 y and <50 kg (IV throughout) / Day 1 (loading) @25kg: Dose used for calculation: 9 mg/kg/dose 225 mg per dose (q12h) Total 450 mg/day IV q12h for 2 doses (loading)
+voriconazole #0 Treatment / IFI prophylaxis — age 2 to <12 y, or 12–14 y and <50 kg (IV throughout) / Day 1 (loading) @70kg: Dose used for calculation: 9 mg/kg/dose 630 mg per dose (q12h) Total 1260 mg/day IV q12h for 2 doses (loading)
+voriconazole #0 Treatment / IFI prophylaxis — age 2 to <12 y, or 12–14 y and <50 kg (IV throughout) / Thereafter (maintenance) @3kg: Dose used for calculation: 8 mg/kg/dose 24 mg per dose (q12h) Total 48 mg/day IV q12h; Check trough ≥5 days after starting; target 2–6 µg/mL
+voriconazole #0 Treatment / IFI prophylaxis — age 2 to <12 y, or 12–14 y and <50 kg (IV throughout) / Thereafter (maintenance) @10kg: Dose used for calculation: 8 mg/kg/dose 80 mg per dose (q12h) Total 160 mg/day IV q12h; Check trough ≥5 days after starting; target 2–6 µg/mL
+voriconazole #0 Treatment / IFI prophylaxis — age 2 to <12 y, or 12–14 y and <50 kg (IV throughout) / Thereafter (maintenance) @25kg: Dose used for calculation: 8 mg/kg/dose 200 mg per dose (q12h) Total 400 mg/day IV q12h; Check trough ≥5 days after starting; target 2–6 µg/mL
+voriconazole #0 Treatment / IFI prophylaxis — age 2 to <12 y, or 12–14 y and <50 kg (IV throughout) / Thereafter (maintenance) @70kg: Dose used for calculation: 8 mg/kg/dose 560 mg per dose (q12h) Total 1120 mg/day IV q12h; Check trough ≥5 days after starting; target 2–6 µg/mL
+voriconazole #1 Treatment / IFI prophylaxis — age 2 to <12 y, or 12–14 y and <50 kg (PO) @3kg: Dose used for calculation: 9 mg/kg/dose 27 mg per dose (2 times/day) Total 54 mg/day PO q12h (max 350 mg/dose) — no loading dose needed; Check trough ≥5 days after starting; target 2–6 µg/mL
+voriconazole #1 Treatment / IFI prophylaxis — age 2 to <12 y, or 12–14 y and <50 kg (PO) @10kg: Dose used for calculation: 9 mg/kg/dose 90 mg per dose (2 times/day) Total 180 mg/day PO q12h (max 350 mg/dose) — no loading dose needed; Check trough ≥5 days after starting; target 2–6 µg/mL
+voriconazole #1 Treatment / IFI prophylaxis — age 2 to <12 y, or 12–14 y and <50 kg (PO) @25kg: Dose used for calculation: 9 mg/kg/dose 225 mg per dose (2 times/day) Total 450 mg/day PO q12h (max 350 mg/dose) — no loading dose needed; Check trough ≥5 days after starting; target 2–6 µg/mL
+voriconazole #1 Treatment / IFI prophylaxis — age 2 to <12 y, or 12–14 y and <50 kg (PO) @70kg: Dose used for calculation: 9 mg/kg/dose 350 mg per dose (2 times/day) Total 700 mg/day PO q12h (max 350 mg/dose) — no loading dose needed; Check trough ≥5 days after starting; target 2–6 µg/mL
+voriconazole #2 Treatment / IFI prophylaxis — age ≥15 y, or 12–14 y and ≥50 kg (IV throughout) / Day 1 (loading) @3kg: Dose used for calculation: 6 mg/kg/dose 18 mg per dose (q12h) Total 36 mg/day IV q12h for 2 doses (loading)
+voriconazole #2 Treatment / IFI prophylaxis — age ≥15 y, or 12–14 y and ≥50 kg (IV throughout) / Day 1 (loading) @10kg: Dose used for calculation: 6 mg/kg/dose 60 mg per dose (q12h) Total 120 mg/day IV q12h for 2 doses (loading)
+voriconazole #2 Treatment / IFI prophylaxis — age ≥15 y, or 12–14 y and ≥50 kg (IV throughout) / Day 1 (loading) @25kg: Dose used for calculation: 6 mg/kg/dose 150 mg per dose (q12h) Total 300 mg/day IV q12h for 2 doses (loading)
+voriconazole #2 Treatment / IFI prophylaxis — age ≥15 y, or 12–14 y and ≥50 kg (IV throughout) / Day 1 (loading) @70kg: Dose used for calculation: 6 mg/kg/dose 420 mg per dose (q12h) Total 840 mg/day IV q12h for 2 doses (loading)
+voriconazole #2 Treatment / IFI prophylaxis — age ≥15 y, or 12–14 y and ≥50 kg (IV throughout) / Thereafter (maintenance) @3kg: Dose used for calculation: 4 mg/kg/dose 12 mg per dose (q12h) Total 24 mg/day IV q12h; Check trough ≥5 days after starting; target 2–6 µg/mL
+voriconazole #2 Treatment / IFI prophylaxis — age ≥15 y, or 12–14 y and ≥50 kg (IV throughout) / Thereafter (maintenance) @10kg: Dose used for calculation: 4 mg/kg/dose 40 mg per dose (q12h) Total 80 mg/day IV q12h; Check trough ≥5 days after starting; target 2–6 µg/mL
+voriconazole #2 Treatment / IFI prophylaxis — age ≥15 y, or 12–14 y and ≥50 kg (IV throughout) / Thereafter (maintenance) @25kg: Dose used for calculation: 4 mg/kg/dose 100 mg per dose (q12h) Total 200 mg/day IV q12h; Check trough ≥5 days after starting; target 2–6 µg/mL
+voriconazole #2 Treatment / IFI prophylaxis — age ≥15 y, or 12–14 y and ≥50 kg (IV throughout) / Thereafter (maintenance) @70kg: Dose used for calculation: 4 mg/kg/dose 280 mg per dose (q12h) Total 560 mg/day IV q12h; Check trough ≥5 days after starting; target 2–6 µg/mL
+voriconazole #3 Treatment / IFI prophylaxis — age ≥15 y, or 12–14 y and ≥50 kg (PO) @3kg: 200 mg Fixed dose, not weight-based PO 200 mg q12h — no loading dose needed (some references: 200–300 mg or 3–4 mg/kg q12h); Check trough ≥5 days after starting; target 2–6 µg/mL
+voriconazole #3 Treatment / IFI prophylaxis — age ≥15 y, or 12–14 y and ≥50 kg (PO) @10kg: 200 mg Fixed dose, not weight-based PO 200 mg q12h — no loading dose needed (some references: 200–300 mg or 3–4 mg/kg q12h); Check trough ≥5 days after starting; target 2–6 µg/mL
+voriconazole #3 Treatment / IFI prophylaxis — age ≥15 y, or 12–14 y and ≥50 kg (PO) @25kg: 200 mg Fixed dose, not weight-based PO 200 mg q12h — no loading dose needed (some references: 200–300 mg or 3–4 mg/kg q12h); Check trough ≥5 days after starting; target 2–6 µg/mL
+voriconazole #3 Treatment / IFI prophylaxis — age ≥15 y, or 12–14 y and ≥50 kg (PO) @70kg: 200 mg Fixed dose, not weight-based PO 200 mg q12h — no loading dose needed (some references: 200–300 mg or 3–4 mg/kg q12h); Check trough ≥5 days after starting; target 2–6 µg/mL
+voriconazole #4 Esophageal candidiasis — age 2 to <12 y, or 12–14 y and <50 kg (IV) @3kg: Dose used for calculation: 4 mg/kg/dose 12 mg per dose (q12h) Total 24 mg/day IV q12h
+voriconazole #4 Esophageal candidiasis — age 2 to <12 y, or 12–14 y and <50 kg (IV) @10kg: Dose used for calculation: 4 mg/kg/dose 40 mg per dose (q12h) Total 80 mg/day IV q12h
+voriconazole #4 Esophageal candidiasis — age 2 to <12 y, or 12–14 y and <50 kg (IV) @25kg: Dose used for calculation: 4 mg/kg/dose 100 mg per dose (q12h) Total 200 mg/day IV q12h
+voriconazole #4 Esophageal candidiasis — age 2 to <12 y, or 12–14 y and <50 kg (IV) @70kg: Dose used for calculation: 4 mg/kg/dose 280 mg per dose (q12h) Total 560 mg/day IV q12h
+voriconazole #5 Esophageal candidiasis — age 2 to <12 y, or 12–14 y and <50 kg (PO) @3kg: Dose used for calculation: 9 mg/kg/dose 27 mg per dose (2 times/day) Total 54 mg/day PO q12h (max 350 mg/dose)
+voriconazole #5 Esophageal candidiasis — age 2 to <12 y, or 12–14 y and <50 kg (PO) @10kg: Dose used for calculation: 9 mg/kg/dose 90 mg per dose (2 times/day) Total 180 mg/day PO q12h (max 350 mg/dose)
+voriconazole #5 Esophageal candidiasis — age 2 to <12 y, or 12–14 y and <50 kg (PO) @25kg: Dose used for calculation: 9 mg/kg/dose 225 mg per dose (2 times/day) Total 450 mg/day PO q12h (max 350 mg/dose)
+voriconazole #5 Esophageal candidiasis — age 2 to <12 y, or 12–14 y and <50 kg (PO) @70kg: Dose used for calculation: 9 mg/kg/dose 350 mg per dose (2 times/day) Total 700 mg/day PO q12h (max 350 mg/dose)
+voriconazole #6 Esophageal candidiasis — age ≥15 y, or 12–14 y and ≥50 kg @3kg: 200 mg Fixed dose, not weight-based Not evaluated in this group — adult regimen applies, max 200 mg PO q12h
+voriconazole #6 Esophageal candidiasis — age ≥15 y, or 12–14 y and ≥50 kg @10kg: 200 mg Fixed dose, not weight-based Not evaluated in this group — adult regimen applies, max 200 mg PO q12h
+voriconazole #6 Esophageal candidiasis — age ≥15 y, or 12–14 y and ≥50 kg @25kg: 200 mg Fixed dose, not weight-based Not evaluated in this group — adult regimen applies, max 200 mg PO q12h
+voriconazole #6 Esophageal candidiasis — age ≥15 y, or 12–14 y and ≥50 kg @70kg: 200 mg Fixed dose, not weight-based Not evaluated in this group — adult regimen applies, max 200 mg PO q12h
+voriconazole #7 IFI prophylaxis (simpler regimen) — ≥40 kg @3kg: 200 mg Fixed dose, not weight-based PO 200 mg twice daily; if IV needed, 4 mg/kg q12h
+voriconazole #7 IFI prophylaxis (simpler regimen) — ≥40 kg @10kg: 200 mg Fixed dose, not weight-based PO 200 mg twice daily; if IV needed, 4 mg/kg q12h
+voriconazole #7 IFI prophylaxis (simpler regimen) — ≥40 kg @25kg: 200 mg Fixed dose, not weight-based PO 200 mg twice daily; if IV needed, 4 mg/kg q12h
+voriconazole #7 IFI prophylaxis (simpler regimen) — ≥40 kg @70kg: 200 mg Fixed dose, not weight-based PO 200 mg twice daily; if IV needed, 4 mg/kg q12h
+voriconazole #8 IFI prophylaxis (simpler regimen) — <40 kg @3kg: 100 mg Fixed dose, not weight-based PO 100 mg twice daily; if IV needed, 4 mg/kg q12h
+voriconazole #8 IFI prophylaxis (simpler regimen) — <40 kg @10kg: 100 mg Fixed dose, not weight-based PO 100 mg twice daily; if IV needed, 4 mg/kg q12h
+voriconazole #8 IFI prophylaxis (simpler regimen) — <40 kg @25kg: 100 mg Fixed dose, not weight-based PO 100 mg twice daily; if IV needed, 4 mg/kg q12h
+voriconazole #8 IFI prophylaxis (simpler regimen) — <40 kg @70kg: 100 mg Fixed dose, not weight-based PO 100 mg twice daily; if IV needed, 4 mg/kg q12h
 remdesivir #0 Weight 3–<40 kg / Day 1 @3kg: Dose used for calculation: 5 mg/kg/dose 15 mg per dose (once daily (OD)) Total 15 mg/day OD
 remdesivir #0 Weight 3–<40 kg / Day 1 @10kg: Dose used for calculation: 5 mg/kg/dose 50 mg per dose (once daily (OD)) Total 50 mg/day OD
 remdesivir #0 Weight 3–<40 kg / Day 1 @25kg: Dose used for calculation: 5 mg/kg/dose 125 mg per dose (once daily (OD)) Total 125 mg/day OD
