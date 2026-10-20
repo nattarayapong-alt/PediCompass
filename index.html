@@ -18350,15 +18350,270 @@ const DRUG_DB = [
   {
     id: 'acyclovir',
     name: {th:'Acyclovir', en:'Acyclovir'},
-    aliases: [],
+    aliases: ['Zovirax'],
     category: 'antiviral',
-    route: 'IV',
-    notes: [{th:'ผู้ป่วยน้ำหนักเกิน/อ้วนมาก ควรพิจารณาคำนวณตาม ideal/adjusted body weight แทนน้ำหนักจริง', en:'For overweight/obese patients, consider dosing by ideal/adjusted body weight instead of actual body weight'}],
+    route: 'PO/IV',
+    warnings: [
+      {th:'ผู้ป่วยน้ำหนักเกิน/อ้วนมาก ควรพิจารณาคำนวณตาม ideal/adjusted body weight แทนน้ำหนักจริง', en:'For overweight/obese patients, consider dosing by ideal/adjusted body weight instead of actual body weight'},
+      {th:'ปรับขนาดยาตามการทำงานของไต — เสี่ยง AKI และ neurotoxicity เมื่อระดับยาสูง', en:'Adjust for renal function — risk of AKI and neurotoxicity with high drug levels'},
+      {th:'ที่มา: Red Book Table 4.10 (หน้า 1044–1046)', en:'Source: Red Book Table 4.10 (pp. 1044–1046)'}
+    ],
     regimens: [
-      { label:{th:'HSV meningoencephalitis — ทารกแรกเกิด–3 เดือน', en:'HSV meningoencephalitis — neonate–3 months'}, mgPerKgPerDay:[60,60], freq:3, maxDailyMg:null, notes:{th:'IV q8h นาน 21 วัน', en:'IV q8h for 21 days'} },
-      { label:{th:'HSV meningoencephalitis — 3เดือน–12ปี', en:'HSV meningoencephalitis — 3mo–12y'}, mgPerKgPerDay:[30,45], freq:3, maxDailyMg:3000, notes:{th:'IV q8h นาน 14-21 วัน', en:'IV q8h for 14-21 days'} },
-      { label:{th:'HSV meningoencephalitis — >12ปี', en:'HSV meningoencephalitis — >12y'}, mgPerKgPerDay:[30,30], freq:3, maxDailyMg:3000, notes:{th:'IV q8h นาน 14-21 วัน', en:'IV q8h for 14-21 days'} },
-      { label:{th:'Varicella (immunocompromised) — <2ปี', en:'Varicella (immunocompromised) — <2y'}, mgPerKgPerDay:null, mgPerKgPerDose:[10,10], freq:3, maxDoseMg:1000, notes:{th:'IV q8h', en:'IV q8h'} }
+      { route:'IV', label:{th:'Neonatal HSV — แรกเกิด–≤4 เดือน', en:'Neonatal HSV — birth to ≤4 months'}, mgPerKgPerDay:[60,60], freq:3, maxDailyMg:null, notes:{th:'IV แบ่ง q8h นาน 14 วัน (SEM) หรือ 21 วัน (CNS/disseminated); >21 วันถ้า CSF PCR ยังบวกใกล้สิ้นสุดการรักษา', en:'IV divided q8h for 14 days (SEM) or 21 days (CNS/disseminated); >21 days if CSF PCR remains positive near end of treatment'} },
+      { route:'PO', label:{th:'Neonatal HSV — oral suppression (2 สัปดาห์–8 เดือน)', en:'Neonatal HSV — oral suppression (2 wk–8 mo)'}, bsaMgPerM2PerDose:[300,300], freq:3, maxDoseMg:null, notes:{th:'ให้ต่อหลังจบ IV นาน 6 เดือน วันละ 3 ครั้ง', en:'After completing IV therapy; 3 times daily for 6 months'} },
+      { route:'IV', label:{th:'HSV encephalitis — >4 เดือน–12 ปี', en:'HSV encephalitis — >4 mo to 12 y'}, mgPerKgPerDay:[30,45], freq:3, maxDailyMg:null, notes:{th:'IV แบ่ง q8h นาน 14–21 วัน; ไม่แนะนำ 60 มก./กก./วัน (เสี่ยง AKI)', en:'IV divided q8h for 14–21 days; 60 mg/kg/day not recommended (AKI risk)'} },
+      { route:'IV', label:{th:'HSV encephalitis — ≥12 ปี', en:'HSV encephalitis — ≥12 y'}, mgPerKgPerDay:[30,30], freq:3, maxDailyMg:null, notes:{th:'IV แบ่ง q8h นาน 14–21 วัน', en:'IV divided q8h for 14–21 days'} },
+      { route:'PO', label:{th:'Varicella (immunocompetent) — PO, ≥2 ปี, ≤40 กก.', en:'Varicella (immunocompetent) — PO, ≥2 y, ≤40 kg'}, weightMax:40, mgPerKgPerDay:[80,80], freq:4, maxDailyMg:3200, maxDoseMg:800, notes:{th:'แบ่ง 4 ครั้ง นาน 5 วัน', en:'4 divided doses for 5 days'} },
+      { route:'PO', label:{th:'Varicella (immunocompetent) — PO, ≥2 ปี, >40 กก.', en:'Varicella (immunocompetent) — PO, ≥2 y, >40 kg'}, weightMin:40, weightMinExclusive:true, fixedDailyRangeMg:[3200,3200], freq:4, maxDoseMg:800, notes:{th:'3200 มก./วัน แบ่ง 4 ครั้ง (800 มก./ครั้ง) นาน 5 วัน; ผู้ใหญ่: 4000 มก./วัน แบ่ง 5 ครั้ง นาน 5–7 วัน (ต้นฉบับพิมพ์ "4000 g" — แก้เป็น mg)', en:'3200 mg/day in 4 divided doses (800 mg/dose) for 5 days; adult: 4000 mg/day in 5 divided doses for 5–7 days (source misprints "4000 g" — read as mg)'} },
+      { route:'IV', label:{th:'Varicella (immunocompetent, ต้องนอน รพ.) — IV, ≥2 ปี', en:'Varicella (immunocompetent, hospitalized) — IV, ≥2 y'}, mgPerKgPerDay:[30,30], freq:3, maxDailyMg:null, notes:{th:'IV แบ่ง q8h นาน 7–10 วัน; หรือ 1500 มก./ตร.ม./วัน แบ่ง 3 ครั้ง นาน 7–10 วัน', en:'IV divided q8h for 7–10 days; or 1500 mg/m²/day in 3 divided doses for 7–10 days'} },
+      { route:'IV', label:{th:'Varicella (immunocompromised) — IV, <2 ปี', en:'Varicella (immunocompromised) — IV, <2 y'}, mgPerKgPerDay:[30,30], freq:3, maxDailyMg:null, notes:{th:'IV แบ่ง q8h นาน 7–10 วัน', en:'IV divided q8h for 7–10 days'} },
+      { route:'IV', label:{th:'Varicella (immunocompromised) — IV, ≥2 ปี', en:'Varicella (immunocompromised) — IV, ≥2 y'}, bsaMgPerM2PerDose:[500,500], freq:3, maxDoseMg:null, notes:{th:'1500 มก./ตร.ม./วัน แบ่ง 3 ครั้ง นาน 7–10 วัน; ผู้เชี่ยวชาญบางท่านแนะนำ 30 มก./กก./วัน แบ่ง 3 ครั้ง', en:'1500 mg/m²/day in 3 divided doses for 7–10 days; some experts recommend 30 mg/kg/day in 3 divided doses'} },
+      { route:'IV', label:{th:'Zoster (immunocompetent, ต้องนอน รพ.) — IV, ทุกอายุ', en:'Zoster (immunocompetent, hospitalized) — IV, all ages'}, mgPerKgPerDay:[30,30], freq:3, maxDailyMg:null, notes:{th:'เหมือน varicella immunocompetent ที่ต้องนอน รพ. — IV แบ่ง q8h นาน 7–10 วัน', en:'Same as varicella in immunocompetent host requiring hospitalization — IV divided q8h for 7–10 days'} },
+      { route:'PO', label:{th:'Zoster (immunocompetent) — PO, ≥12 ปี', en:'Zoster (immunocompetent) — PO, ≥12 y'}, fixedDailyRangeMg:[4000,4000], freq:5, maxDoseMg:800, notes:{th:'4000 มก./วัน (800 มก./ครั้ง) แบ่ง 5 ครั้ง นาน 5–7 วัน', en:'4000 mg/day (800 mg/dose) in 5 divided doses for 5–7 days'} },
+      { route:'IV', label:{th:'Zoster (immunocompromised) — IV, ทุกอายุ', en:'Zoster (immunocompromised) — IV, all ages'}, mgPerKgPerDay:[30,30], freq:3, maxDailyMg:null, notes:{th:'IV แบ่ง q8h นาน 7–10 วัน; หรือ 1500 มก./ตร.ม./วัน แบ่ง 3 ครั้ง นาน 7–10 วัน', en:'IV divided q8h for 7–10 days; or 1500 mg/m²/day in 3 divided doses for 7–10 days'} },
+      { route:'IV', label:{th:'HSV (immunocompromised: localized/progressive/disseminated) — IV, ทุกอายุ', en:'HSV in immunocompromised (localized/progressive/disseminated) — IV, all ages'}, mgPerKgPerDay:[30,30], freq:3, maxDailyMg:null, notes:{th:'IV แบ่ง q8h นาน 7–14 วัน', en:'IV divided q8h for 7–14 days'} },
+      { route:'PO', label:{th:'HSV (immunocompromised) — PO, ≥2 ปี', en:'HSV in immunocompromised — PO, ≥2 y'}, fixedDailyRangeMg:[1000,1000], freq:4, notes:{th:'1000 มก./วัน แบ่ง 3–5 ครั้ง นาน 7–14 วัน', en:'1000 mg/day in 3–5 divided doses for 7–14 days'} },
+      { route:'PO', label:{th:'Prophylaxis HSV/varicella/zoster (immunocompromised) — PO, ≥2 ปี', en:'Prophylaxis of HSV/varicella/zoster in immunocompromised — PO, ≥2 y'}, mgPerKgPerDay:[80,80], freq:3, maxDailyMg:null, maxDoseMg:800, notes:{th:'80 มก./กก./วัน แบ่ง 2–3 ครั้ง (สูงสุด 800 มก./ครั้ง) ตลอดช่วงเสี่ยง; หรือ 600–1000 มก./วัน แบ่ง 3–5 ครั้ง; ผู้เชี่ยวชาญบางท่านแนะนำ 500 มก./ตร.ม./วัน แบ่ง 2–3 ครั้ง', en:'80 mg/kg/day in 2–3 divided doses (max 800 mg/dose) during period of risk; or 600–1000 mg/day in 3–5 divided doses; some experts recommend 500 mg/m²/day in 2–3 divided doses'} },
+      { route:'IV', label:{th:'Prophylaxis (immunocompromised) — IV, ทุกอายุ', en:'Prophylaxis in immunocompromised — IV, all ages'}, mgPerKgPerDay:[15,15], freq:3, maxDailyMg:null, notes:{th:'15 มก./กก./วัน แบ่ง 3 ครั้ง (q8h) ตลอดช่วงเสี่ยง', en:'15 mg/kg/day in 3 divided doses (q8h) during period of risk'} },
+      { route:'PO', label:{th:'Genital HSV ครั้งแรก — PO, ≥12 ปี', en:'Genital HSV first episode — PO, ≥12 y'}, fixedDailyRangeMg:[1200,1200], freq:3, notes:{th:'1200 มก./วัน แบ่ง 3 ครั้ง นาน 7–10 วัน; ขนาดเด็กทางปาก: 40–80 มก./กก./วัน แบ่ง 3–4 ครั้ง (สูงสุด 1000 มก./วัน)', en:'1200 mg/day in 3 divided doses for 7–10 days; oral pediatric dose: 40–80 mg/kg/day divided in 3–4 doses (max 1000 mg/day)'} },
+      { route:'IV', label:{th:'Genital HSV ครั้งแรก — IV, ≥12 ปี', en:'Genital HSV first episode — IV, ≥12 y'}, mgPerKgPerDay:[15,15], freq:3, maxDailyMg:null, notes:{th:'IV แบ่ง 3 ครั้ง นาน 5–7 วัน', en:'IV in 3 divided doses for 5–7 days'} },
+      { route:'PO', label:{th:'Genital HSV กลับเป็นซ้ำ — PO, ≥12 ปี', en:'Genital HSV recurrence — PO, ≥12 y'}, fixedDailyRangeMg:[1600,1600], freq:2, notes:{th:'1600 มก. แบ่ง 2 ครั้ง นาน 5 วัน หรือ 2400 มก. แบ่ง 3 ครั้ง นาน 2 วัน', en:'1600 mg in 2 divided doses for 5 days, or 2400 mg in 3 divided doses for 2 days'} },
+      { route:'PO', label:{th:'Chronic suppression HSV (genital/ocular) — PO, ≥12 ปี', en:'Chronic suppressive therapy for recurrent genital/cutaneous (ocular) HSV — PO, ≥12 y'}, fixedDailyRangeMg:[800,800], freq:2, notes:{th:'800 มก./วัน แบ่ง 2 ครั้ง นานสูงสุด 12 เดือนต่อเนื่อง; ทบทวนการให้ต่อทุกปี', en:'800 mg/day in 2 divided doses for as long as 12 continuous months; revisit annually'} },
+      { route:'PO', label:{th:'Recurrent herpes labialis — PO, ทุกอายุ', en:'Recurrent herpes labialis — PO, all ages'}, mgPerKgPerDay:[80,80], freq:4, maxDailyMg:3200, notes:{th:'แบ่ง 4 ครั้ง นาน 5–7 วัน (สูงสุด 3200 มก./วัน)', en:'4 divided doses for 5–7 days (max 3200 mg/day)'} }
+    ]
+  },
+  {
+    id: 'amphotericin-b-deoxycholate',
+    name: {th:'Amphotericin B deoxycholate', en:'Amphotericin B deoxycholate'},
+    aliases: ['Amphotericin B', 'Conventional amphotericin B', 'Fungizone'],
+    category: 'antifungal',
+    route: 'IV',
+    warnings: [
+      {th:'ให้ IV ครั้งเดียวต่อวัน ผสมให้หยดนาน 2–4 ชั่วโมง', en:'Infuse IV as a single daily dose over 2–4 hours'},
+      {th:'ผลข้างเคียง: ไข้ หนาวสั่น phlebitis ไตวาย hypokalemia โลหิตจาง arrhythmia', en:'Adverse effects: fever, chills, phlebitis, nephrotoxicity, hypokalemia, anemia, arrhythmia'},
+      {th:'ที่มา: Red Book Table 4.8 (หน้า 1027) — เฉพาะ IV', en:'Source: Red Book Table 4.8 (p. 1027) — IV only'}
+    ],
+    regimens: [
+      { label:{th:'ขนาดทั่วไป (รายวัน)', en:'Standard (daily)'}, mgPerKgPerDay:[0.8,1], freq:1, maxDailyMg:null, notes:{th:'0.8–1 มก./กก./วัน (สูงสุด 1.5 มก./กก./วัน)', en:'0.8–1 mg/kg/day (max 1.5 mg/kg/day)'} },
+      { label:{th:'ขนาดทั่วไป (วันเว้นวัน)', en:'Alternate-day'}, mgPerKgPerDose:[1.5,1.5], mgPerKgPerDay:null, freq:1, notes:{th:'1.5 มก./กก. วันเว้นวัน', en:'1.5 mg/kg every other day'} }
+    ]
+  },
+  {
+    id: 'liposomal-amphotericin-b',
+    name: {th:'Liposomal Amphotericin B (AmBisome)', en:'Liposomal Amphotericin B (AmBisome)'},
+    aliases: ['AmBisome', 'L-AmB', 'Amphotericin B liposomal'],
+    category: 'antifungal',
+    route: 'IV',
+    warnings: [
+      {th:'หยด IV นาน 1–2 ชั่วโมง; พิษต่อไตและ infusion reaction น้อยกว่า deoxycholate', en:'Infuse IV over 1–2 hours; less nephrotoxicity and fewer infusion reactions than deoxycholate'},
+      {th:'ในโรค mucormycosis หรือ CNS infection เคยใช้ถึง 10 มก./กก./วัน', en:'Doses up to 10 mg/kg/day have been used in mucormycosis or CNS infection'},
+      {th:'ที่มา: Red Book Table 4.8 (หน้า 1027)', en:'Source: Red Book Table 4.8 (p. 1027)'}
+    ],
+    regimens: [
+      { label:{th:'ขนาดทั่วไป', en:'Standard'}, mgPerKgPerDay:[3,5], freq:1, maxDailyMg:null, notes:{th:'3–5 มก./กก./วัน', en:'3–5 mg/kg/day'} },
+      { label:{th:'Mucormycosis / CNS infection (ขนาดสูง)', en:'Mucormycosis / CNS infection (high dose)'}, mgPerKgPerDay:[10,10], freq:1, maxDailyMg:null, notes:{th:'ใช้ได้สูงสุด 10 มก./กก./วัน', en:'Up to 10 mg/kg/day have been used'} },
+      { label:{th:'IFI prophylaxis — วันเว้นวัน', en:'IFI prophylaxis — every other day'}, mgPerKgPerDose:[1,1], mgPerKgPerDay:null, freq:1, notes:{th:'1 มก./กก./ครั้ง วันเว้นวัน', en:'1 mg/kg/dose every other day'} },
+      { label:{th:'IFI prophylaxis — สัปดาห์ละ 2 ครั้ง', en:'IFI prophylaxis — twice weekly'}, mgPerKgPerDose:[2.5,2.5], mgPerKgPerDay:null, freq:1, notes:{th:'2.5 มก./กก./ครั้ง สัปดาห์ละ 2 ครั้ง', en:'2.5 mg/kg/dose twice weekly'} }
+    ]
+  },
+  {
+    id: 'fluconazole',
+    name: {th:'Fluconazole', en:'Fluconazole'},
+    aliases: ['Diflucan'],
+    category: 'antifungal',
+    route: 'PO/IV',
+    warnings: [
+      {th:'ต้องปรับขนาดยาในผู้ป่วยไตบกพร่อง', en:'Requires dose adjustment in renal impairment'},
+      {th:'ทารกคลอดก่อนกำหนด GA 26–29 สัปดาห์: ใน 2 สัปดาห์แรกของชีวิต ให้ขนาดเดียวกับเด็กโต (มก./กก.) แต่ให้ทุก 72 ชม.; หลัง 2 สัปดาห์ให้วันละครั้ง (ข้อมูลจำกัดเฉพาะการศึกษา PK ในทารกคลอดก่อนกำหนด)', en:'Preterm neonates GA 26–29 weeks: in the first 2 weeks of life give the same mg/kg dose as older children but every 72 h; after 2 weeks, once daily (data limited to PK studies in preterm infants)'},
+      {th:'ที่มา: Red Book Table 4.8 (หน้า 1028–1029, footnotes d–g)', en:'Source: Red Book Table 4.8 (pp. 1028–1029, footnotes d–g)'}
+    ],
+    regimens: [
+      { label:{th:'Neonatal candidiasis — วันที่ 1 / วันถัดไป', en:'Neonatal candidiasis — day 1 / thereafter'}, multiPhase:true, phases:[
+        { phaseLabel:{th:'วันที่ 1', en:'Day 1'}, mgPerKgPerDose:[25,25], freq:1, notes:{th:'Loading', en:'Loading'} },
+        { phaseLabel:{th:'วันถัดไป', en:'Thereafter'}, mgPerKgPerDose:[12,12], freq:1, notes:{th:'วันละครั้ง', en:'once daily'} }
+      ]},
+      { label:{th:'Oropharyngeal / esophageal candidiasis', en:'Oropharyngeal / esophageal candidiasis'}, multiPhase:true, phases:[
+        { phaseLabel:{th:'วันที่ 1', en:'Day 1'}, mgPerKgPerDose:[6,6], freq:1, notes:{th:'ผู้ใหญ่ 200 มก.', en:'adult: 200 mg'} },
+        { phaseLabel:{th:'วันถัดไป', en:'Thereafter'}, mgPerKgPerDose:[3,6], freq:1, notes:{th:'วันละครั้ง (ผู้ใหญ่ 100 มก.); เคยใช้ถึง 12 มก./กก./วันตามดุลยพินิจ', en:'once daily (adult 100 mg); up to 12 mg/kg/day used by clinical judgment'} }
+      ]},
+      { label:{th:'Systemic Candida infection', en:'Systemic Candida infection'}, mgPerKgPerDay:[12,12], freq:1, maxDailyMg:null, notes:{th:'12 มก./กก./วัน', en:'12 mg/kg/day'} },
+      { label:{th:'Prophylaxis ในเด็ก (cancer/HSCT)', en:'Prophylaxis in children (cancer/HSCT)'}, mgPerKgPerDay:[6,6], freq:1, maxDailyMg:400, notes:{th:'6 มก./กก. วันละครั้ง (สูงสุด 400 มก./วัน)', en:'6 mg/kg once daily (max 400 mg/day)'} },
+      { label:{th:'Cryptococcal meningitis (เด็ก) — หลัง induction', en:'Cryptococcal meningitis (children) — after induction'}, mgPerKgPerDay:[10,12], freq:2, maxDailyMg:800, notes:{th:'หลัง induction ด้วย amphotericin B + flucytosine ≥2 สัปดาห์; ให้ต่อ ≥8 สัปดาห์ แบ่ง 2 ครั้ง', en:'After induction with amphotericin B + flucytosine ≥2 weeks; continue ≥8 weeks in 2 divided doses'} },
+      { label:{th:'Cryptococcal meningitis (เด็ก AIDS) — suppression', en:'Cryptococcal meningitis (children with AIDS) — suppression'}, mgPerKgPerDay:[6,6], freq:1, maxDailyMg:200, notes:{th:'6 มก./กก. วันละครั้ง (สูงสุด 200 มก./วัน) ป้องกันการกลับเป็นซ้ำ', en:'6 mg/kg once daily (max 200 mg/day) for relapse suppression'} },
+      { label:{th:'Cryptococcal meningitis (ผู้ใหญ่) — หลัง induction', en:'Cryptococcal meningitis (adults) — after induction'}, mgPerKgPerDay:[12,12], freq:2, maxDailyMg:800, notes:{th:'12 มก./กก./วัน แบ่ง 2 ครั้ง ≥8 สัปดาห์; suppression ใน AIDS: 200 มก. วันละครั้ง', en:'12 mg/kg/day in 2 divided doses ≥8 weeks; AIDS relapse suppression: 200 mg once daily'} },
+      { label:{th:'Coccidioidomycosis (ผู้ใหญ่)', en:'Coccidioidomycosis (adults)'}, fixedDoseRangeMg:[400,800], freq:1, notes:{th:'400 มก. วันละครั้ง; ได้ถึง 800 มก. ใน non-meningitis และ 1200 มก. ใน meningitis', en:'400 mg once daily; up to 800 mg in non-meningitis and 1200 mg in meningitis'} }
+    ]
+  },
+  {
+    id: 'flucytosine',
+    name: {th:'Flucytosine', en:'Flucytosine'},
+    aliases: ['5-FC', '5-flucytosine', 'Ancobon'],
+    category: 'antifungal',
+    route: 'PO',
+    warnings: [
+      {th:'ปรับขนาดตามการทำงานของไตและอายุทารก; ติดตามระดับยา 2 ชม. หลังให้ (ช่วงรักษา ≤100 µg/mL)', en:'Adjust for renal dysfunction and neonatal age; follow 2-h post-dose peak levels (therapeutic range ≤100 µg/mL)'},
+      {th:'ควรใช้ร่วมกับ amphotericin B ใน cryptococcosis (เชื้อดื้อยาเร็ว); ติดตาม CBC, ตับ, ไต', en:'Use with amphotericin B for cryptococcosis (resistance emerges); monitor CBC, liver, kidney function'},
+      {th:'ที่มา: Red Book Table 4.8 (หน้า 1029)', en:'Source: Red Book Table 4.8 (p. 1029)'}
+    ],
+    regimens: [
+      { label:{th:'ขนาดทั่วไป', en:'Standard'}, mgPerKgPerDay:[100,100], freq:4, maxDailyMg:null, notes:{th:'100 มก./กก./วัน แบ่งให้ q6h', en:'100 mg/kg/day divided q6h'} }
+    ]
+  },
+  {
+    id: 'griseofulvin',
+    name: {th:'Griseofulvin', en:'Griseofulvin'},
+    aliases: ['Grifulvin', 'Gris-PEG'],
+    category: 'antifungal',
+    route: 'PO',
+    warnings: [{th:'ที่มา: Red Book Table 4.8 (หน้า 1030)', en:'Source: Red Book Table 4.8 (p. 1030)'}],
+    regimens: [
+      { label:{th:'Ultramicrosize', en:'Ultramicrosize'}, mgPerKgPerDay:[10,15], freq:1, maxDailyMg:750, notes:{th:'วันละครั้ง (สูงสุด 750 มก./วัน)', en:'once daily (max 750 mg/day)'} },
+      { label:{th:'Microsize', en:'Microsize'}, mgPerKgPerDay:[20,25], freq:2, maxDailyMg:1000, notes:{th:'แบ่ง 2 ครั้ง (สูงสุด 1000 มก./วัน)', en:'2 divided doses (max 1000 mg/day)'} }
+    ]
+  },
+  {
+    id: 'itraconazole',
+    name: {th:'Itraconazole', en:'Itraconazole'},
+    aliases: ['Sporanox'],
+    category: 'antifungal',
+    route: 'PO',
+    warnings: [
+      {th:'แนะนำ oral solution มากกว่า capsule (ดูดซึมดีกว่า) ให้ตอนท้องว่าง; capsule ให้พร้อมอาหาร/กรด', en:'Oral solution preferred over capsule (better absorption), taken on an empty stomach; acidic pH improves capsule absorption'},
+      {th:'Trough เป้าหมาย 1–2 µg/mL (ตรวจหลังเริ่มยา ≥10 วัน); IFI prophylaxis ≥0.5 µg/mL', en:'Target trough 1–2 µg/mL (check ≥10 days after initiation); ≥0.5 µg/mL for IFI prophylaxis'},
+      {th:'ห้ามใช้ในผู้ป่วย CHF; QT prolongation และ interaction ของ CYP3A4', en:'Avoid in congestive heart failure; QT prolongation and CYP3A4 interactions'},
+      {th:'ที่มา: Red Book Table 4.8 (หน้า 1031)', en:'Source: Red Book Table 4.8 (p. 1031)'}
+    ],
+    regimens: [
+      { label:{th:'เด็ก — ขนาดทั่วไป', en:'Children — general'}, mgPerKgPerDay:[10,10], freq:2, maxDailyMg:null, notes:{th:'10 มก./กก./วัน แบ่ง 2 ครั้ง', en:'10 mg/kg/day divided in 2 doses'} },
+      { label:{th:'เด็ก — Endemic mycoses', en:'Children — endemic mycoses'}, multiPhase:true, phases:[
+        { phaseLabel:{th:'3 วันแรก', en:'First 3 days'}, mgPerKgPerDose:[2,5], freq:3, notes:{th:'วันละ 3 ครั้ง นาน 3 วัน', en:'three times daily for 3 days'} },
+        { phaseLabel:{th:'หลังจากนั้น', en:'Then'}, mgPerKgPerDose:[2,5], freq:2, maxDoseMg:200, notes:{th:'วันละ 2 ครั้ง (สูงสุด 200 มก./ครั้ง)', en:'twice daily (max 200 mg/dose)'} }
+      ]},
+      { label:{th:'เด็ก — IFI prophylaxis', en:'Children — IFI prophylaxis'}, mgPerKgPerDose:[2.5,2.5], mgPerKgPerDay:null, freq:2, notes:{th:'2.5 มก./กก. วันละ 2 ครั้ง', en:'2.5 mg/kg twice daily'} },
+      { label:{th:'ผู้ใหญ่ — Aspergillosis', en:'Adults — aspergillosis'}, fixedDailyRangeMg:[200,400], freq:1, notes:{th:'200–400 มก./วัน วันละครั้งหรือ 2 ครั้ง', en:'200–400 mg/day once or twice daily'} },
+      { label:{th:'ผู้ใหญ่ — Endemic mycoses', en:'Adults — endemic mycoses'}, multiPhase:true, phases:[
+        { phaseLabel:{th:'3 วันแรก', en:'First 3 days'}, fixedDoseMg:200, freq:3, notes:{th:'200 มก. วันละ 3 ครั้ง นาน 3 วัน', en:'200 mg three times daily for 3 days'} },
+        { phaseLabel:{th:'หลังจากนั้น', en:'Then'}, fixedDoseRangeMg:[200,200], freq:1, notes:{th:'200 มก. วันละครั้งหรือ 2 ครั้ง', en:'200 mg once or twice daily'} }
+      ]},
+      { label:{th:'ผู้ใหญ่ — Oropharyngeal/esophageal candidiasis', en:'Adults — oropharyngeal/esophageal candidiasis'}, fixedDoseRangeMg:[100,200], freq:1, notes:{th:'100–200 มก. วันละครั้ง; SUBA-itraconazole อนุมัติสำหรับ blastomycosis อายุ ≥18 ปี (ข้อมูลในเด็กยังไม่มี)', en:'100–200 mg once daily; SUBA-itraconazole approved for blastomycosis in ≥18 y (pediatric data lacking)'} }
+    ]
+  },
+  {
+    id: 'micafungin',
+    name: {th:'Micafungin', en:'Micafungin'},
+    aliases: ['Mycamine'],
+    category: 'antifungal',
+    route: 'IV',
+    warnings: [
+      {th:'ข้อมูลประสิทธิภาพ/ความปลอดภัยในเด็กอายุ <4 เดือนจำกัด', en:'Limited efficacy and safety data in pediatric patients <4 months'},
+      {th:'ที่มา: Red Book Table 4.8 (หน้า 1032)', en:'Source: Red Book Table 4.8 (p. 1032)'}
+    ],
+    regimens: [
+      { label:{th:'เด็ก — Candidemia / disseminated candidiasis / Candida peritonitis', en:'Pediatric — candidemia / acute disseminated candidiasis / Candida peritonitis'}, mgPerKgPerDay:[2,2], freq:1, maxDailyMg:100, notes:{th:'2 มก./กก./วัน (สูงสุด 100 มก./วัน); disseminated candidiasis เคยใช้ถึง 7 มก./กก./วัน', en:'2 mg/kg/day (max 100 mg/day); up to 7 mg/kg/day used for disseminated candidiasis'} },
+      { label:{th:'เด็ก — Prophylaxis Candida', en:'Pediatric — Candida prophylaxis'}, mgPerKgPerDay:[1,1], freq:1, maxDailyMg:50, notes:{th:'1 มก./กก./วัน (สูงสุด 50 มก./วัน)', en:'1 mg/kg/day (max 50 mg/day)'} },
+      { label:{th:'เด็ก — Esophageal candidiasis, ≤30 กก.', en:'Pediatric — esophageal candidiasis, ≤30 kg'}, weightMax:30, mgPerKgPerDay:[3,3], freq:1, maxDailyMg:null, notes:{th:'3 มก./กก./วัน', en:'3 mg/kg/day'} },
+      { label:{th:'เด็ก — Esophageal candidiasis, >30 กก.', en:'Pediatric — esophageal candidiasis, >30 kg'}, weightMin:30, weightMinExclusive:true, mgPerKgPerDay:[2.5,2.5], freq:1, maxDailyMg:150, notes:{th:'2.5 มก./กก./วัน (สูงสุด 150 มก./วัน)', en:'2.5 mg/kg/day (max 150 mg/day)'} },
+      { label:{th:'ทารกแรกเกิด', en:'Neonates'}, mgPerKgPerDay:[10,10], freq:1, maxDailyMg:null, notes:{th:'10 มก./กก./วัน', en:'10 mg/kg/day'} },
+      { label:{th:'ผู้ใหญ่ — Candidemia / disseminated / peritonitis', en:'Adults — candidemia / disseminated / peritonitis'}, fixedDoseMg:100, freq:1, notes:{th:'100 มก. วันละครั้ง', en:'100 mg once daily'} },
+      { label:{th:'ผู้ใหญ่ — Esophageal candidiasis', en:'Adults — esophageal candidiasis'}, fixedDoseMg:150, freq:1, notes:{th:'150 มก. วันละครั้ง', en:'150 mg once daily'} },
+      { label:{th:'ผู้ใหญ่ — Prophylaxis ใน HSCT', en:'Adults — prophylaxis in HSCT'}, fixedDoseMg:50, freq:1, notes:{th:'50 มก. วันละครั้ง', en:'50 mg once daily'} }
+    ]
+  },
+  {
+    id: 'nystatin',
+    name: {th:'Nystatin', en:'Nystatin'},
+    aliases: [],
+    category: 'antifungal',
+    route: 'PO',
+    unit: 'units',
+    warnings: [{th:'ให้หลังอาหาร; ที่มา: Red Book Table 4.8 (หน้า 1032)', en:'Give after meals; source: Red Book Table 4.8 (p. 1032)'}],
+    regimens: [
+      { label:{th:'ทารก', en:'Infants'}, fixedDoseUnits:200000, freq:4, notes:{th:'200,000 units วันละ 4 ครั้ง หลังอาหาร', en:'200,000 units 4 times daily after meals'} },
+      { label:{th:'เด็กและผู้ใหญ่', en:'Children and adults'}, fixedDoseRangeUnits:[400000,600000], freq:3, notes:{th:'400,000–600,000 units วันละ 3 ครั้ง หลังอาหาร', en:'400,000–600,000 units 3 times daily after meals'} }
+    ]
+  },
+  {
+    id: 'posaconazole',
+    name: {th:'Posaconazole', en:'Posaconazole'},
+    aliases: ['Noxafil'],
+    category: 'antifungal',
+    route: 'PO/IV',
+    warnings: [
+      {th:'ยาเม็ด delayed-release, oral suspension และ IV ไม่สามารถใช้แทนกันได้ (bioavailability/ขนาดต่างกัน); ให้ยารับประทานพร้อมอาหาร', en:'Delayed-release tablet, oral suspension and IV are not interchangeable (bioavailability/dosing differ); give oral forms with food'},
+      {th:'Trough เป้าหมาย 1–4 µg/mL (target 1.25); ตรวจ trough ≥3 วัน (tablet/IV) หรือ ≥10 วัน (liquid) หลังเริ่มยา', en:'Target trough 1–4 µg/mL (goal 1.25); check ≥3 days (tablet/IV) or ≥10 days (liquid) after initiation'},
+      {th:'หลีกเลี่ยง IV ใน CrCl <50 mL/min; QT prolongation และ CYP3A4 interaction', en:'Avoid IV if CrCl <50 mL/min; QT prolongation and CYP3A4 interactions'},
+      {th:'ข้อมูลไม่สอดคล้องในต้นฉบับ: IV อนุมัติ ≥2 ปี (เนื้อความ) แต่ footnote j แนะนำเฉพาะ ≥18 ปี; ความปลอดภัยยืนยันในอายุ ≥13 ปี (footnote k)', en:'Source inconsistency: IV approved ≥2 y (body) but footnote j recommends only ≥18 y; safety established ≥13 y (footnote k)'},
+      {th:'ที่มา: Red Book Table 4.8 (หน้า 1032–1034)', en:'Source: Red Book Table 4.8 (pp. 1032–1034)'}
+    ],
+    regimens: [
+      { route:'IV', label:{th:'IV — Prophylaxis Aspergillus/Candida (วัยรุ่น/ผู้ใหญ่)', en:'IV — prophylaxis of Aspergillus/Candida (adolescents/adults)'}, multiPhase:true, phases:[
+        { phaseLabel:{th:'วันที่ 1', en:'Day 1'}, fixedDoseMg:300, freq:2, notes:{th:'300 มก. IV วันละ 2 ครั้ง', en:'300 mg IV twice daily'} },
+        { phaseLabel:{th:'วันที่ 2 เป็นต้นไป', en:'Day 2 onward'}, fixedDoseMg:300, freq:1, notes:{th:'300 มก. IV วันละครั้ง', en:'300 mg IV once daily'} }
+      ]},
+      { route:'PO', label:{th:'PO delayed-release tablet — >2 ปี และ >40 กก.', en:'PO delayed-release tablet — >2 y and >40 kg'}, weightMin:40, weightMinExclusive:true, multiPhase:true, phases:[
+        { phaseLabel:{th:'วันที่ 1', en:'Day 1'}, fixedDoseMg:300, freq:2, notes:{th:'300 มก. วันละ 2 ครั้ง', en:'300 mg twice daily'} },
+        { phaseLabel:{th:'วันที่ 2 เป็นต้นไป', en:'Day 2 onward'}, fixedDoseMg:300, freq:1, notes:{th:'300 มก. วันละครั้ง', en:'300 mg once daily'} }
+      ]},
+      { route:'PO', label:{th:'PO delayed-release suspension — 10 ถึง <12 กก.', en:'PO delayed-release suspension — 10 to <12 kg'}, weightMin:10, weightMax:12, weightMaxExclusive:true, multiPhase:true, phases:[
+        { phaseLabel:{th:'วันที่ 1', en:'Day 1'}, fixedDoseMg:90, freq:2, notes:{th:'90 มก. วันละ 2 ครั้ง', en:'90 mg twice daily'} },
+        { phaseLabel:{th:'วันที่ 2 เป็นต้นไป', en:'Day 2 onward'}, fixedDoseMg:90, freq:1, notes:{th:'90 มก. วันละครั้ง', en:'90 mg once daily'} }
+      ]},
+      { route:'PO', label:{th:'PO delayed-release suspension — 12 ถึง <17 กก.', en:'PO delayed-release suspension — 12 to <17 kg'}, weightMin:12, weightMax:17, weightMaxExclusive:true, multiPhase:true, phases:[
+        { phaseLabel:{th:'วันที่ 1', en:'Day 1'}, fixedDoseMg:120, freq:2, notes:{th:'120 มก. วันละ 2 ครั้ง', en:'120 mg twice daily'} },
+        { phaseLabel:{th:'วันที่ 2 เป็นต้นไป', en:'Day 2 onward'}, fixedDoseMg:120, freq:1, notes:{th:'120 มก. วันละครั้ง', en:'120 mg once daily'} }
+      ]},
+      { route:'PO', label:{th:'PO delayed-release suspension — 17 ถึง <21 กก.', en:'PO delayed-release suspension — 17 to <21 kg'}, weightMin:17, weightMax:21, weightMaxExclusive:true, multiPhase:true, phases:[
+        { phaseLabel:{th:'วันที่ 1', en:'Day 1'}, fixedDoseMg:150, freq:2, notes:{th:'150 มก. วันละ 2 ครั้ง', en:'150 mg twice daily'} },
+        { phaseLabel:{th:'วันที่ 2 เป็นต้นไป', en:'Day 2 onward'}, fixedDoseMg:150, freq:1, notes:{th:'150 มก. วันละครั้ง', en:'150 mg once daily'} }
+      ]},
+      { route:'PO', label:{th:'PO delayed-release suspension — 21 ถึง <26 กก.', en:'PO delayed-release suspension — 21 to <26 kg'}, weightMin:21, weightMax:26, weightMaxExclusive:true, multiPhase:true, phases:[
+        { phaseLabel:{th:'วันที่ 1', en:'Day 1'}, fixedDoseMg:180, freq:2, notes:{th:'180 มก. วันละ 2 ครั้ง', en:'180 mg twice daily'} },
+        { phaseLabel:{th:'วันที่ 2 เป็นต้นไป', en:'Day 2 onward'}, fixedDoseMg:180, freq:1, notes:{th:'180 มก. วันละครั้ง (ต้นฉบับพิมพ์ "180 g" — อ่านเป็น mg)', en:'180 mg once daily (source misprints "180 g" — read as mg)'} }
+      ]},
+      { route:'PO', label:{th:'PO delayed-release suspension — 26 ถึง <36 กก.', en:'PO delayed-release suspension — 26 to <36 kg'}, weightMin:26, weightMax:36, weightMaxExclusive:true, multiPhase:true, phases:[
+        { phaseLabel:{th:'วันที่ 1', en:'Day 1'}, fixedDoseMg:210, freq:2, notes:{th:'210 มก. วันละ 2 ครั้ง', en:'210 mg twice daily'} },
+        { phaseLabel:{th:'วันที่ 2 เป็นต้นไป', en:'Day 2 onward'}, fixedDoseMg:210, freq:1, notes:{th:'210 มก. วันละครั้ง', en:'210 mg once daily'} }
+      ]},
+      { route:'PO', label:{th:'PO delayed-release suspension — 36–40 กก.', en:'PO delayed-release suspension — 36–40 kg'}, weightMin:36, weightMax:40, multiPhase:true, phases:[
+        { phaseLabel:{th:'วันที่ 1', en:'Day 1'}, fixedDoseMg:240, freq:2, notes:{th:'240 มก. วันละ 2 ครั้ง', en:'240 mg twice daily'} },
+        { phaseLabel:{th:'วันที่ 2 เป็นต้นไป', en:'Day 2 onward'}, fixedDoseMg:240, freq:1, notes:{th:'240 มก. วันละครั้ง', en:'240 mg once daily'} }
+      ]},
+      { route:'PO', label:{th:'PO immediate-release solution — ≥13 ปี', en:'PO immediate-release oral solution — ≥13 y'}, fixedDoseMg:200, freq:3, notes:{th:'200 มก. (5 mL) วันละ 3 ครั้ง; ระยะเวลาตามการฟื้นตัวจาก neutropenia/immunosuppression', en:'200 mg (5 mL) three times daily; duration based on recovery from neutropenia/immunosuppression'} },
+      { route:'PO', label:{th:'Oropharyngeal candidiasis — oral suspension', en:'Oropharyngeal candidiasis — oral suspension'}, multiPhase:true, phases:[
+        { phaseLabel:{th:'วันที่ 1', en:'Day 1'}, fixedDoseMg:100, freq:2, notes:{th:'100 มก. (2.5 mL) วันละ 2 ครั้ง', en:'100 mg (2.5 mL) twice daily'} },
+        { phaseLabel:{th:'วันที่ 2–14', en:'Days 2–14'}, fixedDoseMg:100, freq:1, notes:{th:'100 มก. วันละครั้ง นาน 13 วัน', en:'100 mg once daily for 13 days'} }
+      ]},
+      { route:'PO', label:{th:'Oropharyngeal candidiasis ที่ดื้อ itraconazole/fluconazole', en:'Oropharyngeal candidiasis refractory to itraconazole/fluconazole'}, fixedDoseMg:400, freq:2, notes:{th:'oral suspension 400 มก. (10 mL) วันละ 2 ครั้ง; ระยะเวลาตามความรุนแรงและการตอบสนอง', en:'oral suspension 400 mg (10 mL) twice daily; duration by severity and clinical response'} }
+    ]
+  },
+  {
+    id: 'voriconazole',
+    name: {th:'Voriconazole', en:'Voriconazole'},
+    aliases: ['Vfend'],
+    category: 'antifungal',
+    route: 'PO/IV',
+    warnings: [
+      {th:'ตรวจ trough หลังเริ่มยา 5 วัน (ผู้เชี่ยวชาญส่วนใหญ่แนะนำวันที่ 3 เป็นต้นไป); เป้าหมาย 2–6 µg/mL — ระดับ >6 สัมพันธ์กับพิษต่อระบบประสาทส่วนกลาง', en:'Check trough after 5 days of therapy (most experts: day 3 or later); target 2–6 µg/mL — levels >6 associated with CNS toxicity'},
+      {th:'ควรปรับขนาดเป็นรายบุคคลเพราะ metabolism แปรปรวนสูงระหว่างผู้ป่วย; พิษต่อตับ, QT prolongation, visual disturbance, phototoxicity', en:'Individualize dosing — high interpatient variability in metabolism; hepatotoxicity, QT prolongation, visual disturbance, phototoxicity'},
+      {th:'ข้อมูลในเด็กจำกัด; Treatment/IFI prophylaxis หมายถึง prophylaxis ใน immunosuppression จากมะเร็งหรือ HSCT', en:'Pediatric data limited; IFI prophylaxis refers to patients with immunosuppression from cancer or HSCT'},
+      {th:'ที่มา: Red Book Table 4.8 (หน้า 1035–1036)', en:'Source: Red Book Table 4.8 (pp. 1035–1036)'}
+    ],
+    regimens: [
+      { route:'IV', label:{th:'Treatment / IFI prophylaxis — อายุ 2 ถึง <12 ปี หรือ 12–14 ปีและ <50 กก. (IV ตลอด)', en:'Treatment / IFI prophylaxis — age 2 to <12 y, or 12–14 y and <50 kg (IV throughout)'}, multiPhase:true, phases:[
+        { phaseLabel:{th:'วันที่ 1 (loading)',en:'Day 1 (loading)'}, mgPerKgPerDose:[9,9], freq:2, notes:{th:'IV q12h × 2 ครั้ง (loading)',en:'IV q12h for 2 doses (loading)'} },
+        { phaseLabel:{th:'วันถัดไป (maintenance)',en:'Thereafter (maintenance)'}, mgPerKgPerDose:[8,8], freq:2, notes:{th:'IV q12h; ตรวจ trough หลังเริ่มยา ≥5 วัน เป้าหมาย 2–6 µg/mL',en:'IV q12h; Check trough ≥5 days after starting; target 2–6 µg/mL'} }
+      ]},
+      { route:'PO', label:{th:'Treatment / IFI prophylaxis — อายุ 2 ถึง <12 ปี หรือ 12–14 ปีและ <50 กก. (PO)', en:'Treatment / IFI prophylaxis — age 2 to <12 y, or 12–14 y and <50 kg (PO)'}, mgPerKgPerDay:null, mgPerKgPerDose:[9,9], freq:2, maxDoseMg:350, notes:{th:'PO q12h (สูงสุด 350 มก./ครั้ง) — ไม่ต้องให้ loading dose; ตรวจ trough หลังเริ่มยา ≥5 วัน เป้าหมาย 2–6 µg/mL', en:'PO q12h (max 350 mg/dose) — no loading dose needed; Check trough ≥5 days after starting; target 2–6 µg/mL'} },
+      { route:'IV', label:{th:'Treatment / IFI prophylaxis — อายุ ≥15 ปี หรือ 12–14 ปีและ ≥50 กก. (IV ตลอด)', en:'Treatment / IFI prophylaxis — age ≥15 y, or 12–14 y and ≥50 kg (IV throughout)'}, multiPhase:true, phases:[
+        { phaseLabel:{th:'วันที่ 1 (loading)',en:'Day 1 (loading)'}, mgPerKgPerDose:[6,6], freq:2, notes:{th:'IV q12h × 2 ครั้ง (loading)',en:'IV q12h for 2 doses (loading)'} },
+        { phaseLabel:{th:'วันถัดไป (maintenance)',en:'Thereafter (maintenance)'}, mgPerKgPerDose:[4,4], freq:2, notes:{th:'IV q12h; ตรวจ trough หลังเริ่มยา ≥5 วัน เป้าหมาย 2–6 µg/mL',en:'IV q12h; Check trough ≥5 days after starting; target 2–6 µg/mL'} }
+      ]},
+      { route:'PO', label:{th:'Treatment / IFI prophylaxis — อายุ ≥15 ปี หรือ 12–14 ปีและ ≥50 กก. (PO)', en:'Treatment / IFI prophylaxis — age ≥15 y, or 12–14 y and ≥50 kg (PO)'}, fixedDoseMg:200, freq:2, notes:{th:'PO 200 มก. q12h — ไม่ต้องให้ loading dose (บางแหล่งใช้ 200–300 มก. หรือ 3–4 มก./กก. q12h); ตรวจ trough หลังเริ่มยา ≥5 วัน เป้าหมาย 2–6 µg/mL', en:'PO 200 mg q12h — no loading dose needed (some references: 200–300 mg or 3–4 mg/kg q12h); Check trough ≥5 days after starting; target 2–6 µg/mL'} },
+      { route:'IV', label:{th:'Esophageal candidiasis — อายุ 2 ถึง <12 ปี หรือ 12–14 ปีและ <50 กก. (IV)', en:'Esophageal candidiasis — age 2 to <12 y, or 12–14 y and <50 kg (IV)'}, mgPerKgPerDay:null, mgPerKgPerDose:[4,4], freq:2, notes:{th:'IV q12h', en:'IV q12h'} },
+      { route:'PO', label:{th:'Esophageal candidiasis — อายุ 2 ถึง <12 ปี หรือ 12–14 ปีและ <50 กก. (PO)', en:'Esophageal candidiasis — age 2 to <12 y, or 12–14 y and <50 kg (PO)'}, mgPerKgPerDay:null, mgPerKgPerDose:[9,9], freq:2, maxDoseMg:350, notes:{th:'PO q12h (สูงสุด 350 มก./ครั้ง)', en:'PO q12h (max 350 mg/dose)'} },
+      { route:'PO', label:{th:'Esophageal candidiasis — อายุ ≥15 ปี หรือ 12–14 ปีและ ≥50 กก.', en:'Esophageal candidiasis — age ≥15 y, or 12–14 y and ≥50 kg'}, fixedDoseMg:200, freq:2, notes:{th:'ยังไม่มีการศึกษาในกลุ่มนี้ — ใช้ขนาดผู้ใหญ่ สูงสุด 200 มก. PO q12h', en:'Not evaluated in this group — adult regimen applies, max 200 mg PO q12h'} },
+      { route:'PO', label:{th:'IFI prophylaxis (สูตรง่าย) — ≥40 กก.', en:'IFI prophylaxis (simpler regimen) — ≥40 kg'}, weightMin:40, fixedDoseMg:200, freq:2, notes:{th:'PO 200 มก. วันละ 2 ครั้ง; ถ้าต้องให้ IV ใช้ 4 มก./กก. q12h', en:'PO 200 mg twice daily; if IV needed, 4 mg/kg q12h'} },
+      { route:'PO', label:{th:'IFI prophylaxis (สูตรง่าย) — <40 กก.', en:'IFI prophylaxis (simpler regimen) — <40 kg'}, weightMax:40, weightMaxExclusive:true, fixedDoseMg:100, freq:2, notes:{th:'PO 100 มก. วันละ 2 ครั้ง; ถ้าต้องให้ IV ใช้ 4 มก./กก. q12h', en:'PO 100 mg twice daily; if IV needed, 4 mg/kg q12h'} }
     ]
   },
   {
@@ -19875,6 +20130,7 @@ const DD = {
 const DD_CATEGORY_LABELS = {
   antibiotic:    {th:'ยาปฏิชีวนะ', en:'Antibiotics'},
   antiviral:     {th:'ยาต้านไวรัส', en:'Antivirals'},
+  antifungal:    {th:'ยาต้านเชื้อรา', en:'Antifungals'},
   antiretroviral:{th:'ยาต้านไวรัสเอชไอวี (ART)', en:'Antiretrovirals (ART)'},
   antituberculosis:{th:'ยารักษาวัณโรค', en:'Antituberculosis'},
   antipyretic:   {th:'ยาลดไข้/แก้ปวด', en:'Antipyretics/Analgesics'},
